@@ -1,5 +1,7 @@
 use std::process::Command;
 use std::fs;
+use std::convert::AsRef;
+use std::path::Path;
 
 #[derive(Debug)]
 pub enum OSType {
@@ -8,7 +10,7 @@ pub enum OSType {
     OSX
 }
 
-fn file_exists(path: &String) -> bool {
+fn file_exists<P: AsRef<Path>>(path: P) -> bool {
     let metadata = fs::metadata(path);
 
     match metadata {
@@ -23,7 +25,7 @@ fn is_os_x() -> bool {
 }
 
 pub fn current_platform() -> OSType {
-    if file_exists(&"/etc/redhat-release".to_string()) || file_exists(&"/etc/centos-release".to_string()) {
+    if file_exists("/etc/redhat-release") || file_exists("/etc/centos-release") {
         OSType::Redhat
     } else if is_os_x() {
         OSType::OSX
