@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/schultyy/os_type.svg?branch=master)](https://travis-ci.org/schultyy/os_type)
+
 # os_type
 Rust library to detect the operating system type
 
