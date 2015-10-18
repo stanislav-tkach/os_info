@@ -1,0 +1,4 @@
+[package]
+name = "os_type"
+version = "0.1.0"
+authors = ["Jan Schulte <hello@unexpected-co.de>"]
