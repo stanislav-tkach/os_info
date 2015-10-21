@@ -5,3 +5,5 @@ authors = ["Jan Schulte <hello@unexpected-co.de>"]
 license = "MIT"
 description = "Detect the operating system type"
 repository = "https://github.com/schultyy/os_type"
+[dependencies]
+regex="0.1.41"
