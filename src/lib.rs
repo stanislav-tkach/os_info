@@ -5,6 +5,7 @@ use std::path::Path;
 mod lsb_release;
 
 #[derive(Debug)]
+#[derive(PartialEq)]
 pub enum OSType {
     Unknown,
     Redhat,
