@@ -9,7 +9,7 @@ Include this into your `Cargo.toml`:
 
 ```toml
 [dependencies]
-os_type="0.1.0"
+os_type="0.2.1"
 ```
 
 In your code:
