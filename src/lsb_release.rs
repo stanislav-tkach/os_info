@@ -14,7 +14,6 @@ pub fn parse(file: String) -> LsbRelease {
         Some(m) => {
             match m.at(1) {
                 Some(distro) => {
-                    println!("Match {}", distro);
                     Some(distro.to_string())
                 },
                 None => None
