@@ -19,9 +19,15 @@ pub fn from_file<P: AsRef<Path>>(path: P) -> Result<LsbRelease, Error> {
 
     let mut file_content = String::new();
 
-    handle.read_to_string(&mut file_content);
-    let release = parse(file_content);
-    Ok(release)
+    match handle.read_to_string(&mut file_content) {
+        Ok(_) => {
+            let release = parse(file_content);
+            Ok(release)
+        },
+        Err(err) => {
+            Err(err)
+        }
+    }
 }
 
 pub fn parse(file: String) -> LsbRelease {
