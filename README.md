@@ -25,8 +25,14 @@ fn foo() {
 }
 ```
 
-Note that right now it detects only `OS X` and `RedHat/CentOS`. If you need support for more OS types,
-I am looking forward to your Pull Request.
+Right now, the following operating systems are detected:
+
+- Mac OS X
+- CentOS
+- RedHat
+- Ubuntu
+
+If you need support for more OS types, I am looking forward to your Pull Request.
 
 ## License
 
