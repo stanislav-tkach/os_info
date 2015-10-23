@@ -51,7 +51,7 @@ fn lsb_release() -> OSType {
 ///
 ///```
 ///use os_type;
-///let type = os_type::current_platform();
+///let os = os_type::current_platform();
 ///```
 pub fn current_platform() -> OSType {
     if is_os_x() {
