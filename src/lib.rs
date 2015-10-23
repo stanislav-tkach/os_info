@@ -4,6 +4,7 @@ use std::convert::AsRef;
 use std::path::Path;
 mod lsb_release;
 
+///A list of supported operating system types
 #[derive(Debug)]
 #[derive(PartialEq)]
 pub enum OSType {
@@ -44,6 +45,14 @@ fn lsb_release() -> OSType {
 
 }
 
+///Returns the current operating system type
+///
+///#Example
+///
+///```
+///use os_type;
+///let type = os_type::current_platform();
+///```
 pub fn current_platform() -> OSType {
     if is_os_x() {
         OSType::OSX
