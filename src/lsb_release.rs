@@ -1,10 +1,5 @@
 extern crate regex;
 use self::regex::Regex;
-use std::io::prelude::*;
-use std::fs::File;
-use std::convert::AsRef;
-use std::path::Path;
-use std::io::Error;
 use std::process::Command;
 
 pub struct LsbRelease {
