@@ -28,25 +28,6 @@ pub fn is_available() -> bool {
     }
 }
 
-pub fn from_file<P: AsRef<Path>>(path: P) -> Result<LsbRelease, Error> {
-    let mut handle = match File::open(path) {
-        Ok(h) => h,
-        Err(err) => return Err(err)
-    };
-
-    let mut file_content = String::new();
-
-    match handle.read_to_string(&mut file_content) {
-        Ok(_) => {
-            let release = parse(file_content);
-            Ok(release)
-        },
-        Err(err) => {
-            Err(err)
-        }
-    }
-}
-
 pub fn parse(file: String) -> LsbRelease {
     let distrib_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
     let distrib_release_regex = Regex::new(r"Release:\s([\w\.]+)").unwrap();
