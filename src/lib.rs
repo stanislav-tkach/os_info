@@ -11,7 +11,8 @@ pub enum OSType {
     Unknown,
     Redhat,
     OSX,
-    Ubuntu
+    Ubuntu,
+    Debian
 }
 
 fn file_exists<P: AsRef<Path>>(path: P) -> bool {
@@ -31,16 +32,19 @@ fn is_os_x() -> bool {
 }
 
 fn lsb_release() -> OSType {
-    match lsb_release::from_file("/etc/lsb-release") {
-        Ok(release) => {
+    match lsb_release::retrieve() {
+        Some(release) => {
             if release.distro == Some("Ubuntu".to_string()) {
                 OSType::Ubuntu
+            }
+            else if release.distro == Some("Debian".to_string()) {
+                OSType::Debian
             }
             else {
                 OSType::Unknown
             }
         },
-        Err(_) => OSType::Unknown
+        None => OSType::Unknown
     }
 
 }
@@ -57,7 +61,7 @@ pub fn current_platform() -> OSType {
     if is_os_x() {
         OSType::OSX
     }
-    else if file_exists("/etc/lsb-release") {
+    else if lsb_release::is_available() {
         lsb_release()
     }
     else if file_exists("/etc/redhat-release") || file_exists("/etc/centos-release") {
