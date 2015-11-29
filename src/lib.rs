@@ -12,7 +12,8 @@ pub enum OSType {
     Redhat,
     OSX,
     Ubuntu,
-    Debian
+    Debian,
+    Windows
 }
 
 fn file_exists<P: AsRef<Path>>(path: P) -> bool {
@@ -21,6 +22,14 @@ fn file_exists<P: AsRef<Path>>(path: P) -> bool {
     match metadata {
         Ok(md) => md.is_dir() || md.is_file(),
         Err(_) => false
+    }
+}
+
+fn is_windows() -> bool {
+    if cfg!(target_os="windows") {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -60,6 +69,9 @@ fn lsb_release() -> OSType {
 pub fn current_platform() -> OSType {
     if is_os_x() {
         OSType::OSX
+    }
+    else if is_windows() {
+        OSType::Windows
     }
     else if lsb_release::is_available() {
         lsb_release()
