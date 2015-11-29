@@ -3,6 +3,7 @@ use std::fs;
 use std::convert::AsRef;
 use std::path::Path;
 mod lsb_release;
+mod windows_ver;
 
 ///A list of supported operating system types
 #[derive(Debug)]
