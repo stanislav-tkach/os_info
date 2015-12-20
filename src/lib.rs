@@ -14,7 +14,8 @@ pub enum OSType {
     OSX,
     Ubuntu,
     Debian,
-    Windows
+    Windows,
+    Arch,
 }
 
 fn file_exists<P: AsRef<Path>>(path: P) -> bool {
@@ -49,6 +50,8 @@ fn lsb_release() -> OSType {
             }
             else if release.distro == Some("Debian".to_string()) {
                 OSType::Debian
+            } else if release.distro == Some("Arch".to_string()) {
+                OSType::Arch
             }
             else {
                 OSType::Unknown
