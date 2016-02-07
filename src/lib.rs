@@ -8,6 +8,7 @@ mod windows_ver;
 ///A list of supported operating system types
 #[derive(Debug)]
 #[derive(PartialEq)]
+#[derive(Clone)]
 pub enum OSType {
     Unknown,
     Redhat,
