@@ -25,12 +25,14 @@ fn foo() {
 }
 ```
 
-Right now, the following operating systems are detected:
-
-- Mac OS X
-- CentOS
-- RedHat
+Right now, the following operating system types can be returned:
+- Unknown
+- Redhat
+- OSX
 - Ubuntu
+- Debian
+- Windows
+- Arch
 
 If you need support for more OS types, I am looking forward to your Pull Request.
 
