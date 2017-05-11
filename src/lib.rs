@@ -4,6 +4,7 @@ use std::process::Command;
 mod lsb_release;
 mod windows_ver;
 mod rhel_release;
+mod sw_vers;
 mod utils;
 
 ///A list of supported operating system types
@@ -49,6 +50,17 @@ fn is_os_x() -> bool {
     match Command::new("sw_vers").output() {
         Ok(output) => output.status.success(),
         Err(_) => false
+    }
+}
+
+fn get_sw_vers() -> OSInformation {
+    if let Some(osx_info) = sw_vers::retrieve() {
+        OSInformation {
+            os_type: OSType::OSX,
+            version: osx_info.product_version.unwrap_or(default_version())
+        }
+    } else {
+        unknown_os()
     }
 }
 
@@ -114,13 +126,10 @@ fn rhel_release() -> OSInformation {
 ///let os = os_type::current_platform();
 ///```
 pub fn current_platform() -> OSInformation {
-    // if is_os_x() {
-    //     OSType::OSX
-    // }
-    // else if is_windows() {
-    //     OSType::Windows
-    // }
-    if lsb_release::is_available() {
+    if is_os_x() {
+        get_sw_vers()
+    }
+    else if lsb_release::is_available() {
         lsb_release()
     }
     else if utils::file_exists("/etc/redhat-release") || utils::file_exists("/etc/centos-release") {
