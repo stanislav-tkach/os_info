@@ -40,3 +40,9 @@ pub fn test_parses_arch_lsb_distro() {
     let parse_results = lsb_release::parse(arch_file());
     assert_eq!(parse_results.distro, Some("Arch".to_string()));
 }
+
+#[test]
+pub fn test_parses_arch_lsb_version() {
+    let parse_results = lsb_release::parse(arch_file());
+    assert_eq!(parse_results.version, Some("rolling".to_string()));
+}
