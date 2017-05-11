@@ -1,5 +1,4 @@
-extern crate regex;
-use self::regex::Regex;
+use regex::Regex;
 use std::process::Command;
 
 pub struct LsbRelease {

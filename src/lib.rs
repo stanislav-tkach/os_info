@@ -1,9 +1,11 @@
+extern crate regex;
+
 use std::process::Command;
-use std::fs;
-use std::convert::AsRef;
-use std::path::Path;
 mod lsb_release;
 mod windows_ver;
+mod rhel_release;
+mod sw_vers;
+mod utils;
 
 ///A list of supported operating system types
 #[derive(Debug)]
@@ -15,24 +17,28 @@ pub enum OSType {
     OSX,
     Ubuntu,
     Debian,
-    Windows,
     Arch,
+    CentOS
 }
 
-fn file_exists<P: AsRef<Path>>(path: P) -> bool {
-    let metadata = fs::metadata(path);
-
-    match metadata {
-        Ok(md) => md.is_dir() || md.is_file(),
-        Err(_) => false
-    }
+/// Holds information about Operating System type and its version
+/// If the version could not be fetched it defaults to `0.0.0`
+#[derive(Debug)]
+#[derive(Clone)]
+#[derive(PartialEq)]
+pub struct OSInformation {
+    pub os_type: self::OSType,
+    pub version: String
 }
 
-fn is_windows() -> bool {
-    if cfg!(target_os="windows") {
-        return true;
-    } else {
-        return false;
+fn default_version() -> String {
+    "0.0.0".into()
+}
+
+fn unknown_os() -> OSInformation {
+    OSInformation {
+        os_type: OSType::Unknown,
+        version: default_version()
     }
 }
 
@@ -43,24 +49,68 @@ fn is_os_x() -> bool {
     }
 }
 
-fn lsb_release() -> OSType {
+fn get_sw_vers() -> OSInformation {
+    if let Some(osx_info) = sw_vers::retrieve() {
+        OSInformation {
+            os_type: OSType::OSX,
+            version: osx_info.product_version.unwrap_or(default_version())
+        }
+    } else {
+        unknown_os()
+    }
+}
+
+fn lsb_release() -> OSInformation {
     match lsb_release::retrieve() {
         Some(release) => {
             if release.distro == Some("Ubuntu".to_string()) {
-                OSType::Ubuntu
+                OSInformation {
+                    os_type: OSType::Ubuntu,
+                    version: release.version.unwrap_or(default_version())
+                }
             }
             else if release.distro == Some("Debian".to_string()) {
-                OSType::Debian
+                OSInformation {
+                    os_type: OSType::Debian,
+                    version: release.version.unwrap_or(default_version())
+                }
             } else if release.distro == Some("Arch".to_string()) {
-                OSType::Arch
+                OSInformation {
+                    os_type: OSType::Arch,
+                    version: release.version.unwrap_or(default_version())
+                }
+            }
+            else if release.distro == Some("CentOS".to_string()){
+                OSInformation {
+                    os_type: OSType::CentOS,
+                    version: release.version.unwrap_or(default_version())
+                }
             }
             else {
-                OSType::Unknown
+                unknown_os()
             }
         },
-        None => OSType::Unknown
+        None => unknown_os()
     }
+}
 
+fn rhel_release() -> OSInformation {
+    match rhel_release::retrieve() {
+        Some(release) => {
+            if release.distro == Some("CentOS".to_string()) {
+                OSInformation {
+                    os_type: OSType::CentOS,
+                    version: release.version.unwrap_or(default_version())
+                }
+            } else {
+                OSInformation {
+                    os_type: OSType::Redhat,
+                    version: release.version.unwrap_or(default_version())
+                }
+            }
+        },
+        None => unknown_os()
+    }
 }
 
 ///Returns the current operating system type
@@ -70,21 +120,20 @@ fn lsb_release() -> OSType {
 ///```
 ///use os_type;
 ///let os = os_type::current_platform();
+///println!("Type: {:?}", os.os_type);
+///println!("Version: {}", os.version);
 ///```
-pub fn current_platform() -> OSType {
+pub fn current_platform() -> OSInformation {
     if is_os_x() {
-        OSType::OSX
-    }
-    else if is_windows() {
-        OSType::Windows
+        get_sw_vers()
     }
     else if lsb_release::is_available() {
         lsb_release()
     }
-    else if file_exists("/etc/redhat-release") || file_exists("/etc/centos-release") {
-        OSType::Redhat
+    else if utils::file_exists("/etc/redhat-release") || utils::file_exists("/etc/centos-release") {
+        rhel_release()
     }
     else {
-        OSType::Unknown
+        unknown_os()
     }
 }
