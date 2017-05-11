@@ -1,12 +1,10 @@
 extern crate regex;
 
 use std::process::Command;
-use std::fs;
-use std::convert::AsRef;
-use std::path::Path;
 mod lsb_release;
 mod windows_ver;
 mod rhel_release;
+mod utils;
 
 ///A list of supported operating system types
 #[derive(Debug)]
@@ -20,15 +18,7 @@ pub enum OSType {
     Debian,
     Windows,
     Arch,
-}
-
-fn file_exists<P: AsRef<Path>>(path: P) -> bool {
-    let metadata = fs::metadata(path);
-
-    match metadata {
-        Ok(md) => md.is_dir() || md.is_file(),
-        Err(_) => false
-    }
+    CentOS
 }
 
 fn is_windows() -> bool {
@@ -57,13 +47,28 @@ fn lsb_release() -> OSType {
             } else if release.distro == Some("Arch".to_string()) {
                 OSType::Arch
             }
+            else if release.distro == Some("CentOS".to_string()){
+                OSType::CentOS
+            }
             else {
                 OSType::Unknown
             }
         },
         None => OSType::Unknown
     }
+}
 
+fn rhel_release() -> OSType {
+    match rhel_release::retrieve() {
+        Some(release) => {
+            if release.distro == Some("CentOS".to_string()) {
+                OSType::CentOS
+            } else {
+                OSType::Redhat
+            }
+        },
+        None => OSType::Unknown
+    }
 }
 
 ///Returns the current operating system type
@@ -84,8 +89,8 @@ pub fn current_platform() -> OSType {
     else if lsb_release::is_available() {
         lsb_release()
     }
-    else if file_exists("/etc/redhat-release") || file_exists("/etc/centos-release") {
-        OSType::Redhat
+    else if utils::file_exists("/etc/redhat-release") || utils::file_exists("/etc/centos-release") {
+        rhel_release()
     }
     else {
         OSType::Unknown
