@@ -17,7 +17,6 @@ pub enum OSType {
     OSX,
     Ubuntu,
     Debian,
-    Windows,
     Arch,
     CentOS
 }
@@ -35,14 +34,6 @@ fn unknown_os() -> OSInformation {
     OSInformation {
         os_type: OSType::Unknown,
         version: default_version()
-    }
-}
-
-fn is_windows() -> bool {
-    if cfg!(target_os="windows") {
-        return true;
-    } else {
-        return false;
     }
 }
 
