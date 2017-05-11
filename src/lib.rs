@@ -21,6 +21,11 @@ pub enum OSType {
     CentOS
 }
 
+/// Holds information about Operating System type and its version
+/// If the version could not be fetched it defaults to `0.0.0`
+#[derive(Debug)]
+#[derive(Clone)]
+#[derive(PartialEq)]
 pub struct OSInformation {
     pub os_type: self::OSType,
     pub version: String
@@ -115,6 +120,8 @@ fn rhel_release() -> OSInformation {
 ///```
 ///use os_type;
 ///let os = os_type::current_platform();
+///println!("Type: {:?}", os.os_type);
+///println!("Version: {}", os.version);
 ///```
 pub fn current_platform() -> OSInformation {
     if is_os_x() {
