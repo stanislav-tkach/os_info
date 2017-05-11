@@ -1,6 +1,8 @@
 extern crate regex;
 #[path="../src/windows_ver.rs"]
 mod windows_ver;
+#[path="../src/utils.rs"]
+mod utils;
 
 fn output() -> String {
     "Microsoft Windows [Version 6.1.7601]".into()

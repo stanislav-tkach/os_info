@@ -1,6 +1,8 @@
 extern crate regex;
 #[path="../src/lsb_release.rs"]
 mod lsb_release;
+#[path="../src/utils.rs"]
+mod utils;
 
 fn file() -> String {
 "
