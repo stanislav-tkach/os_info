@@ -1,3 +1,4 @@
+extern crate regex;
 #[path="../src/lsb_release.rs"]
 mod lsb_release;
 

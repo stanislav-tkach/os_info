@@ -1,3 +1,4 @@
+extern crate regex;
 #[path="../src/windows_ver.rs"]
 mod windows_ver;
 

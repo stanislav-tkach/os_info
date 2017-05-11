@@ -1,9 +1,12 @@
+extern crate regex;
+
 use std::process::Command;
 use std::fs;
 use std::convert::AsRef;
 use std::path::Path;
 mod lsb_release;
 mod windows_ver;
+mod rhel_release;
 
 ///A list of supported operating system types
 #[derive(Debug)]

@@ -1,0 +1,13 @@
+extern crate regex;
+#[path="../src/rhel_release.rs"]
+mod rhel_release;
+
+fn file() -> String {
+     "CentOS Linux release 7.3.1611 (Core)".into()
+}
+
+#[test]
+pub fn test_parses_distribution() {
+    let parse_results = rhel_release::parse(file());
+    assert_eq!(parse_results.distro, Some("CentOS".to_string()));
+}
