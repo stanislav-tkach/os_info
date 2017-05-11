@@ -9,29 +9,25 @@ Include this into your `Cargo.toml`:
 
 ```toml
 [dependencies]
-os_type="0.5.0"
+os_type="1.0.0"
 ```
 
 In your code:
 
 ```rust
 extern crate os_type;
-
-fn foo() {
-      match os_type::current_platform() {
-        os_type::OSType::OSX => /*Do something here*/,
-        _ => None
-    }
-}
+let os = os_type::current_platform();
+println!("Type: {:?}", os.os_type);
+println!("Version: {}", os.version);
 ```
 
 Right now, the following operating system types can be returned:
 - Unknown
 - Redhat
+- CentOS
 - OSX
 - Ubuntu
 - Debian
-- Windows
 - Arch
 
 If you need support for more OS types, I am looking forward to your Pull Request.
