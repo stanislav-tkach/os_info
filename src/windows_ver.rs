@@ -19,8 +19,8 @@ pub fn parse(output: String) -> WindowsVer {
 
     let version = match version_regex.captures_iter(&output).next() {
         Some(m) => {
-            match m.at(1) {
-                Some(version) => Some(version.to_string()),
+            match m.get(1) {
+                Some(version) => Some(version.as_str().to_owned()),
                 None => None
             }
         },

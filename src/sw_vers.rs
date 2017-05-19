@@ -13,9 +13,9 @@ pub struct SwVers {
 fn extract_from_regex(stdout: &String, regex: Regex) -> Option<String> {
     match regex.captures_iter(&stdout).next() {
         Some(m) => {
-            match m.at(1) {
+            match m.get(1) {
                 Some(s) => {
-                    Some(s.to_string())
+                    Some(s.as_str().to_owned())
                 },
                 None => None
             }

@@ -38,9 +38,9 @@ pub fn parse(file: String) -> RHELRelease {
 
     let distro = match distrib_regex.captures_iter(&file).next() {
         Some(m) => {
-            match m.at(1) {
+            match m.get(1) {
                 Some(distro) => {
-                    Some(distro.to_string())
+                    Some(distro.as_str().to_owned())
                 },
                 None => None
             }
@@ -50,9 +50,9 @@ pub fn parse(file: String) -> RHELRelease {
 
     let version = match version_regex.captures_iter(&file).next() {
         Some(m) => {
-            match m.at(1) {
+            match m.get(1) {
                 Some(version) => {
-                    Some(version.to_string())
+                    Some(version.as_str().to_owned())
                 },
                 None => None
             }
