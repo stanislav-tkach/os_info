@@ -6,4 +6,4 @@ license = "MIT"
 description = "Detect the operating system type"
 repository = "https://github.com/schultyy/os_type"
 [dependencies]
-regex="0.1.41"
+regex="^0.2.1"
