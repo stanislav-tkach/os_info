@@ -32,6 +32,10 @@ Right now, the following operating system types can be returned:
 
 If you need support for more OS types, I am looking forward to your Pull Request.
 
+## Requirements
+
+On Linux based systems this library requires that [lsb_release](http://refspecs.linuxbase.org/LSB_2.0.1/LSB-PDA/LSB-PDA/lsbrelease.html) is installed.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on [GitHub](https://github.com/schultyy/os_type).
