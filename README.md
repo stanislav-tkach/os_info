@@ -32,6 +32,12 @@ Right now, the following operating system types can be returned:
 
 If you need support for more OS types, I am looking forward to your Pull Request.
 
+## Contributing
+
+Bug reports and pull requests are welcome on [GitHub](https://github.com/schultyy/os_type).
+You can find more information about contributing in the [CONTRIBUTING.md](https://github.com/schultyy/os_type/blob/master/CONTRIBUTING.md).
+This project is intended to be a safe, welcoming space for collaboration and discussion, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org/version/1/4/) code of conduct.
+
 ## License
 
 MIT
