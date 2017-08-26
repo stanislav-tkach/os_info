@@ -1,12 +1,36 @@
-# Contributing
+# Contributing to os_version
 
-This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+We welcome contribution from everyone. Here are the guidelines if you are
+thinking of helping us:
 
-We welcome any kind of contribution: Documentation, code, issues, discussions, critique, speaking about it...
+## Contributions
 
-This project follows the [Angular Conventional Commit guidelines](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#-git-commit-guidelines). We require that every commit message follows these guidelines, Pull Requests not following this pattern will be rejected.
+Contributions to `os_version` or its dependencies should be made in the form of GitHub
+pull requests. Each pull request will be reviewed by a core contributor
+(someone with permission to land patches) and either landed in the main tree or
+given feedback for changes that would be required. All contributions should
+follow this format, even those from core contributors.
 
-Unit tests live in the same file inside a [`tests`](https://doc.rust-lang.org/book/second-edition/ch11-01-writing-tests.html) module.
-Integration tests are in `tests/`.
+Should you wish to work on an issue, please claim it first by commenting on
+the GitHub issue that you want to work on it. This is to prevent duplicated
+efforts from contributors on the same issue.
 
-Please describe all new features with tests. Also please add [rustdoc](https://doc.rust-lang.org/1.6.0/book/documentation.html) for all public functions.
+## Pull Request Checklist
+
+- Branch from the master branch and, if needed, rebase to the current master
+  branch before submitting your pull request. If it doesn't merge cleanly with
+  master you may be asked to rebase your changes.
+
+- Commits should be as small as possible, while ensuring that each commit is
+  correct independently (i.e., each commit should compile and pass tests). 
+
+- If your patch is not getting reviewed or you need a specific person to review
+  it, you can @-reply a reviewer asking for a review in the pull request or a
+  comment.
+
+- Add tests relevant to the fixed bug or new feature.
+
+## Conduct
+
+We abide by the [Rust Code of Conduct](https://www.rust-lang.org/conduct.html) 
+and ask that you do as well.
