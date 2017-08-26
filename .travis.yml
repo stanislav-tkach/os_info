@@ -1,9 +1,46 @@
 language: rust
+
 rust:
-  - stable
-  - beta
-  - nightly
-matrix:
-  allow_failures:
-    - rust: nightly
-    - rust: beta
+- stable
+# TODO: add beta and nightly.
+
+cache: cargo
+
+env:
+  global:
+  - RUST_NIGHTLY_VERS=nightly-2017-07-05
+  - CLIPPY_VERS=0.0.142
+  - RUSTFMT_VERS=0.9.0
+
+install:
+- |
+  if [[ "$FEATURE" == "clippy" ]]; then
+    cargo clippy --version | grep $CLIPPY_VERS || cargo install clippy --force --vers $CLIPPY_VERS
+  fi
+- |
+  if [[ "$FEATURE" == "fmt" ]]; then
+    cargo-audit -V || cargo install cargo-audit --force
+    rustfmt -V | grep $RUSTFMT_VERS || cargo install rustfmt --vers $RUSTFMT_VERS --force
+    cargo update
+  fi
+- cargo install --list
+
+script: skip
+
+jobs:
+  include:
+  - stage: format
+    env:
+    - FEATURE=fmt
+    script:
+    - cargo audit
+    - cargo fmt -- --write-mode=diff
+  - stage: lint
+    rust: $RUST_NIGHTLY_VERS
+    env:
+    - FEATURE=clippy
+    script:
+    - cargo clippy -- -D warnings
+  - stage: test
+    script:
+    - cargo test

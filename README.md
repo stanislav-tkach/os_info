@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/schultyy/os_type.svg?branch=master)](https://travis-ci.org/schultyy/os_type)
+[![Build Status](https://travis-ci.org/DarkEld3r/os_version.svg?branch=master)](https://travis-ci.org/DarkEld3r/os_version)
 
 # os_version
 Rust library to detect the operating system type
