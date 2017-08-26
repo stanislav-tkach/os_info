@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/DarkEld3r/os_version.svg?branch=master)](https://travis-ci.org/DarkEld3r/os_version)
+[![Build status](https://ci.appveyor.com/api/projects/status/7ccw7aupq33we07r?svg=true)](https://ci.appveyor.com/project/DarkEld3r/os-version)
 
 # os_version
 Rust library to detect the operating system type
