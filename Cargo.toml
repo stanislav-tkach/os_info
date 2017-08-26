@@ -1,9 +1,21 @@
 [package]
 name = "os_version"
-version = "2.0.0"
-authors = ["Jan Schulte <hello@unexpected-co.de>"]
+version = "0.1.0"
+authors = ["Jan Schulte <hello@unexpected-co.de>", "Stanislav Tkach <stanislav.tkach@gmail.com>"]
+description = "Detect the operating system type and version."
+documentation = "https://docs.rs/os_version"
+homepage = "https://github.com/darkeld3r/os_version"
+repository = "https://github.com/darkeld3r/os_version"
+readme = "README.md"
+keywords = ["os", "os_type", "os type", "os version"]
+categories = ["os", "..."]
 license = "MIT"
-description = "Detect the operating system type"
-repository = "https://github.com/schultyy/os_type"
+
+[badges]
+appveyor = { repository = "darkeld3r/os_version" }
+travis-ci = { repository = "darkeld3r/os_version" }
+is-it-maintained-issue-resolution = { repository = "darkeld3r/os_version" }
+is-it-maintained-open-issues = { repository = "darkeld3r/os_version" }
+
 [dependencies]
 regex="^0.2.1"
