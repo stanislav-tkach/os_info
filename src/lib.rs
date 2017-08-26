@@ -18,7 +18,7 @@ pub enum OSType {
     Ubuntu,
     Debian,
     Arch,
-    CentOS
+    CentOS,
 }
 
 /// Holds information about Operating System type and its version
@@ -28,7 +28,7 @@ pub enum OSType {
 #[derive(PartialEq)]
 pub struct OSInformation {
     pub os_type: self::OSType,
-    pub version: String
+    pub version: String,
 }
 
 fn default_version() -> String {
@@ -38,14 +38,14 @@ fn default_version() -> String {
 fn unknown_os() -> OSInformation {
     OSInformation {
         os_type: OSType::Unknown,
-        version: default_version()
+        version: default_version(),
     }
 }
 
 fn is_os_x() -> bool {
     match Command::new("sw_vers").output() {
         Ok(output) => output.status.success(),
-        Err(_) => false
+        Err(_) => false,
     }
 }
 
@@ -53,7 +53,7 @@ fn get_sw_vers() -> OSInformation {
     if let Some(osx_info) = sw_vers::retrieve() {
         OSInformation {
             os_type: OSType::OSX,
-            version: osx_info.product_version.unwrap_or(default_version())
+            version: osx_info.product_version.unwrap_or(default_version()),
         }
     } else {
         unknown_os()
@@ -66,31 +66,28 @@ fn lsb_release() -> OSInformation {
             if release.distro == Some("Ubuntu".to_string()) {
                 OSInformation {
                     os_type: OSType::Ubuntu,
-                    version: release.version.unwrap_or(default_version())
+                    version: release.version.unwrap_or(default_version()),
                 }
-            }
-            else if release.distro == Some("Debian".to_string()) {
+            } else if release.distro == Some("Debian".to_string()) {
                 OSInformation {
                     os_type: OSType::Debian,
-                    version: release.version.unwrap_or(default_version())
+                    version: release.version.unwrap_or(default_version()),
                 }
             } else if release.distro == Some("Arch".to_string()) {
                 OSInformation {
                     os_type: OSType::Arch,
-                    version: release.version.unwrap_or(default_version())
+                    version: release.version.unwrap_or(default_version()),
                 }
-            }
-            else if release.distro == Some("CentOS".to_string()){
+            } else if release.distro == Some("CentOS".to_string()) {
                 OSInformation {
                     os_type: OSType::CentOS,
-                    version: release.version.unwrap_or(default_version())
+                    version: release.version.unwrap_or(default_version()),
                 }
-            }
-            else {
+            } else {
                 unknown_os()
             }
-        },
-        None => unknown_os()
+        }
+        None => unknown_os(),
     }
 }
 
@@ -100,16 +97,16 @@ fn rhel_release() -> OSInformation {
             if release.distro == Some("CentOS".to_string()) {
                 OSInformation {
                     os_type: OSType::CentOS,
-                    version: release.version.unwrap_or(default_version())
+                    version: release.version.unwrap_or(default_version()),
                 }
             } else {
                 OSInformation {
                     os_type: OSType::Redhat,
-                    version: release.version.unwrap_or(default_version())
+                    version: release.version.unwrap_or(default_version()),
                 }
             }
-        },
-        None => unknown_os()
+        }
+        None => unknown_os(),
     }
 }
 
@@ -126,14 +123,13 @@ fn rhel_release() -> OSInformation {
 pub fn current_platform() -> OSInformation {
     if is_os_x() {
         get_sw_vers()
-    }
-    else if lsb_release::is_available() {
+    } else if lsb_release::is_available() {
         lsb_release()
-    }
-    else if utils::file_exists("/etc/redhat-release") || utils::file_exists("/etc/centos-release") {
+    } else if utils::file_exists("/etc/redhat-release") ||
+               utils::file_exists("/etc/centos-release")
+    {
         rhel_release()
-    }
-    else {
+    } else {
         unknown_os()
     }
 }
