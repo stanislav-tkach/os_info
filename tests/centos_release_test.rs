@@ -1,11 +1,12 @@
 extern crate regex;
-#[path="../src/rhel_release.rs"]
+
+#[path = "../src/rhel_release.rs"]
 mod rhel_release;
-#[path="../src/utils.rs"]
+#[path = "../src/utils.rs"]
 mod utils;
 
 fn file() -> String {
-     "CentOS Linux release 7.3.1611 (Core)".into()
+    "CentOS Linux release 7.3.1611 (Core)".into()
 }
 
 #[test]

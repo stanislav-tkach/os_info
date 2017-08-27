@@ -1,15 +1,17 @@
 extern crate regex;
-#[path="../src/sw_vers.rs"]
+
+#[path = "../src/sw_vers.rs"]
 mod sw_vers;
-#[path="../src/utils.rs"]
+#[path = "../src/utils.rs"]
 mod utils;
 
 fn file() -> String {
-"
+    "
 ProductName:	Mac OS X
 ProductVersion:	10.10.5
 BuildVersion:	14F27
-".to_string()
+"
+        .to_string()
 }
 
 #[test]
