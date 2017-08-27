@@ -1,6 +1,6 @@
-# os_version
+# os_info
 
-[![Build Status](https://travis-ci.org/DarkEld3r/os_version.svg?branch=master)](https://travis-ci.org/DarkEld3r/os_version)
+[![Build Status](https://travis-ci.org/DarkEld3r/os_info.svg?branch=master)](https://travis-ci.org/DarkEld3r/os_info)
 [![Build status](https://ci.appveyor.com/api/projects/status/7ccw7aupq33we07r?svg=true)](https://ci.appveyor.com/project/DarkEld3r/os-version)
 
 ## Overview
@@ -11,19 +11,19 @@ Based on [os_type](https://github.com/schultyy/os_type) by Jan Schulte.
 
 ## Usage
 
-To use this crate, add `os_version` as a dependency to your project's Cargo.toml:
+To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_version = "0.1.0"
+os_info = "0.1.0"
 ```
 
 ## Example
 
 ```rust
-extern crate os_version;
+extern crate os_info;
 
-let os = os_version::current_platform();
+let os = os_info::current_platform();
 println!("Type: {:?}", os.os_type);
 println!("Version: {}", os.version);
 ```
@@ -45,4 +45,4 @@ On Linux based systems this library requires that [lsb_release](http://refspecs.
 
 ## License
 
-`os_version` is licensed under the MIT license. See [LICENSE](https://github.com/darkeld3r/os_version/blob/master/LICENSE) for the details.
+`os_info` is licensed under the MIT license. See [LICENSE](https://github.com/darkeld3r/os_info/blob/master/LICENSE) for the details.

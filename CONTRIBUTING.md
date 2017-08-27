@@ -1,11 +1,11 @@
-# Contributing to os_version
+# Contributing to os_info
 
 We welcome contribution from everyone. Here are the guidelines if you are
 thinking of helping us:
 
 ## Contributions
 
-Contributions to `os_version` or its dependencies should be made in the form of GitHub
+Contributions to `os_info` or its dependencies should be made in the form of GitHub
 pull requests. Each pull request will be reviewed by a core contributor
 (someone with permission to land patches) and either landed in the main tree or
 given feedback for changes that would be required. All contributions should
