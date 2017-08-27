@@ -6,7 +6,7 @@ use utils;
 
 pub struct RHELRelease {
     pub distro: Option<String>,
-    pub version: Option<String>
+    pub version: Option<String>,
 }
 
 fn read_file(filename: &str) -> Result<String, Error> {
@@ -39,29 +39,25 @@ pub fn parse(file: String) -> RHELRelease {
     let distro = match distrib_regex.captures_iter(&file).next() {
         Some(m) => {
             match m.get(1) {
-                Some(distro) => {
-                    Some(distro.as_str().to_owned())
-                },
-                None => None
+                Some(distro) => Some(distro.as_str().to_owned()),
+                None => None,
             }
-        },
-        None => None
+        }
+        None => None,
     };
 
     let version = match version_regex.captures_iter(&file).next() {
         Some(m) => {
             match m.get(1) {
-                Some(version) => {
-                    Some(version.as_str().to_owned())
-                },
-                None => None
+                Some(version) => Some(version.as_str().to_owned()),
+                None => None,
             }
-        },
-        None => None
+        }
+        None => None,
     };
 
     RHELRelease {
         distro: distro,
-        version: version
+        version: version,
     }
 }

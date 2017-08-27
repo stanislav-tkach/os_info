@@ -1,16 +1,18 @@
 extern crate regex;
-#[path="../src/lsb_release.rs"]
+
+#[path = "../src/lsb_release.rs"]
 mod lsb_release;
-#[path="../src/utils.rs"]
+#[path = "../src/utils.rs"]
 mod utils;
 
 fn file() -> String {
-"
+    "
 Distributor ID:	Debian
 Description:	Debian GNU/Linux 7.8 (wheezy)
 Release:	7.8
 Codename:	wheezy
-".to_string()
+"
+    .to_string()
 }
 
 fn arch_file() -> String {

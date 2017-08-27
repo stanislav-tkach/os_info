@@ -7,6 +7,6 @@ pub fn file_exists<P: AsRef<Path>>(path: P) -> bool {
 
     match metadata {
         Ok(md) => md.is_dir() || md.is_file(),
-        Err(_) => false
+        Err(_) => false,
     }
 }

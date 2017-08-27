@@ -7,34 +7,32 @@ use regex::Regex;
 pub struct SwVers {
     pub product_name: Option<String>,
     pub product_version: Option<String>,
-    pub build_version: Option<String>
+    pub build_version: Option<String>,
 }
 
 fn extract_from_regex(stdout: &String, regex: Regex) -> Option<String> {
     match regex.captures_iter(&stdout).next() {
         Some(m) => {
             match m.get(1) {
-                Some(s) => {
-                    Some(s.as_str().to_owned())
-                },
-                None => None
+                Some(s) => Some(s.as_str().to_owned()),
+                None => None,
             }
-        },
-        None => None
+        }
+        None => None,
     }
 }
 
 pub fn is_os_x() -> bool {
     match Command::new("sw_vers").output() {
         Ok(output) => output.status.success(),
-        Err(_) => false
+        Err(_) => false,
     }
 }
 
 pub fn retrieve() -> Option<SwVers> {
     let output = match Command::new("sw_vers").output() {
         Ok(output) => output,
-        Err(_) => return None
+        Err(_) => return None,
     };
 
     let stdout = String::from_utf8_lossy(&output.stdout);
