@@ -1,7 +1,7 @@
 # os_info
 
 [![Build Status](https://travis-ci.org/DarkEld3r/os_info.svg?branch=master)](https://travis-ci.org/DarkEld3r/os_info)
-[![Build status](https://ci.appveyor.com/api/projects/status/7ccw7aupq33we07r?svg=true)](https://ci.appveyor.com/project/DarkEld3r/os-version)
+[![Build status](https://ci.appveyor.com/api/projects/status/43s26ds9r8t5xwnu?svg=true)](https://ci.appveyor.com/project/DarkEld3r/os-info)
 
 ## Overview
 
