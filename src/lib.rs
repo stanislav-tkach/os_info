@@ -114,8 +114,8 @@ fn rhel_release() -> OSInformation {
 ///#Example
 ///
 ///```
-///use os_type;
-///let os = os_type::current_platform();
+///use os_info;
+///let os = os_info::current_platform();
 ///println!("Type: {:?}", os.os_type);
 ///println!("Version: {}", os.version);
 ///```
