@@ -2,7 +2,6 @@ extern crate regex;
 
 use std::process::Command;
 mod lsb_release;
-mod windows_ver;
 mod rhel_release;
 mod sw_vers;
 mod utils;
@@ -53,7 +52,7 @@ fn get_sw_vers() -> OSInformation {
     if let Some(osx_info) = sw_vers::retrieve() {
         OSInformation {
             os_type: OSType::OSX,
-            version: osx_info.product_version.unwrap_or(default_version()),
+            version: osx_info.product_version.unwrap_or_else(default_version),
         }
     } else {
         unknown_os()
@@ -66,22 +65,22 @@ fn lsb_release() -> OSInformation {
             if release.distro == Some("Ubuntu".to_string()) {
                 OSInformation {
                     os_type: OSType::Ubuntu,
-                    version: release.version.unwrap_or(default_version()),
+                    version: release.version.unwrap_or_else(default_version),
                 }
             } else if release.distro == Some("Debian".to_string()) {
                 OSInformation {
                     os_type: OSType::Debian,
-                    version: release.version.unwrap_or(default_version()),
+                    version: release.version.unwrap_or_else(default_version),
                 }
             } else if release.distro == Some("Arch".to_string()) {
                 OSInformation {
                     os_type: OSType::Arch,
-                    version: release.version.unwrap_or(default_version()),
+                    version: release.version.unwrap_or_else(default_version),
                 }
             } else if release.distro == Some("CentOS".to_string()) {
                 OSInformation {
                     os_type: OSType::CentOS,
-                    version: release.version.unwrap_or(default_version()),
+                    version: release.version.unwrap_or_else(default_version),
                 }
             } else {
                 unknown_os()
@@ -97,12 +96,12 @@ fn rhel_release() -> OSInformation {
             if release.distro == Some("CentOS".to_string()) {
                 OSInformation {
                     os_type: OSType::CentOS,
-                    version: release.version.unwrap_or(default_version()),
+                    version: release.version.unwrap_or_else(default_version),
                 }
             } else {
                 OSInformation {
                     os_type: OSType::Redhat,
-                    version: release.version.unwrap_or(default_version()),
+                    version: release.version.unwrap_or_else(default_version),
                 }
             }
         }

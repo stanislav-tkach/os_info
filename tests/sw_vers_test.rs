@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 extern crate regex;
 
 #[path = "../src/sw_vers.rs"]
@@ -5,13 +7,12 @@ mod sw_vers;
 #[path = "../src/utils.rs"]
 mod utils;
 
-fn file() -> String {
+fn file() -> &'static str {
     "
 ProductName:	Mac OS X
 ProductVersion:	10.10.5
 BuildVersion:	14F27
 "
-        .to_string()
 }
 
 #[test]
