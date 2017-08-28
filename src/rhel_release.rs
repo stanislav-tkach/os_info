@@ -23,12 +23,10 @@ pub fn retrieve() -> Option<RHELRelease> {
         } else {
             None
         }
+    } else if let Ok(release) = read_file("/etc/centos-release") {
+        Some(parse(release))
     } else {
-        if let Ok(release) = read_file("/etc/centos-release") {
-            Some(parse(release))
-        } else {
-            None
-        }
+        None
     }
 }
 

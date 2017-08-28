@@ -12,17 +12,18 @@ Description:	Debian GNU/Linux 7.8 (wheezy)
 Release:	7.8
 Codename:	wheezy
 "
-    .to_string()
+        .to_string()
 }
 
 fn arch_file() -> String {
-"
+    "
 LSB Version:	1.4
 Distributor ID:	Arch
 Description:	Arch Linux
 Release:	rolling
 Codename:	n/a
-".to_string()
+"
+        .to_string()
 }
 
 #[test]
