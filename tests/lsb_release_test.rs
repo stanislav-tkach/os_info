@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 extern crate regex;
 
 #[path = "../src/lsb_release.rs"]
@@ -5,24 +7,23 @@ mod lsb_release;
 #[path = "../src/utils.rs"]
 mod utils;
 
-fn file() -> String {
+fn file() -> &'static str {
     "
 Distributor ID:	Debian
 Description:	Debian GNU/Linux 7.8 (wheezy)
 Release:	7.8
 Codename:	wheezy
 "
-    .to_string()
 }
 
-fn arch_file() -> String {
-"
+fn arch_file() -> &'static str {
+    "
 LSB Version:	1.4
 Distributor ID:	Arch
 Description:	Arch Linux
 Release:	rolling
 Codename:	n/a
-".to_string()
+"
 }
 
 #[test]
