@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/DarkEld3r/os_info.svg?branch=master)](https://travis-ci.org/DarkEld3r/os_info)
 [![Build status](https://ci.appveyor.com/api/projects/status/43s26ds9r8t5xwnu?svg=true)](https://ci.appveyor.com/project/DarkEld3r/os-info)
+[![Latest Version](http://meritbadge.herokuapp.com/os_info)](https://crates.io/crates/os_info)
+[![License](https://img.shields.io/github/license/darkeld3r/os_info.svg)](https://github.com/darkeld3r/os_info)
 
 ## Overview
 
