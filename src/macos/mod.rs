@@ -1,10 +1,24 @@
 /*
  * Mac OS X related checks
  */
-use std::process::Command;
+
 use regex::Regex;
 
-pub struct SwVers {
+use std::process::Command;
+
+use os_info::{self, OSType, OSInformation};
+
+pub fn current_platform() -> OSInformation {
+    let version = retrieve().map(|x| x.product_version).unwrap_or_else(
+        os_info::unknown_version,
+    );
+    OSInformation {
+        os_type: OSType::OSX,
+        version,
+    }
+}
+
+struct SwVers {
     pub product_name: Option<String>,
     pub product_version: Option<String>,
     pub build_version: Option<String>,
@@ -22,14 +36,7 @@ fn extract_from_regex(stdout: &str, regex: &Regex) -> Option<String> {
     }
 }
 
-//pub fn is_os_x() -> bool {
-//    match Command::new("sw_vers").output() {
-//        Ok(output) => output.status.success(),
-//        Err(_) => false,
-//    }
-//}
-
-pub fn retrieve() -> Option<SwVers> {
+fn retrieve() -> Option<SwVers> {
     let output = match Command::new("sw_vers").output() {
         Ok(output) => output,
         Err(_) => return None,
@@ -39,7 +46,7 @@ pub fn retrieve() -> Option<SwVers> {
     Some(parse(&stdout))
 }
 
-pub fn parse(version_str: &str) -> SwVers {
+fn parse(version_str: &str) -> SwVers {
     let product_name_regex = Regex::new(r"ProductName:\s([\w\s]+)\n").unwrap();
     let product_version_regex = Regex::new(r"ProductVersion:\s(\w+\.\w+\.\w+)").unwrap();
     let build_number_regex = Regex::new(r"BuildVersion:\s(\w+)").unwrap();

@@ -1,10 +1,35 @@
 use regex::Regex;
+
 use std::fs::File;
 use std::io::Error;
 use std::io::prelude::*;
-use utils;
 
-pub struct RHELRelease {
+use os_info::{self, OSInformation, OSType};
+use super::utils;
+
+pub fn rhel_release() -> OSInformation {
+    match retrieve() {
+        Some(release) => {
+            if release.distro == Some("CentOS".to_string()) {
+                OSInformation {
+                    os_type: OSType::Centos,
+                    version: release.version.unwrap_or_else(os_info::unknown_version),
+                }
+            } else {
+                OSInformation {
+                    os_type: OSType::Redhat,
+                    version: release.version.unwrap_or_else(os_info::unknown_version),
+                }
+            }
+        }
+        None => OSInformation {
+            os_type: OSType::Linux,
+            version: os_info::unknown_version(),
+        },
+    }
+}
+
+struct RHELRelease {
     pub distro: Option<String>,
     pub version: Option<String>,
 }
@@ -16,7 +41,7 @@ fn read_file(filename: &str) -> Result<String, Error> {
     Ok(contents)
 }
 
-pub fn retrieve() -> Option<RHELRelease> {
+fn retrieve() -> Option<RHELRelease> {
     if utils::file_exists("/etc/redhat-release") {
         if let Ok(release) = read_file("/etc/redhat-release") {
             Some(parse(&release))
@@ -30,7 +55,7 @@ pub fn retrieve() -> Option<RHELRelease> {
     }
 }
 
-pub fn parse(file: &str) -> RHELRelease {
+fn parse(file: &str) -> RHELRelease {
     let distrib_regex = Regex::new(r"(\w+) Linux release").unwrap();
     let version_regex = Regex::new(r"release\s([\w\.]+)").unwrap();
 
