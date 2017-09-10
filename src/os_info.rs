@@ -1,7 +1,7 @@
+use std::fmt::{self, Display, Formatter};
+
 ///A list of supported operating system types
-#[derive(Debug)]
-#[derive(PartialEq)]
-#[derive(Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum OSType {
     Unknown,
     Android,
@@ -29,4 +29,16 @@ pub struct OSInformation {
 
 pub fn unknown_version() -> String {
     "Unknown".into()
+}
+
+impl Display for OSType {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match *self {
+            OSType::Redhat => write!(f, "Red Hat Linux"),
+            OSType::Arch => write!(f, "Arch Linux"),
+            OSType::Centos => write!(f, "CentOS"),
+            OSType::Macos => write!(f, "Mac OS"),
+            _ => write!(f, "{:?}", self),
+        }
+    }
 }
