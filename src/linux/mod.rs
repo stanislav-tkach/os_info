@@ -2,9 +2,9 @@ mod lsb_release;
 mod rhel_release;
 mod utils;
 
-use os_info::{self, OSType, OSInformation};
+use os_info::{OSType, OSInfo, OSVersion};
 
-pub fn current_platform() -> OSInformation {
+pub fn current_platform() -> OSInfo {
     if lsb_release::is_available() {
         lsb_release::lsb_release()
     } else if utils::file_exists("/etc/redhat-release") ||
@@ -12,9 +12,9 @@ pub fn current_platform() -> OSInformation {
     {
         rhel_release::rhel_release()
     } else {
-        OSInformation {
+        OSInfo {
             os_type: OSType::Linux,
-            version: os_info::unknown_version(),
+            version: OSVersion::unknown(),
         }
     }
 }
