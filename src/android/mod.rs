@@ -1,8 +1,8 @@
-use os_info::{self, OSType, OSInformation};
+use os_info::{OSType, OSInfo, OSVersion};
 
-pub fn current_platform() -> OSInformation {
+pub fn current_platform() -> OSInfo {
     OSInformation {
         os_type: OSType::Android,
-        version: os_info::unknown_version(),
+        version: OSVersion::unknown(),
     }
 }

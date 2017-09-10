@@ -26,7 +26,7 @@ mod imp;
 
 mod os_info;
 
-use os_info::OSInformation;
+use os_info::OSInfo;
 
 ///Returns the current operating system type
 ///
@@ -36,8 +36,8 @@ use os_info::OSInformation;
 ///use os_info;
 ///let os = os_info::current_platform();
 ///println!("Type: {:?}", os.os_type);
-///println!("Version: {}", os.version);
+///println!("Version: {:?}", os.version);
 ///```
-pub fn current_platform() -> OSInformation {
+pub fn current_platform() -> OSInfo {
     imp::current_platform()
 }
