@@ -1,3 +1,8 @@
+//! TODO: FIXME: Add some description.
+
+#![deny(missing_debug_implementations)]
+#![deny(missing_docs)]
+
 extern crate regex;
 
 #[cfg(target_os = "android")]
