@@ -2,54 +2,54 @@ use regex::Regex;
 
 use std::process::Command;
 
-use os_info::{OSInfo, OSType, OSVersion};
+use {Info, Type, Version};
 
 // TODO: Better matching.
-pub fn lsb_release() -> OSInfo {
+pub fn lsb_release() -> Info {
     match retrieve() {
         Some(release) => {
             if release.distro == Some("Ubuntu".to_string()) {
-                OSInfo {
-                    os_type: OSType::Ubuntu,
+                Info {
+                    os_type: Type::Ubuntu,
                     version: release
                         .version
-                        .map(|x| OSVersion::custom(x, "".to_owned()))
-                        .unwrap_or_else(OSVersion::unknown),
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
                 }
             } else if release.distro == Some("Debian".to_string()) {
-                OSInfo {
-                    os_type: OSType::Debian,
+                Info {
+                    os_type: Type::Debian,
                     version: release
                         .version
-                        .map(|x| OSVersion::custom(x, "".to_owned()))
-                        .unwrap_or_else(OSVersion::unknown),
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
                 }
             } else if release.distro == Some("Arch".to_string()) {
-                OSInfo {
-                    os_type: OSType::Arch,
+                Info {
+                    os_type: Type::Arch,
                     version: release
                         .version
-                        .map(|x| OSVersion::custom(x, "".to_owned()))
-                        .unwrap_or_else(OSVersion::unknown),
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
                 }
             } else if release.distro == Some("CentOS".to_string()) {
-                OSInfo {
-                    os_type: OSType::Centos,
+                Info {
+                    os_type: Type::Centos,
                     version: release
                         .version
-                        .map(|x| OSVersion::custom(x, "".to_owned()))
-                        .unwrap_or_else(OSVersion::unknown),
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
                 }
             } else {
-                OSInfo {
-                    os_type: OSType::Linux,
-                    version: OSVersion::unknown(),
+                Info {
+                    os_type: Type::Linux,
+                    version: Version::unknown(),
                 }
             }
         }
-        None => OSInfo {
-            os_type: OSType::Linux,
-            version: OSVersion::unknown(),
+        None => Info {
+            os_type: Type::Linux,
+            version: Version::unknown(),
         },
     }
 }

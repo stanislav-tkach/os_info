@@ -1,4 +1,7 @@
-//! TODO: FIXME: Add some description.
+//! `os_info`
+//!
+//! Provides interfaces for getting information about the current operating system, such as type,
+//! version and edition.
 
 #![deny(missing_debug_implementations)]
 #![deny(missing_docs)]
@@ -29,20 +32,29 @@ mod imp;
 #[path = "windows/mod.rs"]
 mod imp;
 
-mod os_info;
+mod info;
+mod version;
+mod os_type;
 
-use os_info::OSInfo;
+pub use info::Info;
+pub use version::Version;
+pub use os_type::Type;
 
-///Returns the current operating system type
+/// Returns information about the current operating system (type, version, edition, etc.).
 ///
-///#Example
+/// # Examples
 ///
-///```
-///use os_info;
-///let os = os_info::current_platform();
-///println!("Type: {:?}", os.os_type);
-///println!("Version: {:?}", os.version);
-///```
-pub fn current_platform() -> OSInfo {
+/// ```
+/// use os_info;
+/// let info = os_info::get();
+///
+/// // Print full information:
+/// println!("OS information: {}", info);
+///
+/// // Print information separately:
+/// println!("Type: {}", info.os_type());
+/// println!("Version: {}", info.version());
+/// ```
+pub fn get() -> Info {
     imp::current_platform()
 }

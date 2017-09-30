@@ -4,33 +4,33 @@ use std::fs::File;
 use std::io::Error;
 use std::io::prelude::*;
 
-use os_info::{OSInfo, OSType, OSVersion};
+use {Info, Type, Version};
 use super::utils;
 
-pub fn rhel_release() -> OSInfo {
+pub fn rhel_release() -> Info {
     match retrieve() {
         Some(release) => {
             if release.distro == Some("CentOS".to_string()) {
-                OSInfo {
-                    os_type: OSType::Centos,
+                Info {
+                    os_type: Type::Centos,
                     version: release
                         .version
-                        .map(|x| OSVersion::custom(x, "".to_owned()))
-                        .unwrap_or_else(OSVersion::unknown),
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
                 }
             } else {
-                OSInfo {
-                    os_type: OSType::Redhat,
+                Info {
+                    os_type: Type::Redhat,
                     version: release
                         .version
-                        .map(|x| OSVersion::custom(x, "".to_owned()))
-                        .unwrap_or_else(OSVersion::unknown),
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
                 }
             }
         }
-        None => OSInfo {
-            os_type: OSType::Linux,
-            version: OSVersion::unknown(),
+        None => Info {
+            os_type: Type::Linux,
+            version: Version::unknown(),
         },
     }
 }

@@ -6,14 +6,14 @@ use regex::Regex;
 
 use std::process::Command;
 
-use os_info::{OSType, OSInfo, OSVersion};
+use {Type, Info, Version};
 
-pub fn current_platform() -> OSInfo {
+pub fn current_platform() -> Info {
     let version = retrieve().map(|x| x.product_version).unwrap_or_else(
-        OSVersion::unknown,
+        Version::unknown,
     );
-    OSInformation {
-        os_type: OSType::OSX,
+    Info {
+        os_type: Type::Macos,
         version,
     }
 }
