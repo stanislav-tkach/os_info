@@ -9,7 +9,7 @@
 
 Library for detecting the operating system type and version.
 
-Based on [os_type](https://github.com/schultyy/os_type) by Jan Schulte.
+Based on [os_type](https://github.com/schultyy/os_type) by Jan Schulte. The main difference of `os_info` is that this library separates completely incompatible operating systems by conditional compilation.
 
 ## Usage
 

@@ -1,8 +1,8 @@
-use os_info::{OSType, OSInfo, OSVersion};
+use {Type, Info, Version};
 
-pub fn current_platform() -> OSInformation {
-    OSInformation {
-        os_type: OSType::Redox,
-        version: OSVersion::unknown(),
+pub fn current_platform() -> Info {
+    Info {
+        os_type: Type::Redox,
+        version: Version::unknown(),
     }
 }

@@ -1,8 +1,8 @@
-use os_info::{OSType, OSInfo, OSVersion};
+use {Type, Info, Version};
 
-pub fn current_platform() -> OSInfo {
-    OSInfo {
-        os_type: OSType::Windows,
-        version: OSVersion::unknown(),
+pub fn current_platform() -> Info {
+    Info {
+        os_type: Type::Windows,
+        version: Version::unknown(),
     }
 }
