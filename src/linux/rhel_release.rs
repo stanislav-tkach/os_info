@@ -90,3 +90,24 @@ fn parse(file: &str) -> RHELRelease {
         version: version,
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    pub fn test_parses_distribution() {
+        let parse_results = parse(file());
+        assert_eq!(parse_results.distro, Some("CentOS".to_string()));
+    }
+
+    #[test]
+    pub fn test_parses_version() {
+        let parse_results = parse(file());
+        assert_eq!(parse_results.version, Some("7.3.1611".to_string()));
+    }
+
+    fn file() -> &'static str {
+        "CentOS Linux release 7.3.1611 (Core)".into()
+    }
+}

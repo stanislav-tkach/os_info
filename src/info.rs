@@ -44,9 +44,7 @@ impl Default for Info {
 
 impl Display for Info {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        match *self {
-            // TODO: FIXME.
-            _ => write!(f, "{:?}", self),
-        }
+        write!(f, "{}", self.os_type)?;
+        write!(f, "{}", self.version)
     }
 }
