@@ -1,4 +1,4 @@
-use std::fmt::{self, Display, Formatter};
+use std::fmt::{self, Display, Formatter, Write};
 
 /// Operating system version including version number and optional edition.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -66,7 +66,7 @@ impl Display for Version {
 impl Display for VersionType {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
-            VersionType::Unknown => write!(f, "{:?}", self),
+            VersionType::Unknown => f.write_char('?'),
             VersionType::Semantic(major, minor, patch) => {
                 write!(f, "{}.{}.{}", major, minor, patch)
             }

@@ -57,3 +57,34 @@ fn parse(version_str: &str) -> SwVers {
         build_version: extract_from_regex(version_str, &build_number_regex),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_product_name() {
+        let info = parse(file());
+        assert_eq!(info.product_name, Some("Mac OS X".to_string()));
+    }
+
+    #[test]
+    fn parses_product_version() {
+        let info = parse(file());
+        assert_eq!(info.product_version, Some("10.10.5".to_string()));
+    }
+
+    #[test]
+    fn parses_build_version() {
+        let info = parse(file());
+        assert_eq!(info.build_version, Some("14F27".to_string()));
+    }
+
+    fn file() -> &'static str {
+        "
+ProductName:	Mac OS X
+ProductVersion:	10.10.5
+BuildVersion:	14F27
+"
+    }
+}
