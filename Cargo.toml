@@ -12,10 +12,10 @@ categories = ["os"]
 license = "MIT"
 
 [badges]
-appveyor = { repository = "darkeld3r/os_info" }
-travis-ci = { repository = "darkeld3r/os_info" }
-is-it-maintained-issue-resolution = { repository = "darkeld3r/os_info" }
-is-it-maintained-open-issues = { repository = "darkeld3r/os_info" }
+appveyor = { repository = "DarkEld3r/os_info" }
+travis-ci = { repository = "DarkEld3r/os_info" }
+is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
+is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
 [dependencies]
 regex="^0.2.1"
