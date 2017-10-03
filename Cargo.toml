@@ -7,7 +7,7 @@ documentation = "https://docs.rs/os_info"
 homepage = "https://github.com/darkeld3r/os_info"
 repository = "https://github.com/darkeld3r/os_info"
 readme = "README.md"
-keywords = ["os", "os_type", "os type", "os version", "os info"]
+keywords = ["os", "os_type", "os_version", "os_info"]
 categories = ["os"]
 license = "MIT"
 
