@@ -10,6 +10,7 @@ env:
   global:
   - CLIPPY_VERS=0.0.142
   - RUSTFMT_VERS=0.9.0
+  - DEADLINKS_VERS=0.2.0
 
 install:
 - |
@@ -20,6 +21,11 @@ install:
   if [[ "$FEATURE" == "fmt" ]]; then
     cargo-audit -V || cargo install cargo-audit --force
     rustfmt -V | grep $RUSTFMT_VERS || cargo install rustfmt --vers $RUSTFMT_VERS --force
+    cargo update
+  fi
+- |
+  if [[ "$FEATURE" == "docs" ]]; then
+    cargo-deadlinks -V | grep $DEADLINKS_VERS || cargo install cargo-deadlinks --vers $DEADLINKS_VERS --force
     cargo update
   fi
 - cargo install --list
@@ -34,6 +40,12 @@ jobs:
     script:
     - cargo audit
     - cargo fmt -- --write-mode=diff
+  - stage: docs
+    env:
+    - FEATURE=docs
+    script:
+    - cargo doc --no-deps
+    - cargo deadlinks
   - stage: lint
     rust: nightly-2017-07-05
     env:
