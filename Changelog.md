@@ -4,9 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.0](https://github.com/darkeld3r/os_info/tree/v0.2.0) (2017-11-02)
+
 - Add "dead" links check (#32).
 - Fix Travis badge on crates.io. 
-- Travis OS X build.
+- Travis OS X build (#35).
 
 ## [0.1.1](https://github.com/darkeld3r/os_info/tree/v0.1.1) (2017-10-03)
 
