@@ -11,7 +11,9 @@ use {Type, Info, Version};
 pub fn current_platform() -> Info {
     let version = retrieve().map(|x| x.product_version).map_or_else(
         || Version::unknown,
-        |x| Version::custom(x, None)
+        |x| {
+            Version::custom(x, None)
+        },
     );
     Info {
         os_type: Type::Macos,
