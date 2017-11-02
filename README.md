@@ -43,6 +43,7 @@ Right now, the following operating system types can be returned:
 - Ubuntu
 - Debian
 - Arch
+- Redox
 
 If you need support for more OS types, I am looking forward to your Pull Request.
 
