@@ -13,7 +13,7 @@ pub fn current_platform() -> Info {
 fn get_version() -> Option<String> {
     let mut file = match File::open("sys:uname") {
         Some(file) => file,
-        _ => return None;
+        _ => return None,
     };
 
     let mut version = String::new();
