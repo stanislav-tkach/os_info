@@ -9,10 +9,11 @@ use std::process::Command;
 use {Type, Info, Version};
 
 pub fn current_platform() -> Info {
-    let version = match retrieve() {
-        Some(v) => Version::custom(v.product_version.unwrap_or("unknown".to_string()), None),
+    let version = match retrieve().map(|x| x.product_version) {
+        Some(v) => Version::custom(v, None),
         None => Version::unknown(),
     };
+
     Info {
         os_type: Type::Macos,
         version,

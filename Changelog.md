@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Redox support (untested).
+
 ## [0.3.0](https://github.com/darkeld3r/os_info/tree/v0.2.0) (2017-11-02)
 
 - Fix OS X build.
