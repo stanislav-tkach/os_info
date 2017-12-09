@@ -18,4 +18,9 @@ is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
 is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
 [dependencies]
+
+[target.'cfg(not(windows))'.dependencies]
 regex="^0.2.1"
+
+[target.'cfg(windows)'.dependencies]
+winapi = "0.2.8"

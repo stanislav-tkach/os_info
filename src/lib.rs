@@ -6,6 +6,7 @@
 #![deny(missing_debug_implementations)]
 #![deny(missing_docs)]
 
+#[cfg(not(windows))]
 extern crate regex;
 
 #[cfg(target_os = "android")]
