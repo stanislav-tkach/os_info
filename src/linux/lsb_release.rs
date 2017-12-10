@@ -84,6 +84,7 @@ fn parse(file: &str) -> LsbRelease {
             Some(distro) => Some(distro.as_str().to_owned()),
             None => None,
         },
+        None => None,
     };
 
     let version = match distrib_release_regex.captures_iter(file).next() {
@@ -91,6 +92,7 @@ fn parse(file: &str) -> LsbRelease {
             Some(version) => Some(version.as_str().to_owned()),
             None => None,
         },
+        None => None,
     };
 
     LsbRelease {

@@ -32,6 +32,7 @@ fn extract_from_regex(stdout: &str, regex: &Regex) -> Option<String> {
             Some(s) => Some(s.as_str().to_owned()),
             None => None,
         },
+        None => None,
     }
 }
 
