@@ -33,9 +33,9 @@ impl Display for Type {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
             Type::Redhat => write!(f, "Red Hat Linux"),
-            Type::Arch   => write!(f, "Arch Linux"),
+            Type::Arch => write!(f, "Arch Linux"),
             Type::Centos => write!(f, "CentOS"),
-            Type::Macos  => write!(f, "Mac OS"),
+            Type::Macos => write!(f, "Mac OS"),
             _ => write!(f, "{:?}", self),
         }
     }

@@ -6,7 +6,7 @@ use regex::Regex;
 
 use std::process::Command;
 
-use {Type, Info, Version};
+use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
     let version = match retrieve().map(|x| x.product_version) {
@@ -28,13 +28,10 @@ struct SwVers {
 
 fn extract_from_regex(stdout: &str, regex: &Regex) -> Option<String> {
     match regex.captures_iter(stdout).next() {
-        Some(m) => {
-            match m.get(1) {
-                Some(s) => Some(s.as_str().to_owned()),
-                None => None,
-            }
-        }
-        None => None,
+        Some(m) => match m.get(1) {
+            Some(s) => Some(s.as_str().to_owned()),
+            None => None,
+        },
     }
 }
 

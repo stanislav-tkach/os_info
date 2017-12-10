@@ -1,5 +1,5 @@
 mod version;
-use {Type, Info, Version};
+use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
     let version = version::Win32Version::osvi();
@@ -7,10 +7,10 @@ pub fn current_platform() -> Info {
         Some(v) => Version::semantic(
             v.dwMajorVersion as u64,
             v.dwMinorVersion as u64,
-            v.dwBuildNumber  as u64,
-            version.edition
+            v.dwBuildNumber as u64,
+            version.edition,
         ),
-        None    => Version::unknown(),
+        None => Version::unknown(),
     };
 
     Info {
