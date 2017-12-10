@@ -17,27 +17,27 @@ extern crate user32;
 extern crate winapi;
 
 #[cfg(target_os = "android")]
-#[path = "android\\mod.rs"]
+#[path = "android/mod.rs"]
 mod imp;
 
 #[cfg(target_os = "emscripten")]
-#[path = "emscripten\\mod.rs"]
+#[path = "emscripten/mod.rs"]
 mod imp;
 
 #[cfg(target_os = "linux")]
-#[path = "linux\\mod.rs"]
+#[path = "linux/mod.rs"]
 mod imp;
 
 #[cfg(target_os = "macos")]
-#[path = "macos\\mod.rs"]
+#[path = "macos/mod.rs"]
 mod imp;
 
 #[cfg(target_os = "redox")]
-#[path = "redox\\mod.rs"]
+#[path = "redox/mod.rs"]
 mod imp;
 
 #[cfg(windows)]
-#[path = "windows\\mod.rs"]
+#[path = "windows/mod.rs"]
 mod imp;
 
 mod info;
