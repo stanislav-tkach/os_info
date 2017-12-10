@@ -42,7 +42,9 @@ impl Win32Version {
     /// https://msdn.microsoft.com/en-us/library/mt723418(v=vs.85).aspx
     pub fn osvi() -> Self {
         unsafe {
-            let mut info: OSVERSIONINFOEXW = { zeroed() };
+            let mut info: OSVERSIONINFOEXW = {
+                zeroed()
+            };
             info.dwOSVersionInfoSize = size_of::<OSVERSIONINFOEXW>() as DWORD;
 
             if RtlGetVersion(&mut info) == STATUS_SUCCESS {
@@ -75,56 +77,73 @@ impl Win32Version {
         let osvi = info.osvi.unwrap();
         match osvi.dwMajorVersion {
             // Windows 10
-            10 => match osvi.dwMinorVersion {
-                0 => match osvi.wProductType {
-                    VER_NT_WORKSTATION => info.edition = Some("Windows 10".to_string()),
-                    _ => info.edition = Some("Windows Server 2016".to_string()),
-                },
-                _ => info.edition = None,
-            },
+            10 => {
+                match osvi.dwMinorVersion {
+                    0 => {
+                        match osvi.wProductType {
+                            VER_NT_WORKSTATION => info.edition = Some("Windows 10".to_string()),
+                            _ => info.edition = Some("Windows Server 2016".to_string()),
+                        }
+                    }
+                    _ => info.edition = None,
+                }
+            }
             // Windows Vista, 7, 8 && 8.1
-            6 => match osvi.dwMinorVersion {
-                3 => match osvi.wProductType {
-                    VER_NT_WORKSTATION => info.edition = Some("Windows 8.1".to_string()),
-                    _ => info.edition = Some("Windows Server 2012 R2".to_string()),
-                },
-                2 => match osvi.wProductType {
-                    VER_NT_WORKSTATION => info.edition = Some("Windows 8".to_string()),
-                    _ => info.edition = Some("Windows Server 2012".to_string()),
-                },
-                1 => match osvi.wProductType {
-                    VER_NT_WORKSTATION => info.edition = Some("Windows 7".to_string()),
-                    _ => info.edition = Some("Windows Server 2008 R2".to_string()),
-                },
-                0 => match osvi.wProductType {
-                    VER_NT_WORKSTATION => info.edition = Some("Windows Vista".to_string()),
-                    _ => info.edition = Some("Windows Server 2008".to_string()),
-                },
-                _ => info.edition = None,
-            },
+            6 => {
+                match osvi.dwMinorVersion {
+                    3 => {
+                        match osvi.wProductType {
+                            VER_NT_WORKSTATION => info.edition = Some("Windows 8.1".to_string()),
+                            _ => info.edition = Some("Windows Server 2012 R2".to_string()),
+                        }
+                    }
+                    2 => {
+                        match osvi.wProductType {
+                            VER_NT_WORKSTATION => info.edition = Some("Windows 8".to_string()),
+                            _ => info.edition = Some("Windows Server 2012".to_string()),
+                        }
+                    }
+                    1 => {
+                        match osvi.wProductType {
+                            VER_NT_WORKSTATION => info.edition = Some("Windows 7".to_string()),
+                            _ => info.edition = Some("Windows Server 2008 R2".to_string()),
+                        }
+                    }
+                    0 => {
+                        match osvi.wProductType {
+                            VER_NT_WORKSTATION => info.edition = Some("Windows Vista".to_string()),
+                            _ => info.edition = Some("Windows Server 2008".to_string()),
+                        }
+                    }
+                    _ => info.edition = None,
+                }
+            }
             // Windows 2000 and XP
             // Windows Home Server, 2003 Server, 2003 R2 Server and XP Professional x64
             5 => {
                 match osvi.dwMinorVersion {
                     // Windows Home Server, 2003 Server, 2003 R2 Server and XP Professional x64
-                    2 => match unsafe { GetSystemMetrics(SM_SERVERR2) } {
-                        0 => {
-                            let mut sysinfo: SYSTEM_INFO = unsafe { zeroed() };
-                            unsafe { GetSystemInfo(&mut sysinfo) };
+                    2 => {
+                        match unsafe { GetSystemMetrics(SM_SERVERR2) } {
+                            0 => {
+                                let mut sysinfo: SYSTEM_INFO = unsafe { zeroed() };
+                                unsafe { GetSystemInfo(&mut sysinfo) };
 
-                            if osvi.wSuiteMask & VER_SUITE_WH_SERVER == VER_SUITE_WH_SERVER {
-                                info.edition = Some("Windows Home Server".to_string())
-                            } else if osvi.wProductType == VER_NT_WORKSTATION
-                                && sysinfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64
-                            {
-                                info.edition =
-                                    Some("Windows XP Professional x64 Edition".to_string())
-                            } else {
-                                info.edition = Some("Windows Server 2003".to_string())
+                                if osvi.wSuiteMask & VER_SUITE_WH_SERVER == VER_SUITE_WH_SERVER {
+                                    info.edition = Some("Windows Home Server".to_string())
+                                } else if osvi.wProductType == VER_NT_WORKSTATION &&
+                                           sysinfo.wProcessorArchitecture ==
+                                               PROCESSOR_ARCHITECTURE_AMD64
+                                {
+                                    info.edition =
+                                        Some("Windows XP Professional x64 Edition".to_string())
+                                } else {
+                                    info.edition = Some("Windows Server 2003".to_string())
+                                }
                             }
+                            _ => info.edition = Some("Windows Server 2003 R2".to_string()),
                         }
-                        _ => info.edition = Some("Windows Server 2003 R2".to_string()),
-                    },
+                    }
                     // Windows 2000 and XP
                     1 => info.edition = Some("Windows XP".to_string()),
                     0 => info.edition = Some("Windows 2000".to_string()),
@@ -157,12 +176,14 @@ mod tests {
     fn parses_version() {
         let version = Win32Version::osvi();
         let info = match version.osvi {
-            Some(v) => format!(
-                "{}.{}.{}",
-                v.dwMajorVersion,
-                v.dwMinorVersion,
-                v.dwBuildNumber
-            ),
+            Some(v) => {
+                format!(
+                    "{}.{}.{}",
+                    v.dwMajorVersion,
+                    v.dwMinorVersion,
+                    v.dwBuildNumber
+                )
+            }
             None => String::from("Unknown"),
         };
 

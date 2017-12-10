@@ -66,18 +66,22 @@ fn parse(file: &str) -> RHELRelease {
     let version_regex = Regex::new(r"release\s([\w\.]+)").unwrap();
 
     let distro = match distrib_regex.captures_iter(file).next() {
-        Some(m) => match m.get(1) {
-            Some(distro) => Some(distro.as_str().to_owned()),
-            None => None,
-        },
+        Some(m) => {
+            match m.get(1) {
+                Some(distro) => Some(distro.as_str().to_owned()),
+                None => None,
+            }
+        }
         None => None,
     };
 
     let version = match version_regex.captures_iter(file).next() {
-        Some(m) => match m.get(1) {
-            Some(version) => Some(version.as_str().to_owned()),
-            None => None,
-        },
+        Some(m) => {
+            match m.get(1) {
+                Some(version) => Some(version.as_str().to_owned()),
+                None => None,
+            }
+        }
         None => None,
     };
 
