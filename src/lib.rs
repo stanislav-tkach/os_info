@@ -9,6 +9,10 @@
 #[cfg(not(windows))]
 extern crate regex;
 
+#[cfg(windows)] extern crate kernel32;
+#[cfg(windows)] extern crate winapi;
+#[cfg(windows)] extern crate user32;
+
 #[cfg(target_os = "android")]
 #[path = "android/mod.rs"]
 mod imp;

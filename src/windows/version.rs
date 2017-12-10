@@ -1,10 +1,13 @@
 use std::mem::zeroed;
 use std::mem::size_of;
-
-extern crate winapi;
-use self::winapi::{ NTSTATUS, DWORD, STATUS_SUCCESS };
-use self::winapi::winnt::{ OSVERSIONINFOEXW };
-use self::winapi::sysinfoapi::{ SYSTEM_INFO };
+use winapi::ntdef::{ NTSTATUS };
+use winapi::minwindef::{ DWORD };
+use winapi::ntstatus::{ STATUS_SUCCESS };
+use winapi::winnt::{ OSVERSIONINFOEXW };
+use winapi::sysinfoapi::{ SYSTEM_INFO };
+use winapi::winuser::{ SM_SERVERR2 };
+use user32::{ GetSystemMetrics };
+use kernel32::{ GetSystemInfo };
 
 /// Win32 Flag: VER_NT_WORKSTATION
 ///  https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
@@ -12,9 +15,6 @@ const VER_NT_WORKSTATION: u8  = 0x0000001;
 /// Win32 Flag: VER_SUITE_WH_SERVER
 ///  https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
 const VER_SUITE_WH_SERVER: u16 = 0x00008000;
-/// Win32 Flag: SM_SERVERR2
-/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724385(v=vs.85).aspx
-const SM_SERVERR2: u8  = 89;
 /// Win32 Flag: PROCESSOR_ARCHITECTURE_AMD64
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724958(v=vs.85).aspx
 const PROCESSOR_ARCHITECTURE_AMD64: u16 = 9;
@@ -23,17 +23,6 @@ const PROCESSOR_ARCHITECTURE_AMD64: u16 = 9;
 extern {
     pub fn RtlGetVersion(lpVersionInformation: &mut OSVERSIONINFOEXW) -> NTSTATUS;
 }
-
-#[link(name = "user32")]
-extern {
-    pub fn GetSystemMetrics(nIndex: u8) -> u8;
-}
-
-#[link(name = "kernel32")]
-extern {
-    pub fn GetSystemInfo(lpSystemInfo: &mut SYSTEM_INFO);
-}
-
 
 /// Win32Version Structure
 /// Holds information about the current systems version data and edition
@@ -48,6 +37,10 @@ pub struct Win32Version {
 /// structure is returned. However, edition() will only call osvi() if the
 /// osvi data has not been previously set.
 impl Win32Version {
+
+    /// Win32Version::osvi()
+    /// Call the Win32 API function RtlGetVersion to get the OS version information
+    /// https://msdn.microsoft.com/en-us/library/mt723418(v=vs.85).aspx
     pub fn osvi() -> Self {
         unsafe {
             let mut info: OSVERSIONINFOEXW = { zeroed() };
@@ -61,13 +54,20 @@ impl Win32Version {
         }
     }
 
+    /// Win32Version::edition()
+    /// Examine data in an OSVERSIONINFOEXW structure to determine the Windows edition
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
     pub fn edition(self) -> Self {
         let mut info = match self.osvi {
             Some(_) => self,
             None    => Self::osvi()
         };
 
-        let osvi = info.osvi.unwrap();
+        let osvi = match info.osvi {
+            Some(v) => v,
+            None    => return info
+        };
+
         match osvi.dwMajorVersion {
             // Windows 10
             10 => {
@@ -151,19 +151,13 @@ impl Default for Win32Version {
     }
 }
 
-/// retrieve()
-/// Public function used to gather version information
-pub fn retrieve() -> Win32Version {
-    Win32Version::osvi()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn parses_version() {
-        let version = retrieve();
+        let version = Win32Version::osvi();
         let info = match version.osvi {
             Some(v) => format!("{}.{}.{}", v.dwMajorVersion, v.dwMinorVersion, v.dwBuildNumber),
             None    => String::from("Unknown")
