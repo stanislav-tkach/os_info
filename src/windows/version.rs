@@ -3,11 +3,22 @@ use std::mem::size_of;
 use winapi::ntdef::NTSTATUS;
 use winapi::minwindef::DWORD;
 use winapi::ntstatus::STATUS_SUCCESS;
-use winapi::winnt::OSVERSIONINFOEXW;
 use winapi::sysinfoapi::SYSTEM_INFO;
 use winapi::winuser::SM_SERVERR2;
 use user32::GetSystemMetrics;
 use kernel32::GetSystemInfo;
+
+#[cfg(target_arch = "x86")]
+use winapi::winnt::OSVERSIONINFOEXA;
+
+#[cfg(not(target_arch = "x86"))]
+use winapi::winnt::OSVERSIONINFOEXW;
+
+#[cfg(target_arch = "x86")]
+type OSVERSIONINFOEX = OSVERSIONINFOEXA;
+
+#[cfg(not(target_arch = "x86"))]
+type OSVERSIONINFOEX = OSVERSIONINFOEXW;
 
 /// Win32 Flag: VER_NT_WORKSTATION
 ///  https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
@@ -21,13 +32,13 @@ const PROCESSOR_ARCHITECTURE_AMD64: u16 = 9;
 
 #[link(name = "ntdll")]
 extern "C" {
-    pub fn RtlGetVersion(lpVersionInformation: &mut OSVERSIONINFOEXW) -> NTSTATUS;
+    pub fn RtlGetVersion(lpVersionInformation: &mut OSVERSIONINFOEX) -> NTSTATUS;
 }
 
 /// Win32Version Structure
 /// Holds information about the current systems version data and edition
 pub struct Win32Version {
-    pub osvi: Option<OSVERSIONINFOEXW>,
+    pub osvi: Option<OSVERSIONINFOEX>,
     pub edition: Option<String>,
 }
 
@@ -42,10 +53,10 @@ impl Win32Version {
     /// https://msdn.microsoft.com/en-us/library/mt723418(v=vs.85).aspx
     pub fn osvi() -> Self {
         unsafe {
-            let mut info: OSVERSIONINFOEXW = {
+            let mut info: OSVERSIONINFOEX = {
                 zeroed()
             };
-            info.dwOSVersionInfoSize = size_of::<OSVERSIONINFOEXW>() as DWORD;
+            info.dwOSVersionInfoSize = size_of::<OSVERSIONINFOEX>() as DWORD;
 
             if RtlGetVersion(&mut info) == STATUS_SUCCESS {
                 Self {
@@ -62,7 +73,7 @@ impl Win32Version {
     }
 
     /// Win32Version::edition()
-    /// Examine data in an OSVERSIONINFOEXW structure to determine the Windows edition
+    /// Examine data in an OSVERSIONINFOEX structure to determine the Windows edition
     /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
     pub fn edition(self) -> Self {
         let mut info = match self.osvi {
