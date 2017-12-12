@@ -1,4 +1,4 @@
-use {Type, Info, Version};
+use {Info, Type, Version};
 
 // TODO: Somehow get the real OS version?
 pub fn current_platform() -> Info {

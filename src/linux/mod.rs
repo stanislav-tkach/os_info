@@ -2,7 +2,7 @@ mod lsb_release;
 mod rhel_release;
 mod utils;
 
-use {Type, Info, Version};
+use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
     if lsb_release::is_available() {

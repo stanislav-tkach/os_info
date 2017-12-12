@@ -6,7 +6,15 @@
 #![deny(missing_debug_implementations)]
 #![deny(missing_docs)]
 
+#[cfg(not(windows))]
 extern crate regex;
+
+#[cfg(windows)]
+extern crate kernel32;
+#[cfg(windows)]
+extern crate user32;
+#[cfg(windows)]
+extern crate winapi;
 
 #[cfg(target_os = "android")]
 #[path = "android/mod.rs"]

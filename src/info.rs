@@ -1,6 +1,6 @@
 use std::fmt::{self, Display, Formatter};
 
-use super::{Version, Type};
+use super::{Type, Version};
 
 /// Holds information about operating system (type, version, etc.).
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]

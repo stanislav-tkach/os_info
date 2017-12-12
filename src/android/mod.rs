@@ -1,4 +1,4 @@
-use {Type, Info, Version};
+use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
     Info {
