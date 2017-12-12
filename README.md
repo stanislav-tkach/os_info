@@ -9,7 +9,7 @@
 
 Library for detecting the operating system type and version.
 
-Based on [os_type](https://github.com/schultyy/os_type) by Jan Schulte. The main difference of `os_info` is that this library separates completely incompatible operating systems by conditional compilation.
+Based on [os_type](https://github.com/schultyy/os_type) by Jan Schulte. The main difference of `os_info` is that this library separates completely incompatible operating systems by conditional compilation and uses specific system API whenever is possible.
 
 ## Usage
 
@@ -17,7 +17,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "0.4.0"
+os_info = "0.5.0"
 ```
 
 ## Example
@@ -39,11 +39,13 @@ Right now, the following operating system types can be returned:
 - Unknown
 - Redhat
 - CentOS
+- Fedora
 - OSX
 - Ubuntu
 - Debian
 - Arch
 - Redox
+- Windows
 
 If you need support for more OS types, I am looking forward to your Pull Request.
 

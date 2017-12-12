@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [0.3.0](https://github.com/darkeld3r/os_info/tree/v0.4.0) (2017-11-12)
+## [0.5.0](https://github.com/darkeld3r/os_info/tree/v0.5.0) (2017-12-13)
+
+- Windows support (#45).
+- Fedora support (#46).
+
+## [0.4.0](https://github.com/darkeld3r/os_info/tree/v0.4.0) (2017-11-12)
 
 - Redox support (untested).
 
