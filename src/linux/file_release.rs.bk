@@ -1,10 +1,10 @@
 use regex::Regex;
 
-use std::fs::{File, metadata};
-use std::io::{Error, ErrorKind};
+use std::fs::{ File, metadata };
+use std::io::{ Error, ErrorKind };
 use std::io::prelude::*;
 
-use Type;
+use { Type };
 
 /// ReleaseFile Structure
 /// Holds information about a distro specific release file.
@@ -64,7 +64,11 @@ impl ReleaseFile {
             file.read_to_string(&mut contents)?;
             Ok(contents)
         } else {
-            Err(Error::new(ErrorKind::NotFound, "File does not exist!"))
+            Err(
+                Error::new(
+                    ErrorKind::NotFound, "File does not exist!"
+                )
+            )
         }
     }
     /// ReleaseFile.parse()
@@ -92,7 +96,9 @@ impl ReleaseFile {
                     match version_regex.captures_iter(&data).next() {
                         Some(m) => {
                             match m.get(1) {
-                                Some(version) => Some(version.as_str().trim_right().to_owned()),
+                                Some(version) => Some(
+                                    version.as_str().trim_right().to_owned()
+                                ),
                                 None => None,
                             }
                         }
@@ -108,7 +114,7 @@ impl ReleaseFile {
                 });
 
             }
-            Err(e) => return Err(e),
+            Err(e) => return Err(e)
         }
     }
 }
@@ -161,12 +167,10 @@ pub fn retrieve(distros: Vec<ReleaseFile>) -> Option<ReleaseFile> {
     let mut it = distros.into_iter();
     loop {
         match it.next() {
-            Some(distro) => {
-                match distro.parse() {
-                    Ok(release) => return Some(release),
-                    Err(_) => continue,
-                }
-            }
+            Some(distro) => match distro.parse() {
+                Ok(release) => return Some(release),
+                Err(_) => continue
+            },
             None => break,
         }
     }
@@ -192,7 +196,7 @@ mod tests {
                 regex_distro: r"(\w+) Linux release".to_string(),
                 regex_version: r"release\s([\w\.]+)".to_string(),
                 ..Default::default()
-            },
+            }
         ];
 
         let result = retrieve(distros).unwrap();
@@ -215,7 +219,7 @@ mod tests {
                 regex_distro: r"(\w+) release".to_string(),
                 regex_version: r"release\s([\w\.]+)".to_string(),
                 ..Default::default()
-            },
+            }
         ];
 
         let result = retrieve(distros).unwrap();
@@ -238,7 +242,7 @@ mod tests {
                 regex_distro: r"(\w+) Linux release".to_string(),
                 regex_version: r"release\s([\w\.]+)".to_string(),
                 ..Default::default()
-            },
+            }
         ];
 
         let result = retrieve(distros).unwrap();
@@ -259,7 +263,7 @@ mod tests {
                 name: "Alpine".to_string(),
                 path: file.into_os_string().into_string().unwrap(),
                 ..Default::default()
-            },
+            }
         ];
 
         let result = retrieve(distros).unwrap();
@@ -269,3 +273,4 @@ mod tests {
         assert_eq!(result.name, "Alpine".to_string());
     }
 }
+
