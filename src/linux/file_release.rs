@@ -85,7 +85,7 @@ impl ReleaseFile {
                         None => None,
                     }
                 } else {
-                    Some(data)
+                    Some(data.trim_right().to_string())
                 };
                 return Ok(ReleaseFile {
                     distro: distro,
