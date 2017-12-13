@@ -76,7 +76,9 @@ impl ReleaseFile {
                     match version_regex.captures_iter(&data).next() {
                         Some(m) => {
                             match m.get(1) {
-                                Some(version) => Some(version.as_str().to_owned()),
+                                Some(version) => Some(
+                                    version.as_str().trim_right().to_owned()
+                                ),
                                 None => None,
                             }
                         }

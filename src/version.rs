@@ -38,7 +38,7 @@ impl Version {
     /// Construct a new `Version` instance with "custom" (non semantic) version and given edition.
     pub fn custom(version: String, edition: Option<String>) -> Self {
         Self {
-            version: VersionType::Custom(version.trim_right().to_string()),
+            version: VersionType::Custom(version),
             edition,
         }
     }
