@@ -171,7 +171,7 @@ pub fn retrieve(distros: Vec<ReleaseFile>) -> Option<ReleaseFile> {
         }
     }
 
-    None;
+    None
 }
 
 #[cfg(test)]
