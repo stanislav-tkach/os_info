@@ -113,12 +113,12 @@ impl ReleaseFile {
     }
 }
 
-/// distrobutions()
+/// distributions()
 /// Returns a vector of instantiated ReleaseFile
 /// structures. This vector contains all supported
-/// distrobutions and how to parse their version
+/// distributions and how to parse their version
 /// information from their release file.
-pub fn distrobutions() -> Vec<ReleaseFile> {
+pub fn distributions() -> Vec<ReleaseFile> {
     vec![
         ReleaseFile {
             os_type: Type::Centos,
