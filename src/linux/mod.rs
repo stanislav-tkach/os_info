@@ -1,4 +1,5 @@
 mod lsb_release;
+mod file_release;
 mod rhel_release;
 mod utils;
 
