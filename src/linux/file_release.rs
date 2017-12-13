@@ -105,8 +105,7 @@ impl ReleaseFile {
                     distro: distro,
                     version: version,
                     ..self
-                });
-
+                })
             }
             Err(e) => Err(e),
         }
