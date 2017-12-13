@@ -21,6 +21,8 @@ pub enum Type {
     Arch,
     /// CentOS (https://en.wikipedia.org/wiki/CentOS).
     Centos,
+    /// https://en.wikipedia.org/wiki/Alpine_Linux
+    Alpine,
     /// Mac OS X/OS X/macOS (https://en.wikipedia.org/wiki/MacOS).
     Macos,
     /// Redox (https://en.wikipedia.org/wiki/Redox_(operating_system)).

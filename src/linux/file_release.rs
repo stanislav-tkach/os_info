@@ -6,6 +6,50 @@ use std::io::prelude::*;
 
 use {Info, Type, Version};
 
+pub fn file_release() -> Info {
+    match retrieve() {
+        Some(release) => {
+            if release.name == "CentOS".to_string() {
+                Info {
+                    os_type: Type::Centos,
+                    version: release
+                        .version
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
+                }
+            } else if release.name == "Fedora".to_string() {
+                Info {
+                    os_type: Type::Fedora,
+                    version: release
+                        .version
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
+                }
+            } else if release.name == "Redhat".to_string() {
+                Info {
+                    os_type: Type::Redhat,
+                    version: release
+                        .version
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
+                }
+            } else if release.name == "Alpine".to_string() {
+                Info {
+                    os_type: Type::Alpine,
+                    version: release
+                        .version
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
+                }
+            } 
+        }
+        None => Info {
+            os_type: Type::Linux,
+            version: Version::unknown(),
+        },
+    }
+}
+
 #[derive(Debug)]
 pub struct ReleaseFile {
     pub distro: Option<String>,
@@ -28,7 +72,6 @@ impl Default for ReleaseFile {
         }
     }
 }
-
 
 impl ReleaseFile {
     fn exists(&self) -> bool {
@@ -56,12 +99,9 @@ impl ReleaseFile {
     fn parse(self) -> Result<Self, Error> {
         match self.read() {
             Ok(data) => {
-                let mut distro = None;
-                let mut version = None;
-
-                if self.regex_distro.len() > 0 {
+                let distro = if self.regex_distro.len() > 0 {
                     let distrib_regex = Regex::new(&self.regex_distro).unwrap();
-                    distro = match distrib_regex.captures_iter(&data).next() {
+                    match distrib_regex.captures_iter(&data).next() {
                         Some(m) => {
                             match m.get(1) {
                                 Some(distro) => Some(distro.as_str().to_owned()),
@@ -69,11 +109,13 @@ impl ReleaseFile {
                             }
                         }
                         None => None,
-                    };
-                }
-                if self.regex_version.len() > 0 {
+                    }
+                } else {
+                    Some(self.name.clone())
+                };
+                let version = if self.regex_version.len() > 0 {
                     let version_regex = Regex::new(&self.regex_version).unwrap();
-                    version = match version_regex.captures_iter(&data).next() {
+                    match version_regex.captures_iter(&data).next() {
                         Some(m) => {
                             match m.get(1) {
                                 Some(version) => Some(version.as_str().to_owned()),
@@ -81,8 +123,10 @@ impl ReleaseFile {
                             }
                         }
                         None => None,
-                    };
-                }
+                    }
+                } else {
+                    Some(data)
+                };
                 return Ok(ReleaseFile {
                     distro: distro,
                     version: version,
