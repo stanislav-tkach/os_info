@@ -6,7 +6,7 @@ use std::io::prelude::*;
 
 use Type;
 
-/// ReleaseFile Structure
+/// `ReleaseFile` Structure
 /// Holds information about a distro specific release file.
 /// Information can include the type of distro, a human readable
 /// name for the distro, the distro version, the path to the
@@ -25,8 +25,8 @@ pub struct ReleaseFile {
     regex_version: String,
 }
 
-/// ReleaseFile Structure Default Values
-/// Sets all default values for a ReleaseFile
+/// `ReleaseFile` Structure Default Values
+/// Sets all default values for a `ReleaseFile`
 /// structure.
 impl Default for ReleaseFile {
     fn default() -> Self {
@@ -42,8 +42,8 @@ impl Default for ReleaseFile {
     }
 }
 
-/// ReleaseFile Implementation
-/// Helper functions for a ReleaseFile structure
+/// `ReleaseFile` Implementation
+/// Helper functions for a `ReleaseFile` structure
 impl ReleaseFile {
     /// ReleaseFile.exists()
     /// Does a release file exist?
@@ -101,20 +101,20 @@ impl ReleaseFile {
                 } else {
                     Some(data.trim_right().to_string())
                 };
-                return Ok(ReleaseFile {
+                Ok(ReleaseFile {
                     distro: distro,
                     version: version,
                     ..self
                 });
 
             }
-            Err(e) => return Err(e),
+            Err(e) => Err(e),
         }
     }
 }
 
 /// distributions()
-/// Returns a vector of instantiated ReleaseFile
+/// Returns a vector of instantiated `ReleaseFile`
 /// structures. This vector contains all supported
 /// distributions and how to parse their version
 /// information from their release file.
@@ -154,8 +154,8 @@ pub fn distributions() -> Vec<ReleaseFile> {
 }
 
 /// retrieve()
-/// Parses the a vector of ReleaseFile structures.
-/// If the release file in ReleaseFile.path exists,
+/// Parses the a vector of `ReleaseFile` structures.
+/// If the release file in `ReleaseFile`.path exists,
 /// the information will be parsed and returned.
 pub fn retrieve(distros: Vec<ReleaseFile>) -> Option<ReleaseFile> {
     let mut it = distros.into_iter();
@@ -171,7 +171,7 @@ pub fn retrieve(distros: Vec<ReleaseFile>) -> Option<ReleaseFile> {
         }
     }
 
-    return None;
+    None;
 }
 
 #[cfg(test)]
