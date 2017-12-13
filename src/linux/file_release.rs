@@ -4,59 +4,11 @@ use std::fs::{ File, metadata };
 use std::io::{ Error, ErrorKind };
 use std::io::prelude::*;
 
-use {Info, Type, Version};
-
-pub fn file_release() -> Info {
-    match retrieve() {
-        Some(release) => {
-            if release.name == "CentOS".to_string() {
-                Info {
-                    os_type: Type::Centos,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else if release.name == "Fedora".to_string() {
-                Info {
-                    os_type: Type::Fedora,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else if release.name == "Redhat".to_string() {
-                Info {
-                    os_type: Type::Redhat,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else if release.name == "Alpine".to_string() {
-                Info {
-                    os_type: Type::Alpine,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else {
-                Info {
-                    os_type: Type::Linux,
-                    version: Version::unknown(),
-                }
-            }
-        }
-        None => Info {
-            os_type: Type::Linux,
-            version: Version::unknown(),
-        },
-    }
-}
+use { Type };
 
 #[derive(Debug)]
 pub struct ReleaseFile {
+    pub(crate) os_type: Type,
     pub distro: Option<String>,
     pub version: Option<String>,
     name: String,
@@ -68,6 +20,7 @@ pub struct ReleaseFile {
 impl Default for ReleaseFile {
     fn default() -> Self {
         Self {
+            os_type: Type::Unknown,
             distro: None,
             version: None,
             name: "".to_string(),
@@ -144,9 +97,10 @@ impl ReleaseFile {
     }
 }
 
-fn retrieve() -> Option<ReleaseFile> {
+pub fn retrieve() -> Option<ReleaseFile> {
     let distros: Vec<ReleaseFile> = vec![
         ReleaseFile{
+            os_type: Type::Centos,
             name: "CentOS".to_string(),
             path: "/etc/centos-release".to_string(),
             regex_distro: r"(\w+) Linux release".to_string(),
@@ -154,6 +108,7 @@ fn retrieve() -> Option<ReleaseFile> {
             ..Default::default()
         },
         ReleaseFile{
+            os_type: Type::Fedora,
             name: "Fedora".to_string(),
             path: "/etc/fedora-release".to_string(),
             regex_distro: r"(\w+) release".to_string(),
@@ -161,6 +116,7 @@ fn retrieve() -> Option<ReleaseFile> {
             ..Default::default()
         },
         ReleaseFile{
+            os_type: Type::Redhat,
             name: "Redhat".to_string(),
             path: "/etc/redhat-release".to_string(),
             regex_distro: r"(\w+) Linux release".to_string(),
@@ -168,6 +124,7 @@ fn retrieve() -> Option<ReleaseFile> {
             ..Default::default()
         },
         ReleaseFile{
+            os_type: Type::Alpine,
             name: "Alpine".to_string(),
             path: "/etc/alpine-release".to_string(),
             ..Default::default()
@@ -194,7 +151,7 @@ mod tests {
 
     #[test]
     pub fn test_parses_file() {
-        let x = file_release();
+        let x = retrieve();
         println!("{:?}", x);
         assert_ne!(Some(2), Some(1));
     }
