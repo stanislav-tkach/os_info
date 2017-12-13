@@ -6,7 +6,7 @@ use regex::Regex;
 
 use std::process::Command;
 
-use {Type, Info, Version};
+use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
     let version = match retrieve().map(|x| x.product_version) {

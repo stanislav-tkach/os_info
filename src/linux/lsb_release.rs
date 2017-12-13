@@ -39,6 +39,14 @@ pub fn lsb_release() -> Info {
                         .map(|x| Version::custom(x, None))
                         .unwrap_or_else(Version::unknown),
                 }
+            } else if release.distro == Some("Fedora".to_string()) {
+                Info {
+                    os_type: Type::Fedora,
+                    version: release
+                        .version
+                        .map(|x| Version::custom(x, None))
+                        .unwrap_or_else(Version::unknown),
+                }
             } else {
                 Info {
                     os_type: Type::Linux,
@@ -76,7 +84,7 @@ pub fn is_available() -> bool {
 
 fn parse(file: &str) -> LsbRelease {
     let distrib_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
-    let distrib_release_regex = Regex::new(r"Release:\s([\w\.]+)").unwrap();
+    let distrib_release_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
 
     let distro = match distrib_regex.captures_iter(file).next() {
         Some(m) => {
@@ -132,6 +140,18 @@ mod tests {
         assert_eq!(parse_results.version, Some("rolling".to_string()));
     }
 
+    #[test]
+    pub fn test_parses_fedora_lsb_distro() {
+        let parse_results = parse(fedora_file());
+        assert_eq!(parse_results.distro, Some("Fedora".to_string()));
+    }
+
+    #[test]
+    pub fn test_parses_fedora_lsb_version() {
+        let parse_results = parse(fedora_file());
+        assert_eq!(parse_results.version, Some("26".to_string()));
+    }
+
     fn file() -> &'static str {
         "
 Distributor ID:	Debian
@@ -148,6 +168,16 @@ Distributor ID:	Arch
 Description:	Arch Linux
 Release:	rolling
 Codename:	n/a
+"
+    }
+
+    fn fedora_file() -> &'static str {
+        "
+LSB Version:    :core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch
+Distributor ID: Fedora
+Description:    Fedora release 26 (Twenty Six)
+Release:    26
+Codename:   TwentySix
 "
     }
 }

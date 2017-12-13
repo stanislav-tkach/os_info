@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::Read;
 
-use {Type, Info, Version};
+use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
     Info {
