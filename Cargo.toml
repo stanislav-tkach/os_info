@@ -1,6 +1,6 @@
 [package]
 name = "os_info"
-version = "0.4.0"
+version = "0.5.0"
 authors = ["Jan Schulte <hello@unexpected-co.de>", "Stanislav Tkach <stanislav.tkach@gmail.com>"]
 description = "Detect the operating system type and version."
 documentation = "https://docs.rs/os_info"
@@ -10,6 +10,7 @@ readme = "README.md"
 keywords = ["os", "os_type", "os_version", "os_info"]
 categories = ["os"]
 license = "MIT"
+build = "build.rs"
 
 [badges]
 appveyor = { repository = "DarkEld3r/os_info" }
@@ -18,4 +19,11 @@ is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
 is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
 [dependencies]
+
+[target.'cfg(not(windows))'.dependencies]
 regex="^0.2.1"
+
+[target.'cfg(windows)'.dependencies]
+winapi = "0.2.8"
+user32-sys = "0.2.0"
+kernel32-sys = "0.2.2"
