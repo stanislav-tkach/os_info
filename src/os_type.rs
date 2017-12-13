@@ -21,6 +21,8 @@ pub enum Type {
     Arch,
     /// CentOS (https://en.wikipedia.org/wiki/CentOS).
     Centos,
+    /// Fedora (https://en.wikipedia.org/wiki/Fedora_(operating_system))
+    Fedora,
     /// https://en.wikipedia.org/wiki/Alpine_Linux
     Alpine,
     /// Mac OS X/OS X/macOS (https://en.wikipedia.org/wiki/MacOS).

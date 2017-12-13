@@ -41,7 +41,12 @@ pub fn file_release() -> Info {
                         .map(|x| Version::custom(x, None))
                         .unwrap_or_else(Version::unknown),
                 }
-            } 
+            } else {
+                Info {
+                    os_type: Type::Linux,
+                    version: Version::unknown(),
+                }
+            }
         }
         None => Info {
             os_type: Type::Linux,
@@ -189,7 +194,7 @@ mod tests {
 
     #[test]
     pub fn test_parses_file() {
-        let x = retrieve();
+        let x = file_release();
         println!("{:?}", x);
         assert_ne!(Some(2), Some(1));
     }
