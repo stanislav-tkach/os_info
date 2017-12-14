@@ -157,7 +157,8 @@ pub fn distributions() -> Vec<ReleaseFile> {
 /// If the release file in `ReleaseFile`.path exists,
 /// the information will be parsed and returned.
 pub fn retrieve(distros: Vec<ReleaseFile>) -> Option<ReleaseFile> {
-    for distro in distros.into_iter() {
+    let it = distros.into_iter();
+    for distro in it {
         match distro.parse() {
             Ok(release) => return Some(release),
             Err(_) => continue,
