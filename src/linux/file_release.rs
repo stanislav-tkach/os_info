@@ -58,7 +58,7 @@ impl ReleaseFile {
     /// ReleaseFile.read()
     /// Get data inside of a release file.
     fn read(&self) -> Result<String, Error> {
-        if Self::exists(&self) {
+        if self.exists() {
             let mut file = File::open(&self.path)?;
             let mut contents = String::new();
             file.read_to_string(&mut contents)?;
@@ -73,7 +73,7 @@ impl ReleaseFile {
     fn parse(self) -> Result<Self, Error> {
         match self.read() {
             Ok(data) => {
-                let distro = if self.regex_distro.len() > 0 {
+                let distro = if !self.regex_distro.is_empty() {
                     let distrib_regex = Regex::new(&self.regex_distro).unwrap();
                     match distrib_regex.captures_iter(&data).next() {
                         Some(m) => {
@@ -87,7 +87,7 @@ impl ReleaseFile {
                 } else {
                     Some(self.name.clone())
                 };
-                let version = if self.regex_version.len() > 0 {
+                let version = if !self.regex_version.is_empty() {
                     let version_regex = Regex::new(&self.regex_version).unwrap();
                     match version_regex.captures_iter(&data).next() {
                         Some(m) => {
@@ -158,15 +158,11 @@ pub fn distributions() -> Vec<ReleaseFile> {
 /// the information will be parsed and returned.
 pub fn retrieve(distros: Vec<ReleaseFile>) -> Option<ReleaseFile> {
     let mut it = distros.into_iter();
-    loop {
-        match it.next() {
-            Some(distro) => {
-                match distro.parse() {
-                    Ok(release) => return Some(release),
-                    Err(_) => continue,
-                }
-            }
-            None => break,
+
+    while let Some(distro) = it.next() {
+        match distro.parse() {
+            Ok(release) => return Some(release),
+            Err(_) => continue,
         }
     }
 
