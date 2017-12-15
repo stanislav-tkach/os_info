@@ -1,5 +1,4 @@
 use regex::Regex;
-
 use std::process::Command;
 
 use {Info, Type, Version};

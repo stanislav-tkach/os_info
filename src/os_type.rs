@@ -23,6 +23,8 @@ pub enum Type {
     Centos,
     /// Fedora (https://en.wikipedia.org/wiki/Fedora_(operating_system))
     Fedora,
+    /// https://en.wikipedia.org/wiki/Alpine_Linux
+    Alpine,
     /// Mac OS X/OS X/macOS (https://en.wikipedia.org/wiki/MacOS).
     Macos,
     /// Redox (https://en.wikipedia.org/wiki/Redox_(operating_system)).
