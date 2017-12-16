@@ -17,7 +17,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "0.5.0"
+os_info = "0.6.0"
 ```
 
 ## Example
@@ -46,6 +46,7 @@ Right now, the following operating system types can be returned:
 - Arch
 - Redox
 - Windows
+- Alpine
 
 If you need support for more OS types, I am looking forward to your Pull Request.
 
