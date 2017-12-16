@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.6.0](https://github.com/darkeld3r/os_info/tree/v0.6.0) (2017-12-17)
+
+- Alpine Linux support (#48).
+- Use release files is possible (#48). 
+
 ## [0.5.0](https://github.com/darkeld3r/os_info/tree/v0.5.0) (2017-12-13)
 
 - Windows support (#45).
