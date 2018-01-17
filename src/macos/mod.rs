@@ -10,10 +10,12 @@ use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
     let version = match retrieve().map(|x| x.product_version) {
-        Some(version) => match version {
-            Some(v) => Version::custom(v, None),
-            None => Version::unknown(),
-        },
+        Some(version) => {
+            match version {
+                Some(v) => Version::custom(v, None),
+                None => Version::unknown(),
+            }
+        }
         None => Version::unknown(),
     };
 
