@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.7.0](https://github.com/darkeld3r/os_info/tree/v0.6.0) (2018-01-21)
+
+- Fixed issued with OS X build.
+
 ## [0.6.0](https://github.com/darkeld3r/os_info/tree/v0.6.0) (2017-12-17)
 
 - Alpine Linux support (#48).
