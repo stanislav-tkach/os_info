@@ -107,8 +107,8 @@ fn parse(file: &str) -> LsbRelease {
     };
 
     LsbRelease {
-        distro: distro,
-        version: version,
+        distro,
+        version,
     }
 }
 

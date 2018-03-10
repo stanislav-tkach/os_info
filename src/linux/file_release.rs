@@ -102,8 +102,8 @@ impl ReleaseFile {
                     Some(data.trim_right().to_string())
                 };
                 Ok(ReleaseFile {
-                    distro: distro,
-                    version: version,
+                    distro,
+                    version,
                     ..self
                 })
             }
