@@ -1,61 +1,60 @@
 language: rust
 
-os:
-  - linux
-  - osx
-
 rust:
-- stable
-# TODO: add beta and nightly.
+  # Feel free to bump this version if you need features of newer Rust.
+  # Sync with badge in README.md
+  - 1.23.0
 
-cache: cargo
+cache:
+  directories:
+  - node_modules
+  - $HOME/.cargo
+  - $HOME/.local
+  - $TRAVIS_BUILD_DIR/target
+
+dist: trusty
+sudo: required
 
 env:
   global:
-  - CLIPPY_VERS=0.0.142
+  - CLIPPY_VERS=0.0.187
   - RUSTFMT_VERS=0.9.0
   - DEADLINKS_VERS=0.3.0
-
-install:
-- |
-  if [[ "$FEATURE" == "clippy" ]]; then
-    cargo clippy --version | grep $CLIPPY_VERS || cargo install clippy --force --vers $CLIPPY_VERS
-  fi
-- |
-  if [[ "$FEATURE" == "fmt" ]]; then
-    cargo-audit -V || cargo install cargo-audit --force
-    rustfmt -V | grep $RUSTFMT_VERS || cargo install rustfmt --vers $RUSTFMT_VERS --force
-    cargo update
-  fi
-- |
-  if [[ "$FEATURE" == "docs" ]]; then
-    cargo-deadlinks -V | grep $DEADLINKS_VERS || cargo install cargo-deadlinks --vers $DEADLINKS_VERS --force
-    cargo update
-  fi
-- cargo install --list
-
-script: skip
+  - CARGO_INCREMENTAL=1
+  matrix:
+    - FEATURE=test
 
 jobs:
   include:
-  - stage: format
-    env:
-    - FEATURE=fmt
+  # Formatting & other lints that do not require compilation
+  - env: FEATURE=lints
+    install:
+    - cargo-audit -V || cargo install cargo-audit --force
+    - rustfmt -V | grep $RUSTFMT_VERS || cargo install rustfmt --vers $RUSTFMT_VERS --force
+    - cargo-deadlinks -V | grep $DEADLINKS_VERS || cargo install cargo-deadlinks --vers $DEADLINKS_VERS --force
+    - nvm install 8 && nvm use 8
+    - npm install cspell
+    - ./node_modules/.bin/cspell --version
+    - npm install markdownlint-cli
+    - ./node_modules/.bin/markdownlint --version
     script:
-    - cargo audit
-    - cargo fmt -- --write-mode=diff
-  - stage: docs
-    env:
-    - FEATURE=docs
-    script:
+    - cargo fmt --all -- --write-mode=diff
+    - ./node_modules/.bin/cspell {src,examples,tests}/**/*.rs
+    - find . -not -path "./node_modules/*" -name "*.md" | xargs ./node_modules/.bin/cspell
+    - find . -not -path "./node_modules/*" -name "*.md" | xargs ./node_modules/.bin/markdownlint --config .markdownlintrc
     - cargo doc --no-deps
-    - cargo deadlinks
-  - stage: lint
-    rust: nightly-2017-07-05
-    env:
-    - FEATURE=clippy
+    - cargo deadlinks --dir target/doc
+
+  # Clippy linting
+  - env: FEATURE=clippy
+    rust: nightly-2018-03-06
+    install:
+    - cargo clippy --version | grep $CLIPPY_VERS || cargo install clippy --force --vers $CLIPPY_VERS
     script:
-    - cargo clippy -- -D warnings
-  - stage: test
+    - cargo clippy --all -- -D warnings
+
+  # Tests
+  - env: FEATURE=test
     script:
-    - cargo test
+    - cargo test --all
+    - cargo run --example print_version
