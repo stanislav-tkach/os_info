@@ -1,9 +1,19 @@
 # os_info
 
-[![Build Status](https://travis-ci.org/DarkEld3r/os_info.svg?branch=master)](https://travis-ci.org/DarkEld3r/os_info)
-[![Build status](https://ci.appveyor.com/api/projects/status/43s26ds9r8t5xwnu?svg=true)](https://ci.appveyor.com/project/DarkEld3r/os-info)
+**Status:**
+[![Travis Build Status](https://img.shields.io/travis/DarkEld3r/os_info/master.svg?label=Linux)](https://travis-ci.org/DarkEld3r/os_info)
+[![CircleCI Build Status](https://img.shields.io/circleci/project/github/darkeld3r/os_info/master.svg?label=MacOS)](https://circleci.com/gh/darkeld3r/os_info/tree/master)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/darkeld3r/os-info/master.svg?label=Windows)](https://ci.appveyor.com/project/DarkEld3r/os-info/branch/master)
+
+**Project info:**
+[![Docs.rs](https://docs.rs/os_info/badge.svg)](https://docs.rs/os_info)
 [![Latest Version](http://meritbadge.herokuapp.com/os_info)](https://crates.io/crates/os_info)
 [![License](https://img.shields.io/github/license/darkeld3r/os_info.svg)](https://github.com/darkeld3r/os_info)
+
+**Project details:**
+[![LoC](https://tokei.rs/b1/github/darkeld3r/os_info)](https://github.com/darkeld3r/os_info)
+![rust 1.23+ required](https://img.shields.io/badge/rust-1.23+-blue.svg?label=Required%20Rust)
+[![dependency status](https://deps.rs/repo/github/darkeld3r/os_info/status.svg)](https://deps.rs/repo/github/darkeld3r/os_info)
 
 ## Overview
 
