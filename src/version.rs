@@ -20,6 +20,16 @@ pub enum VersionType {
 
 impl Version {
     /// Constructs a new `Version` instance with unknown version and `None` edition.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::{Version, VersionType};
+    ///
+    /// let version = Version::unknown();
+    /// assert_eq!(VersionType::Unknown, *version.version());
+    /// assert_eq!(None, version.edition());
+    /// ```
     pub fn unknown() -> Self {
         Self {
             version: VersionType::Unknown,
@@ -28,6 +38,16 @@ impl Version {
     }
 
     /// Constructs a new `Version` instance with semantic version and given edition.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::{Version, VersionType};
+    ///
+    /// let version = Version::semantic(0, 1, 2, None);
+    /// assert_eq!(VersionType::Semantic(0, 1, 2), *version.version());
+    /// assert_eq!(None, version.edition());
+    /// ```
     pub fn semantic(major: u64, minor: u64, patch: u64, edition: Option<String>) -> Self {
         Self {
             version: VersionType::Semantic(major, minor, patch),
@@ -36,6 +56,18 @@ impl Version {
     }
 
     /// Construct a new `Version` instance with "custom" (non semantic) version and given edition.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::{Version, VersionType};
+    ///
+    /// let ver = "version".to_string();
+    /// let edition = "edition".to_string();
+    /// let version = Version::custom(ver.clone(), Some(edition.clone()));
+    /// assert_eq!(VersionType::Custom(ver), *version.version());
+    /// assert_eq!(Some(edition.as_ref()), version.edition());
+    /// ```
     pub fn custom(version: String, edition: Option<String>) -> Self {
         Self {
             version: VersionType::Custom(version),
@@ -44,13 +76,29 @@ impl Version {
     }
 
     /// Returns operating system version. See `VersionType` for details.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::{Version, VersionType};
+    ///
+    /// let version = Version::unknown();
+    /// assert_eq!(VersionType::Unknown, *version.version());
     pub fn version(&self) -> &VersionType {
         &self.version
     }
 
     /// Returns optional (can be absent) operation system edition.
-    pub fn edition(&self) -> &Option<String> {
-        &self.edition
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::Version;
+    ///
+    /// let version = Version::unknown();
+    /// assert_eq!(None, version.edition());
+    pub fn edition(&self) -> Option<&str> {
+        self.edition.as_ref().map(String::as_ref)
     }
 }
 
@@ -71,6 +119,50 @@ impl Display for VersionType {
                 write!(f, "{}.{}.{}", major, minor, patch)
             }
             VersionType::Custom(ref version) => write!(f, "{}", version),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn unknown() {
+        let version = Version::unknown();
+        assert_eq!(VersionType::Unknown, *version.version());
+        assert_eq!(None, version.edition());
+    }
+
+    #[test]
+    fn semantic() {
+        let data = [
+            ((0, 0, 0), None),
+            ((10, 20, 30), Some("edition".to_string())),
+            ((3, 2, 1), None),
+            ((1, 0, 0), Some("different edition".to_string())),
+        ];
+
+        for &(v, ref edition) in &data {
+            let version = Version::semantic(v.0, v.1, v.2, edition.clone());
+            assert_eq!(VersionType::Semantic(v.0, v.1, v.2), *version.version());
+            assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
+        }
+    }
+
+    #[test]
+    fn custom() {
+        let data = [
+            ("OS".to_string(), None),
+            ("Another OS".to_string(), Some("edition".to_string())),
+            ("".to_string(), None),
+            ("Future OS".to_string(), Some("e".to_string())),
+        ];
+
+        for &(ref v, ref edition) in &data {
+            let version = Version::custom(v.clone(), edition.clone());
+            assert_eq!(VersionType::Custom(v.clone()), *version.version());
+            assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
         }
     }
 }

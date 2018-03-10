@@ -1,5 +1,3 @@
-/// build.rs
-/// Run custom functionality when a build executes
 fn main() {
     use std::env::var;
     use std::path::Path;
