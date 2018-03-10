@@ -45,7 +45,7 @@ mod version;
 mod os_type;
 
 pub use info::Info;
-pub use version::Version;
+pub use version::{Version, VersionType};
 pub use os_type::Type;
 
 /// Returns information about the current operating system (type, version, edition, etc.).
@@ -54,6 +54,7 @@ pub use os_type::Type;
 ///
 /// ```
 /// use os_info;
+///
 /// let info = os_info::get();
 ///
 /// // Print full information:
