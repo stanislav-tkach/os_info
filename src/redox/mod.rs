@@ -1,3 +1,5 @@
+// spell-checker:ignore uname
+
 use std::fs::File;
 use std::io::Read;
 

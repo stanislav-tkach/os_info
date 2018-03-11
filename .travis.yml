@@ -39,9 +39,11 @@ jobs:
     - ./node_modules/.bin/markdownlint --version
     script:
     - cargo fmt --all -- --write-mode=diff
-    - ./node_modules/.bin/cspell {src,examples,tests}/**/*.rs
+    - ./node_modules/.bin/cspell src/**/*.rs
+    - ./node_modules/.bin/cspell examples/**/*.rs
+    - ./node_modules/.bin/cspell tests/**/*.rs
     - find . -not -path "./node_modules/*" -name "*.md" | xargs ./node_modules/.bin/cspell
-    - find . -not -path "./node_modules/*" -name "*.md" | xargs ./node_modules/.bin/markdownlint --config .markdownlintrc
+    - find . -not -path "./node_modules/*" -name "*.md" | xargs ./node_modules/.bin/markdownlint
     - cargo doc --no-deps
     - cargo deadlinks --dir target/doc
 

@@ -1,4 +1,7 @@
+// spell-checker:ignore osvi
+
 mod version;
+
 use {Info, Type, Version};
 
 pub fn current_platform() -> Info {

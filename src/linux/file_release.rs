@@ -1,3 +1,5 @@
+// spell-checker:ignore distro, distros
+
 use regex::Regex;
 
 use std::fs::{File, metadata};
@@ -68,14 +70,14 @@ impl ReleaseFile {
         }
     }
     /// ReleaseFile.parse()
-    /// Parse the distrobution name and version information
+    /// Parse the distribution name and version information
     /// from a release file.
     fn parse(self) -> Result<Self, Error> {
         match self.read() {
             Ok(data) => {
                 let distro = if !self.regex_distro.is_empty() {
-                    let distrib_regex = Regex::new(&self.regex_distro).unwrap();
-                    match distrib_regex.captures_iter(&data).next() {
+                    let distro_regex = Regex::new(&self.regex_distro).unwrap();
+                    match distro_regex.captures_iter(&data).next() {
                         Some(m) => {
                             match m.get(1) {
                                 Some(distro) => Some(distro.as_str().to_owned()),

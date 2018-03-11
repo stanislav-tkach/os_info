@@ -1,3 +1,5 @@
+// spell-checker:ignore codename, distro, noarch
+
 use regex::Regex;
 use std::process::Command;
 
@@ -83,10 +85,10 @@ pub fn is_available() -> bool {
 }
 
 fn parse(file: &str) -> LsbRelease {
-    let distrib_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
-    let distrib_release_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
+    let distro_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
+    let distro_release_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
 
-    let distro = match distrib_regex.captures_iter(file).next() {
+    let distro = match distro_regex.captures_iter(file).next() {
         Some(m) => {
             match m.get(1) {
                 Some(distro) => Some(distro.as_str().to_owned()),
@@ -96,7 +98,7 @@ fn parse(file: &str) -> LsbRelease {
         None => None,
     };
 
-    let version = match distrib_release_regex.captures_iter(file).next() {
+    let version = match distro_release_regex.captures_iter(file).next() {
         Some(m) => {
             match m.get(1) {
                 Some(version) => Some(version.as_str().to_owned()),
@@ -106,10 +108,7 @@ fn parse(file: &str) -> LsbRelease {
         None => None,
     };
 
-    LsbRelease {
-        distro,
-        version,
-    }
+    LsbRelease { distro, version }
 }
 
 #[cfg(test)]

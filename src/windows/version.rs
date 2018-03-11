@@ -1,3 +1,6 @@
+// spell-checker:ignore dword, minwindef, ntdef, ntdll, ntstatus, osversioninfoex, osversioninfoexa
+// spell-checker:ignore osversioninfoexw, osvi, serverr, sysinfo, sysinfoapi, winnt, winuser
+
 use std::mem::zeroed;
 use std::mem::size_of;
 use winapi::ntdef::NTSTATUS;
