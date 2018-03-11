@@ -1,0 +1,8 @@
+{
+	"version": "0.1",
+	"language": "en",
+	"dictionaries": ["en_US", "softwareTerms", "os_info"],
+	"dictionaryDefinitions": [
+		{ "name": "os_info", "path": "./cspell-dictionary.txt" }
+	]
+}
