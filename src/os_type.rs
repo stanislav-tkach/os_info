@@ -5,31 +5,31 @@ use std::fmt::{self, Display, Formatter};
 pub enum Type {
     /// Unknown operating system.
     Unknown,
-    /// Android (https://en.wikipedia.org/wiki/Android_(operating_system)).
+    /// Android (<https://en.wikipedia.org/wiki/Android_(operating_system)>).
     Android,
-    /// Emscripten (https://en.wikipedia.org/wiki/Emscripten).
+    /// Emscripten (<https://en.wikipedia.org/wiki/Emscripten>).
     Emscripten,
-    /// Linux based operating system (https://en.wikipedia.org/wiki/Linux).
+    /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     Linux,
-    /// Red Hat Linux (https://en.wikipedia.org/wiki/Red_Hat_Linux).
+    /// Red Hat Linux (<https://en.wikipedia.org/wiki/Red_Hat_Linux>).
     Redhat,
-    /// Ubuntu (https://en.wikipedia.org/wiki/Ubuntu_(operating_system)).
+    /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
     Ubuntu,
-    /// Debian (https://en.wikipedia.org/wiki/Debian).
+    /// Debian (<https://en.wikipedia.org/wiki/Debian>).
     Debian,
-    /// Arch Linux (https://en.wikipedia.org/wiki/Arch_Linux).
+    /// Arch Linux (<https://en.wikipedia.org/wiki/Arch_Linux>).
     Arch,
-    /// CentOS (https://en.wikipedia.org/wiki/CentOS).
+    /// CentOS (<https://en.wikipedia.org/wiki/CentOS>).
     Centos,
-    /// Fedora (https://en.wikipedia.org/wiki/Fedora_(operating_system))
+    /// Fedora (<https://en.wikipedia.org/wiki/Fedora_(operating_system)>)
     Fedora,
-    /// https://en.wikipedia.org/wiki/Alpine_Linux
+    /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>)
     Alpine,
-    /// Mac OS X/OS X/macOS (https://en.wikipedia.org/wiki/MacOS).
+    /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
-    /// Redox (https://en.wikipedia.org/wiki/Redox_(operating_system)).
+    /// Redox (<https://en.wikipedia.org/wiki/Redox_(operating_system)>).
     Redox,
-    /// Windows (https://en.wikipedia.org/wiki/Microsoft_Windows).
+    /// Windows (<https://en.wikipedia.org/wiki/Microsoft_Windows>).
     Windows,
 }
 
