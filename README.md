@@ -21,7 +21,10 @@
 
 Library for detecting the operating system type and version.
 
-Based on [os_type](https://github.com/schultyy/os_type). The main difference of `os_info` is that this library separates completely incompatible operating systems by conditional compilation and uses specific system API whenever is possible.
+Based on [os_type](https://github.com/schultyy/os_type). The main difference of
+`os_info` is that this library separates completely incompatible operating
+systems by conditional compilation and uses specific system API whenever is
+possible.
 
 ## Usage
 
@@ -48,6 +51,7 @@ println!("Version: {}", info.version());
 ```
 
 Right now, the following operating system types can be returned:
+
 - Unknown
 - Redhat
 - CentOS
@@ -60,12 +64,16 @@ Right now, the following operating system types can be returned:
 - Windows
 - Alpine
 
-If you need support for more OS types, I am looking forward to your Pull Request.
+If you need support for more OS types, I am looking forward to your Pull
+Request.
 
 ## Requirements
 
-On Linux based systems this library requires that [lsb_release](http://refspecs.linuxbase.org/LSB_2.0.1/LSB-PDA/LSB-PDA/lsbrelease.html) is installed.
+On Linux based systems this library requires that [lsb_release] is installed.
 
 ## License
 
-`os_info` is licensed under the MIT license. See [LICENSE](https://github.com/darkeld3r/os_info/blob/master/LICENSE) for the details.
+`os_info` is licensed under the MIT license. See [LICENSE] for the details.
+
+[lsb_release]: http://refspecs.linuxbase.org/LSB_2.0.1/LSB-PDA/LSB-PDA/lsbrelease.html
+[LICENSE]: https://github.com/darkeld3r/os_info/blob/master/LICENSE

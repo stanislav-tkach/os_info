@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
 ## [0.6.0](https://github.com/darkeld3r/os_info/tree/v0.6.0) (2017-12-17)
 
 - Alpine Linux support (#48).
-- Use release files is possible (#48). 
+- Use release files is possible (#48).
 
 ## [0.5.0](https://github.com/darkeld3r/os_info/tree/v0.5.0) (2017-12-13)
 
@@ -29,7 +29,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.0](https://github.com/darkeld3r/os_info/tree/v0.2.0) (2017-11-02)
 
 - Add "dead" links check (#32).
-- Fix Travis badge on crates.io. 
+- Fix Travis badge on crates.io.
 - Travis OS X build (#35).
 
 ## [0.1.1](https://github.com/darkeld3r/os_info/tree/v0.1.1) (2017-10-03)
