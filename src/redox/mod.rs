@@ -27,6 +27,6 @@ mod tests {
     #[test]
     fn os_type() {
         let version = current_platform();
-        assert_eq!(Type::Redox, *version.version());
+        assert_eq!(Type::Redox, version.os_type());
     }
 }

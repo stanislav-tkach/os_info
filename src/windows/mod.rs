@@ -31,6 +31,6 @@ mod tests {
     #[test]
     fn os_type() {
         let version = current_platform();
-        assert_eq!(Type::Windows, *version.version());
+        assert_eq!(Type::Windows, version.os_type());
     }
 }

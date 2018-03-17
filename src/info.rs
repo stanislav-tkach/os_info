@@ -32,7 +32,7 @@ impl Info {
     /// use os_info::{Info, Type, Version};
     ///
     /// let info = Info::unknown();
-    /// assert_eq!(Type::Unknown, *info.os_type());
+    /// assert_eq!(Type::Unknown, info.os_type());
     /// assert_eq!(Version::unknown(), *info.version());
     /// ```
     pub fn unknown() -> Self {
@@ -52,7 +52,7 @@ impl Info {
     /// let os_type = Type::Unknown;
     /// let version = Version::unknown();
     /// let info = Info::new(os_type, version.clone());
-    /// assert_eq!(os_type, *info.os_type());
+    /// assert_eq!(os_type, info.os_type());
     /// assert_eq!(version, *info.version());
     /// ```
     pub fn new(os_type: Type, version: Version) -> Self {
@@ -67,10 +67,10 @@ impl Info {
     /// use os_info::{Info, Type, Version};
     ///
     /// let info = Info::unknown();
-    /// assert_eq!(Type::Unknown, *info.os_type());
+    /// assert_eq!(Type::Unknown, info.os_type());
     /// ```
-    pub fn os_type(&self) -> &Type {
-        &self.os_type
+    pub fn os_type(&self) -> Type {
+        self.os_type
     }
 
     /// Returns operating system version. See `Version` for details.
@@ -109,7 +109,7 @@ mod tests {
     #[test]
     fn unknown() {
         let info = Info::unknown();
-        assert_eq!(&Type::Unknown, info.os_type());
+        assert_eq!(Type::Unknown, info.os_type());
         assert_eq!(&Version::unknown(), info.version());
     }
 
@@ -142,7 +142,7 @@ mod tests {
 
         for (os_type, version) in types.iter().cartesian_product(versions.iter()) {
             let info = Info::new(*os_type, version.clone());
-            assert_eq!(os_type, info.os_type());
+            assert_eq!(*os_type, info.os_type());
             assert_eq!(version, info.version());
         }
     }

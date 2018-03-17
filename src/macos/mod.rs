@@ -72,7 +72,7 @@ mod tests {
     #[test]
     fn os_type() {
         let version = current_platform();
-        assert_eq!(Type::Macos, *version.version());
+        assert_eq!(Type::Macos, version.os_type());
     }
 
     #[test]

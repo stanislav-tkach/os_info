@@ -30,7 +30,7 @@ mod tests {
     #[test]
     fn os_type() {
         let version = current_platform();
-        match *version.version() {
+        match version.os_type() {
             Type::Linux | Type::Redhat | Type::Ubuntu | Type::Debian | Type::Arch |
             Type::Centos | Type::Fedora | Type::Alpine => (),
             os_type => {
