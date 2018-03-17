@@ -1,3 +1,14 @@
+# cargo
 target
+*.rs.bk
 Cargo.lock
+
+# node (for cspell)
+/node_modules
+/npm-debug.log
+/package-lock.json
+
+# IDE files
 .idea
+.vscode
+*.iml

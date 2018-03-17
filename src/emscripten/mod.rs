@@ -7,3 +7,14 @@ pub fn current_platform() -> Info {
         version: Version::unknown(),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn os_type() {
+        let version = current_platform();
+        assert_eq!(Type::Emscripten, version.os_type());
+    }
+}

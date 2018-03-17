@@ -23,3 +23,14 @@ pub fn current_platform() -> Info {
         version,
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn os_type() {
+        let version = current_platform();
+        assert_eq!(Type::Windows, version.os_type());
+    }
+}
