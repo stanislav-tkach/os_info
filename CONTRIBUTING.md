@@ -29,8 +29,3 @@ efforts from contributors on the same issue.
   comment.
 
 - Add tests relevant to the fixed bug or new feature.
-
-## Conduct
-
-We abide by the [Rust Code of Conduct](https://www.rust-lang.org/conduct.html)
-and ask that you do as well.

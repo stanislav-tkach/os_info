@@ -70,6 +70,12 @@ mod tests {
     use super::*;
 
     #[test]
+    fn os_type() {
+        let version = current_platform();
+        assert_eq!(Type::Macos, *version.version());
+    }
+
+    #[test]
     fn parses_product_name() {
         let info = parse(file());
         assert_eq!(info.product_name, Some("Mac OS X".to_string()));

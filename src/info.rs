@@ -104,6 +104,7 @@ impl Display for Info {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use itertools::Itertools;
 
     #[test]
     fn unknown() {
@@ -139,12 +140,10 @@ mod tests {
             Version::custom("different version".to_owned(), Some("edition".to_owned())),
         ];
 
-        for os_type in &types {
-            for version in &versions {
-                let info = Info::new(*os_type, version.clone());
-                assert_eq!(os_type, info.os_type());
-                assert_eq!(version, info.version());
-            }
+        for (os_type, version) in types.iter().cartesian_product(versions.iter()) {
+            let info = Info::new(*os_type, version.clone());
+            assert_eq!(os_type, info.os_type());
+            assert_eq!(version, info.version());
         }
     }
 }

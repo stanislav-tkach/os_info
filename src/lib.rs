@@ -3,8 +3,7 @@
 //! Provides interfaces for getting information about the current operating system, such as type,
 //! version and edition.
 
-#![deny(missing_debug_implementations)]
-#![deny(missing_docs)]
+#![deny(missing_debug_implementations, missing_docs, unsafe_code)]
 
 #[cfg(not(windows))]
 extern crate regex;
@@ -15,6 +14,9 @@ extern crate kernel32;
 extern crate user32;
 #[cfg(windows)]
 extern crate winapi;
+
+#[cfg(test)]
+extern crate itertools;
 
 #[cfg(target_os = "android")]
 #[path = "android/mod.rs"]
