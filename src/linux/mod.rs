@@ -30,9 +30,9 @@ mod tests {
     #[test]
     fn os_type() {
         let version = current_platform();
-        match version.version() {
-            Type::Linux | Type::Redhat | Type::Ubuntu | Type::Debian | Type::Arch
-            | Type::Centos | Type::Fedora | Type::Alpine => (),
+        match *version.version() {
+            Type::Linux | Type::Redhat | Type::Ubuntu | Type::Debian | Type::Arch |
+            Type::Centos | Type::Fedora | Type::Alpine => (),
             os_type => {
                 panic!("Unexpected OS type: {}", os_type);
             }
