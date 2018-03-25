@@ -1,7 +1,3 @@
-/*
- * Mac OS X related checks
- */
-
 use regex::Regex;
 
 use std::process::Command;
@@ -9,60 +5,51 @@ use std::process::Command;
 use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
-    let version = match retrieve().map(|x| x.product_version) {
-        Some(version) => {
-            match version {
-                Some(v) => Version::custom(v, None),
-                None => Version::unknown(),
-            }
-        }
-        None => Version::unknown(),
-    };
-
     Info {
         os_type: Type::Macos,
-        version,
+        version: version(),
     }
 }
 
-struct SwVers {
-    pub product_name: Option<String>,
-    pub product_version: Option<String>,
-    pub build_version: Option<String>,
-}
-
-fn extract_from_regex(stdout: &str, regex: &Regex) -> Option<String> {
-    match regex.captures_iter(stdout).next() {
-        Some(m) => {
-            match m.get(1) {
-                Some(s) => Some(s.as_str().to_owned()),
-                None => None,
-            }
-        }
-        None => None,
-    }
-}
-
-fn retrieve() -> Option<SwVers> {
-    let output = match Command::new("sw_vers").output() {
-        Ok(output) => output,
-        Err(_) => return None,
+fn version() -> Version {
+    let version = match product_version() {
+        None => {
+            return Version::unknown();
+        },
+        Some(val) => val,
     };
 
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    Some(parse(&stdout))
+    if let Some((major, minor, patch)) = parse_semantic_version(&version) {
+        Version::semantic(major, minor, patch, None)
+    } else {
+        Version::custom(version, None)
+    }
 }
 
-fn parse(version_str: &str) -> SwVers {
-    let product_name_regex = Regex::new(r"ProductName:\s([\w\s]+)\n").unwrap();
-    let product_version_regex = Regex::new(r"ProductVersion:\s(\w+\.\w+\.\w+)").unwrap();
-    let build_number_regex = Regex::new(r"BuildVersion:\s(\w+)").unwrap();
-
-    SwVers {
-        product_name: extract_from_regex(version_str, &product_name_regex),
-        product_version: extract_from_regex(version_str, &product_version_regex),
-        build_version: extract_from_regex(version_str, &build_number_regex),
+fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
+    let parts: Vec<_> = version.split('.').collect();
+    if parts.len() != 2 || parts.len() !=  3 {
+        return None;
     }
+
+    let major: u64 = parts[0].parse().ok()?;
+    let minor: u64 = parts[1].parse().ok()?;
+    let patch: u64 = parts[2].parse().ok().unwrap_or_default();
+    Some((major, minor, patch))
+}
+
+fn product_version() -> Option<String> {
+    let output = Command::new("sw_vers").output()?;
+    let output = String::from_utf8_lossy(&output.stdout);
+    parse(&outout)
+}
+
+fn parse(sw_vers_output: &str) -> Option<String> {
+    lazy_static! {
+        static ref VERSION: Regex = Regex::new(r"ProductVersion:\s(\w+\.\w+\.\w+)").unwrap();
+    }
+
+    VERSION.find(sw_vers_output)?.as_str().to_owned()
 }
 
 #[cfg(test)]
@@ -76,28 +63,50 @@ mod tests {
     }
 
     #[test]
-    fn parses_product_name() {
-        let info = parse(file());
-        assert_eq!(info.product_name, Some("Mac OS X".to_string()));
+    fn os_version() {
+        let version = version();
+        assert_ne!(Version::unknown(), version);
     }
 
     #[test]
-    fn parses_product_version() {
-        let info = parse(file());
-        assert_eq!(info.product_version, Some("10.10.5".to_string()));
+    fn string_product_version() {
+        let version = product_version();
+        assert!(version.is_some());
     }
 
     #[test]
-    fn parses_build_version() {
-        let info = parse(file());
-        assert_eq!(info.build_version, Some("14F27".to_string()));
+    fn semantic_version() {
+        let test_data = [
+            ("", None),
+            ("some test", None),
+            ("0", None),
+            ("0.", None),
+            ("0.1", Some((0, 1, 0))),
+            ("0.1.", None),
+            ("0.1.2", Some((0, 1, 2))),
+            ("0.1.2.", None),
+            ("1.0.0", Some((1, 0, 0))),
+            ("0.0.1", Some((0, 0, 1))),
+            ("10.1", Some((10, 1, 0))),
+            ("a.b.c", None),
+            ("hello.world", None),
+        ];
+
+        for (input, expected_result) in &test_data {
+            let res = parse_semantic_version(input);
+            assert_eq!(&res, expected_result);
+        }
     }
 
-    fn file() -> &'static str {
-        "
-ProductName:	Mac OS X
-ProductVersion:	10.10.5
-BuildVersion:	14F27
-"
+    #[test]
+    fn parse_version() {
+        let parse_output = parse(file());
+        assert_eq!(parse_output, Some("10.10.5".to_string()));
+    }
+
+    fn sw_vers_output() -> &'static str {
+        "ProductName:	Mac OS X\n\
+        ProductVersion:	10.10.5\n\
+        BuildVersion:	14F27"
     }
 }
