@@ -34,7 +34,10 @@ fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
 
     let major: u64 = parts[0].parse().ok()?;
     let minor: u64 = parts[1].parse().ok()?;
-    let patch: u64 = parts.get(2).and_then(|x| x.parse().ok()).unwrap_or_default();
+    let patch: u64 = parts
+        .get(2)
+        .and_then(|x| x.parse().ok())
+        .unwrap_or_default();
     Some((major, minor, patch))
 }
 
@@ -49,7 +52,13 @@ fn parse(sw_vers_output: &str) -> Option<String> {
         static ref VERSION: Regex = Regex::new(r"ProductVersion:\s(\w+\.\w+\.\w+)").unwrap();
     }
 
-    Some(version.captures(sw_vers_output)?.get(1)?.as_str().to_owned())
+    Some(
+        VERSION
+            .captures(sw_vers_output)?
+            .get(1)?
+            .as_str()
+            .to_owned()
+    )
 }
 
 #[cfg(test)]
