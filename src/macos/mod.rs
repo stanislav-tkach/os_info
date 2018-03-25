@@ -28,7 +28,7 @@ fn version() -> Version {
 
 fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
     let parts: Vec<_> = version.split('.').collect();
-    if parts.len() != 2 || parts.len() != 3 {
+    if parts.len() < 2 || parts.len() > 3 {
         return None;
     }
 
@@ -36,8 +36,9 @@ fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
     let minor: u64 = parts[1].parse().ok()?;
     let patch: u64 = parts
         .get(2)
-        .and_then(|x| x.parse().ok())
-        .unwrap_or_default();
+        .unwrap_or(&"0")
+        .parse()
+        .ok()?;
     Some((major, minor, patch))
 }
 
@@ -57,7 +58,7 @@ fn parse(sw_vers_output: &str) -> Option<String> {
             .captures(sw_vers_output)?
             .get(1)?
             .as_str()
-            .to_owned()
+            .to_owned(),
     )
 }
 
