@@ -15,7 +15,7 @@ fn version() -> Version {
     let version = match product_version() {
         None => {
             return Version::unknown();
-        },
+        }
         Some(val) => val,
     };
 
@@ -28,7 +28,7 @@ fn version() -> Version {
 
 fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
     let parts: Vec<_> = version.split('.').collect();
-    if parts.len() != 2 || parts.len() !=  3 {
+    if parts.len() != 2 || parts.len() != 3 {
         return None;
     }
 
@@ -39,9 +39,9 @@ fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
 }
 
 fn product_version() -> Option<String> {
-    let output = Command::new("sw_vers").output()?;
+    let output = Command::new("sw_vers").output().ok()?;
     let output = String::from_utf8_lossy(&output.stdout);
-    parse(&outout)
+    parse(&output)
 }
 
 fn parse(sw_vers_output: &str) -> Option<String> {
@@ -49,7 +49,7 @@ fn parse(sw_vers_output: &str) -> Option<String> {
         static ref VERSION: Regex = Regex::new(r"ProductVersion:\s(\w+\.\w+\.\w+)").unwrap();
     }
 
-    VERSION.find(sw_vers_output)?.as_str().to_owned()
+    Some(VERSION.find(sw_vers_output)?.as_str().to_owned())
 }
 
 #[cfg(test)]
