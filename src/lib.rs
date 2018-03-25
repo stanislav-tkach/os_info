@@ -8,6 +8,10 @@
 #[cfg(not(windows))]
 extern crate regex;
 
+#[cfg(target_os = "macos")]
+#[macro_use]
+extern crate lazy_static;
+
 #[cfg(windows)]
 extern crate kernel32;
 #[cfg(windows)]
