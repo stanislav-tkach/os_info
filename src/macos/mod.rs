@@ -92,7 +92,7 @@ mod tests {
             ("hello.world", None),
         ];
 
-        for (input, expected_result) in &test_data {
+        for &(input, ref expected_result) in &test_data {
             let res = parse_semantic_version(input);
             assert_eq!(&res, expected_result);
         }
@@ -100,7 +100,7 @@ mod tests {
 
     #[test]
     fn parse_version() {
-        let parse_output = parse(file());
+        let parse_output = parse(sw_vers_output());
         assert_eq!(parse_output, Some("10.10.5".to_string()));
     }
 
