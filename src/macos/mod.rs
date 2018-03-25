@@ -34,11 +34,7 @@ fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
 
     let major: u64 = parts[0].parse().ok()?;
     let minor: u64 = parts[1].parse().ok()?;
-    let patch: u64 = parts
-        .get(2)
-        .unwrap_or(&"0")
-        .parse()
-        .ok()?;
+    let patch: u64 = parts.get(2).unwrap_or(&"0").parse().ok()?;
     Some((major, minor, patch))
 }
 
