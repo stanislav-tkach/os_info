@@ -2,9 +2,10 @@
 
 use regex::Regex;
 
-use std::fs::{File, metadata};
-use std::io::{Error, ErrorKind};
-use std::io::prelude::*;
+use std::{
+    fs::{File, self},
+    io::{Error, ErrorKind},
+};
 
 use Type;
 
@@ -50,13 +51,12 @@ impl ReleaseFile {
     /// ReleaseFile.exists()
     /// Does a release file exist?
     fn exists(&self) -> bool {
-        let metadata = metadata(&self.path);
-
-        match metadata {
+        match fs::metadata(&self.path) {
             Ok(md) => md.is_dir() || md.is_file(),
             Err(_) => false,
         }
     }
+
     /// ReleaseFile.read()
     /// Get data inside of a release file.
     fn read(&self) -> Result<String, Error> {
@@ -69,6 +69,7 @@ impl ReleaseFile {
             Err(Error::new(ErrorKind::NotFound, "File does not exist!"))
         }
     }
+
     /// ReleaseFile.parse()
     /// Parse the distribution name and version information
     /// from a release file.

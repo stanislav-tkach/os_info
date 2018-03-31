@@ -3,7 +3,7 @@ language: rust
 rust:
   # Feel free to bump this version if you need features of newer Rust.
   # Sync with badge in README.md
-  - 1.23.0
+  - 1.25.0
 
 cache:
   directories:
@@ -30,8 +30,10 @@ jobs:
   - env: FEATURE=lints
     install:
     - cargo-audit -V || cargo install cargo-audit --force
-    - rustfmt -V | grep $RUSTFMT_VERS || cargo install rustfmt --vers $RUSTFMT_VERS --force
     - cargo-deadlinks -V | grep $DEADLINKS_VERS || cargo install cargo-deadlinks --vers $DEADLINKS_VERS --force
+    - cargo install --list
+    - rustup component add rustfmt-preview
+    - rustfmt -V
     - nvm install 8 && nvm use 8
     - npm install cspell
     - ./node_modules/.bin/cspell --version

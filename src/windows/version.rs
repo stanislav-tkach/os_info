@@ -3,15 +3,17 @@
 
 #![allow(unsafe_code)]
 
-use std::mem::zeroed;
-use std::mem::size_of;
-use winapi::ntdef::NTSTATUS;
-use winapi::minwindef::DWORD;
-use winapi::ntstatus::STATUS_SUCCESS;
-use winapi::sysinfoapi::SYSTEM_INFO;
-use winapi::winuser::SM_SERVERR2;
+use winapi::{
+    ntdef::NTSTATUS,
+    minwindef::DWORD,
+    ntstatus::STATUS_SUCCESS,
+    sysinfoapi::SYSTEM_INFO,
+    winuser::SM_SERVERR2,
+};
 use user32::GetSystemMetrics;
 use kernel32::GetSystemInfo;
+
+use std::mem;
 
 #[cfg(target_arch = "x86")]
 use winapi::winnt::OSVERSIONINFOEXA;
@@ -59,9 +61,9 @@ impl Win32Version {
     pub fn osvi() -> Self {
         unsafe {
             let mut info: OSVERSIONINFOEX = {
-                zeroed()
+                mem::zeroed()
             };
-            info.dwOSVersionInfoSize = size_of::<OSVERSIONINFOEX>() as DWORD;
+            info.dwOSVersionInfoSize = mem::size_of::<OSVERSIONINFOEX>() as DWORD;
 
             if RtlGetVersion(&mut info) == STATUS_SUCCESS {
                 Self {
@@ -142,7 +144,7 @@ impl Win32Version {
                     2 => {
                         match unsafe { GetSystemMetrics(SM_SERVERR2) } {
                             0 => {
-                                let mut sysinfo: SYSTEM_INFO = unsafe { zeroed() };
+                                let mut sysinfo: SYSTEM_INFO = unsafe { mem::zeroed() };
                                 unsafe { GetSystemInfo(&mut sysinfo) };
 
                                 if osvi.wSuiteMask & VER_SUITE_WH_SERVER == VER_SUITE_WH_SERVER {
