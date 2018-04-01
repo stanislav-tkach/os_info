@@ -2,9 +2,7 @@
 
 use regex::Regex;
 
-use std::fs::{File, metadata};
-use std::io::{Error, ErrorKind};
-use std::io::prelude::*;
+use std::{fs::{self, File}, io::{Error, ErrorKind, Read}};
 
 use Type;
 
@@ -50,13 +48,12 @@ impl ReleaseFile {
     /// ReleaseFile.exists()
     /// Does a release file exist?
     fn exists(&self) -> bool {
-        let metadata = metadata(&self.path);
-
-        match metadata {
+        match fs::metadata(&self.path) {
             Ok(md) => md.is_dir() || md.is_file(),
             Err(_) => false,
         }
     }
+
     /// ReleaseFile.read()
     /// Get data inside of a release file.
     fn read(&self) -> Result<String, Error> {
@@ -69,6 +66,7 @@ impl ReleaseFile {
             Err(Error::new(ErrorKind::NotFound, "File does not exist!"))
         }
     }
+
     /// ReleaseFile.parse()
     /// Parse the distribution name and version information
     /// from a release file.
@@ -78,12 +76,10 @@ impl ReleaseFile {
                 let distro = if !self.regex_distro.is_empty() {
                     let distro_regex = Regex::new(&self.regex_distro).unwrap();
                     match distro_regex.captures_iter(&data).next() {
-                        Some(m) => {
-                            match m.get(1) {
-                                Some(distro) => Some(distro.as_str().to_owned()),
-                                None => None,
-                            }
-                        }
+                        Some(m) => match m.get(1) {
+                            Some(distro) => Some(distro.as_str().to_owned()),
+                            None => None,
+                        },
                         None => None,
                     }
                 } else {
@@ -92,12 +88,10 @@ impl ReleaseFile {
                 let version = if !self.regex_version.is_empty() {
                     let version_regex = Regex::new(&self.regex_version).unwrap();
                     match version_regex.captures_iter(&data).next() {
-                        Some(m) => {
-                            match m.get(1) {
-                                Some(version) => Some(version.as_str().trim_right().to_owned()),
-                                None => None,
-                            }
-                        }
+                        Some(m) => match m.get(1) {
+                            Some(version) => Some(version.as_str().trim_right().to_owned()),
+                            None => None,
+                        },
                         None => None,
                     }
                 } else {
