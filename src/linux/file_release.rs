@@ -2,7 +2,7 @@
 
 use regex::Regex;
 
-use std::{fs::{self, File}, io::{Error, ErrorKind}};
+use std::{fs::{self, File}, io::{Error, ErrorKind, Read}};
 
 use Type;
 

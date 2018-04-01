@@ -173,7 +173,7 @@ mod tests {
             Some(v) => format!(
                 "{}.{}.{}",
                 v.dwMajorVersion, v.dwMinorVersion, v.dwBuildNumber
-            },
+            ),
             None => String::from("Unknown"),
         };
 
