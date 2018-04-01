@@ -2,10 +2,7 @@
 
 use regex::Regex;
 
-use std::{
-    fs::{File, self},
-    io::{Error, ErrorKind},
-};
+use std::{fs::{self, File}, io::{Error, ErrorKind}};
 
 use Type;
 
@@ -79,12 +76,10 @@ impl ReleaseFile {
                 let distro = if !self.regex_distro.is_empty() {
                     let distro_regex = Regex::new(&self.regex_distro).unwrap();
                     match distro_regex.captures_iter(&data).next() {
-                        Some(m) => {
-                            match m.get(1) {
-                                Some(distro) => Some(distro.as_str().to_owned()),
-                                None => None,
-                            }
-                        }
+                        Some(m) => match m.get(1) {
+                            Some(distro) => Some(distro.as_str().to_owned()),
+                            None => None,
+                        },
                         None => None,
                     }
                 } else {
@@ -93,12 +88,10 @@ impl ReleaseFile {
                 let version = if !self.regex_version.is_empty() {
                     let version_regex = Regex::new(&self.regex_version).unwrap();
                     match version_regex.captures_iter(&data).next() {
-                        Some(m) => {
-                            match m.get(1) {
-                                Some(version) => Some(version.as_str().trim_right().to_owned()),
-                                None => None,
-                            }
-                        }
+                        Some(m) => match m.get(1) {
+                            Some(version) => Some(version.as_str().trim_right().to_owned()),
+                            None => None,
+                        },
                         None => None,
                     }
                 } else {

@@ -112,7 +112,7 @@ mod tests {
 
     fn sw_vers_output() -> &'static str {
         "ProductName:	Mac OS X\n\
-        ProductVersion:	10.10.5\n\
-        BuildVersion:	14F27"
+         ProductVersion:	10.10.5\n\
+         BuildVersion:	14F27"
     }
 }

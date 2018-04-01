@@ -90,12 +90,10 @@ fn parse(file: &str) -> LsbRelease {
     let distro_release_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
 
     let distro = match distro_regex.captures_iter(file).next() {
-        Some(m) => {
-            match m.get(1) {
-                Some(distro) => Some(distro.as_str().to_owned()),
-                None => None,
-            }
-        }
+        Some(m) => match m.get(1) {
+            Some(distro) => Some(distro.as_str().to_owned()),
+            None => None,
+        },
         None => None,
     };
 

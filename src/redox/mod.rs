@@ -1,9 +1,6 @@
 // spell-checker:ignore uname
 
-use std::{
-    fs::File,
-    io::Read,
-};
+use std::{fs::File, io::Read};
 
 use {Info, Type, Version};
 
