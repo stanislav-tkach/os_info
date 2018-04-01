@@ -98,12 +98,10 @@ fn parse(file: &str) -> LsbRelease {
     };
 
     let version = match distro_release_regex.captures_iter(file).next() {
-        Some(m) => {
-            match m.get(1) {
-                Some(version) => Some(version.as_str().to_owned()),
-                None => None,
-            }
-        }
+        Some(m) => match m.get(1) {
+            Some(version) => Some(version.as_str().to_owned()),
+            None => None,
+        },
         None => None,
     };
 

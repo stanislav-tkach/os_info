@@ -114,7 +114,7 @@ impl Win32Version {
                     _ => info.edition = Some("Windows Server 2008".to_string()),
                 },
                 _ => info.edition = None,
-            }
+            },
             // Windows 2000 and XP
             // Windows Home Server, 2003 Server, 2003 R2 Server and XP Professional x64
             5 => {
