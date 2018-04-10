@@ -43,7 +43,7 @@ pub fn get() -> Info {
     let version_info = match get_version_info() {
         None => {
             return info;
-        },
+        }
         Some(val) => val,
     };
 
@@ -73,7 +73,11 @@ fn get_version_info() -> Option<OSVERSIONINFOEX> {
 // Examines data in the OSVERSIONINFOEX structure to determine the Windows edition:
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
 fn get_edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
-    match (version_info.dwMajorVersion, version_info.dwMinorVersion, version_info.wProductType) {
+    match (
+        version_info.dwMajorVersion,
+        version_info.dwMinorVersion,
+        version_info.wProductType,
+    ) {
         // Windows 10.
         (10, 0, VER_NT_WORKSTATION) => Some("Windows 10"),
         (10, 0, _) => Some("Windows Server 2016"),
@@ -97,9 +101,9 @@ fn get_edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
                 Some("Windows Home Server")
             } else if version_info.wProductType == VER_NT_WORKSTATION
                 && info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64
-                {
-                    Some("Windows XP Professional x64 Edition")
-                } else {
+            {
+                Some("Windows XP Professional x64 Edition")
+            } else {
                 Some("Windows Server 2003")
             }
         }
