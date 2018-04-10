@@ -1,5 +1,5 @@
 // spell-checker:ignore dword, minwindef, ntdef, ntdll, ntstatus, osversioninfoex, osversioninfoexa
-// spell-checker:ignore osversioninfoexw, osvi, serverr, sysinfo, sysinfoapi, winnt, winuser
+// spell-checker:ignore osversioninfoexw, serverr, sysinfoapi, winnt, winuser
 
 #![allow(unsafe_code)]
 
@@ -90,13 +90,13 @@ fn get_edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
         (5, 1, _) => Some("Windows XP"),
         (5, 0, _) => Some("Windows 2000"),
         (5, 2, _) if unsafe { GetSystemMetrics(SM_SERVERR2) } == 0 => {
-            let mut sysinfo: SYSTEM_INFO = unsafe { mem::zeroed() };
-            unsafe { GetSystemInfo(&mut sysinfo) };
+            let mut info: SYSTEM_INFO = unsafe { mem::zeroed() };
+            unsafe { GetSystemInfo(&mut info) };
 
             if version_info.wSuiteMask & VER_SUITE_WH_SERVER == VER_SUITE_WH_SERVER {
                 Some("Windows Home Server")
             } else if version_info.wProductType == VER_NT_WORKSTATION
-                && sysinfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64
+                && info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64
                 {
                     Some("Windows XP Professional x64 Edition")
                 } else {
