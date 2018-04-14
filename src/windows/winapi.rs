@@ -129,8 +129,34 @@ mod tests {
 
     #[test]
     fn edition() {
-        let info = get_version_info().unwrap();
-        let edition = get_edition(&info);
-        assert!(edition.is_some());
+        let test_data = [
+            (10, 0, VER_NT_WORKSTATION, "Windows 10"),
+            (10, 0, 0, "Windows Server 2016"),
+            (6, 3, VER_NT_WORKSTATION, "Windows 8.1"),
+            (6, 3, 0, "Windows Server 2012 R2"),
+            (6, 2, VER_NT_WORKSTATION, "Windows 8"),
+            (6, 2, 0, "Windows Server 2012"),
+            (6, 1, VER_NT_WORKSTATION, "Windows 7"),
+            (6, 1, 0, "Windows Server 2008 R2"),
+            (6, 0, VER_NT_WORKSTATION, "Windows Vista"),
+            (6, 0, 0, "Windows Server 2008"),
+            (5, 1, 0, "Windows XP"),
+            (5, 1, 1, "Windows XP"),
+            (5, 1, 100, "Windows XP"),
+            (5, 0, 0, "Windows 2000"),
+            (5, 0, 1, "Windows 2000"),
+            (5, 0, 100, "Windows 2000"),
+        ];
+
+        let mut info = get_version_info().unwrap();
+
+        for &(major, minor, product_type, expected_edition) in &test_data {
+            info.dwMajorVersion = major;
+            info.dwMinorVersion = minor;
+            info.wProductType = product_type;
+
+            let edition = get_edition(&info).unwrap();
+            assert_eq!(edition, expected_edition);
+        }
     }
 }
