@@ -1,4 +1,5 @@
 centos
+distro
 emscripten
 macos
 println

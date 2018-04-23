@@ -1,10 +1,26 @@
-// spell-checker:ignore distro, distros
+// spell-checker:ignore distros
 
 use regex::Regex;
 
 use std::{fs::{self, File}, io::{Error, ErrorKind, Read}};
 
 use Type;
+
+pub fn get() -> Info {
+    match file_release::retrieve(file_release::distributions()) {
+        Some(release) => Info {
+            os_type: release.os_type,
+            version: release
+                .version
+                .map(|x| Version::custom(x, None))
+                .unwrap_or_else(Version::unknown),
+        },
+        None => Info {
+            os_type: Type::Linux,
+            version: Version::unknown(),
+        },
+    }
+}
 
 /// `ReleaseFile` Structure
 /// Holds information about a distro specific release file.
