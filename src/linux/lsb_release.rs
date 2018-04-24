@@ -7,20 +7,20 @@ use std::process::Command;
 use {Info, Type, Version};
 
 pub fn get() -> Option<Info> {
-    let lsb_release = retrieve()?;
+    let release = retrieve()?;
 
     let version = release
         .version
         .map_or_else(Version::unknown, |v| Version::custom(v, None));
 
-    match release.distro.as_ref() {
-        "Ubuntu" => Info { os_type: Type::Ubuntu, version },
-        "Debian" => Info { os_type: Type::Debian, version },
-        "Arch" => Info { os_type: Type::Arch, version },
-        "CentOS" => Info { os_type: Type::Centos, version },
-        "Fedora" => Info { os_type: Type::Fedora, version },
-        _ => Info::new(Type::Linux, Version::unknown())
-    }
+    Some(match release.distro.as_ref().map(String::as_ref) {
+        Some("Ubuntu") => Info::new(Type::Ubuntu, version),
+        Some("Debian") => Info::new(Type::Debian, version),
+        Some("Arch") => Info::new(Type::Arch, version),
+        Some("CentOS") => Info::new(Type::Centos, version),
+        Some("Fedora") => Info::new(Type::Fedora, version),
+        _ => Info::new(Type::Linux, Version::unknown()),
+    })
 }
 
 struct LsbRelease {
@@ -29,7 +29,7 @@ struct LsbRelease {
 }
 
 fn retrieve() -> Option<LsbRelease> {
-    let output = Command::new("lsb_release").arg("-a").output()?;
+    let output = Command::new("lsb_release").arg("-a").output().ok()?;
     Some(parse(&String::from_utf8_lossy(&output.stdout)))
 }
 
@@ -40,13 +40,13 @@ fn parse(file: &str) -> LsbRelease {
     let distro = distro_regex
         .captures_iter(file)
         .next()
-        .map(|c| c.get(1))
+        .and_then(|c| c.get(1))
         .map(|d| d.as_str().to_owned());
 
     let version = distro_release_regex
         .captures_iter(file)
         .next()
-        .map(|c| c.get(1))
+        .and_then(|c| c.get(1))
         .map(|v| v.as_str().to_owned());
 
     LsbRelease { distro, version }
@@ -79,26 +79,26 @@ mod tests {
 
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
-        Description:	Debian GNU/Linux 7.8 (wheezy)\n\
-        Release:	7.8\n\
-        Codename:	wheezy\n\
-        "
+         Description:	Debian GNU/Linux 7.8 (wheezy)\n\
+         Release:	7.8\n\
+         Codename:	wheezy\n\
+         "
     }
 
     fn arch_file() -> &'static str {
         "\nLSB Version:	1.4\n\
-        Distributor ID:	Arch\n\
-        Description:	Arch Linux\n\
-        Release:	rolling\n\
-        Codename:	n/a"
+         Distributor ID:	Arch\n\
+         Description:	Arch Linux\n\
+         Release:	rolling\n\
+         Codename:	n/a"
     }
 
     fn fedora_file() -> &'static str {
         "\nLSB Version:    :core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch\n\
-        Distributor ID: Fedora\n\
-        Description:    Fedora release 26 (Twenty Six)\n\
-        Release:    26\n\
-        Codename:   TwentySix\n\
-        "
+         Distributor ID: Fedora\n\
+         Description:    Fedora release 26 (Twenty Six)\n\
+         Release:    26\n\
+         Codename:   TwentySix\n\
+         "
     }
 }

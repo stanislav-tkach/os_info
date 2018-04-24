@@ -1,25 +1,18 @@
-// spell-checker:ignore distros
-
 use regex::Regex;
 
 use std::{fs::{self, File}, io::{Error, ErrorKind, Read}};
 
-use Type;
+use {Info, Type, Version};
 
-pub fn get() -> Info {
-    match file_release::retrieve(file_release::distributions()) {
-        Some(release) => Info {
-            os_type: release.os_type,
-            version: release
-                .version
-                .map(|x| Version::custom(x, None))
-                .unwrap_or_else(Version::unknown),
-        },
-        None => Info {
-            os_type: Type::Linux,
-            version: Version::unknown(),
-        },
-    }
+pub fn get() -> Option<Info> {
+    let release = retrieve(distributions())?;
+
+    let version = release
+        .version
+        .map(|x| Version::custom(x, None))
+        .unwrap_or_else(Version::unknown);
+
+    Some(Info::new(release.os_type, version))
 }
 
 /// `ReleaseFile` Structure
@@ -31,10 +24,10 @@ pub fn get() -> Info {
 /// file and a version regex which will parse the version
 /// from the release file.
 #[derive(Debug)]
-pub struct ReleaseFile {
-    pub(crate) os_type: Type,
-    pub distro: Option<String>,
-    pub version: Option<String>,
+struct ReleaseFile {
+    os_type: Type,
+    distro: Option<String>,
+    version: Option<String>,
     name: String,
     path: String,
     regex_distro: String,
@@ -129,7 +122,7 @@ impl ReleaseFile {
 /// structures. This vector contains all supported
 /// distributions and how to parse their version
 /// information from their release file.
-pub fn distributions() -> Vec<ReleaseFile> {
+fn distributions() -> Vec<ReleaseFile> {
     vec![
         ReleaseFile {
             os_type: Type::Centos,
@@ -168,7 +161,7 @@ pub fn distributions() -> Vec<ReleaseFile> {
 /// Parses the a vector of `ReleaseFile` structures.
 /// If the release file in `ReleaseFile`.path exists,
 /// the information will be parsed and returned.
-pub fn retrieve(distros: Vec<ReleaseFile>) -> Option<ReleaseFile> {
+fn retrieve(distros: Vec<ReleaseFile>) -> Option<ReleaseFile> {
     let it = distros.into_iter();
     for distro in it {
         match distro.parse() {
@@ -186,7 +179,7 @@ mod tests {
     use std::path::PathBuf;
 
     #[test]
-    pub fn test_file_centos() {
+    fn test_file_centos() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/centos-release");
 
@@ -209,7 +202,7 @@ mod tests {
     }
 
     #[test]
-    pub fn test_file_fedora() {
+    fn test_file_fedora() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/fedora-release");
 
@@ -232,7 +225,7 @@ mod tests {
     }
 
     #[test]
-    pub fn test_file_redhat() {
+    fn test_file_redhat() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/redhat-release");
 
@@ -255,7 +248,7 @@ mod tests {
     }
 
     #[test]
-    pub fn test_file_alpine() {
+    fn test_file_alpine() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/alpine-release");
 

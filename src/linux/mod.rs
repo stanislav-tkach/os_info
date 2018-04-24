@@ -4,11 +4,9 @@ mod file_release;
 use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
-    if let Some(info) = lsb_release::get() {
-        info
-    } else {
-        file_release::get()
-    }
+    lsb_release::get()
+        .or_else(file_release::get)
+        .unwrap_or(Info::new(Type::Linux, Version::unknown()))
 }
 
 #[cfg(test)]
