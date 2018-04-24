@@ -34,9 +34,6 @@ struct ReleaseFile {
     regex_version: String,
 }
 
-/// `ReleaseFile` Structure Default Values
-/// Sets all default values for a `ReleaseFile`
-/// structure.
 impl Default for ReleaseFile {
     fn default() -> Self {
         Self {
@@ -117,11 +114,8 @@ impl ReleaseFile {
     }
 }
 
-/// distributions()
-/// Returns a vector of instantiated `ReleaseFile`
-/// structures. This vector contains all supported
-/// distributions and how to parse their version
-/// information from their release file.
+/// Returns a vector of instantiated `ReleaseFile` structures. This vector contains all supported
+/// distributions and the information on how to parse their version from their release file.
 fn distributions() -> Vec<ReleaseFile> {
     vec![
         ReleaseFile {
