@@ -15,8 +15,7 @@ pub fn get() -> Option<Info> {
     Some(Info::new(release.os_type, version))
 }
 
-/// `ReleaseFile` Structure
-/// Holds information about a distro specific release file.
+/// Holds information about a distribution specific release file.
 /// Information can include the type of distro, a human readable
 /// name for the distro, the distro version, the path to the
 /// release file (i.e: /etc/centos-release), a distro regex
@@ -26,12 +25,12 @@ pub fn get() -> Option<Info> {
 #[derive(Debug)]
 struct ReleaseFile {
     os_type: Type,
-    distro: Option<String>,
-    version: Option<String>,
-    name: String,
-    path: String,
-    regex_distro: String,
-    regex_version: String,
+    distro: Option<&'static str>,
+    version: Option<&'static str>,
+    name: &'static str,
+    path: &'static str,
+    regex_distro: &'static str,
+    regex_version: &'static str,
 }
 
 impl Default for ReleaseFile {
