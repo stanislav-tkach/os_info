@@ -13,7 +13,7 @@ pub fn get() -> Option<Info> {
         .version
         .map_or_else(Version::unknown, |v| Version::custom(v, None));
 
-    Some(match release.distro.as_ref().map(String::as_ref) {
+    Some(match release.distribution.as_ref().map(String::as_ref) {
         Some("Ubuntu") => Info::new(Type::Ubuntu, version),
         Some("Debian") => Info::new(Type::Debian, version),
         Some("Arch") => Info::new(Type::Arch, version),
@@ -24,7 +24,7 @@ pub fn get() -> Option<Info> {
 }
 
 struct LsbRelease {
-    pub distro: Option<String>,
+    pub distribution: Option<String>,
     pub version: Option<String>,
 }
 
@@ -34,22 +34,21 @@ fn retrieve() -> Option<LsbRelease> {
 }
 
 fn parse(file: &str) -> LsbRelease {
-    let distro_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
-    let distro_release_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
-
-    let distro = distro_regex
+    let distribution_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
+    let distribution = distribution_regex
         .captures_iter(file)
         .next()
         .and_then(|c| c.get(1))
         .map(|d| d.as_str().to_owned());
 
-    let version = distro_release_regex
+    let version_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
+    let version = version_regex
         .captures_iter(file)
         .next()
         .and_then(|c| c.get(1))
         .map(|v| v.as_str().to_owned());
 
-    LsbRelease { distro, version }
+    LsbRelease { distribution, version }
 }
 
 #[cfg(test)]
@@ -59,21 +58,21 @@ mod tests {
     #[test]
     pub fn test_parses_lsb_distro() {
         let parse_results = parse(file());
-        assert_eq!(parse_results.distro, Some("Debian".to_string()));
+        assert_eq!(parse_results.distribution, Some("Debian".to_string()));
         assert_eq!(parse_results.version, Some("7.8".to_string()));
     }
 
     #[test]
     pub fn test_parses_arch_lsb_distro() {
         let parse_results = parse(arch_file());
-        assert_eq!(parse_results.distro, Some("Arch".to_string()));
+        assert_eq!(parse_results.distribution, Some("Arch".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
     }
 
     #[test]
     pub fn test_parses_fedora_lsb_distro() {
         let parse_results = parse(fedora_file());
-        assert_eq!(parse_results.distro, Some("Fedora".to_string()));
+        assert_eq!(parse_results.distribution, Some("Fedora".to_string()));
         assert_eq!(parse_results.version, Some("26".to_string()));
     }
 
