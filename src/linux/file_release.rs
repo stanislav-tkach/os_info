@@ -1,6 +1,6 @@
 use regex::Regex;
 
-use std::{fs::File, path::Path, io::Read};
+use std::{fs::File, io::Read, path::Path};
 
 use {Info, Type, Version};
 
@@ -43,9 +43,10 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
     None
 }
 
-struct ReleaseInfo {
+#[derive(Debug, Clone)]
+struct ReleaseInfo<'a> {
     os_type: Type,
-    path: &'static str,
+    path: &'a str,
     version_regex: &'static str,
 }
 
@@ -84,12 +85,13 @@ mod tests {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/centos-release");
 
-        let mut distributions = [DISTRIBUTIONS[0]];
-        distributions.path = file.into_os_string().into_string().unwrap();
+        let path = file.into_os_string().into_string().unwrap();
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = &path;
 
-        let info = retrieve(distros).unwrap();
-        assert_eq!(Type::Centos, version.os_type());
-        assert_eq!(result.version, Version::custom("XX".to_string(), None));
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Centos);
+        assert_eq!(info.version, Version::custom("XX".to_string(), None));
     }
 
     #[test]
@@ -97,12 +99,13 @@ mod tests {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/fedora-release");
 
-        let mut distributions = [DISTRIBUTIONS[1]];
-        distributions.path = file.into_os_string().into_string().unwrap();
+        let path = file.into_os_string().into_string().unwrap();
+        let mut distributions = [DISTRIBUTIONS[1].clone()];
+        distributions[0].path = &path;
 
-        let info = retrieve(distros).unwrap();
-        assert_eq!(Type::Fedora, version.os_type());
-        assert_eq!(result.version, Version::custom("26".to_string(), None));
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Fedora);
+        assert_eq!(info.version, Version::custom("26".to_string(), None));
     }
 
     #[test]
@@ -110,12 +113,13 @@ mod tests {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/redhat-release");
 
-        let mut distributions = [DISTRIBUTIONS[2]];
-        distributions.path = file.into_os_string().into_string().unwrap();
+        let path = file.into_os_string().into_string().unwrap();
+        let mut distributions = [DISTRIBUTIONS[2].clone()];
+        distributions[0].path = &path;
 
-        let info = retrieve(distros).unwrap();
-        assert_eq!(Type::Redhat, version.os_type());
-        assert_eq!(result.version, Version::custom("XX".to_string(), None));
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Redhat);
+        assert_eq!(info.version, Version::custom("XX".to_string(), None));
     }
 
     #[test]
@@ -123,11 +127,12 @@ mod tests {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/alpine-release");
 
-        let mut distributions = [DISTRIBUTIONS[3]];
-        distributions.path = file.into_os_string().into_string().unwrap();
+        let path = file.into_os_string().into_string().unwrap();
+        let mut distributions = [DISTRIBUTIONS[3].clone()];
+        distributions[0].path = &path;
 
-        let info = retrieve(distros).unwrap();
-        assert_eq!(Type::Alpine, version.os_type());
-        assert_eq!(result.version, Version::custom("A.B.C".to_string(), None));
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Alpine);
+        assert_eq!(info.version, Version::custom("A.B.C".to_string(), None));
     }
 }

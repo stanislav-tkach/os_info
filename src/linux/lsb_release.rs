@@ -48,7 +48,10 @@ fn parse(file: &str) -> LsbRelease {
         .and_then(|c| c.get(1))
         .map(|v| v.as_str().to_owned());
 
-    LsbRelease { distribution, version }
+    LsbRelease {
+        distribution,
+        version,
+    }
 }
 
 #[cfg(test)]
