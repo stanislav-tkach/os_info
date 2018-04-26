@@ -1,4 +1,4 @@
-// spell-checker:ignore codename, distro, noarch
+// spell-checker:ignore codename, noarch
 
 use regex::Regex;
 
@@ -6,106 +6,52 @@ use std::process::Command;
 
 use {Info, Type, Version};
 
-// TODO: Better matching.
-pub fn lsb_release() -> Info {
-    match retrieve() {
-        Some(release) => {
-            if release.distro == Some("Ubuntu".to_string()) {
-                Info {
-                    os_type: Type::Ubuntu,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else if release.distro == Some("Debian".to_string()) {
-                Info {
-                    os_type: Type::Debian,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else if release.distro == Some("Arch".to_string()) {
-                Info {
-                    os_type: Type::Arch,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else if release.distro == Some("CentOS".to_string()) {
-                Info {
-                    os_type: Type::Centos,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else if release.distro == Some("Fedora".to_string()) {
-                Info {
-                    os_type: Type::Fedora,
-                    version: release
-                        .version
-                        .map(|x| Version::custom(x, None))
-                        .unwrap_or_else(Version::unknown),
-                }
-            } else {
-                Info {
-                    os_type: Type::Linux,
-                    version: Version::unknown(),
-                }
-            }
-        }
-        None => Info {
-            os_type: Type::Linux,
-            version: Version::unknown(),
-        },
-    }
+pub fn get() -> Option<Info> {
+    let release = retrieve()?;
+
+    let version = release
+        .version
+        .map_or_else(Version::unknown, |v| Version::custom(v, None));
+
+    Some(match release.distribution.as_ref().map(String::as_ref) {
+        Some("Ubuntu") => Info::new(Type::Ubuntu, version),
+        Some("Debian") => Info::new(Type::Debian, version),
+        Some("Arch") => Info::new(Type::Arch, version),
+        Some("CentOS") => Info::new(Type::Centos, version),
+        Some("Fedora") => Info::new(Type::Fedora, version),
+        _ => Info::new(Type::Linux, Version::unknown()),
+    })
 }
 
 struct LsbRelease {
-    pub distro: Option<String>,
+    pub distribution: Option<String>,
     pub version: Option<String>,
 }
 
 fn retrieve() -> Option<LsbRelease> {
-    let output = match Command::new("lsb_release").arg("-a").output() {
-        Ok(o) => o,
-        Err(_) => return None,
-    };
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    Some(parse(&stdout))
-}
-
-pub fn is_available() -> bool {
-    match Command::new("lsb_release").output() {
-        Ok(_) => true,
-        Err(_) => false,
-    }
+    let output = Command::new("lsb_release").arg("-a").output().ok()?;
+    Some(parse(&String::from_utf8_lossy(&output.stdout)))
 }
 
 fn parse(file: &str) -> LsbRelease {
-    let distro_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
-    let distro_release_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
+    let distribution_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
+    let distribution = distribution_regex
+        .captures_iter(file)
+        .next()
+        .and_then(|c| c.get(1))
+        .map(|d| d.as_str().to_owned());
 
-    let distro = match distro_regex.captures_iter(file).next() {
-        Some(m) => match m.get(1) {
-            Some(distro) => Some(distro.as_str().to_owned()),
-            None => None,
-        },
-        None => None,
-    };
+    let version_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
+    let version = version_regex
+        .captures_iter(file)
+        .next()
+        .and_then(|c| c.get(1))
+        .map(|v| v.as_str().to_owned());
 
-    let version = match distro_release_regex.captures_iter(file).next() {
-        Some(m) => match m.get(1) {
-            Some(version) => Some(version.as_str().to_owned()),
-            None => None,
-        },
-        None => None,
-    };
-
-    LsbRelease { distro, version }
+    LsbRelease {
+        distribution,
+        version,
+    }
 }
 
 #[cfg(test)]
@@ -113,67 +59,48 @@ mod tests {
     use super::*;
 
     #[test]
-    pub fn test_parses_lsb_distro() {
+    pub fn debian() {
         let parse_results = parse(file());
-        assert_eq!(parse_results.distro, Some("Debian".to_string()));
-    }
-
-    #[test]
-    pub fn test_parses_lsb_version() {
-        let parse_results = parse(file());
+        assert_eq!(parse_results.distribution, Some("Debian".to_string()));
         assert_eq!(parse_results.version, Some("7.8".to_string()));
     }
 
     #[test]
-    pub fn test_parses_arch_lsb_distro() {
+    pub fn arch() {
         let parse_results = parse(arch_file());
-        assert_eq!(parse_results.distro, Some("Arch".to_string()));
-    }
-
-    #[test]
-    pub fn test_parses_arch_lsb_version() {
-        let parse_results = parse(arch_file());
+        assert_eq!(parse_results.distribution, Some("Arch".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
     }
 
     #[test]
-    pub fn test_parses_fedora_lsb_distro() {
+    pub fn fedora() {
         let parse_results = parse(fedora_file());
-        assert_eq!(parse_results.distro, Some("Fedora".to_string()));
-    }
-
-    #[test]
-    pub fn test_parses_fedora_lsb_version() {
-        let parse_results = parse(fedora_file());
+        assert_eq!(parse_results.distribution, Some("Fedora".to_string()));
         assert_eq!(parse_results.version, Some("26".to_string()));
     }
 
     fn file() -> &'static str {
-        "
-Distributor ID:	Debian
-Description:	Debian GNU/Linux 7.8 (wheezy)
-Release:	7.8
-Codename:	wheezy
-"
+        "\nDistributor ID:	Debian\n\
+         Description:	Debian GNU/Linux 7.8 (wheezy)\n\
+         Release:	7.8\n\
+         Codename:	wheezy\n\
+         "
     }
 
     fn arch_file() -> &'static str {
-        "
-LSB Version:	1.4
-Distributor ID:	Arch
-Description:	Arch Linux
-Release:	rolling
-Codename:	n/a
-"
+        "\nLSB Version:	1.4\n\
+         Distributor ID:	Arch\n\
+         Description:	Arch Linux\n\
+         Release:	rolling\n\
+         Codename:	n/a"
     }
 
     fn fedora_file() -> &'static str {
-        "
-LSB Version:    :core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch
-Distributor ID: Fedora
-Description:    Fedora release 26 (Twenty Six)
-Release:    26
-Codename:   TwentySix
-"
+        "\nLSB Version:    :core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch\n\
+         Distributor ID: Fedora\n\
+         Description:    Fedora release 26 (Twenty Six)\n\
+         Release:    26\n\
+         Codename:   TwentySix\n\
+         "
     }
 }
