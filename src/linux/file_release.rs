@@ -81,7 +81,7 @@ mod tests {
     use std::path::PathBuf;
 
     #[test]
-    fn test_file_centos() {
+    fn centos() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/centos-release");
 
@@ -95,7 +95,7 @@ mod tests {
     }
 
     #[test]
-    fn test_file_fedora() {
+    fn fedora() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/fedora-release");
 
@@ -109,7 +109,7 @@ mod tests {
     }
 
     #[test]
-    fn test_file_redhat() {
+    fn redhat() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/redhat-release");
 
@@ -123,7 +123,7 @@ mod tests {
     }
 
     #[test]
-    fn test_file_alpine() {
+    fn alpine() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/alpine-release");
 

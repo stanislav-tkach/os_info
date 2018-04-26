@@ -59,21 +59,21 @@ mod tests {
     use super::*;
 
     #[test]
-    pub fn test_parses_lsb_distro() {
+    pub fn debian() {
         let parse_results = parse(file());
         assert_eq!(parse_results.distribution, Some("Debian".to_string()));
         assert_eq!(parse_results.version, Some("7.8".to_string()));
     }
 
     #[test]
-    pub fn test_parses_arch_lsb_distro() {
+    pub fn arch() {
         let parse_results = parse(arch_file());
         assert_eq!(parse_results.distribution, Some("Arch".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
     }
 
     #[test]
-    pub fn test_parses_fedora_lsb_distro() {
+    pub fn fedora() {
         let parse_results = parse(fedora_file());
         assert_eq!(parse_results.distribution, Some("Fedora".to_string()));
         assert_eq!(parse_results.version, Some("26".to_string()));
