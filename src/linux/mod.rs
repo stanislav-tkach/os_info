@@ -6,7 +6,7 @@ use {Info, Type, Version};
 pub fn current_platform() -> Info {
     lsb_release::get()
         .or_else(file_release::get)
-        .unwrap_or(Info::new(Type::Linux, Version::unknown()))
+        .unwrap_or_else(|| Info::new(Type::Linux, Version::unknown()))
 }
 
 #[cfg(test)]
