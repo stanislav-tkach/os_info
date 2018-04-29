@@ -91,7 +91,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Centos);
-        assert_eq!(info.version, Version::custom("XX".to_string(), None));
+        assert_eq!(info.version, Version::custom("XX", None));
     }
 
     #[test]
@@ -105,7 +105,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::custom("26".to_string(), None));
+        assert_eq!(info.version, Version::custom("26", None));
     }
 
     #[test]
@@ -119,7 +119,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Redhat);
-        assert_eq!(info.version, Version::custom("XX".to_string(), None));
+        assert_eq!(info.version, Version::custom("XX", None));
     }
 
     #[test]
@@ -133,6 +133,6 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::custom("A.B.C".to_string(), None));
+        assert_eq!(info.version, Version::custom("A.B.C", None));
     }
 }

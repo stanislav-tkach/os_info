@@ -68,9 +68,9 @@ impl Version {
     /// assert_eq!(VersionType::Custom(ver), *version.version());
     /// assert_eq!(Some(edition.as_ref()), version.edition());
     /// ```
-    pub fn custom(version: String, edition: Option<String>) -> Self {
+    pub fn custom<T: Into<String>>(version: T, edition: Option<String>) -> Self {
         Self {
-            version: VersionType::Custom(version),
+            version: VersionType::Custom(version.into()),
             edition,
         }
     }
@@ -153,15 +153,15 @@ mod tests {
     #[test]
     fn custom() {
         let data = [
-            ("OS".to_string(), None),
-            ("Another OS".to_string(), Some("edition".to_string())),
-            ("".to_string(), None),
-            ("Future OS".to_string(), Some("e".to_string())),
+            ("OS", None),
+            ("Another OS", Some("edition".to_string())),
+            ("", None),
+            ("Future OS", Some("e".to_string())),
         ];
 
         for &(ref v, ref edition) in &data {
-            let version = Version::custom(v.clone(), edition.clone());
-            assert_eq!(VersionType::Custom(v.clone()), *version.version());
+            let version = Version::custom(*v, edition.clone());
+            assert_eq!(VersionType::Custom(v.to_string()), *version.version());
             assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
         }
     }
