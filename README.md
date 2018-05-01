@@ -40,7 +40,7 @@ os_info = "0.7.0"
 ```rust
 extern crate os_info;
 
-let os = os_info::get();
+let info = os_info::get();
 
 // Print full information:
 println!("OS information: {}", info);
