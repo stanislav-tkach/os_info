@@ -20,11 +20,11 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
             Err(e) => {
                 warn!("Unable to open {:?} file: {:?}", release_info.path, e);
                 continue;
-            },
+            }
         };
 
         let mut file_content = String::new();
-        if let Err(e) = file.read_to_string(&mut file_content).is_err() {
+        if let Err(e) = file.read_to_string(&mut file_content) {
             warn!("Unable to read {:?} file: {:?}", release_info.path, e);
             continue;
         }

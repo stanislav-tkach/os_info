@@ -44,7 +44,7 @@ fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
 
 fn product_version() -> Option<String> {
     match Command::new("sw_vers").output() {
-        Some(val) => {
+        Ok(val) => {
             let output = String::from_utf8_lossy(&val.stdout);
             trace!("sw_vers command returned {:?}", output);
             parse(&output)

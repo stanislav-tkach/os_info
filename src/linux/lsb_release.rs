@@ -30,7 +30,7 @@ struct LsbRelease {
 
 fn retrieve() -> Option<LsbRelease> {
     match Command::new("lsb_release").arg("-a").output() {
-        Some(output) => {
+        Ok(output) => {
             trace!("lsb_release command returned {:?}", output);
             Some(parse(&String::from_utf8_lossy(&output.stdout)))
         }
@@ -58,7 +58,11 @@ fn parse(output: &str) -> LsbRelease {
         .and_then(|c| c.get(1))
         .map(|v| v.as_str().to_owned());
 
-    trace!("Parsed as '{}' distribution and '{}' version", distribution, version);
+    trace!(
+        "Parsed as '{:?}' distribution and '{:?}' version",
+        distribution,
+        version
+    );
 
     LsbRelease {
         distribution,
