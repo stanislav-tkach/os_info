@@ -20,6 +20,7 @@ is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
 is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
 [dependencies]
+log = "0.4.1"
 
 [target.'cfg(not(windows))'.dependencies]
 regex="0.2.10"
@@ -34,3 +35,4 @@ kernel32-sys = "0.2.2"
 
 [dev-dependencies]
 itertools = "0.7.3"
+pretty_assertions = "0.5.1"

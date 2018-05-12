@@ -29,24 +29,36 @@ struct LsbRelease {
 }
 
 fn retrieve() -> Option<LsbRelease> {
-    let output = Command::new("lsb_release").arg("-a").output().ok()?;
-    Some(parse(&String::from_utf8_lossy(&output.stdout)))
+    match Command::new("lsb_release").arg("-a").output() {
+        Some(output) => {
+            trace!("lsb_release command returned {:?}", output);
+            Some(parse(&String::from_utf8_lossy(&output.stdout)))
+        }
+        Err(e) => {
+            warn!("lsb_release command failed with {:?}", e);
+            None
+        }
+    }
 }
 
-fn parse(file: &str) -> LsbRelease {
+fn parse(output: &str) -> LsbRelease {
+    trace!("Trying to parse {:?}", output);
+
     let distribution_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
     let distribution = distribution_regex
-        .captures_iter(file)
+        .captures_iter(output)
         .next()
         .and_then(|c| c.get(1))
         .map(|d| d.as_str().to_owned());
 
     let version_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
     let version = version_regex
-        .captures_iter(file)
+        .captures_iter(output)
         .next()
         .and_then(|c| c.get(1))
         .map(|v| v.as_str().to_owned());
+
+    trace!("Parsed as '{}' distribution and '{}' version", distribution, version);
 
     LsbRelease {
         distribution,

@@ -5,10 +5,14 @@ use std::process::Command;
 use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
-    Info {
+    trace!("macos::current_platform is called");
+
+    let info = Info {
         os_type: Type::Macos,
         version: version(),
-    }
+    };
+    trace!("Returning {:?}", info);
+    info
 }
 
 fn version() -> Version {
@@ -39,9 +43,17 @@ fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
 }
 
 fn product_version() -> Option<String> {
-    let output = Command::new("sw_vers").output().ok()?;
-    let output = String::from_utf8_lossy(&output.stdout);
-    parse(&output)
+    match Command::new("sw_vers").output() {
+        Some(val) => {
+            let output = String::from_utf8_lossy(&val.stdout);
+            trace!("sw_vers command returned {:?}", output);
+            parse(&output)
+        }
+        Err(e) => {
+            trace!("sw_vers command failed with {:?}", e);
+            None
+        }
+    }
 }
 
 fn parse(sw_vers_output: &str) -> Option<String> {

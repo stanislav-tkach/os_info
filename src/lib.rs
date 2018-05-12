@@ -5,6 +5,9 @@
 
 #![deny(missing_debug_implementations, missing_docs, unsafe_code)]
 
+#[macro_use]
+extern crate log;
+
 #[cfg(not(windows))]
 extern crate regex;
 

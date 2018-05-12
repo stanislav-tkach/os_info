@@ -11,16 +11,21 @@ pub fn get() -> Option<Info> {
 fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
     for release_info in distributions {
         if !Path::new(release_info.path).exists() {
+            trace!("Path '{}' doesn't exist", release_info.path);
             continue;
         }
 
         let mut file = match File::open(&release_info.path) {
             Ok(val) => val,
-            Err(_) => continue,
+            Err(e) => {
+                warn!("Unable to open {:?} file: {:?}", release_info.path, e);
+                continue;
+            },
         };
 
         let mut file_content = String::new();
-        if file.read_to_string(&mut file_content).is_err() {
+        if let Err(e) = file.read_to_string(&mut file_content).is_err() {
+            warn!("Unable to read {:?} file: {:?}", release_info.path, e);
             continue;
         }
 
