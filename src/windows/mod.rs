@@ -3,7 +3,10 @@ mod winapi;
 use Info;
 
 pub fn current_platform() -> Info {
-    winapi::get()
+    trace!("windows::current_platform is called");
+    let info = winapi::get();
+    trace!("Returning {:?}", info);
+    info
 }
 
 #[cfg(test)]

@@ -2,10 +2,14 @@ use {Info, Type, Version};
 
 // TODO: Somehow get the real OS version?
 pub fn current_platform() -> Info {
-    Info {
+    trace!("emscripten::current_platform is called");
+
+    let info = Info {
         os_type: Type::Emscripten,
         version: Version::unknown(),
-    }
+    };
+    trace!("Returning {:?}", info);
+    info
 }
 
 #[cfg(test)]

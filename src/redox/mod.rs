@@ -4,18 +4,34 @@ use std::{fs::File, io::Read};
 
 use {Info, Type, Version};
 
+const UNAME_FILE: &str = "sys:uname";
+
 pub fn current_platform() -> Info {
+    trace!("redox::current_platform is called");
+
     let version = get_version().map_or_else(|| Version::unknown(), |v| Version::custom(v, None));
-    Info {
+    let info = Info {
         os_type: Type::Redox,
         version,
-    }
+    };
+    trace!("Returning {:?}", info);
+    info
 }
 
 fn get_version() -> Option<String> {
-    let mut file = File::open("sys:uname").ok()?;
+    let mut file = match File::open(UNAME_FILE) {
+        Ok(file) => file,
+        Err(e) => {
+            error!("Unable to open {} file: {:?}", UNAME_FILE, e);
+            return None;
+        }
+    };
+
     let mut version = String::new();
-    file.read_to_string(&mut version).ok()?;
+    if let Err(e) = file.read_to_string(&mut version) {
+        error!("Unable to read {} file: {:?}", UNAME_FILE, e);
+        return None;
+    }
     Some(version)
 }
 
