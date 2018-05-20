@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Better Linux, Windows and OS X support.
 
-- Numerous inner improvements and refactorings.
+- Numerous code improvements.
 
 - More and better testing.
 
