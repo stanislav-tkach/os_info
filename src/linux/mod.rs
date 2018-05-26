@@ -1,5 +1,5 @@
-mod lsb_release;
 mod file_release;
+mod lsb_release;
 
 use {Info, Type, Version};
 
