@@ -50,7 +50,7 @@ mod imp;
 mod imp;
 
 #[cfg(not(any(target_os = "android", target_os = "emscripten", target_os = "linux",
-              target_os = "macos", target_os = "redox")))]
+              target_os = "macos", target_os = "redox", target_os = "windows")))]
 #[path = "unknown/mod.rs"]
 mod imp;
 

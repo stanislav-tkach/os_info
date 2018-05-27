@@ -2,7 +2,6 @@ use {Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("unknown::current_platform is called");
-
     Info::unknown()
 }
 
