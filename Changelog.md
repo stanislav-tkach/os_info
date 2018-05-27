@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [1.0.0](https://github.com/darkeld3r/os_info/tree/v0.6.0) (2018-05-21)
+## [1.0.1](https://github.com/darkeld3r/os_info/tree/v1.0.1) (2018-05-27)
+
+- Compilation has been fixed for all "unsupported" operating systems. Now
+  `Unknown` `Type` is returned in such cases.
+
+## [1.0.0](https://github.com/darkeld3r/os_info/tree/v1.0) (2018-05-21)
 
 - Better Linux, Windows and OS X support.
 
