@@ -3,14 +3,14 @@
 
 #![allow(unsafe_code)]
 
-use winapi::{minwindef::DWORD, ntdef::NTSTATUS, ntstatus::STATUS_SUCCESS, sysinfoapi::SYSTEM_INFO,
-             winuser::SM_SERVERR2};
+use kernel32::GetSystemInfo;
+use user32::GetSystemMetrics;
 #[cfg(target_arch = "x86")]
 use winapi::winnt::OSVERSIONINFOEXA;
 #[cfg(not(target_arch = "x86"))]
 use winapi::winnt::OSVERSIONINFOEXW;
-use user32::GetSystemMetrics;
-use kernel32::GetSystemInfo;
+use winapi::{minwindef::DWORD, ntdef::NTSTATUS, ntstatus::STATUS_SUCCESS, sysinfoapi::SYSTEM_INFO,
+             winuser::SM_SERVERR2};
 
 use std::mem;
 

@@ -49,13 +49,18 @@ mod imp;
 #[path = "windows/mod.rs"]
 mod imp;
 
+#[cfg(not(any(target_os = "android", target_os = "emscripten", target_os = "linux",
+              target_os = "macos", target_os = "redox", target_os = "windows")))]
+#[path = "unknown/mod.rs"]
+mod imp;
+
 mod info;
-mod version;
 mod os_type;
+mod version;
 
 pub use info::Info;
-pub use version::{Version, VersionType};
 pub use os_type::Type;
+pub use version::{Version, VersionType};
 
 /// Returns information about the current operating system (type, version, edition, etc.).
 ///
