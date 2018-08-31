@@ -51,7 +51,7 @@ fn parse(output: &str) -> LsbRelease {
         .and_then(|c| c.get(1))
         .map(|d| d.as_str().to_owned());
 
-    let version_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+?)?").unwrap();
+    let version_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+)?").unwrap();
     let version = version_regex
         .captures_iter(output)
         .next()
@@ -95,6 +95,13 @@ mod tests {
         assert_eq!(parse_results.version, Some("26".to_string()));
     }
 
+    #[test]
+    pub fn ubuntu() {
+        let parse_results = parse(ubuntu_file());
+        assert_eq!(parse_results.distribution, Some("Ubuntu".to_string()));
+        assert_eq!(parse_results.version, Some("16.04".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -118,5 +125,12 @@ mod tests {
          Release:    26\n\
          Codename:   TwentySix\n\
          "
+    }
+
+    fn ubuntu_file() -> &'static str {
+        "Distributor ID: Ubuntu\n\
+         Description:    Ubuntu 16.04.5 LTS\n\
+         Release:        16.04\n\
+         Codename:       xenial"
     }
 }
