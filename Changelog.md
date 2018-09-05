@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.2](https://github.com/darkeld3r/os_info/tree/v1.0.2) (2018-09-05)
+
+- Fixed issue with incorrect Linux version detection. (#85).
+
 ## [1.0.1](https://github.com/darkeld3r/os_info/tree/v1.0.1) (2018-05-27)
 
 - Compilation has been fixed for all "unsupported" operating systems. Now
