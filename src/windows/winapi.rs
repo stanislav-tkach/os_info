@@ -33,7 +33,7 @@ const VER_SUITE_WH_SERVER: u16 = 0x00008000;
 const PROCESSOR_ARCHITECTURE_AMD64: u16 = 9;
 
 #[link(name = "ntdll")]
-extern "C" {
+extern "system" {
     pub fn RtlGetVersion(lpVersionInformation: &mut OSVERSIONINFOEX) -> NTSTATUS;
 }
 
