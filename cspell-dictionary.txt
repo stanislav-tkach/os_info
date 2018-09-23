@@ -1,6 +1,7 @@
 centos
 emscripten
 macos
+msvc
 println
 redhat
 toml
