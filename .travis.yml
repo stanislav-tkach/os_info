@@ -5,6 +5,12 @@ rust:
   # Sync with badge in README.md
   - 1.26.1
 
+branches:
+  only:
+  - master
+  # Github release tags (for example "v0.9" or "v0.9.1").
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+
 cache:
   directories:
   - node_modules
