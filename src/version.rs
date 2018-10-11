@@ -1,14 +1,14 @@
 use std::fmt::{self, Display, Formatter, Write};
 
 /// Operating system version including version number and optional edition.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct Version {
     pub(crate) version: VersionType,
     pub(crate) edition: Option<String>,
 }
 
 /// Operating system version.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub enum VersionType {
     /// Unknown version.
     Unknown,
