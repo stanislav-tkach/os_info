@@ -1,7 +1,7 @@
 use std::fmt::{self, Display, Formatter};
 
 /// A list of supported operating system types.
-#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub enum Type {
     /// Unknown operating system.
     Unknown,

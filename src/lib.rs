@@ -25,6 +25,9 @@ extern crate winapi;
 #[cfg(test)]
 extern crate itertools;
 
+#[macro_use]
+extern crate serde_derive;
+
 #[cfg(target_os = "android")]
 #[path = "android/mod.rs"]
 mod imp;

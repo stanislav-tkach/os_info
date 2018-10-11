@@ -15,7 +15,7 @@ use super::{Type, Version};
 /// let info = os_info::get();
 /// println!("OS information: {}", info);
 /// ```
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct Info {
     /// Operating system type. See `Type` for details.
     pub(crate) os_type: Type,
