@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.0](https://github.com/darkeld3r/os_info/tree/v1.1.0) (2018-10-13)
+
+- Serialization support (`serde`) has been added to all public data types. (#91)
+
+- Dependencies have been updated. (#92, #93)
+
 ## [1.0.3](https://github.com/darkeld3r/os_info/tree/v1.0.3) (2018-09-23)
 
 - Fixed linker errors for 32-bit msvc builds. (#88)  

@@ -32,7 +32,7 @@ env:
 jobs:
   include:
   # Formatting & other lints that do not require compilation
-  - env: FEATURE=lints
+  - name: lints
     install:
     - cargo-audit -V || cargo install cargo-audit --force
     - cargo-deadlinks -V | grep $DEADLINKS_VERS || cargo install cargo-deadlinks --vers $DEADLINKS_VERS --force
@@ -55,7 +55,7 @@ jobs:
     - cargo deadlinks --dir target/doc
 
   # Clippy linting
-  - env: FEATURE=clippy
+  - name: clippy
     rust: nightly-2018-05-26
     install:
     - cargo clippy --version | grep $CLIPPY_VERS || cargo install clippy --force --vers $CLIPPY_VERS
@@ -63,7 +63,7 @@ jobs:
     - cargo clippy --all -- -D warnings
 
   # Tests
-  - env: FEATURE=test
+  - name: tests
     script:
     - cargo test --all
     - cargo run --example print_version
