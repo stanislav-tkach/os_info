@@ -1,6 +1,6 @@
 [package]
 name = "os_info"
-version = "1.0.3"
+version = "1.1.0"
 authors = ["Jan Schulte <hello@unexpected-co.de>", "Stanislav Tkach <stanislav.tkach@gmail.com>"]
 description = "Detect the operating system type and version."
 documentation = "https://docs.rs/os_info"
@@ -21,14 +21,14 @@ is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
 [dependencies]
 log = "0.4.5"
-serde = "1.0"
-serde_derive = "1.0"
+serde = "1.0.0"
+serde_derive = "1.0.0"
 
 [target.'cfg(not(windows))'.dependencies]
-regex="0.2.10"
+regex="1.0.5"
 
 [target.'cfg(target_os = "macos")'.dependencies]
-lazy_static = "1.0.0"
+lazy_static = "1.1.0"
 
 [target.'cfg(windows)'.dependencies]
 winapi = "0.2.8"
@@ -36,5 +36,5 @@ user32-sys = "0.2.0"
 kernel32-sys = "0.2.2"
 
 [dev-dependencies]
-itertools = "0.7.3"
+itertools = "0.7.8"
 pretty_assertions = "0.5.1"

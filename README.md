@@ -32,7 +32,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "1.0.3"
+os_info = "1.1.0"
 ```
 
 ## Example
