@@ -4,6 +4,7 @@ macos
 msvc
 println
 redhat
+serde
 toml
 winapi
 xenial
