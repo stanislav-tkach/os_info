@@ -3,7 +3,7 @@ language: rust
 rust:
   # Feel free to bump this version if you need features of newer Rust.
   # Sync with badge in README.md
-  - 1.26.1
+  - 1.33.0
 
 branches:
   only:
@@ -23,7 +23,6 @@ sudo: required
 
 env:
   global:
-  - CLIPPY_VERS=0.0.205
   - DEADLINKS_VERS=0.3.0
   - CARGO_INCREMENTAL=1
   matrix:
@@ -37,7 +36,7 @@ jobs:
     - cargo-audit -V || cargo install cargo-audit --force
     - cargo-deadlinks -V | grep $DEADLINKS_VERS || cargo install cargo-deadlinks --vers $DEADLINKS_VERS --force
     - cargo install --list
-    - rustup component add rustfmt-preview
+    - rustup component add rustfmt
     - rustfmt -V
     - nvm install 8 && nvm use 8
     - npm install cspell
@@ -45,7 +44,7 @@ jobs:
     - npm install markdownlint-cli
     - ./node_modules/.bin/markdownlint --version
     script:
-    - cargo fmt --all -- --write-mode=diff
+    - cargo fmt --all -- --check
     - ./node_modules/.bin/cspell src/**/*.rs
     - ./node_modules/.bin/cspell examples/**/*.rs
     - ./node_modules/.bin/cspell tests/**/*.rs
@@ -56,9 +55,9 @@ jobs:
 
   # Clippy linting
   - name: clippy
-    rust: nightly-2018-05-26
     install:
-    - cargo clippy --version | grep $CLIPPY_VERS || cargo install clippy --force --vers $CLIPPY_VERS
+    - rustup component add clippy
+    - cargo clippy -V
     script:
     - cargo clippy --all -- -D warnings
 

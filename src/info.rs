@@ -1,5 +1,7 @@
 use std::fmt::{self, Display, Formatter};
 
+use serde_derive::{Deserialize, Serialize};
+
 use super::{Type, Version};
 
 /// Holds information about operating system (type, version, etc.).

@@ -1,4 +1,6 @@
-use {Info, Type, Version};
+use log::trace;
+
+use crate::{Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("android::current_platform is called");

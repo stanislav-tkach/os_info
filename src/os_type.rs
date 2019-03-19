@@ -1,5 +1,7 @@
 use std::fmt::{self, Display, Formatter};
 
+use serde_derive::{Deserialize, Serialize};
+
 /// A list of supported operating system types.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub enum Type {

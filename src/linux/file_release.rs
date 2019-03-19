@@ -1,8 +1,9 @@
-use regex::Regex;
-
 use std::{fs::File, io::Read, path::Path};
 
-use {Info, Type, Version};
+use log::{trace, warn};
+use regex::Regex;
+
+use crate::{Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     retrieve(&DISTRIBUTIONS)
@@ -39,8 +40,9 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
                 .map(|v| v.as_str().trim_end().to_owned())
         } else {
             Some(file_content.trim_end().to_string())
-        }.map(|x| Version::custom(x, None))
-            .unwrap_or_else(Version::unknown);
+        }
+        .map(|x| Version::custom(x, None))
+        .unwrap_or_else(Version::unknown);
 
         return Some(Info::new(release_info.os_type, version));
     }
