@@ -1,6 +1,8 @@
 mod winapi;
 
-use Info;
+use log::trace;
+
+use crate::Info;
 
 pub fn current_platform() -> Info {
     trace!("windows::current_platform is called");

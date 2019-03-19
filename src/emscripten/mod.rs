@@ -1,4 +1,6 @@
-use {Info, Type, Version};
+use log::trace;
+
+use crate::{Info, Type, Version};
 
 // TODO: Somehow get the real OS version?
 pub fn current_platform() -> Info {

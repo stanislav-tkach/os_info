@@ -5,29 +5,6 @@
 
 #![deny(missing_debug_implementations, missing_docs, unsafe_code)]
 
-#[macro_use]
-extern crate log;
-
-#[cfg(not(windows))]
-extern crate regex;
-
-#[cfg(target_os = "macos")]
-#[macro_use]
-extern crate lazy_static;
-
-#[cfg(windows)]
-extern crate kernel32;
-#[cfg(windows)]
-extern crate user32;
-#[cfg(windows)]
-extern crate winapi;
-
-#[cfg(test)]
-extern crate itertools;
-
-#[macro_use]
-extern crate serde_derive;
-
 #[cfg(target_os = "android")]
 #[path = "android/mod.rs"]
 mod imp;
@@ -52,18 +29,14 @@ mod imp;
 #[path = "windows/mod.rs"]
 mod imp;
 
-#[cfg(
-    not(
-        any(
-            target_os = "android",
-            target_os = "emscripten",
-            target_os = "linux",
-            target_os = "macos",
-            target_os = "redox",
-            target_os = "windows"
-        )
-    )
-)]
+#[cfg(not(any(
+    target_os = "android",
+    target_os = "emscripten",
+    target_os = "linux",
+    target_os = "macos",
+    target_os = "redox",
+    target_os = "windows"
+)))]
 #[path = "unknown/mod.rs"]
 mod imp;
 

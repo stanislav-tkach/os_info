@@ -1,8 +1,10 @@
-use regex::Regex;
-
 use std::process::Command;
 
-use {Info, Type, Version};
+use lazy_static::lazy_static;
+use log::trace;
+use regex::Regex;
+
+use crate::{Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
