@@ -1,6 +1,6 @@
 use std::fmt::{self, Display, Formatter, Write};
 
-use serde_derive::{Serialize, Deserialize};
+use serde_derive::{Deserialize, Serialize};
 
 /// Operating system version including version number and optional edition.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
