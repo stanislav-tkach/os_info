@@ -44,7 +44,7 @@ jobs:
     - npm install markdownlint-cli
     - ./node_modules/.bin/markdownlint --version
     script:
-    - cargo fmt --all -- --write-mode=diff
+    - cargo fmt --all -- --check
     - ./node_modules/.bin/cspell src/**/*.rs
     - ./node_modules/.bin/cspell examples/**/*.rs
     - ./node_modules/.bin/cspell tests/**/*.rs
