@@ -1,10 +1,11 @@
 // spell-checker:ignore codename, noarch
 
-use regex::Regex;
-
 use std::process::Command;
 
-use {Info, Type, Version};
+use log::{trace, warn};
+use regex::Regex;
+
+use crate::{Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     let release = retrieve()?;

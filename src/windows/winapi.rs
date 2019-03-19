@@ -3,18 +3,20 @@
 
 #![allow(unsafe_code)]
 
+use std::mem;
+
 use kernel32::GetSystemInfo;
 use user32::GetSystemMetrics;
 #[cfg(target_arch = "x86")]
 use winapi::winnt::OSVERSIONINFOEXA;
 #[cfg(not(target_arch = "x86"))]
 use winapi::winnt::OSVERSIONINFOEXW;
-use winapi::{minwindef::DWORD, ntdef::NTSTATUS, ntstatus::STATUS_SUCCESS, sysinfoapi::SYSTEM_INFO,
-             winuser::SM_SERVERR2};
+use winapi::{
+    minwindef::DWORD, ntdef::NTSTATUS, ntstatus::STATUS_SUCCESS, sysinfoapi::SYSTEM_INFO,
+    winuser::SM_SERVERR2,
+};
 
-use std::mem;
-
-use {Info, Type, Version};
+use crate::{Info, Type, Version};
 
 #[cfg(target_arch = "x86")]
 type OSVERSIONINFOEX = OSVERSIONINFOEXA;
@@ -108,7 +110,8 @@ fn get_edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
             }
         }
         _ => None,
-    }.map(str::to_string)
+    }
+    .map(str::to_string)
 }
 
 #[cfg(test)]

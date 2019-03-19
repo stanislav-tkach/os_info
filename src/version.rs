@@ -1,5 +1,7 @@
 use std::fmt::{self, Display, Formatter, Write};
 
+use serde_derive::{Serialize, Deserialize};
+
 /// Operating system version including version number and optional edition.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct Version {

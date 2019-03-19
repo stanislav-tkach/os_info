@@ -2,7 +2,9 @@
 
 use std::{fs::File, io::Read};
 
-use {Info, Type, Version};
+use log::{error, trace};
+
+use crate::{Info, Type, Version};
 
 const UNAME_FILE: &str = "sys:uname";
 
