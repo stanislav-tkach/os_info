@@ -36,9 +36,9 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
                 .captures_iter(&file_content)
                 .next()
                 .and_then(|c| c.get(1))
-                .map(|v| v.as_str().trim_right().to_owned())
+                .map(|v| v.as_str().trim_end().to_owned())
         } else {
-            Some(file_content.trim_right().to_string())
+            Some(file_content.trim_end().to_string())
         }.map(|x| Version::custom(x, None))
             .unwrap_or_else(Version::unknown);
 
