@@ -14,7 +14,7 @@ pub fn current_platform() -> Info {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use Type;
+    use crate::Type;
 
     #[test]
     fn os_type() {
