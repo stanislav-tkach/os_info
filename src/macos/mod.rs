@@ -60,7 +60,7 @@ fn product_version() -> Option<String> {
 
 fn parse(sw_vers_output: &str) -> Option<String> {
     lazy_static! {
-        static ref VERSION: Regex = Regex::new(r"ProductVersion:\s(\w+\.\w+[\.\w]?)").unwrap();
+        static ref VERSION: Regex = Regex::new(r"ProductVersion:\s(\w+\.\w+(\.\w+)?)").unwrap();
     }
 
     Some(
@@ -140,5 +140,17 @@ mod tests {
         "ProductName:	Mac OS X\n\
          ProductVersion:	10.15\n\
          BuildVersion:	19A546d"
+    }
+
+    #[test]
+    fn parse_double_digit_patch_version() {
+        let parse_output = parse(sw_vers_output_double_digit_patch_version());
+        assert_eq!(parse_output, Some("10.15.21".to_string()));
+    }
+
+    fn sw_vers_output_double_digit_patch_version() -> &'static str {
+        "ProductName:	Mac OS X\n\
+         ProductVersion:	10.15.21\n\
+         BuildVersion:	ABCD123"
     }
 }
