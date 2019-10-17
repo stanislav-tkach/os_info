@@ -20,6 +20,7 @@ pub fn get() -> Option<Info> {
         Some("Arch") => Info::new(Type::Arch, version),
         Some("CentOS") => Info::new(Type::Centos, version),
         Some("Fedora") => Info::new(Type::Fedora, version),
+        Some("Amazon") | Some("AmazonAMI") => Info::new(Type::Amazon, version),
         _ => Info::new(Type::Linux, Version::unknown()),
     })
 }
@@ -52,7 +53,7 @@ fn parse(output: &str) -> LsbRelease {
         .and_then(|c| c.get(1))
         .map(|d| d.as_str().to_owned());
 
-    let version_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]+)?").unwrap();
+    let version_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]*)?").unwrap();
     let version = version_regex
         .captures_iter(output)
         .next()
@@ -103,6 +104,20 @@ mod tests {
         assert_eq!(parse_results.version, Some("16.04".to_string()));
     }
 
+    #[test]
+    pub fn amazon1() {
+        let parse_results = parse(amazon1_file());
+        assert_eq!(parse_results.distribution, Some("AmazonAMI".to_string()));
+        assert_eq!(parse_results.version, Some("2018.03".to_string()));
+    }
+
+    #[test]
+    pub fn amazon2() {
+        let parse_results = parse(amazon2_file());
+        assert_eq!(parse_results.distribution, Some("Amazon".to_string()));
+        assert_eq!(parse_results.version, Some("2".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -134,4 +149,26 @@ mod tests {
          Release:        16.04\n\
          Codename:       xenial"
     }
+
+    // Amazon Linux 1 uses a separate Distributor ID and Release format from Amazon Linux 2
+    fn amazon1_file() -> &'static str {
+        "LSB Version:	:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch\n\
+         Distributor ID:	AmazonAMI\n\
+         Description:	Amazon Linux AMI release 2018.03\n\
+         Release:	2018.03\n\
+         Codename:	n/a\n\
+         "
+    }
+
+    // Amazon Linux 2 uses a separate Distributor ID and Release format from Amazon Linux 1
+    fn amazon2_file() -> &'static str {
+        "LSB Version:	:core-4.1-amd64:core-4.1-noarch\n\
+         Distributor ID:	Amazon\n\
+         Description:	Amazon Linux release 2 (Karoo)\n\
+         Release:	2\n\
+         Codename:	Karoo\n\
+         "
+    }
+
 }
+
