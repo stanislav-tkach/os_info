@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.3] (2019-09-11)
+
+- Amazon Linux support has been added. (#105)
+
 ## [1.1.2] (2019-09-11)
 
 - OS X beta versions support has been added. (#103)
@@ -87,8 +91,9 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.1.2...HEAD
-[1.1.1]: https://github.com/darkeld3r/os_info/compare/v1.1.1...v1.1.2
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.1.3...HEAD
+[1.1.2]: https://github.com/darkeld3r/os_info/compare/v1.1.2...v1.1.3
+[1.1.2]: https://github.com/darkeld3r/os_info/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/darkeld3r/os_info/compare/v1.1...v1.1.1
 [1.1.0]: https://github.com/darkeld3r/os_info/compare/v1.0.3...v1.1
 [1.0.3]: https://github.com/darkeld3r/os_info/compare/v1.0.2...v1.0.3
