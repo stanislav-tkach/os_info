@@ -15,6 +15,8 @@ pub enum Type {
     Linux,
     /// Red Hat Linux (<https://en.wikipedia.org/wiki/Red_Hat_Linux>).
     Redhat,
+    /// Red Hat Enterprise Linux (<https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux>).
+    RedhatEnterprise,
     /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
     Ubuntu,
     /// Debian (<https://en.wikipedia.org/wiki/Debian>).
