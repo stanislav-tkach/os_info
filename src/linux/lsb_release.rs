@@ -19,7 +19,7 @@ pub fn get() -> Option<Info> {
         Some("Debian") => Info::new(Type::Debian, version),
         Some("Arch") => Info::new(Type::Arch, version),
         Some("CentOS") => Info::new(Type::Centos, version),
-        Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Info::new(Type::RedhatEnterprise, version),
+        Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Info::new(Type::RedHatEnterprise, version),
         Some("Fedora") => Info::new(Type::Fedora, version),
         Some("Amazon") | Some("AmazonAMI") => Info::new(Type::Amazon, version),
         _ => Info::new(Type::Linux, Version::unknown()),
@@ -122,21 +122,21 @@ mod tests {
     #[test]
     pub fn redhat_enterprise_8() {
         let parse_results = parse(rhel8_file());
-        assert_eq!(parse_results.distribution, Some("RedhatEnterprise".to_string()));
+        assert_eq!(parse_results.distribution, Some("RedHatEnterprise".to_string()));
         assert_eq!(parse_results.version, Some("8.1".to_string()));
     }
 
     #[test]
     pub fn redhat_enterprise_7() {
         let parse_results = parse(rhel7_file());
-        assert_eq!(parse_results.distribution, Some("RedhatEnterpriseServer".to_string()));
+        assert_eq!(parse_results.distribution, Some("RedHatEnterpriseServer".to_string()));
         assert_eq!(parse_results.version, Some("7.7".to_string()));
     }
 
     #[test]
     pub fn redhat_enterprise_6() {
         let parse_results = parse(rhel7_file());
-        assert_eq!(parse_results.distribution, Some("RedhatEnterpriseServer".to_string()));
+        assert_eq!(parse_results.distribution, Some("RedHatEnterpriseServer".to_string()));
         assert_eq!(parse_results.version, Some("6.10".to_string()));
     }
 
