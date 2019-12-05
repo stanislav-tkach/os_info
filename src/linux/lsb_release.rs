@@ -128,15 +128,15 @@ mod tests {
 
     #[test]
     pub fn redhat_enterprise_7() {
-        let parse_results = parse(rhel8_file());
-        assert_eq!(parse_results.distribution, Some("RedhatEnterprise".to_string()));
+        let parse_results = parse(rhel7_file());
+        assert_eq!(parse_results.distribution, Some("RedhatEnterpriseServer".to_string()));
         assert_eq!(parse_results.version, Some("7.7".to_string()));
     }
 
     #[test]
-    pub fn redhat_enterprise_8() {
-        let parse_results = parse(rhel8_file());
-        assert_eq!(parse_results.distribution, Some("RedhatEnterprise".to_string()));
+    pub fn redhat_enterprise_6() {
+        let parse_results = parse(rhel7_file());
+        assert_eq!(parse_results.distribution, Some("RedhatEnterpriseServer".to_string()));
         assert_eq!(parse_results.version, Some("6.10".to_string()));
     }
 
