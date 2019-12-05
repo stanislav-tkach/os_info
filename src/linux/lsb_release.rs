@@ -135,7 +135,7 @@ mod tests {
 
     #[test]
     pub fn redhat_enterprise_6() {
-        let parse_results = parse(rhel7_file());
+        let parse_results = parse(rhel6_file());
         assert_eq!(parse_results.distribution, Some("RedHatEnterpriseServer".to_string()));
         assert_eq!(parse_results.version, Some("6.10".to_string()));
     }

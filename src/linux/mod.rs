@@ -25,6 +25,7 @@ mod tests {
         match version.os_type() {
             Type::Linux
             | Type::Redhat
+            | Type::RedHatEnterprise
             | Type::Ubuntu
             | Type::Debian
             | Type::Arch
