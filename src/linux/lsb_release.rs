@@ -19,6 +19,7 @@ pub fn get() -> Option<Info> {
         Some("Debian") => Info::new(Type::Debian, version),
         Some("Arch") => Info::new(Type::Arch, version),
         Some("CentOS") => Info::new(Type::Centos, version),
+        Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Info::new(Type::RedHatEnterprise, version),
         Some("Fedora") => Info::new(Type::Fedora, version),
         Some("Amazon") | Some("AmazonAMI") => Info::new(Type::Amazon, version),
         _ => Info::new(Type::Linux, Version::unknown()),
@@ -118,6 +119,27 @@ mod tests {
         assert_eq!(parse_results.version, Some("2".to_string()));
     }
 
+    #[test]
+    pub fn redhat_enterprise_8() {
+        let parse_results = parse(rhel8_file());
+        assert_eq!(parse_results.distribution, Some("RedHatEnterprise".to_string()));
+        assert_eq!(parse_results.version, Some("8.1".to_string()));
+    }
+
+    #[test]
+    pub fn redhat_enterprise_7() {
+        let parse_results = parse(rhel7_file());
+        assert_eq!(parse_results.distribution, Some("RedHatEnterpriseServer".to_string()));
+        assert_eq!(parse_results.version, Some("7.7".to_string()));
+    }
+
+    #[test]
+    pub fn redhat_enterprise_6() {
+        let parse_results = parse(rhel6_file());
+        assert_eq!(parse_results.distribution, Some("RedHatEnterpriseServer".to_string()));
+        assert_eq!(parse_results.version, Some("6.10".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -170,5 +192,31 @@ mod tests {
          "
     }
 
+    fn rhel8_file() -> &'static str {
+        "LSB Version:	:core-4.1-amd64:core-4.1-noarch\n\
+         Distributor ID:	RedHatEnterprise\n\
+         Description:	Red Hat Enterprise Linux release 8.1 (Ootpa)\n\
+         Release:	8.1\n\
+         Codename:	Ootpa\n\
+         "
+    }
+
+    fn rhel7_file() -> &'static str {
+        "LSB Version:	:core-4.1-amd64:core-4.1-noarch\n\
+        Distributor ID:	RedHatEnterpriseServer\n\
+        Description:	Red Hat Enterprise Linux Server release 7.7 (Maipo)\n\
+        Release:	7.7\n\
+        Codename:	Maipo\n\
+        "
+    }
+
+    fn rhel6_file() -> &'static str {
+        "LSB Version:	:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch\n\
+        Distributor ID:	RedHatEnterpriseServer\n\
+        Description:	Red Hat Enterprise Linux Server release 6.10 (Santiago)\n\
+        Release:	6.10\n\
+        Codename:	Santiago\n\
+        "
+    }
 }
 
