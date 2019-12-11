@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.0] (2019-11-11)
+
+- Distinguish between Red Hat and Red Hat Enterprise operating system versions. (#107)
+
 ## [1.1.3] (2019-09-11)
 
 - Amazon Linux support has been added. (#105)
@@ -91,8 +95,9 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.1.3...HEAD
-[1.1.2]: https://github.com/darkeld3r/os_info/compare/v1.1.2...v1.1.3
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/darkeld3r/os_info/compare/v1.1.3...v1.2.0
+[1.1.3]: https://github.com/darkeld3r/os_info/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/darkeld3r/os_info/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/darkeld3r/os_info/compare/v1.1...v1.1.1
 [1.1.0]: https://github.com/darkeld3r/os_info/compare/v1.0.3...v1.1

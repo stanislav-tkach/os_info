@@ -32,7 +32,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "1.1.3"
+os_info = "1.2.0"
 ```
 
 ## Example
@@ -51,16 +51,21 @@ println!("Version: {}", info.version());
 Right now, the following operating system types can be returned:
 
 - Unknown
+- Android
+- Emscripten
+- Linux
 - Redhat
-- CentOS
-- Fedora
-- OSX
+- RedHatEnterprise
 - Ubuntu
 - Debian
 - Arch
+- CentOS
+- Fedora
+- Amazon
+- Alpine
+- Macos
 - Redox
 - Windows
-- Alpine
 
 If you need support for more OS types, I am looking forward to your Pull
 Request.
