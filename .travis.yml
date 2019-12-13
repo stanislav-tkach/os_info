@@ -48,8 +48,8 @@ jobs:
     - ./node_modules/.bin/cspell src/**/*.rs
     - ./node_modules/.bin/cspell examples/**/*.rs
     - ./node_modules/.bin/cspell tests/**/*.rs
-    - find . -not -path "./node_modules/*" -name "*.md" | xargs ./node_modules/.bin/cspell
-    - find . -not -path "./node_modules/*" -name "*.md" | xargs ./node_modules/.bin/markdownlint
+    - find . -not -path "./node_modules/*" -not -path "./target" -name "*.md" | xargs ./node_modules/.bin/cspell
+    - find . -not -path "./node_modules/*" -not -path "./target" -name "*.md" | xargs ./node_modules/.bin/markdownlint
     - cargo doc --no-deps
     - cargo deadlinks --dir target/doc
 
