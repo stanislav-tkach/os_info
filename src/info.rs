@@ -99,7 +99,7 @@ impl Default for Info {
 impl Display for Info {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{}", self.os_type)?;
-        write!(f, "{}", self.version)
+        write!(f, " ({})", self.version)
     }
 }
 
