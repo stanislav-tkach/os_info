@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- `Info`'s `Display` implementation has been fixed. (#110)
+
 ## [1.2.0] (2019-11-11)
 
 - Distinguish between Red Hat and Red Hat Enterprise operating system versions. (#107)
