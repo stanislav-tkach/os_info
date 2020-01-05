@@ -85,8 +85,8 @@ const DISTRIBUTIONS: [ReleaseInfo; 4] = [
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::path::PathBuf;
     use pretty_assertions::assert_eq;
+    use std::path::PathBuf;
 
     #[test]
     fn centos() {
