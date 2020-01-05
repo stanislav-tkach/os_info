@@ -107,6 +107,7 @@ impl Display for Info {
 mod tests {
     use super::*;
     use itertools::Itertools;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn unknown() {

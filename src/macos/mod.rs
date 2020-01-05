@@ -75,6 +75,7 @@ fn parse(sw_vers_output: &str) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn os_type() {

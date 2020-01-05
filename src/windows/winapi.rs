@@ -26,10 +26,10 @@ type OSVERSIONINFOEX = OSVERSIONINFOEXW;
 
 /// Win32 Flag: VER_NT_WORKSTATION
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
-const VER_NT_WORKSTATION: u8 = 0x0000001;
+const VER_NT_WORKSTATION: u8 = 0x0000_0001;
 /// Win32 Flag: VER_SUITE_WH_SERVER
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
-const VER_SUITE_WH_SERVER: u16 = 0x00008000;
+const VER_SUITE_WH_SERVER: u16 = 0x0000_8000;
 /// Win32 Flag: PROCESSOR_ARCHITECTURE_AMD64
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724958(v=vs.85).aspx
 const PROCESSOR_ARCHITECTURE_AMD64: u16 = 9;
@@ -117,6 +117,7 @@ fn get_edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn version() {

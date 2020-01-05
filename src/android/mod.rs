@@ -16,6 +16,7 @@ pub fn current_platform() -> Info {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn os_type() {
