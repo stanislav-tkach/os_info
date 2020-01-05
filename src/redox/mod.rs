@@ -40,6 +40,7 @@ fn get_version() -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn os_type() {
