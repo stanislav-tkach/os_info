@@ -5,34 +5,24 @@
 
 use std::mem;
 
-use kernel32::GetSystemInfo;
-use user32::GetSystemMetrics;
-#[cfg(target_arch = "x86")]
-use winapi::winnt::OSVERSIONINFOEXA;
-#[cfg(not(target_arch = "x86"))]
-use winapi::winnt::OSVERSIONINFOEXW;
 use winapi::{
-    minwindef::DWORD, ntdef::NTSTATUS, ntstatus::STATUS_SUCCESS, sysinfoapi::SYSTEM_INFO,
-    winuser::SM_SERVERR2,
+    shared::{minwindef::DWORD, ntdef::NTSTATUS, ntstatus::STATUS_SUCCESS},
+    um::{
+        sysinfoapi::GetSystemInfo,
+        sysinfoapi::SYSTEM_INFO,
+        winnt::{PROCESSOR_ARCHITECTURE_AMD64, VER_NT_WORKSTATION, VER_SUITE_WH_SERVER},
+        winuser::GetSystemMetrics,
+        winuser::SM_SERVERR2,
+    },
 };
 
 use crate::{Info, Type, Version};
 
 #[cfg(target_arch = "x86")]
-type OSVERSIONINFOEX = OSVERSIONINFOEXA;
+type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXA;
 
 #[cfg(not(target_arch = "x86"))]
-type OSVERSIONINFOEX = OSVERSIONINFOEXW;
-
-/// Win32 Flag: VER_NT_WORKSTATION
-/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
-const VER_NT_WORKSTATION: u8 = 0x0000_0001;
-/// Win32 Flag: VER_SUITE_WH_SERVER
-/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
-const VER_SUITE_WH_SERVER: u16 = 0x0000_8000;
-/// Win32 Flag: PROCESSOR_ARCHITECTURE_AMD64
-/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724958(v=vs.85).aspx
-const PROCESSOR_ARCHITECTURE_AMD64: u16 = 9;
+type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXW;
 
 #[link(name = "ntdll")]
 extern "system" {
@@ -99,10 +89,12 @@ fn get_edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
             let mut info: SYSTEM_INFO = unsafe { mem::zeroed() };
             unsafe { GetSystemInfo(&mut info) };
 
-            if version_info.wSuiteMask & VER_SUITE_WH_SERVER == VER_SUITE_WH_SERVER {
+            if Into::<DWORD>::into(version_info.wSuiteMask) & VER_SUITE_WH_SERVER
+                == VER_SUITE_WH_SERVER
+            {
                 Some("Windows Home Server")
             } else if version_info.wProductType == VER_NT_WORKSTATION
-                && info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64
+                && unsafe { info.u.s().wProcessorArchitecture } == PROCESSOR_ARCHITECTURE_AMD64
             {
                 Some("Windows XP Professional x64 Edition")
             } else {
