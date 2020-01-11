@@ -1,9 +1,7 @@
 language: rust
 
 rust:
-  # Feel free to bump this version if you need features of newer Rust.
-  # Sync with badge in README.md
-  - 1.37.0
+  - 1.40.0
 
 branches:
   only:
