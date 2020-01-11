@@ -1,6 +1,6 @@
 name: Rust version compatibility check
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -9,7 +9,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        rust: [1.33.0]
+        # Feel free to bump this version if you need features of newer Rust.
+        # Sync with badge in README.md
+        rust: [1.32.0]
 
     steps:
     - uses: hecrj/setup-rust-action@v1
