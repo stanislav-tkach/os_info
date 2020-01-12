@@ -4,7 +4,7 @@ use lazy_static::lazy_static;
 use log::trace;
 use regex::Regex;
 
-use crate::{Info, Type, Version};
+use crate::{Bitness, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
@@ -12,6 +12,7 @@ pub fn current_platform() -> Info {
     let info = Info {
         os_type: Type::Macos,
         version: version(),
+        bitness: Bitness::Unknown,
     };
     trace!("Returning {:?}", info);
     info

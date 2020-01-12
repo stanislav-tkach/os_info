@@ -3,14 +3,14 @@ mod lsb_release;
 
 use log::trace;
 
-use crate::{Info, Type, Version};
+use crate::{Bitness, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("linux::current_platform is called");
 
     let info = lsb_release::get()
         .or_else(file_release::get)
-        .unwrap_or_else(|| Info::new(Type::Linux, Version::unknown()));
+        .unwrap_or_else(|| Info::new(Type::Linux, Version::unknown(), Bitness::Unknown));
     trace!("Returning {:?}", info);
     info
 }

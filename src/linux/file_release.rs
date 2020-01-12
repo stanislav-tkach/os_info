@@ -3,7 +3,7 @@ use std::{fs::File, io::Read, path::Path};
 use log::{trace, warn};
 use regex::Regex;
 
-use crate::{Info, Type, Version};
+use crate::{Bitness, Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     retrieve(&DISTRIBUTIONS)
@@ -44,7 +44,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
         .map(|x| Version::custom(x, None))
         .unwrap_or_else(Version::unknown);
 
-        return Some(Info::new(release_info.os_type, version));
+        return Some(Info::new(release_info.os_type, version, Bitness::Unknown));
     }
 
     None

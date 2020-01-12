@@ -40,10 +40,12 @@ mod imp;
 #[path = "unknown/mod.rs"]
 mod imp;
 
+mod bitness;
 mod info;
 mod os_type;
 mod version;
 
+pub use bitness::Bitness;
 pub use info::Info;
 pub use os_type::Type;
 pub use version::{Version, VersionType};
@@ -63,6 +65,7 @@ pub use version::{Version, VersionType};
 /// // Print information separately:
 /// println!("Type: {}", info.os_type());
 /// println!("Version: {}", info.version());
+/// println!("Bitness: {}", info.bitness());
 /// ```
 pub fn get() -> Info {
     imp::current_platform()

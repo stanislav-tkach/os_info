@@ -7,4 +7,5 @@ fn main() {
     // Print information separately:
     println!("Type: {}", info.os_type());
     println!("Version: {}", info.version());
+    println!("Bitness: {}", info.bitness());
 }
