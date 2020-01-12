@@ -15,11 +15,8 @@ use winapi::{
         winuser::SM_SERVERR2,
     },
 };
-#[cfg(target_pointer_width = "32")]
-use winapi::um::libloaderapi::{GetProcAddress, GetModuleHandleA};
 
 use crate::{Bitness, Info, Type, Version};
-use winapi::um::libloaderapi::{GetProcAddress, GetModuleHandleA};
 
 #[cfg(target_arch = "x86")]
 type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXA;
@@ -44,71 +41,59 @@ fn version() -> Version {
             v.dwMinorVersion as u64,
             v.dwBuildNumber as u64,
             edition(&v),
-        )
+        ),
     }
 }
 
+#[cfg(target_pointer_width = "64")]
 fn bitness() -> Bitness {
-    let my_directory = if cfg!(target_pointer_width = "64") {
-        // x64 program can only run on x64 Windows.
-        Bitness::X64,
-    } else {
-        match isWow64() {
-            None => Bitness::Unknown,
-            Some(true) => Bitness::X64,
-            Some(false) => Bitness::X32,
-        }
-    }
+    // x64 program can only run on x64 Windows.
+    Bitness::X64
 }
 
-fn isWow64() -> Option<bool> {
+#[cfg(target_pointer_width = "32")]
+fn bitness() -> Bitness {
+    use winapi::{
+        shared::{
+            minwindef::{BOOL, FALSE, PBOOL},
+            ntdef::{HANDLE, LPCSTR},
+        },
+        um::{
+            libloaderapi::{GetModuleHandleA, GetProcAddress},
+            processthreadsapi::GetCurrentProcess,
+        },
+    };
+
     // IsWow64Process is not available on all supported versions of Windows. Use GetModuleHandle to
     // get a handle to the DLL that contains the function and GetProcAddress to get a pointer to the
     // function if available.
-    let kernel = unsafe { GetModuleHandleA("kernel32") };
+    let kernel = unsafe { GetModuleHandleA(b"kernel32\0".as_ptr() as LPCSTR) };
     if kernel.is_null() {
-        // TODO: Log error.
-        return None;
+        log::error!("GetModuleHandleA failed");
+        return Bitness::Unknown;
     }
 
-    let proc = unsafe { GetProcAddress(kernel, "IsWow64Process") };
-    if proc.is_null() {
-        // TODO: Log error.
-        return None;
+    let is_wow_64 = unsafe { GetProcAddress(kernel, b"IsWow64Process\0".as_ptr() as LPCSTR) };
+    if is_wow_64.is_null() {
+        log::error!("GetProcAddress failed");
+        return Bitness::Unknown;
     }
 
-    BOOL result = false;
-    // TODO: FIXME: Handle errors (GetCurrentProcess).
-    if !proc(GetCurrentProcess(), &result) {
-        // TODO: Log error.
-        return None;
+    type IsWow64 = unsafe extern "system" fn(HANDLE, PBOOL) -> BOOL;
+    let is_wow_64: IsWow64 = unsafe { mem::transmute(is_wow_64) };
+
+    let mut result = FALSE;
+    if unsafe { is_wow_64(GetCurrentProcess(), &mut result) } == 0 {
+        log::error!("IsWow64Process failed");
+        return Bitness::Unknown;
     }
 
-    Some(result)
+    if result == FALSE {
+        Bitness::X32
+    } else {
+        Bitness::X64
+    }
 }
-
-/*
-BOOL IsWow64()
-{
-    BOOL bIsWow64 = FALSE;
-
-    //IsWow64Process is not available on all supported versions of Windows.
-    //Use GetModuleHandle to get a handle to the DLL that contains the function
-    //and GetProcAddress to get a pointer to the function if available.
-
-    fnIsWow64Process = (LPFN_ISWOW64PROCESS) GetProcAddress(
-        GetModuleHandle(TEXT("kernel32")),"IsWow64Process");
-
-    if(NULL != fnIsWow64Process)
-    {
-        if (!fnIsWow64Process(GetCurrentProcess(),&bIsWow64))
-        {
-            //handle error
-        }
-    }
-    return bIsWow64;
-}
-*/
 
 // Calls the Win32 API function RtlGetVersion to get the OS version information:
 // https://msdn.microsoft.com/en-us/library/mt723418(v=vs.85).aspx
