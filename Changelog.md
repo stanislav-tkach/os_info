@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- `Info`'s `Display` implementation has been fixed. (#110)
+- `Info` has been extended with operating system bitness. See `Info::bitness` for details.
+  Currently implemented only for Windows. (#119)
+
+- `Info`'s `Display` implementation has been fixed. (#113)
+
+- `winapi` dependency version has been updated to `0.3`. (#115)
 
 ## [1.2.0] (2019-11-11)
 
@@ -97,8 +102,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/darkeld3r/os_info/compare/v1.1.3...v1.2.0
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.2...HEAD
+[1.2.0]: https://github.com/darkeld3r/os_info/compare/v1.1.3...v1.2
 [1.1.3]: https://github.com/darkeld3r/os_info/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/darkeld3r/os_info/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/darkeld3r/os_info/compare/v1.1...v1.1.1
@@ -112,6 +117,6 @@ The first release containing only minor infrastructural changes and based on [os
 [0.5.0]: https://github.com/darkeld3r/os_info/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/darkeld3r/os_info/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/darkeld3r/os_info/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/darkeld3r/os_info/compare/v0.1.1...v0.2.0
-[0.1.1]: https://github.com/darkeld3r/os_info/compare/v0.1.0...v0.1.1
+[0.2.0]: https://github.com/darkeld3r/os_info/compare/v.0.1.1...v0.2.0
+[0.1.1]: https://github.com/darkeld3r/os_info/compare/v0.1.0...v.0.1.1
 [0.1.0]: https://github.com/darkeld3r/os_info/tree/v0.1.0

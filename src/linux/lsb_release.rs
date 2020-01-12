@@ -5,7 +5,7 @@ use std::process::Command;
 use log::{trace, warn};
 use regex::Regex;
 
-use crate::{Info, Type, Version};
+use crate::{Bitness, Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     let release = retrieve()?;
@@ -14,18 +14,18 @@ pub fn get() -> Option<Info> {
         .version
         .map_or_else(Version::unknown, |v| Version::custom(v, None));
 
-    Some(match release.distribution.as_ref().map(String::as_ref) {
-        Some("Ubuntu") => Info::new(Type::Ubuntu, version),
-        Some("Debian") => Info::new(Type::Debian, version),
-        Some("Arch") => Info::new(Type::Arch, version),
-        Some("CentOS") => Info::new(Type::Centos, version),
-        Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => {
-            Info::new(Type::RedHatEnterprise, version)
-        }
-        Some("Fedora") => Info::new(Type::Fedora, version),
-        Some("Amazon") | Some("AmazonAMI") => Info::new(Type::Amazon, version),
-        _ => Info::new(Type::Linux, Version::unknown()),
-    })
+    let os_type = match release.distribution.as_ref().map(String::as_ref) {
+        Some("Ubuntu") => Type::Ubuntu,
+        Some("Debian") => Type::Debian,
+        Some("Arch") => Type::Arch,
+        Some("CentOS") => Type::Centos,
+        Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
+        Some("Fedora") => Type::Fedora,
+        Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
+        _ => Type::Linux,
+    };
+
+    Some(Info::new(os_type, version, Bitness::Unknown))
 }
 
 struct LsbRelease {

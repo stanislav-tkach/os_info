@@ -1,5 +1,6 @@
 // spell-checker:ignore dword, minwindef, ntdef, ntdll, ntstatus, osversioninfoex, osversioninfoexa
-// spell-checker:ignore osversioninfoexw, serverr, sysinfoapi, winnt, winuser
+// spell-checker:ignore osversioninfoexw, serverr, sysinfoapi, winnt, winuser, pbool, libloaderapi
+// spell-checker:ignore lpcstr, processthreadsapi
 
 #![allow(unsafe_code)]
 
@@ -16,7 +17,7 @@ use winapi::{
     },
 };
 
-use crate::{Info, Type, Version};
+use crate::{Bitness, Info, Type, Version};
 
 #[cfg(target_arch = "x86")]
 type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXA;
@@ -30,28 +31,74 @@ extern "system" {
 }
 
 pub fn get() -> Info {
-    let mut info = Info::new(Type::Windows, Version::unknown());
+    Info::new(Type::Windows, version(), bitness())
+}
 
-    let version_info = match get_version_info() {
-        None => {
-            return info;
-        }
-        Some(val) => val,
+fn version() -> Version {
+    match version_info() {
+        None => Version::unknown(),
+        Some(v) => Version::semantic(
+            v.dwMajorVersion as u64,
+            v.dwMinorVersion as u64,
+            v.dwBuildNumber as u64,
+            edition(&v),
+        ),
+    }
+}
+
+#[cfg(target_pointer_width = "64")]
+fn bitness() -> Bitness {
+    // x64 program can only run on x64 Windows.
+    Bitness::X64
+}
+
+#[cfg(target_pointer_width = "32")]
+fn bitness() -> Bitness {
+    use winapi::{
+        shared::{
+            minwindef::{BOOL, FALSE, PBOOL},
+            ntdef::{HANDLE, LPCSTR},
+        },
+        um::{
+            libloaderapi::{GetModuleHandleA, GetProcAddress},
+            processthreadsapi::GetCurrentProcess,
+        },
     };
 
-    info.version = Version::semantic(
-        version_info.dwMajorVersion as u64,
-        version_info.dwMinorVersion as u64,
-        version_info.dwBuildNumber as u64,
-        get_edition(&version_info),
-    );
+    // IsWow64Process is not available on all supported versions of Windows. Use GetModuleHandle to
+    // get a handle to the DLL that contains the function and GetProcAddress to get a pointer to the
+    // function if available.
+    let kernel = unsafe { GetModuleHandleA(b"kernel32\0".as_ptr() as LPCSTR) };
+    if kernel.is_null() {
+        log::error!("GetModuleHandleA failed");
+        return Bitness::Unknown;
+    }
 
-    info
+    let is_wow_64 = unsafe { GetProcAddress(kernel, b"IsWow64Process\0".as_ptr() as LPCSTR) };
+    if is_wow_64.is_null() {
+        log::error!("GetProcAddress failed");
+        return Bitness::Unknown;
+    }
+
+    type IsWow64 = unsafe extern "system" fn(HANDLE, PBOOL) -> BOOL;
+    let is_wow_64: IsWow64 = unsafe { mem::transmute(is_wow_64) };
+
+    let mut result = FALSE;
+    if unsafe { is_wow_64(GetCurrentProcess(), &mut result) } == 0 {
+        log::error!("IsWow64Process failed");
+        return Bitness::Unknown;
+    }
+
+    if result == FALSE {
+        Bitness::X32
+    } else {
+        Bitness::X64
+    }
 }
 
 // Calls the Win32 API function RtlGetVersion to get the OS version information:
 // https://msdn.microsoft.com/en-us/library/mt723418(v=vs.85).aspx
-fn get_version_info() -> Option<OSVERSIONINFOEX> {
+fn version_info() -> Option<OSVERSIONINFOEX> {
     let mut info: OSVERSIONINFOEX = unsafe { mem::zeroed() };
     info.dwOSVersionInfoSize = mem::size_of::<OSVERSIONINFOEX>() as DWORD;
 
@@ -64,7 +111,7 @@ fn get_version_info() -> Option<OSVERSIONINFOEX> {
 
 // Examines data in the OSVERSIONINFOEX structure to determine the Windows edition:
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
-fn get_edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
+fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
     match (
         version_info.dwMajorVersion,
         version_info.dwMinorVersion,
@@ -118,13 +165,13 @@ mod tests {
     }
 
     #[test]
-    fn version_info() {
-        let version = get_version_info();
+    fn get_version_info() {
+        let version = version_info();
         assert!(version.is_some());
     }
 
     #[test]
-    fn edition() {
+    fn get_edition() {
         let test_data = [
             (10, 0, VER_NT_WORKSTATION, "Windows 10"),
             (10, 0, 0, "Windows Server 2016"),
@@ -144,14 +191,14 @@ mod tests {
             (5, 0, 100, "Windows 2000"),
         ];
 
-        let mut info = get_version_info().unwrap();
+        let mut info = version_info().unwrap();
 
         for &(major, minor, product_type, expected_edition) in &test_data {
             info.dwMajorVersion = major;
             info.dwMinorVersion = minor;
             info.wProductType = product_type;
 
-            let edition = get_edition(&info).unwrap();
+            let edition = edition(&info).unwrap();
             assert_eq!(edition, expected_edition);
         }
     }
