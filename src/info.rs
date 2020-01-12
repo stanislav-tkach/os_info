@@ -108,7 +108,7 @@ impl Info {
     /// use os_info::{Info, Bitness};
     ///
     /// let info = Info::unknown();
-    /// assert_eq!(Bitness::Unknown, *info.version());
+    /// assert_eq!(Bitness::Unknown, info.bitness());
     /// ```
     pub fn bitness(&self) -> Bitness {
         self.bitness
