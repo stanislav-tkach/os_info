@@ -9,11 +9,9 @@ use std::mem;
 use winapi::{
     shared::{minwindef::DWORD, ntdef::NTSTATUS, ntstatus::STATUS_SUCCESS},
     um::{
-        sysinfoapi::GetSystemInfo,
-        sysinfoapi::SYSTEM_INFO,
+        sysinfoapi::{GetSystemInfo, SYSTEM_INFO},
         winnt::{PROCESSOR_ARCHITECTURE_AMD64, VER_NT_WORKSTATION, VER_SUITE_WH_SERVER},
-        winuser::GetSystemMetrics,
-        winuser::SM_SERVERR2,
+        winuser::{GetSystemMetrics, SM_SERVERR2},
     },
 };
 
