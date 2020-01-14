@@ -19,6 +19,6 @@ jobs:
         rust-version: ${{ matrix.rust }}
     - uses: actions/checkout@master
     - name: Build
-      run:
-        cargo build --verbose
-        cargo run --example print_version
+      run: cargo build --verbose
+    - name: Run example
+      run: cargo run --example print_version
