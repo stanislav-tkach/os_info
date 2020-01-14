@@ -4,8 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- `Info` has been extended with operating system bitness. See `Info::bitness` for details.
-  Currently implemented only for Windows. (#119)
+## [1.2.0] (2020-01-14)
+
+- `Info` has been extended with operating system bitness. See `Info::bitness`
+  for details. Currently implemented only for Windows. (#119)
 
 - `Info`'s `Display` implementation has been fixed. (#113)
 
@@ -102,7 +104,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.2...HEAD
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.3...HEAD
+[1.3.0]: https://github.com/darkeld3r/os_info/compare/v1.2...v1.3
 [1.2.0]: https://github.com/darkeld3r/os_info/compare/v1.1.3...v1.2
 [1.1.3]: https://github.com/darkeld3r/os_info/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/darkeld3r/os_info/compare/v1.1.1...v1.1.2
