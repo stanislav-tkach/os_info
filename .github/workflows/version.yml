@@ -20,3 +20,5 @@ jobs:
     - uses: actions/checkout@master
     - name: Build
       run: cargo build --verbose
+    - name: Run example
+      run: cargo run --example print_version
