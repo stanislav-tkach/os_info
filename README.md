@@ -32,7 +32,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "1.3.0"
+os_info = "1.3.1"
 ```
 
 ## Example
@@ -46,6 +46,7 @@ println!("OS information: {}", info);
 // Print information separately:
 println!("Type: {}", info.os_type());
 println!("Version: {}", info.version());
+println!("Bitness: {}", info.bitness());
 ```
 
 Right now, the following operating system types can be returned:

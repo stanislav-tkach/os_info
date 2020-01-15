@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [1.2.0] (2020-01-14)
+## [1.3.1] (2020-01-15)
+
+- Missing winapi features have been added. (#123)
+
+## [1.3.0] (2020-01-14)
 
 - `Info` has been extended with operating system bitness. See `Info::bitness`
   for details. Currently implemented only for Windows. (#119)
@@ -104,7 +108,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.3...HEAD
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/darkeld3r/os_info/compare/v1.3...v1.3.1
 [1.3.0]: https://github.com/darkeld3r/os_info/compare/v1.2...v1.3
 [1.2.0]: https://github.com/darkeld3r/os_info/compare/v1.1.3...v1.2
 [1.1.3]: https://github.com/darkeld3r/os_info/compare/v1.1.2...v1.1.3
