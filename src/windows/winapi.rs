@@ -154,7 +154,7 @@ fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use pretty_assertions::assert_eq;
+    use pretty_assertions::{assert_eq, assert_ne};
 
     #[test]
     fn version() {
@@ -199,5 +199,11 @@ mod tests {
             let edition = edition(&info).unwrap();
             assert_eq!(edition, expected_edition);
         }
+    }
+
+    #[test]
+    fn get_bitness() {
+        let b = bitness();
+        assert_ne!(b, Bitness::Unknown);
     }
 }
