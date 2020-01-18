@@ -22,9 +22,9 @@ pub fn current_platform() -> Info {
 }
 
 fn bitness() -> Bitness {
-    match Command::new("getconf").arg("LONG_BIT").output() {
-        Ok(Output { stdout, .. }) if &stdout == b"32\n" => Bitness::X32,
-        Ok(Output { stdout, .. }) if &stdout == b"64\n" => Bitness::X64,
+    match &Command::new("getconf").arg("LONG_BIT").output() {
+        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
+        Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
         _ => Bitness::Unknown,
     }
 }
