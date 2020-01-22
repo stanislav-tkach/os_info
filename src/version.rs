@@ -107,7 +107,7 @@ impl Version {
 impl Display for Version {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         if let Some(ref edition) = self.edition {
-            write!(f, "{}", edition)?;
+            write!(f, "{} ", edition)?;
         }
         write!(f, "{}", self.version)
     }
