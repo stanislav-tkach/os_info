@@ -9,16 +9,22 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        # Feel free to bump this version if you need features of newer Rust.
-        # Sync with badge in README.md
-        rust: [1.32.0]
 
     steps:
-    - uses: hecrj/setup-rust-action@v1
-      with:
-        rust-version: ${{ matrix.rust }}
-    - uses: actions/checkout@master
-    - name: Build
-      run: cargo build --verbose
-    - name: Run example
-      run: cargo run --example print_version
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          # Feel free to bump this version if you need features of newer Rust.
+          # Sync with badge in README.md
+          toolchain: 1.32.0
+          profile: minimal
+          override: true
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --examples --all
