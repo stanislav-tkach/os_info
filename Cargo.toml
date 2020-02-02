@@ -14,8 +14,6 @@ build = "build.rs"
 edition = "2018"
 
 [badges]
-appveyor = { repository = "DarkEld3r/os_info", service = "github" }
-circle-ci = { repository = "DarkEld3r/os_info" }
 travis-ci = { repository = "DarkEld3r/os_info" }
 is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
 is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }

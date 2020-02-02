@@ -101,4 +101,4 @@ jobs:
           command: test
           args: --all
 
-  # TODO: Add cargo-audit, cargo-deadlinks, spellchecker, markdown linter.
+  # TODO: Add cargo-audit, cargo-deadlinks, spellchecker, markdown linter, coverage.
