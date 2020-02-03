@@ -163,6 +163,16 @@ mod tests {
         assert_eq!(parse_results.version, Some("15.1".to_string()));
     }
 
+    #[test]
+    pub fn suse_enterprise_12_5() {
+        let parse_results = parse(suse_enterprise12_5_file());
+        assert_eq!(
+            parse_results.distribution,
+            Some("SUSE".to_string())
+        );
+        assert_eq!(parse_results.version, Some("15.1".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -247,6 +257,15 @@ mod tests {
         Distributor ID:	SUSE\n\
         Description:	SUSE Linux Enterprise Server 15 SP1\n\
         Release:	15.1\n\
+        Codename:	n/a\n\
+        "
+    }
+
+    fn suse_enterprise12_5_file() -> &'static str {
+        "LSB Version:	n/a\n\
+        Distributor ID:	SUSE\n\
+        Description:	SUSE Linux Enterprise Server 12 SP5\n\
+        Release:	12.5\n\
         Codename:	n/a\n\
         "
     }
