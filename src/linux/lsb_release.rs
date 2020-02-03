@@ -152,6 +152,16 @@ mod tests {
         assert_eq!(parse_results.version, Some("6.10".to_string()));
     }
 
+    #[test]
+    pub fn suse_enterprise_15() {
+        let parse_results = parse(suse_enterprise15_file());
+        assert_eq!(
+            parse_results.distribution,
+            Some("SUSE".to_string())
+        );
+        assert_eq!(parse_results.version, Some("15.1".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -228,6 +238,15 @@ mod tests {
         Description:	Red Hat Enterprise Linux Server release 6.10 (Santiago)\n\
         Release:	6.10\n\
         Codename:	Santiago\n\
+        "
+    }
+
+    fn suse_enterprise15_file() -> &'static str {
+        "LSB Version:	n/a\n\
+        Distributor ID:	SUSE\n\
+        Description:	SUSE Linux Enterprise Server 15 SP1\n\
+        Release:	15.1\n\
+        Codename:	n/a\n\
         "
     }
 }
