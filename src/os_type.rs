@@ -29,6 +29,8 @@ pub enum Type {
     Fedora,
     /// Amazon (<https://en.wikipedia.org/wiki/Amazon_Machine_Image#Amazon_Linux_AMI>)
     Amazon,
+    /// SUSE Linux Enterprise (<https://en.wikipedia.org/wiki/SUSE_Linux_Enterprise>)
+    SUSE,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>)
     Alpine,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).

@@ -22,6 +22,7 @@ pub fn get() -> Option<Info> {
         Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
         Some("Fedora") => Type::Fedora,
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
+        Some("SUSE") => Type::SUSE,
         _ => Type::Linux,
     };
 
@@ -153,8 +154,8 @@ mod tests {
     }
 
     #[test]
-    pub fn suse_enterprise_15() {
-        let parse_results = parse(suse_enterprise15_file());
+    pub fn suse_enterprise_15_1() {
+        let parse_results = parse(suse_enterprise15_1_file());
         assert_eq!(
             parse_results.distribution,
             Some("SUSE".to_string())
@@ -241,7 +242,7 @@ mod tests {
         "
     }
 
-    fn suse_enterprise15_file() -> &'static str {
+    fn suse_enterprise15_1_file() -> &'static str {
         "LSB Version:	n/a\n\
         Distributor ID:	SUSE\n\
         Description:	SUSE Linux Enterprise Server 15 SP1\n\
