@@ -3,6 +3,7 @@ use std::fmt::{self, Display, Formatter};
 use serde_derive::{Deserialize, Serialize};
 
 /// A list of supported operating system types.
+#[allow(non_camel_case_types)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub enum Type {
     /// Unknown operating system.
@@ -31,6 +32,8 @@ pub enum Type {
     Amazon,
     /// SUSE Linux Enterprise (<https://en.wikipedia.org/wiki/SUSE_Linux_Enterprise>)
     SUSE,
+    ///openSUSE Linux (<https://en.wikipedia.org/wiki/OpenSUSE>)
+    openSUSE,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>)
     Alpine,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
