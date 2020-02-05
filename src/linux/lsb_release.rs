@@ -170,7 +170,7 @@ mod tests {
             parse_results.distribution,
             Some("SUSE".to_string())
         );
-        assert_eq!(parse_results.version, Some("15.1".to_string()));
+        assert_eq!(parse_results.version, Some("12.5".to_string()));
     }
 
     #[test]
