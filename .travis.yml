@@ -50,13 +50,13 @@ jobs:
     - cargo doc --no-deps
     - cargo deadlinks --dir target/doc
 
-  # Coverage.
-  - name: coverage
-    rust: nightly
-    before_install:
-    - sudo apt-get install -y libssl-dev
-    install:
-    - RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin -f
-    script:
-    - cargo tarpaulin --out Xml
-    - bash <(curl -s https://codecov.io/bash)
+#  # Coverage.
+#  - name: coverage
+#    rust: nightly
+#    before_install:
+#    - sudo apt-get install -y libssl-dev
+#    install:
+#    - RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin -f
+#    script:
+#    - cargo tarpaulin --out Xml
+#    - bash <(curl -s https://codecov.io/bash)
