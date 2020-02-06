@@ -157,30 +157,21 @@ mod tests {
     #[test]
     pub fn suse_enterprise_15_1() {
         let parse_results = parse(suse_enterprise15_1_file());
-        assert_eq!(
-            parse_results.distribution,
-            Some("SUSE".to_string())
-        );
+        assert_eq!(parse_results.distribution, Some("SUSE".to_string()));
         assert_eq!(parse_results.version, Some("15.1".to_string()));
     }
 
     #[test]
     pub fn suse_enterprise_12_5() {
         let parse_results = parse(suse_enterprise12_5_file());
-        assert_eq!(
-            parse_results.distribution,
-            Some("SUSE".to_string())
-        );
+        assert_eq!(parse_results.distribution, Some("SUSE".to_string()));
         assert_eq!(parse_results.version, Some("12.5".to_string()));
     }
 
     #[test]
     pub fn open_suse_15_1() {
         let parse_results = parse(open_suse_15_1_file());
-        assert_eq!(
-            parse_results.distribution,
-            Some("openSUSE".to_string())
-        );
+        assert_eq!(parse_results.distribution, Some("openSUSE".to_string()));
         assert_eq!(parse_results.version, Some("15.1".to_string()));
     }
 
