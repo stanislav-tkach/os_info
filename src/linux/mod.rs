@@ -46,6 +46,8 @@ mod tests {
             | Type::Arch
             | Type::Centos
             | Type::Fedora
+            | Type::SUSE
+            | Type::openSUSE
             | Type::Alpine => (),
             os_type => {
                 panic!("Unexpected OS type: {}", os_type);

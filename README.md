@@ -62,6 +62,8 @@ Right now, the following operating system types can be returned:
 - Fedora
 - Amazon
 - Alpine
+- SUSE Linux Enterprise
+- openSUSE
 - Macos
 - Redox
 - Windows
