@@ -23,6 +23,7 @@ pub fn get() -> Option<Info> {
         Some("Fedora") => Type::Fedora,
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("SUSE") => Type::SUSE,
+        Some("openSUSE") => Type::openSUSE,
         _ => Type::Linux,
     };
 
