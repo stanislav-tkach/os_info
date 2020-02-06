@@ -42,7 +42,6 @@ jobs:
     - npm install markdownlint-cli
     - ./node_modules/.bin/markdownlint --version
     script:
-    - cargo fmt --all -- --check
     - ./node_modules/.bin/cspell src/**/*.rs
     - ./node_modules/.bin/cspell examples/**/*.rs
     - ./node_modules/.bin/cspell tests/**/*.rs
@@ -51,27 +50,13 @@ jobs:
     - cargo doc --no-deps
     - cargo deadlinks --dir target/doc
 
-  # Clippy linting.
-  - name: clippy
-    install:
-    - rustup component add clippy
-    - cargo clippy -V
-    script:
-    - cargo clippy --all -- -D warnings
-
-  # Tests.
-  - name: tests
-    script:
-    - cargo test --all
-    - cargo run --example print_version
-
-  # Coverage.
-  - name: coverage
-    rust: nightly
-    before_install:
-    - sudo apt-get install -y libssl-dev
-    install:
-    - RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin -f
-    script:
-    - cargo tarpaulin --out Xml
-    - bash <(curl -s https://codecov.io/bash)
+#  # Coverage.
+#  - name: coverage
+#    rust: nightly
+#    before_install:
+#    - sudo apt-get install -y libssl-dev
+#    install:
+#    - RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin -f
+#    script:
+#    - cargo tarpaulin --out Xml
+#    - bash <(curl -s https://codecov.io/bash)
