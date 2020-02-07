@@ -18,10 +18,13 @@ travis-ci = { repository = "DarkEld3r/os_info" }
 is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
 is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
+[features]
+default = ["serde", "serde_derive"]
+
 [dependencies]
 log = "0.4.5"
-serde = "1.0.0"
-serde_derive = "1.0.0"
+serde = { version = "1.0.0", optional = true }
+serde_derive = { version = "1.0.0", optional = true }
 
 [target.'cfg(not(windows))'.dependencies]
 regex="1.0.5"
