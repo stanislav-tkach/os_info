@@ -1,8 +1,5 @@
 use std::fmt::{self, Display, Formatter};
 
-#[cfg(feature = "serde")]
-use serde_derive::{Deserialize, Serialize};
-
 use super::{Bitness, Type, Version};
 
 /// Holds information about operating system (type, version, etc.).
@@ -19,7 +16,7 @@ use super::{Bitness, Type, Version};
 /// println!("OS information: {}", info);
 /// ```
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Info {
     /// Operating system type. See `Type` for details.
     pub(crate) os_type: Type,

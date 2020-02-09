@@ -1,12 +1,10 @@
 use std::fmt::{self, Display, Formatter};
 
-#[cfg(feature = "serde")]
-use serde_derive::{Deserialize, Serialize};
-
 /// A list of supported operating system types.
-#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[allow(non_camel_case_types)]
+#[non_exhaustive]
 pub enum Type {
     /// Unknown operating system.
     Unknown,
