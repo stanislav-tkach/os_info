@@ -1,7 +1,7 @@
 use std::fmt::{self, Display, Formatter, Write};
 
 #[cfg(feature = "serde")]
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 /// Operating system version including version number and optional edition.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]

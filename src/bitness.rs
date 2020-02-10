@@ -1,11 +1,9 @@
 use std::fmt::{self, Display, Formatter};
 
-#[cfg(feature = "serde")]
-use serde_derive::{Deserialize, Serialize};
-
 /// Operating system architecture in terms of how many bits compose the basic values it can deal with.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[non_exhaustive]
 pub enum Bitness {
     /// Unknown bitness (unable to determine).
     Unknown,
