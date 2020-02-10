@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.0.0] (2020-02-11)
+
+- `Bitness` and `Type` enums have been marked as `non_exhaustive`. (#140)
+
+- SUSE Enterprise and openSUSE support has been added. (#135)
+
+- `serde` has been made an optional dependency. (#138)
+
 ## [1.3.3] (2020-01-24)
 
 - `Version`'s `Display` implementation has been fixed. (#128)
@@ -116,7 +124,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v1.3.3...HEAD
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v2.0...HEAD
+[1.3.2]: https://github.com/darkeld3r/os_info/compare/v1.3.3...v2.0
 [1.3.2]: https://github.com/darkeld3r/os_info/compare/v1.3.2...v1.3.3
 [1.3.2]: https://github.com/darkeld3r/os_info/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/darkeld3r/os_info/compare/v1.3...v1.3.1
