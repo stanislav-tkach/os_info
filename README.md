@@ -12,7 +12,7 @@
 
 **Project details:**
 [![LoC](https://tokei.rs/b1/github/darkeld3r/os_info)](https://github.com/darkeld3r/os_info)
-![rust 1.32+ required](https://img.shields.io/badge/rust-1.32+-blue.svg?label=Required%20Rust)
+![rust 1.41+ required](https://img.shields.io/badge/rust-1.41+-blue.svg?label=Required%20Rust)
 [![dependency status](https://deps.rs/repo/github/darkeld3r/os_info/status.svg)](https://deps.rs/repo/github/darkeld3r/os_info)
 
 ## Overview
@@ -30,7 +30,15 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "1.3.3"
+os_info = "2.0.0"
+```
+
+This project has `serde` as an optional dependency, so if you don't need it, then
+you can speed up compilation disabling it:
+
+```toml
+[dependencies]
+os_info = { version = "2.0.0", default-features = false }
 ```
 
 ## Example
