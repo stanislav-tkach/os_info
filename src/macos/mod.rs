@@ -1,6 +1,5 @@
 use std::process::Command;
 
-use lazy_static::lazy_static;
 use log::trace;
 
 use crate::{Bitness, Info, Matcher, Type, Version};
