@@ -2,9 +2,8 @@ use std::process::Command;
 
 use lazy_static::lazy_static;
 use log::trace;
-use regex::Regex;
 
-use crate::{Bitness, Info, Type, Version};
+use crate::{Bitness, Info, Matcher, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
@@ -60,17 +59,10 @@ fn product_version() -> Option<String> {
 }
 
 fn parse(sw_vers_output: &str) -> Option<String> {
-    lazy_static! {
-        static ref VERSION: Regex = Regex::new(r"ProductVersion:\s(\w+\.\w+(\.\w+)?)").unwrap();
+    Matcher::PrefixedVersion {
+        prefix: "ProductVersion:",
     }
-
-    Some(
-        VERSION
-            .captures(sw_vers_output)?
-            .get(1)?
-            .as_str()
-            .to_owned(),
-    )
+    .find(sw_vers_output)
 }
 
 #[cfg(test)]

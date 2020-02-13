@@ -1,9 +1,8 @@
 use std::{fs::File, io::Read, path::Path};
 
 use log::{trace, warn};
-use regex::Regex;
 
-use crate::{Bitness, Info, Type, Version};
+use crate::{Bitness, Info, Matcher, Type, Version};
 
 pub fn get() -> Option<Info> {
     retrieve(&DISTRIBUTIONS)
@@ -30,19 +29,11 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
             continue;
         }
 
-        let version = if !release_info.version_regex.is_empty() {
-            let version_regex = Regex::new(release_info.version_regex).unwrap();
-
-            version_regex
-                .captures_iter(&file_content)
-                .next()
-                .and_then(|c| c.get(1))
-                .map(|v| v.as_str().trim_end().to_owned())
-        } else {
-            Some(file_content.trim_end().to_string())
-        }
-        .map(|x| Version::custom(x, None))
-        .unwrap_or_else(Version::unknown);
+        let version = release_info
+            .version_matcher
+            .find(&file_content)
+            .map(|x| Version::custom(x, None))
+            .unwrap_or_else(Version::unknown);
 
         return Some(Info::new(release_info.os_type, version, Bitness::Unknown));
     }
@@ -54,7 +45,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 struct ReleaseInfo<'a> {
     os_type: Type,
     path: &'a str,
-    version_regex: &'static str,
+    version_matcher: Matcher,
 }
 
 /// List of all supported distributions and the information on how to parse their version from the
@@ -63,22 +54,22 @@ const DISTRIBUTIONS: [ReleaseInfo; 4] = [
     ReleaseInfo {
         os_type: Type::Centos,
         path: "/etc/centos-release",
-        version_regex: r"release\s([\w\.]+)",
+        version_matcher: Matcher::PrefixedVersion { prefix: "release" },
     },
     ReleaseInfo {
         os_type: Type::Fedora,
         path: "/etc/fedora-release",
-        version_regex: r"release\s([\w\.]+)",
+        version_matcher: Matcher::PrefixedVersion { prefix: "release" },
     },
     ReleaseInfo {
         os_type: Type::Redhat,
         path: "/etc/redhat-release",
-        version_regex: r"release\s([\w\.]+)",
+        version_matcher: Matcher::PrefixedVersion { prefix: "release" },
     },
     ReleaseInfo {
         os_type: Type::Alpine,
         path: "/etc/alpine-release",
-        version_regex: "",
+        version_matcher: Matcher::AllTrimmed,
     },
 ];
 

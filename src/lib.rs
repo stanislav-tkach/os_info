@@ -42,11 +42,13 @@ mod imp;
 
 mod bitness;
 mod info;
+mod matcher;
 mod os_type;
 mod version;
 
 pub use bitness::Bitness;
 pub use info::Info;
+use matcher::Matcher;
 pub use os_type::Type;
 pub use version::{Version, VersionType};
 

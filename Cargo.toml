@@ -25,9 +25,6 @@ default = ["serde"]
 log = "0.4.5"
 serde = { version = "1.0.0", features = ["derive"], optional = true }
 
-[target.'cfg(not(windows))'.dependencies]
-regex="1.0.5"
-
 [target.'cfg(target_os = "macos")'.dependencies]
 lazy_static = "1.1.0"
 
