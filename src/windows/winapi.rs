@@ -91,12 +91,12 @@ fn version_info() -> Option<OSVERSIONINFOEX> {
     };
 
     type RtlGetVersion = unsafe extern "system" fn(&mut OSVERSIONINFOEX) -> NTSTATUS;
-    let rtl_get_version: IsWow64 = unsafe { mem::transmute(rtl_get_version) };
+    let rtl_get_version: RtlGetVersion = unsafe { mem::transmute(rtl_get_version) };
 
     let mut info: OSVERSIONINFOEX = unsafe { mem::zeroed() };
     info.dwOSVersionInfoSize = mem::size_of::<OSVERSIONINFOEX>() as DWORD;
 
-    if unsafe { RtlGetVersion(&mut info) } == STATUS_SUCCESS {
+    if unsafe { rtl_get_version(&mut info) } == STATUS_SUCCESS {
         Some(info)
     } else {
         None
@@ -149,11 +149,11 @@ fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
 
 fn get_proc_address(module: &[u8], proc: &[u8]) -> Option<FARPROC> {
     assert!(
-        module.last().expect("Empty module name") == 0,
+        *module.last().expect("Empty module name") == 0,
         "Module name should be zero-terminated"
     );
     assert!(
-        proc.last().expect("Empty procedure name") == 0,
+        *proc.last().expect("Empty procedure name") == 0,
         "Procedure name should be zero-terminated"
     );
 
@@ -166,7 +166,7 @@ fn get_proc_address(module: &[u8], proc: &[u8]) -> Option<FARPROC> {
         return None;
     }
 
-    unsafe { Some(GetProcAddress(kernel, proc.as_ptr() as LPCSTR)) }
+    unsafe { Some(GetProcAddress(handle, proc.as_ptr() as LPCSTR)) }
 }
 
 #[cfg(test)]
