@@ -7,8 +7,14 @@
 use std::mem;
 
 use winapi::{
-    shared::{minwindef::DWORD, ntdef::NTSTATUS, ntstatus::STATUS_SUCCESS},
+    shared::{
+        minwindef::{DWORD, FARPROC},
+        ntdef::{LPCSTR, NTSTATUS},
+        ntstatus::STATUS_SUCCESS,
+    },
     um::{
+        libloaderapi::{GetModuleHandleA, GetProcAddress},
+        processthreadsapi::GetCurrentProcess,
         sysinfoapi::{GetSystemInfo, SYSTEM_INFO},
         winnt::{PROCESSOR_ARCHITECTURE_AMD64, VER_NT_WORKSTATION, VER_SUITE_WH_SERVER},
         winuser::{GetSystemMetrics, SM_SERVERR2},
@@ -22,11 +28,6 @@ type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXA;
 
 #[cfg(not(target_arch = "x86"))]
 type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXW;
-
-#[link(name = "ntdll")]
-extern "system" {
-    pub fn RtlGetVersion(lpVersionInformation: &mut OSVERSIONINFOEX) -> NTSTATUS;
-}
 
 pub fn get() -> Info {
     Info::new(Type::Windows, version(), bitness())
@@ -52,31 +53,18 @@ fn bitness() -> Bitness {
 
 #[cfg(target_pointer_width = "32")]
 fn bitness() -> Bitness {
-    use winapi::{
-        shared::{
-            minwindef::{BOOL, FALSE, PBOOL},
-            ntdef::{HANDLE, LPCSTR},
-        },
-        um::{
-            libloaderapi::{GetModuleHandleA, GetProcAddress},
-            processthreadsapi::GetCurrentProcess,
-        },
+    use winapi::shared::{
+        minwindef::{BOOL, FALSE, PBOOL},
+        ntdef::HANDLE,
     };
 
     // IsWow64Process is not available on all supported versions of Windows. Use GetModuleHandle to
     // get a handle to the DLL that contains the function and GetProcAddress to get a pointer to the
     // function if available.
-    let kernel = unsafe { GetModuleHandleA(b"kernel32\0".as_ptr() as LPCSTR) };
-    if kernel.is_null() {
-        log::error!("GetModuleHandleA failed");
-        return Bitness::Unknown;
-    }
-
-    let is_wow_64 = unsafe { GetProcAddress(kernel, b"IsWow64Process\0".as_ptr() as LPCSTR) };
-    if is_wow_64.is_null() {
-        log::error!("GetProcAddress failed");
-        return Bitness::Unknown;
-    }
+    let is_wow_64 = match get_proc_address(b"kernel32\0", b"IsWow64Process\0") {
+        None => return Bitness::Unknown,
+        Some(val) => val,
+    };
 
     type IsWow64 = unsafe extern "system" fn(HANDLE, PBOOL) -> BOOL;
     let is_wow_64: IsWow64 = unsafe { mem::transmute(is_wow_64) };
@@ -97,6 +85,14 @@ fn bitness() -> Bitness {
 // Calls the Win32 API function RtlGetVersion to get the OS version information:
 // https://msdn.microsoft.com/en-us/library/mt723418(v=vs.85).aspx
 fn version_info() -> Option<OSVERSIONINFOEX> {
+    let rtl_get_version = match get_proc_address(b"ntdll\0", b"RtlGetVersion\0") {
+        None => return None,
+        Some(val) => val,
+    };
+
+    type RtlGetVersion = unsafe extern "system" fn(&mut OSVERSIONINFOEX) -> NTSTATUS;
+    let rtl_get_version: IsWow64 = unsafe { mem::transmute(rtl_get_version) };
+
     let mut info: OSVERSIONINFOEX = unsafe { mem::zeroed() };
     info.dwOSVersionInfoSize = mem::size_of::<OSVERSIONINFOEX>() as DWORD;
 
@@ -149,6 +145,28 @@ fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
         _ => None,
     }
     .map(str::to_string)
+}
+
+fn get_proc_address(module: &[u8], proc: &[u8]) -> Option<FARPROC> {
+    assert!(
+        module.last().expect("Empty module name") == 0,
+        "Module name should be zero-terminated"
+    );
+    assert!(
+        proc.last().expect("Empty procedure name") == 0,
+        "Procedure name should be zero-terminated"
+    );
+
+    let handle = unsafe { GetModuleHandleA(module.as_ptr() as LPCSTR) };
+    if handle.is_null() {
+        log::error!(
+            "GetModuleHandleA({}) failed",
+            String::from_utf8_lossy(module)
+        );
+        return None;
+    }
+
+    unsafe { Some(GetProcAddress(kernel, proc.as_ptr() as LPCSTR)) }
 }
 
 #[cfg(test)]
@@ -205,5 +223,35 @@ mod tests {
     fn get_bitness() {
         let b = bitness();
         assert_ne!(b, Bitness::Unknown);
+    }
+
+    #[test]
+    #[should_panic(expected = "Empty module name")]
+    fn empty_module_name() {
+        get_proc_address(b"", b"RtlGetVersion\0");
+    }
+
+    #[test]
+    #[should_panic(expected = "Module name should be zero-terminated")]
+    fn non_zero_terminated_module_name() {
+        get_proc_address(b"ntdll", b"RtlGetVersion\0");
+    }
+
+    #[test]
+    #[should_panic(expected = "Empty procedure name")]
+    fn empty_module_name() {
+        get_proc_address(b"ntdll\0", b"");
+    }
+
+    #[test]
+    #[should_panic(expected = "Procedure name should be zero-terminated")]
+    fn non_zero_terminated_module_name() {
+        get_proc_address(b"ntdll\0", b"RtlGetVersion");
+    }
+
+    #[test]
+    fn proc_address() {
+        let address = get_proc_address(b"ntdll\0", b"RtlGetVersion\0");
+        assert!(address.is_some());
     }
 }

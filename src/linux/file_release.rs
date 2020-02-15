@@ -2,7 +2,7 @@ use std::{fs::File, io::Read, path::Path};
 
 use log::{trace, warn};
 
-use crate::{Bitness, Info, Matcher, Type, Version};
+use crate::{matcher::Matcher, Bitness, Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     retrieve(&DISTRIBUTIONS)
