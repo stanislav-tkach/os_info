@@ -10,7 +10,6 @@ readme = "README.md"
 keywords = ["os", "os_type", "os_version", "os_info"]
 categories = ["os"]
 license = "MIT"
-build = "build.rs"
 edition = "2018"
 
 [badges]
