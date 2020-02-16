@@ -14,7 +14,6 @@ use winapi::{
     },
     um::{
         libloaderapi::{GetModuleHandleA, GetProcAddress},
-        processthreadsapi::GetCurrentProcess,
         sysinfoapi::{GetSystemInfo, SYSTEM_INFO},
         winnt::{PROCESSOR_ARCHITECTURE_AMD64, VER_NT_WORKSTATION, VER_SUITE_WH_SERVER},
         winuser::{GetSystemMetrics, SM_SERVERR2},
@@ -53,9 +52,12 @@ fn bitness() -> Bitness {
 
 #[cfg(target_pointer_width = "32")]
 fn bitness() -> Bitness {
-    use winapi::shared::{
-        minwindef::{BOOL, FALSE, PBOOL},
-        ntdef::HANDLE,
+    use winapi::{
+        shared::{
+            minwindef::{BOOL, FALSE, PBOOL},
+            ntdef::HANDLE,
+        },
+        um::processthreadsapi::GetCurrentProcess,
     };
 
     // IsWow64Process is not available on all supported versions of Windows. Use GetModuleHandle to
@@ -239,13 +241,13 @@ mod tests {
 
     #[test]
     #[should_panic(expected = "Empty procedure name")]
-    fn empty_module_name() {
+    fn empty_proc_name() {
         get_proc_address(b"ntdll\0", b"");
     }
 
     #[test]
     #[should_panic(expected = "Procedure name should be zero-terminated")]
-    fn non_zero_terminated_module_name() {
+    fn non_zero_terminated_proc_name() {
         get_proc_address(b"ntdll\0", b"RtlGetVersion");
     }
 
