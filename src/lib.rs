@@ -49,8 +49,6 @@ mod version;
 
 pub use bitness::Bitness;
 pub use info::Info;
-#[cfg(not(windows))]
-use matcher::Matcher;
 pub use os_type::Type;
 pub use version::{Version, VersionType};
 

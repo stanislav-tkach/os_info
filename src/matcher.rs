@@ -5,10 +5,27 @@ pub(crate) enum Matcher {
     AllTrimmed,
 
     /// After finding the `prefix` followed by one or more spaces, returns the following word.
+    #[cfg(not(target_os = "macos"))]
     PrefixedWord { prefix: &'static str },
 
     /// Similar to `PrefixedWord`, but only if the word is a valid version.
     PrefixedVersion { prefix: &'static str },
+}
+
+impl Matcher {
+    /// Find the match on the input `string`.
+    pub(crate) fn find(&self, string: &str) -> Option<String> {
+        match *self {
+            Self::AllTrimmed => Some(string.trim().to_string()),
+            #[cfg(not(target_os = "macos"))]
+            Self::PrefixedWord { prefix } => {
+                find_prefixed_word(string, prefix).map(|v| v.to_owned())
+            }
+            Self::PrefixedVersion { prefix } => find_prefixed_word(string, prefix)
+                .filter(|&v| is_valid_version(v))
+                .map(|v| v.to_owned()),
+        }
+    }
 }
 
 fn find_prefixed_word<'a>(string: &'a str, prefix: &str) -> Option<&'a str> {
@@ -30,19 +47,4 @@ fn find_prefixed_word<'a>(string: &'a str, prefix: &str) -> Option<&'a str> {
 
 fn is_valid_version(word: &str) -> bool {
     !word.starts_with('.') && !word.ends_with('.')
-}
-
-impl Matcher {
-    /// Find the match on the input `string`.
-    pub(crate) fn find(&self, string: &str) -> Option<String> {
-        match *self {
-            Self::AllTrimmed => Some(string.trim().to_string()),
-            Self::PrefixedWord { prefix } => {
-                find_prefixed_word(string, prefix).map(|v| v.to_owned())
-            }
-            Self::PrefixedVersion { prefix } => find_prefixed_word(string, prefix)
-                .filter(|&v| is_valid_version(v))
-                .map(|v| v.to_owned()),
-        }
-    }
 }
