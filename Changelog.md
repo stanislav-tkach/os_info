@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Bitness detection has been implemented for MacOS. (#147)
+
 ## [2.0.0] (2020-02-11)
 
 - `Bitness` and `Type` enums have been marked as `non_exhaustive`. (#140)

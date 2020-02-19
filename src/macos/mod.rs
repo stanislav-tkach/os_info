@@ -10,7 +10,7 @@ pub fn current_platform() -> Info {
     let info = Info {
         os_type: Type::Macos,
         version: version(),
-        bitness: Bitness::Unknown,
+        bitness: bitness(),
     };
     trace!("Returning {:?}", info);
     info
@@ -62,6 +62,28 @@ fn parse(sw_vers_output: &str) -> Option<String> {
         prefix: "ProductVersion:",
     }
     .find(sw_vers_output)
+}
+
+fn bitness() -> Bitness {
+    match Command::new("getconf").arg("LONG_BIT").output() {
+        Ok(val) => parse_bitness(val.stdout),
+        Err(e) => {
+            trace!("getconf command failed with {:?}", e);
+            Bitness::Unknown
+        }
+    }
+}
+
+fn parse_bitness(getconf_output: Vec<u8>) -> Bitness {
+    match String::from_utf8(getconf_output) {
+        Ok(ref output) if output.trim() == "32" => Bitness::X32,
+        Ok(ref output) if output.trim() == "64" => Bitness::X64,
+        Ok(_) => Bitness::Unknown,
+        Err(e) => {
+            trace!("convert getconf output to String failed with {:?}", e);
+            Bitness::Unknown
+        }
+    }
 }
 
 #[cfg(test)]
@@ -145,5 +167,17 @@ mod tests {
         "ProductName:	Mac OS X\n\
          ProductVersion:	10.15.21\n\
          BuildVersion:	ABCD123"
+    }
+
+    #[test]
+    fn bitness() {
+        assert_eq!(parse_bitness("32".as_bytes().to_vec()), Bitness::X32);
+        assert_eq!(parse_bitness("32\n".as_bytes().to_vec()), Bitness::X32);
+        assert_eq!(parse_bitness("64".as_bytes().to_vec()), Bitness::X64);
+        assert_eq!(parse_bitness("64\n".as_bytes().to_vec()), Bitness::X64);
+        assert_eq!(
+            parse_bitness("bad_value".as_bytes().to_vec()),
+            Bitness::Unknown
+        );
     }
 }
