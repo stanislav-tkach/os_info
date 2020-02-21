@@ -21,7 +21,6 @@ sudo: required
 
 env:
   global:
-  - DEADLINKS_VERS=0.3.0
   - CARGO_INCREMENTAL=1
   matrix:
     - FEATURE=test
@@ -31,8 +30,6 @@ jobs:
   # Formatting & other lints that do not require compilation.
   - name: lints
     install:
-    - cargo-audit -V || cargo install cargo-audit --force
-    - cargo-deadlinks -V | grep $DEADLINKS_VERS || cargo install cargo-deadlinks --vers $DEADLINKS_VERS --force
     - cargo install --list
     - nvm install 8 && nvm use 8
     - npm install cspell
@@ -45,5 +42,3 @@ jobs:
     - ./node_modules/.bin/cspell tests/**/*.rs
     - find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/cspell
     - find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/markdownlint
-    - cargo doc --no-deps
-    - cargo deadlinks --dir target/doc
