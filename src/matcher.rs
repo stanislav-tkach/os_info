@@ -1,11 +1,11 @@
 /// An implementation to match on simple strings.
 #[derive(Debug, Clone)]
-pub(crate) enum Matcher {
+pub enum Matcher {
     /// Considers the entire string (trimmed) to be the match.
     AllTrimmed,
 
     /// After finding the `prefix` followed by one or more spaces, returns the following word.
-    #[cfg(not(target_os = "macos"))]
+    #[allow(dead_code)]
     PrefixedWord { prefix: &'static str },
 
     /// Similar to `PrefixedWord`, but only if the word is a valid version.
@@ -14,10 +14,9 @@ pub(crate) enum Matcher {
 
 impl Matcher {
     /// Find the match on the input `string`.
-    pub(crate) fn find(&self, string: &str) -> Option<String> {
+    pub fn find(&self, string: &str) -> Option<String> {
         match *self {
             Self::AllTrimmed => Some(string.trim().to_string()),
-            #[cfg(not(target_os = "macos"))]
             Self::PrefixedWord { prefix } => {
                 find_prefixed_word(string, prefix).map(|v| v.to_owned())
             }
@@ -47,4 +46,69 @@ fn find_prefixed_word<'a>(string: &'a str, prefix: &str) -> Option<&'a str> {
 
 fn is_valid_version(word: &str) -> bool {
     !word.starts_with('.') && !word.ends_with('.')
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn trimmed() {
+        let data = [
+            ("", Some("")),
+            ("test", Some("test")),
+            (" 		 test", Some("test")),
+            ("test  	   ", Some("test")),
+            ("  test 	", Some("test")),
+        ];
+
+        let matcher = Matcher::AllTrimmed;
+
+        for (input, expected) in &data {
+            let result = matcher.find(input);
+            assert_eq!(result.as_deref(), *expected);
+        }
+    }
+
+    #[test]
+    fn prefixed_word() {
+        let data = [
+            ("", None),
+            ("test", Some("")),
+            ("test 1", Some("1")),
+            (" test 1", Some("1")),
+            ("test 1.2.3", Some("1.2.3")),
+            (" 		test 1.2.3", Some("1.2.3")),
+        ];
+
+        let matcher = Matcher::PrefixedWord { prefix: "test" };
+
+        for (input, expected) in &data {
+            let result = matcher.find(input);
+            assert_eq!(result.as_deref(), *expected);
+        }
+    }
+
+    #[test]
+    fn prefixed_version() {
+        let data = [
+            ("", None),
+            ("test", Some("")),
+            ("test 1", Some("1")),
+            ("test .1", None),
+            ("test 1.", None),
+            ("test .1.", None),
+            (" test 1", Some("1")),
+            ("test 1.2.3", Some("1.2.3")),
+            (" 		test 1.2.3", Some("1.2.3")),
+        ];
+
+        let matcher = Matcher::PrefixedVersion { prefix: "test" };
+
+        for (input, expected) in &data {
+            let result = matcher.find(input);
+            assert_eq!(result.as_deref(), *expected);
+        }
+    }
 }
