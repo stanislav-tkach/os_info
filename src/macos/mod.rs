@@ -81,7 +81,7 @@ fn parse_bitness(getconf_output: Vec<u8>) -> Bitness {
         Ok(ref output) => {
             warn!("Unknown bitness: {}", output);
             Bitness::Unknown
-        },
+        }
         Err(e) => {
             warn!("convert getconf output to String failed with {:?}", e);
             Bitness::Unknown
