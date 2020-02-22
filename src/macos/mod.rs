@@ -51,7 +51,7 @@ fn product_version() -> Option<String> {
             parse(&output)
         }
         Err(e) => {
-            trace!("sw_vers command failed with {:?}", e);
+            warn!("sw_vers command failed with {:?}", e);
             None
         }
     }
@@ -78,9 +78,12 @@ fn parse_bitness(getconf_output: Vec<u8>) -> Bitness {
     match String::from_utf8(getconf_output) {
         Ok(ref output) if output.trim() == "32" => Bitness::X32,
         Ok(ref output) if output.trim() == "64" => Bitness::X64,
-        Ok(_) => Bitness::Unknown,
+        Ok(ref output) => {
+            warn!("Unknown bitness: {}", output);
+            Bitness::Unknown
+        },
         Err(e) => {
-            trace!("convert getconf output to String failed with {:?}", e);
+            warn!("convert getconf output to String failed with {:?}", e);
             Bitness::Unknown
         }
     }
@@ -179,5 +182,11 @@ mod tests {
             parse_bitness("bad_value".as_bytes().to_vec()),
             Bitness::Unknown
         );
+    }
+
+    #[test]
+    fn get_bitness() {
+        let b = bitness();
+        assert_ne!(b, Bitness::Unknown);
     }
 }
