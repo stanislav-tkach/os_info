@@ -1,6 +1,6 @@
-use std::process::Command;
+use std::process::{Command, Output};
 
-use log::trace;
+use log::{trace, warn};
 
 use crate::{matcher::Matcher, Bitness, Info, Type, Version};
 
@@ -51,7 +51,7 @@ fn product_version() -> Option<String> {
             parse(&output)
         }
         Err(e) => {
-            trace!("sw_vers command failed with {:?}", e);
+            warn!("sw_vers command failed with {:?}", e);
             None
         }
     }
@@ -65,24 +65,10 @@ fn parse(sw_vers_output: &str) -> Option<String> {
 }
 
 fn bitness() -> Bitness {
-    match Command::new("getconf").arg("LONG_BIT").output() {
-        Ok(val) => parse_bitness(val.stdout),
-        Err(e) => {
-            trace!("getconf command failed with {:?}", e);
-            Bitness::Unknown
-        }
-    }
-}
-
-fn parse_bitness(getconf_output: Vec<u8>) -> Bitness {
-    match String::from_utf8(getconf_output) {
-        Ok(ref output) if output.trim() == "32" => Bitness::X32,
-        Ok(ref output) if output.trim() == "64" => Bitness::X64,
-        Ok(_) => Bitness::Unknown,
-        Err(e) => {
-            trace!("convert getconf output to String failed with {:?}", e);
-            Bitness::Unknown
-        }
+    match &Command::new("getconf").arg("LONG_BIT").output() {
+        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
+        Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
+        _ => Bitness::Unknown,
     }
 }
 
@@ -170,14 +156,8 @@ mod tests {
     }
 
     #[test]
-    fn bitness() {
-        assert_eq!(parse_bitness("32".as_bytes().to_vec()), Bitness::X32);
-        assert_eq!(parse_bitness("32\n".as_bytes().to_vec()), Bitness::X32);
-        assert_eq!(parse_bitness("64".as_bytes().to_vec()), Bitness::X64);
-        assert_eq!(parse_bitness("64\n".as_bytes().to_vec()), Bitness::X64);
-        assert_eq!(
-            parse_bitness("bad_value".as_bytes().to_vec()),
-            Bitness::Unknown
-        );
+    fn get_bitness() {
+        let b = bitness();
+        assert_ne!(b, Bitness::Unknown);
     }
 }
