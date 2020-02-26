@@ -81,6 +81,25 @@ jobs:
       - name: Run deadlinks
         run: cargo deadlinks --dir target/doc
 
+  # TODO: Replace with a specific action.
+  spellcheck:
+    name: Spell check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install cspell
+        run: npm install cspell
+
+      - name: Run cspell
+        run: |
+          ./node_modules/.bin/cspell src/**/*.rs
+          ./node_modules/.bin/cspell examples/**/*.rs
+          ./node_modules/.bin/cspell tests/**/*.rs
+          find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/cspell
+
   build:
     name: ${{ matrix.build }}
     runs-on: ${{ matrix.os }}
