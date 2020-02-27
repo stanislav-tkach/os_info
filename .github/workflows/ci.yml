@@ -93,12 +93,27 @@ jobs:
       - name: Install cspell
         run: npm install cspell
 
-      - name: Run cspell
-        run: |
-          ./node_modules/.bin/cspell --verbose src/**/*.rs
-          ./node_modules/.bin/cspell --verbose examples/**/*.rs
-          ./node_modules/.bin/cspell --verbose tests/**/*.rs
-          find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/cspell --verbose 
+      - name: run src
+        run: ./node_modules/.bin/cspell --verbose src/**/*.rs
+
+      - name: run examples
+        run: ./node_modules/.bin/cspell --verbose examples/**/*.rs
+
+      - name: run tests
+        run: ./node_modules/.bin/cspell --verbose tests/**/*.rs
+
+      - name: run find
+        run: ./node_modules/.bin/cspell --verbose src/**/*.rs
+
+      - name: run from root
+        run: ./node_modules/.bin/cspell --verbose "**/*.rs" "**/*.md"
+
+#      - name: Run cspell
+#        run: |
+#          ./node_modules/.bin/cspell --verbose src/**/*.rs
+#          ./node_modules/.bin/cspell --verbose examples/**/*.rs
+#          ./node_modules/.bin/cspell --verbose tests/**/*.rs
+#          find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/cspell --verbose
 
   build:
     name: ${{ matrix.build }}
