@@ -95,10 +95,10 @@ jobs:
 
       - name: Run cspell
         run: |
-          ./node_modules/.bin/cspell src/**/*.rs
-          ./node_modules/.bin/cspell examples/**/*.rs
-          ./node_modules/.bin/cspell tests/**/*.rs
-          find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/cspell
+          ./node_modules/.bin/cspell --verbose src/**/*.rs
+          ./node_modules/.bin/cspell --verbose examples/**/*.rs
+          ./node_modules/.bin/cspell --verbose tests/**/*.rs
+          find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/cspell --verbose 
 
   build:
     name: ${{ matrix.build }}
