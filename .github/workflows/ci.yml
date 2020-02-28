@@ -153,4 +153,4 @@ jobs:
           command: test
           args: --all
 
-  # TODO: Add spellchecker and markdown linter.
+  # TODO: Add  markdown linter.

@@ -32,13 +32,7 @@ jobs:
     install:
     - cargo install --list
     - nvm install 8 && nvm use 8
-    - npm install cspell
-    - ./node_modules/.bin/cspell --version
     - npm install markdownlint-cli
     - ./node_modules/.bin/markdownlint --version
     script:
-    - ./node_modules/.bin/cspell src/**/*.rs
-    - ./node_modules/.bin/cspell examples/**/*.rs
-    - ./node_modules/.bin/cspell tests/**/*.rs
-    - find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/cspell
     - find . -not -path "./node_modules/*" -not -path "./target/*" -name "*.md" | xargs ./node_modules/.bin/markdownlint
