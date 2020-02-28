@@ -81,6 +81,24 @@ jobs:
       - name: Run deadlinks
         run: cargo deadlinks --dir target/doc
 
+  # TODO: Replace with a specific action.
+  spellcheck:
+    name: Spell check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install cspell
+        run: npm install cspell
+
+      - name: Check rs files
+        run: ./node_modules/.bin/cspell --verbose "**/*.rs"
+
+      - name: Check md files
+        run: ./node_modules/.bin/cspell --verbose "**/*.md"
+
   build:
     name: ${{ matrix.build }}
     runs-on: ${{ matrix.os }}
@@ -135,4 +153,4 @@ jobs:
           command: test
           args: --all
 
-  # TODO: Add spellchecker and markdown linter.
+  # TODO: Add  markdown linter.

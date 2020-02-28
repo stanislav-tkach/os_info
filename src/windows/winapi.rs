@@ -1,6 +1,6 @@
 // spell-checker:ignore dword, minwindef, ntdef, ntdll, ntstatus, osversioninfoex, osversioninfoexa
 // spell-checker:ignore osversioninfoexw, serverr, sysinfoapi, winnt, winuser, pbool, libloaderapi
-// spell-checker:ignore lpcstr, processthreadsapi
+// spell-checker:ignore lpcstr, processthreadsapi, farproc
 
 #![allow(unsafe_code)]
 

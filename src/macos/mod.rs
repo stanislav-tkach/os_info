@@ -1,3 +1,5 @@
+// spell-checker:ignore getconf
+
 use std::process::{Command, Output};
 
 use log::{trace, warn};

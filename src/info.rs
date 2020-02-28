@@ -1,3 +1,5 @@
+// spell-checker:ignore itertools, iproduct, bitnesses
+
 use std::fmt::{self, Display, Formatter};
 
 use super::{Bitness, Type, Version};
