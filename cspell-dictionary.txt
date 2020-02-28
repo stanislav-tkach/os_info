@@ -1,6 +1,7 @@
 bitness
 centos
 emscripten
+libntdll
 macos
 msvc
 println
