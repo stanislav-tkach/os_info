@@ -99,6 +99,15 @@ jobs:
       - name: Check md files
         run: ./node_modules/.bin/cspell --verbose "**/*.md"
 
+  markdown:
+    name: Markdown lints
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: nosborn/github-action-markdown-cli@v1.1.1
+        with:
+          files: .
+
   build:
     name: ${{ matrix.build }}
     runs-on: ${{ matrix.os }}
@@ -152,5 +161,3 @@ jobs:
         with:
           command: test
           args: --all
-
-  # TODO: Add  markdown linter.
