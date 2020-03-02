@@ -13,7 +13,6 @@ license = "MIT"
 edition = "2018"
 
 [badges]
-travis-ci = { repository = "DarkEld3r/os_info" }
 is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
 is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
