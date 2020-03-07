@@ -26,9 +26,7 @@ impl Matcher {
             Self::PrefixedVersion { prefix } => find_prefixed_word(string, prefix)
                 .filter(|&v| is_valid_version(v))
                 .map(|v| v.to_owned()),
-            Self::KeyValue => {
-                find_by_key(string, "ORACLE_SUPPORT_PRODUCT_VERSION")
-            }
+            Self::KeyValue => find_by_key(string, "ORACLE_SUPPORT_PRODUCT_VERSION"),
         }
     }
 }
@@ -39,7 +37,7 @@ fn find_by_key(string: &str, key: &str) -> Option<String> {
     for line in lines {
         let kv: Vec<&str> = line.split('=').collect();
         if kv[0] == key {
-            return Some(kv[1].to_owned())
+            return Some(kv[1].to_owned());
         }
     }
 
