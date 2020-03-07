@@ -50,7 +50,12 @@ struct ReleaseInfo<'a> {
 
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
-const DISTRIBUTIONS: [ReleaseInfo; 4] = [
+const DISTRIBUTIONS: [ReleaseInfo; 5] = [
+    ReleaseInfo {
+        os_type: Type::OracleLinux,
+        path: "/etc/os-release",
+        version_matcher:
+    },
     ReleaseInfo {
         os_type: Type::Centos,
         path: "/etc/centos-release",
