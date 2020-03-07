@@ -171,14 +171,14 @@ mod tests {
     #[test]
     pub fn oracle_linux_7_5() {
         let parse_results = parse(oracle_server_linux_7_5_file());
-        assert_eq!(parse_results.distribution, Some("OracleLinux".to_string()));
+        assert_eq!(parse_results.distribution, Some("OracleServer".to_string()));
         assert_eq!(parse_results.version, Some("7.5".to_string()));
     }
 
     #[test]
     pub fn oracle_linux_8_1() {
         let parse_results = parse(oracle_server_linux_8_1_file());
-        assert_eq!(parse_results.distribution, Some("OracleLinux".to_string()));
+        assert_eq!(parse_results.distribution, Some("OracleServer".to_string()));
         assert_eq!(parse_results.version, Some("8.1".to_string()));
     }
 

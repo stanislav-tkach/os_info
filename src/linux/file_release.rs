@@ -95,7 +95,7 @@ mod tests {
         file.push("src/linux/tests/centos-release");
 
         let path = file.into_os_string().into_string().unwrap();
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[1].clone()];
         distributions[0].path = &path;
 
         let info = retrieve(&distributions).unwrap();
@@ -109,7 +109,7 @@ mod tests {
         file.push("src/linux/tests/fedora-release");
 
         let path = file.into_os_string().into_string().unwrap();
-        let mut distributions = [DISTRIBUTIONS[1].clone()];
+        let mut distributions = [DISTRIBUTIONS[2].clone()];
         distributions[0].path = &path;
 
         let info = retrieve(&distributions).unwrap();
@@ -123,7 +123,7 @@ mod tests {
         file.push("src/linux/tests/redhat-release");
 
         let path = file.into_os_string().into_string().unwrap();
-        let mut distributions = [DISTRIBUTIONS[2].clone()];
+        let mut distributions = [DISTRIBUTIONS[3].clone()];
         distributions[0].path = &path;
 
         let info = retrieve(&distributions).unwrap();
@@ -137,7 +137,7 @@ mod tests {
         file.push("src/linux/tests/alpine-release");
 
         let path = file.into_os_string().into_string().unwrap();
-        let mut distributions = [DISTRIBUTIONS[3].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = &path;
 
         let info = retrieve(&distributions).unwrap();
