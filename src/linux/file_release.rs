@@ -90,6 +90,20 @@ mod tests {
     use std::path::PathBuf;
 
     #[test]
+    fn oracle_linux() {
+        let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        file.push("src/linux/tests/os-release");
+
+        let path = file.into_os_string().into_string().unwrap();
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = &path;
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::OracleLinux);
+        assert_eq!(info.version, Version::custom("8.1", None));
+    }
+
+    #[test]
     fn centos() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/centos-release");
