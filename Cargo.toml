@@ -1,6 +1,6 @@
 [package]
 name = "os_info"
-version = "1.3.3"
+version = "2.0.1"
 authors = ["Jan Schulte <hello@unexpected-co.de>", "Stanislav Tkach <stanislav.tkach@gmail.com>"]
 description = "Detect the operating system type and version."
 documentation = "https://docs.rs/os_info"
@@ -10,24 +10,18 @@ readme = "README.md"
 keywords = ["os", "os_type", "os_version", "os_info"]
 categories = ["os"]
 license = "MIT"
-build = "build.rs"
 edition = "2018"
 
 [badges]
-travis-ci = { repository = "DarkEld3r/os_info" }
 is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
 is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
+[features]
+default = ["serde"]
+
 [dependencies]
 log = "0.4.5"
-serde = "1.0.0"
-serde_derive = "1.0.0"
-
-[target.'cfg(not(windows))'.dependencies]
-regex="1.0.5"
-
-[target.'cfg(target_os = "macos")'.dependencies]
-lazy_static = "1.1.0"
+serde = { version = "1.0.0", features = ["derive"], optional = true }
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3.8", features = ["minwindef", "ntdef", "ntstatus", "sysinfoapi", "winnt", "winuser", "libloaderapi", "processthreadsapi"] }

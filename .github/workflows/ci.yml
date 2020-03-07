@@ -3,12 +3,12 @@ name: CI
 on: [pull_request, push]
 
 jobs:
-  format:
+  fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout sources
         uses: actions/checkout@v2
 
       - name: Install rust
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout sources
         uses: actions/checkout@v2
 
       - name: Install rust
@@ -46,6 +46,71 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: -- -D warnings
+
+  audit:
+    name: Security audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/audit-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  deadlinks:
+    name: Deadlinks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Install deadlinks
+        run: cargo install cargo-deadlinks
+
+      - name: Cargo doc
+        run: cargo doc --no-deps
+
+      - name: Run deadlinks
+        run: cargo deadlinks --dir target/doc
+
+  # TODO: Replace with a specific action.
+  spellcheck:
+    name: Spell check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install cspell
+        run: npm install cspell
+
+      - name: Check rs files
+        run: ./node_modules/.bin/cspell --verbose "**/*.rs"
+
+      - name: Check md files
+        run: ./node_modules/.bin/cspell --verbose "**/*.md"
+
+  markdown:
+    name: Markdown lints
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Check md files
+        uses: nosborn/github-action-markdown-cli@v1.1.1
+        with:
+          files: .
 
   build:
     name: ${{ matrix.build }}
@@ -78,7 +143,7 @@ jobs:
             target: x86_64-pc-windows-msvc
 
     steps:
-      - name: Checkout
+      - name: Checkout sources
         uses: actions/checkout@v2
 
       - name: Install rust
@@ -100,5 +165,3 @@ jobs:
         with:
           command: test
           args: --all
-
-  # TODO: Add cargo-audit, cargo-deadlinks, spellchecker, markdown linter, coverage.

@@ -1,10 +1,10 @@
-use std::process::Command;
+// spell-checker:ignore getconf
 
-use lazy_static::lazy_static;
-use log::trace;
-use regex::Regex;
+use std::process::{Command, Output};
 
-use crate::{Bitness, Info, Type, Version};
+use log::{trace, warn};
+
+use crate::{matcher::Matcher, Bitness, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
@@ -12,7 +12,7 @@ pub fn current_platform() -> Info {
     let info = Info {
         os_type: Type::Macos,
         version: version(),
-        bitness: Bitness::Unknown,
+        bitness: bitness(),
     };
     trace!("Returning {:?}", info);
     info
@@ -53,24 +53,25 @@ fn product_version() -> Option<String> {
             parse(&output)
         }
         Err(e) => {
-            trace!("sw_vers command failed with {:?}", e);
+            warn!("sw_vers command failed with {:?}", e);
             None
         }
     }
 }
 
 fn parse(sw_vers_output: &str) -> Option<String> {
-    lazy_static! {
-        static ref VERSION: Regex = Regex::new(r"ProductVersion:\s(\w+\.\w+(\.\w+)?)").unwrap();
+    Matcher::PrefixedVersion {
+        prefix: "ProductVersion:",
     }
+    .find(sw_vers_output)
+}
 
-    Some(
-        VERSION
-            .captures(sw_vers_output)?
-            .get(1)?
-            .as_str()
-            .to_owned(),
-    )
+fn bitness() -> Bitness {
+    match &Command::new("getconf").arg("LONG_BIT").output() {
+        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
+        Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
+        _ => Bitness::Unknown,
+    }
 }
 
 #[cfg(test)]
@@ -154,5 +155,11 @@ mod tests {
         "ProductName:	Mac OS X\n\
          ProductVersion:	10.15.21\n\
          BuildVersion:	ABCD123"
+    }
+
+    #[test]
+    fn get_bitness() {
+        let b = bitness();
+        assert_ne!(b, Bitness::Unknown);
     }
 }

@@ -1,16 +1,19 @@
 use std::fmt::{self, Display, Formatter, Write};
 
-use serde_derive::{Deserialize, Serialize};
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 
 /// Operating system version including version number and optional edition.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Version {
     pub(crate) version: VersionType,
     pub(crate) edition: Option<String>,
 }
 
 /// Operating system version.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum VersionType {
     /// Unknown version.
     Unknown,

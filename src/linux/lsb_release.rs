@@ -3,9 +3,8 @@
 use std::process::Command;
 
 use log::{trace, warn};
-use regex::Regex;
 
-use crate::{Bitness, Info, Type, Version};
+use crate::{matcher::Matcher, Bitness, Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     let release = retrieve()?;
@@ -51,19 +50,12 @@ fn retrieve() -> Option<LsbRelease> {
 fn parse(output: &str) -> LsbRelease {
     trace!("Trying to parse {:?}", output);
 
-    let distribution_regex = Regex::new(r"Distributor ID:\s(\w+)").unwrap();
-    let distribution = distribution_regex
-        .captures_iter(output)
-        .next()
-        .and_then(|c| c.get(1))
-        .map(|d| d.as_str().to_owned());
+    let distribution = Matcher::PrefixedWord {
+        prefix: "Distributor ID:",
+    }
+    .find(output);
 
-    let version_regex = Regex::new(r"Release:\s+([\w]+[.]?[\w]*)?").unwrap();
-    let version = version_regex
-        .captures_iter(output)
-        .next()
-        .and_then(|c| c.get(1))
-        .map(|v| v.as_str().to_owned());
+    let version = Matcher::PrefixedVersion { prefix: "Release:" }.find(output);
 
     trace!(
         "Parsed as '{:?}' distribution and '{:?}' version",

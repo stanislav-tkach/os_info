@@ -1,6 +1,6 @@
-use std::fmt::{self, Display, Formatter};
+// spell-checker:ignore itertools, iproduct, bitnesses
 
-use serde_derive::{Deserialize, Serialize};
+use std::fmt::{self, Display, Formatter};
 
 use super::{Bitness, Type, Version};
 
@@ -17,7 +17,8 @@ use super::{Bitness, Type, Version};
 /// let info = os_info::get();
 /// println!("OS information: {}", info);
 /// ```
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Info {
     /// Operating system type. See `Type` for details.
     pub(crate) os_type: Type,

@@ -42,6 +42,8 @@ mod imp;
 
 mod bitness;
 mod info;
+#[cfg(not(windows))]
+mod matcher;
 mod os_type;
 mod version;
 
