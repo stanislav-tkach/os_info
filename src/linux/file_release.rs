@@ -59,7 +59,9 @@ const DISTRIBUTIONS: [ReleaseInfo; 5] = [
     ReleaseInfo {
         os_type: Type::OracleLinux,
         path: "/etc/os-release",
-        version_matcher: Matcher::KeyValue,
+        version_matcher: Matcher::KeyValue {
+            key: "ORACLE_SUPPORT_PRODUCT_VERSION",
+        },
     },
     ReleaseInfo {
         os_type: Type::Centos,
