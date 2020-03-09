@@ -10,6 +10,11 @@ pub enum Matcher {
 
     /// Similar to `PrefixedWord`, but only if the word is a valid version.
     PrefixedVersion { prefix: &'static str },
+
+    /// Key/Value file - principally seen on Oracle Linux with the /etc/os-release file. The `key`
+    /// field represents the key name for the field we're extracting the version from.
+    #[allow(dead_code)]
+    KeyValue { key: &'static str },
 }
 
 impl Matcher {
@@ -17,14 +22,26 @@ impl Matcher {
     pub fn find(&self, string: &str) -> Option<String> {
         match *self {
             Self::AllTrimmed => Some(string.trim().to_string()),
-            Self::PrefixedWord { prefix } => {
-                find_prefixed_word(string, prefix).map(|v| v.to_owned())
-            }
+            Self::PrefixedWord { prefix } => find_prefixed_word(string, prefix).map(str::to_owned),
             Self::PrefixedVersion { prefix } => find_prefixed_word(string, prefix)
                 .filter(|&v| is_valid_version(v))
-                .map(|v| v.to_owned()),
+                .map(str::to_owned),
+            Self::KeyValue { key } => find_by_key(string, key).map(str::to_owned),
         }
     }
+}
+
+fn find_by_key<'a>(string: &'a str, key: &str) -> Option<&'a str> {
+    let lines: Vec<&str> = string.split('\n').collect();
+
+    for line in lines {
+        let kv: Vec<&str> = line.split('=').collect();
+        if kv[0] == key {
+            return Some(kv[1]);
+        }
+    }
+
+    None
 }
 
 fn find_prefixed_word<'a>(string: &'a str, prefix: &str) -> Option<&'a str> {

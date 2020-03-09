@@ -36,6 +36,8 @@ pub enum Type {
     openSUSE,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>)
     Alpine,
+    /// Oracle Linux Server (<https://en.wikipedia.org/wiki/Oracle_Linux>)
+    OracleLinux,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
     /// Redox (<https://en.wikipedia.org/wiki/Redox_(operating_system)>).

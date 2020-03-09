@@ -23,6 +23,7 @@ pub fn get() -> Option<Info> {
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("SUSE") => Type::SUSE,
         Some("openSUSE") => Type::openSUSE,
+        Some("OracleServer") => Type::OracleLinux,
         _ => Type::Linux,
     };
 
@@ -167,6 +168,20 @@ mod tests {
         assert_eq!(parse_results.version, Some("15.1".to_string()));
     }
 
+    #[test]
+    pub fn oracle_linux_7_5() {
+        let parse_results = parse(oracle_server_linux_7_5_file());
+        assert_eq!(parse_results.distribution, Some("OracleServer".to_string()));
+        assert_eq!(parse_results.version, Some("7.5".to_string()));
+    }
+
+    #[test]
+    pub fn oracle_linux_8_1() {
+        let parse_results = parse(oracle_server_linux_8_1_file());
+        assert_eq!(parse_results.distribution, Some("OracleServer".to_string()));
+        assert_eq!(parse_results.version, Some("8.1".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -269,6 +284,24 @@ mod tests {
         Distributor ID:	openSUSE\n\
         Description:	openSUSE Leap 15.1\n\
         Release:	15.1\n\
+        Codename:	n/a\n\
+        "
+    }
+
+    fn oracle_server_linux_7_5_file() -> &'static str {
+        "LSB Version:	:core-4.1-amd64:core-4.1-noarch\n\
+        Distributor ID:	OracleServer\n\
+        Description:	Oracle Linux Server release 7.5\n\
+        Release:	7.5\n\
+        Codename:	n/a\n\
+        "
+    }
+
+    fn oracle_server_linux_8_1_file() -> &'static str {
+        "LSB Version:	:core-4.1-amd64:core-4.1-noarch\n\
+        Distributor ID:	OracleServer\n\
+        Description:	Oracle Linux Server release 8.1\n\
+        Release:	8.1\n\
         Codename:	n/a\n\
         "
     }

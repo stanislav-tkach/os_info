@@ -50,7 +50,20 @@ struct ReleaseInfo<'a> {
 
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
-const DISTRIBUTIONS: [ReleaseInfo; 4] = [
+const DISTRIBUTIONS: [ReleaseInfo; 5] = [
+    // IMPORTANT IMPORTANT IMPORTANT
+    // Due to shenanigans with Oracle Linux including an /etc/redhat-release file that states
+    // that the OS is Red Hat Enterprise Linux, this /etc/os-release file MUST be checked
+    // before this code checks /etc/redhat-release. If it does not get run first,
+    // it will unintentionally report that the operating system is Red Hat Enterprise Linux
+    // instead of Oracle Linux.
+    ReleaseInfo {
+        os_type: Type::OracleLinux,
+        path: "/etc/os-release",
+        version_matcher: Matcher::KeyValue {
+            key: "ORACLE_SUPPORT_PRODUCT_VERSION",
+        },
+    },
     ReleaseInfo {
         os_type: Type::Centos,
         path: "/etc/centos-release",
@@ -80,12 +93,26 @@ mod tests {
     use std::path::PathBuf;
 
     #[test]
+    fn oracle_linux() {
+        let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        file.push("src/linux/tests/os-release");
+
+        let path = file.into_os_string().into_string().unwrap();
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = &path;
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::OracleLinux);
+        assert_eq!(info.version, Version::custom("8.1", None));
+    }
+
+    #[test]
     fn centos() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("src/linux/tests/centos-release");
 
         let path = file.into_os_string().into_string().unwrap();
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[1].clone()];
         distributions[0].path = &path;
 
         let info = retrieve(&distributions).unwrap();
@@ -99,7 +126,7 @@ mod tests {
         file.push("src/linux/tests/fedora-release");
 
         let path = file.into_os_string().into_string().unwrap();
-        let mut distributions = [DISTRIBUTIONS[1].clone()];
+        let mut distributions = [DISTRIBUTIONS[2].clone()];
         distributions[0].path = &path;
 
         let info = retrieve(&distributions).unwrap();
@@ -113,7 +140,7 @@ mod tests {
         file.push("src/linux/tests/redhat-release");
 
         let path = file.into_os_string().into_string().unwrap();
-        let mut distributions = [DISTRIBUTIONS[2].clone()];
+        let mut distributions = [DISTRIBUTIONS[3].clone()];
         distributions[0].path = &path;
 
         let info = retrieve(&distributions).unwrap();
@@ -127,7 +154,7 @@ mod tests {
         file.push("src/linux/tests/alpine-release");
 
         let path = file.into_os_string().into_string().unwrap();
-        let mut distributions = [DISTRIBUTIONS[3].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = &path;
 
         let info = retrieve(&distributions).unwrap();
