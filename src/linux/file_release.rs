@@ -51,7 +51,6 @@ struct ReleaseInfo<'a> {
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
 const DISTRIBUTIONS: [ReleaseInfo; 5] = [
-    // IMPORTANT IMPORTANT IMPORTANT
     // Due to shenanigans with Oracle Linux including an /etc/redhat-release file that states
     // that the OS is Red Hat Enterprise Linux, this /etc/os-release file MUST be checked
     // before this code checks /etc/redhat-release. If it does not get run first,

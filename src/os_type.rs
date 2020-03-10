@@ -26,17 +26,17 @@ pub enum Type {
     Arch,
     /// CentOS (<https://en.wikipedia.org/wiki/CentOS>).
     Centos,
-    /// Fedora (<https://en.wikipedia.org/wiki/Fedora_(operating_system)>)
+    /// Fedora (<https://en.wikipedia.org/wiki/Fedora_(operating_system)>).
     Fedora,
-    /// Amazon (<https://en.wikipedia.org/wiki/Amazon_Machine_Image#Amazon_Linux_AMI>)
+    /// Amazon (<https://en.wikipedia.org/wiki/Amazon_Machine_Image#Amazon_Linux_AMI>).
     Amazon,
-    /// SUSE Linux Enterprise (<https://en.wikipedia.org/wiki/SUSE_Linux_Enterprise>)
+    /// SUSE Linux Enterprise (<https://en.wikipedia.org/wiki/SUSE_Linux_Enterprise>).
     SUSE,
-    ///openSUSE Linux (<https://en.wikipedia.org/wiki/OpenSUSE>)
+    ///openSUSE Linux (<https://en.wikipedia.org/wiki/OpenSUSE>).
     openSUSE,
-    /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>)
+    /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>).
     Alpine,
-    /// Oracle Linux Server (<https://en.wikipedia.org/wiki/Oracle_Linux>)
+    /// Oracle Linux Server (<https://en.wikipedia.org/wiki/Oracle_Linux>).
     OracleLinux,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
