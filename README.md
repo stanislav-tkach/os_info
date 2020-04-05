@@ -2,7 +2,7 @@
 
 <!-- cspell:disable -->
 **Status:**
-![CI](https://github.com/DarkEld3r/os_info/workflows/CI/badge.svg)
+[![CI](https://github.com/DarkEld3r/os_info/workflows/CI/badge.svg)](https://github.com/darkeld3r/os_info/actions)
 <!-- cspell:enable -->
 
 **Project info:**
