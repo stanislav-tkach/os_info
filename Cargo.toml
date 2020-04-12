@@ -22,6 +22,8 @@ default = ["serde"]
 [dependencies]
 log = "0.4.5"
 serde = { version = "1.0.0", features = ["derive"], optional = true }
+env_logger = "0.7.1"
+structopt = "0.3"
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3.8", features = ["minwindef", "ntdef", "ntstatus", "sysinfoapi", "winnt", "winuser", "libloaderapi", "processthreadsapi"] }
