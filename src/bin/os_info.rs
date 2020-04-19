@@ -3,7 +3,7 @@ use structopt::StructOpt;
 
 #[derive(StructOpt)]
 struct Options {
-    /// Show all information.
+    /// Show all OS information.
     #[structopt(long)]
     all: bool,
     /// Show OS type.
