@@ -13,6 +13,7 @@ license = "MIT"
 edition = "2018"
 
 [badges]
+codecov = { repository = "DarkEld3r/os_info", branch = "master", service = "github" }
 is-it-maintained-issue-resolution = { repository = "DarkEld3r/os_info" }
 is-it-maintained-open-issues = { repository = "DarkEld3r/os_info" }
 
