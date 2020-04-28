@@ -3,6 +3,7 @@
 <!-- cspell:disable -->
 **Status:**
 [![CI](https://github.com/DarkEld3r/os_info/workflows/CI/badge.svg)](https://github.com/darkeld3r/os_info/actions)
+[![codecov](https://codecov.io/gh/DarkEld3r/os_info/branch/master/graph/badge.svg)](https://codecov.io/gh/DarkEld3r/os_info)
 <!-- cspell:enable -->
 
 **Project info:**
