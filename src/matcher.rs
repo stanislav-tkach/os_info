@@ -12,7 +12,7 @@ pub enum Matcher {
     PrefixedVersion { prefix: &'static str },
 
     /// Takes a set of lines (separated by `\n`) and searches for the value in a key/value pair
-    /// separated by the `=` character.
+    /// separated by the `=` character. For example `VERSION_ID="8.1"`.
     #[allow(dead_code)]
     KeyValue { key: &'static str },
 }
@@ -32,9 +32,10 @@ impl Matcher {
 }
 
 fn find_by_key<'a>(string: &'a str, key: &str) -> Option<&'a str> {
+    let key = [key, "="].concat();
     for line in string.lines() {
-        if let Some(val) = find_prefixed_word(line, &[key, "="].concat()) {
-            return Some(val);
+        if let Some(key_start) = line.find(&key) {
+            return Some(line[key_start + key.len()..].trim_matches(|c: char| c == '"' || c.is_whitespace()))
         }
     }
 
@@ -134,6 +135,8 @@ mod tests {
             ("key", None),
             ("key=value", Some("value")),
             ("key=1", Some("1")),
+            ("key=\"1\"", Some("1")),
+            ("key=\"CentOS Linux\"", Some("CentOS Linux")),
         ];
 
         let matcher = Matcher::KeyValue { key: "key" };
