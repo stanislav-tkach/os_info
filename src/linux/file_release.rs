@@ -50,7 +50,7 @@ fn get_type(name: &str) -> Option<Type> {
     match name.to_lowercase().as_ref() {
         "centos linux" => Some(Type::Centos),
         "ubuntu" => Some(Type::Ubuntu),
-        _ => None
+        _ => None,
     }
 }
 
@@ -72,9 +72,7 @@ const DISTRIBUTIONS: [ReleaseInfo; 5] = [
     ReleaseInfo {
         os_type: Type::OracleLinux,
         path: "/etc/os-release",
-        version_matcher: Matcher::KeyValue {
-            key: "VERSION_ID",
-        },
+        version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
     },
     ReleaseInfo {
         os_type: Type::Centos,
