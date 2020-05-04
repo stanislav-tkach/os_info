@@ -3,7 +3,7 @@ use predicates::prelude::*;
 
 #[test]
 fn no_args() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
+    Command::cargo_bin(env!("CARGO_BIN_EXE_os_info"))
         .expect("cargo_bin failed")
         .assert()
         .success()
@@ -12,7 +12,7 @@ fn no_args() {
 
 #[test]
 fn all() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
+    Command::cargo_bin(env!("CARGO_BIN_EXE_os_info"))
         .expect("cargo_bin failed")
         .arg("--all")
         .assert()
@@ -22,7 +22,7 @@ fn all() {
 
 #[test]
 fn type_short() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
+    Command::cargo_bin(env!("CARGO_BIN_EXE_os_info"))
         .expect("cargo_bin failed")
         .arg("-t")
         .assert()
@@ -32,7 +32,7 @@ fn type_short() {
 
 #[test]
 fn type_long() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
+    Command::cargo_bin(env!("CARGO_BIN_EXE_os_info"))
         .expect("cargo_bin failed")
         .arg("--type")
         .assert()
@@ -42,7 +42,7 @@ fn type_long() {
 
 #[test]
 fn version_short() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
+    Command::cargo_bin(env!("CARGO_BIN_EXE_os_info"))
         .expect("cargo_bin failed")
         .arg("-v")
         .assert()
@@ -52,7 +52,7 @@ fn version_short() {
 
 #[test]
 fn version_long() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
+    Command::cargo_bin(env!("CARGO_BIN_EXE_os_info"))
         .expect("cargo_bin failed")
         .arg("--version")
         .assert()
@@ -62,7 +62,7 @@ fn version_long() {
 
 #[test]
 fn bitness_short() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
+    Command::cargo_bin(env!("CARGO_BIN_EXE_os_info"))
         .expect("cargo_bin failed")
         .arg("-b")
         .assert()
@@ -72,7 +72,7 @@ fn bitness_short() {
 
 #[test]
 fn bitness_long() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
+    Command::cargo_bin(env!("CARGO_BIN_EXE_os_info"))
         .expect("cargo_bin failed")
         .arg("--bitness")
         .assert()
