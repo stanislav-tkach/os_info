@@ -1,7 +1,7 @@
 [package]
 name = "os_info_cli"
-version = "2.0.2"
-authors = ["Jan Schulte <hello@unexpected-co.de>", "Stanislav Tkach <stanislav.tkach@gmail.com>"]
+version = "1.0.0"
+authors = ["Stanislav Tkach <stanislav.tkach@gmail.com>"]
 description = "Detect the operating system type and version."
 documentation = "https://docs.rs/os_info"
 homepage = "https://github.com/darkeld3r/os_info"
@@ -17,7 +17,7 @@ name = "os_info"
 path = "src/main.rs"
 
 [dependencies]
-os_info = { version = "", path = "../os_info" }
+os_info = { version = "", default-features = false, path = "../os_info" }
 log = "0.4.5"
 env_logger = "0.7.1"
 structopt = "0.3"

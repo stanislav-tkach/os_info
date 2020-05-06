@@ -1,5 +1,5 @@
 [workspace]
 members = [
-	"os_info",
-	"cli",
+    "os_info",
+    "cli",
 ]
