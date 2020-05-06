@@ -1,0 +1,27 @@
+[package]
+name = "os_info_cli"
+version = "1.0.0"
+authors = ["Stanislav Tkach <stanislav.tkach@gmail.com>"]
+description = "Detect the operating system type and version."
+documentation = "https://docs.rs/os_info"
+homepage = "https://github.com/darkeld3r/os_info"
+repository = "https://github.com/darkeld3r/os_info"
+readme = "../README.md"
+keywords = ["cli", "os", "os_type", "os_version", "os_info"]
+categories = ["command-line-interface", "os"]
+license = "MIT"
+edition = "2018"
+
+[[bin]]
+name = "os_info"
+path = "src/main.rs"
+
+[dependencies]
+os_info = { version = "", default-features = false, path = "../os_info" }
+log = "0.4.5"
+env_logger = "0.7.1"
+structopt = "0.3"
+
+[dev-dependencies]
+assert_cmd = "1.0.1"
+predicates = "1.0.4"

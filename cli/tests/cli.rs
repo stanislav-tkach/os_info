@@ -1,10 +1,18 @@
+use std::path::Path;
+
 use assert_cmd::Command;
 use predicates::prelude::*;
 
+const BIN_NAME: &str = env!("CARGO_BIN_EXE_os_info");
+
+#[test]
+fn path_is_correct() {
+    assert!(Path::new(BIN_NAME).is_file());
+}
+
 #[test]
 fn no_args() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
-        .expect("cargo_bin failed")
+    Command::new(BIN_NAME)
         .assert()
         .success()
         .stdout(all_predicate());
@@ -12,8 +20,7 @@ fn no_args() {
 
 #[test]
 fn all() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
-        .expect("cargo_bin failed")
+    Command::new(BIN_NAME)
         .arg("--all")
         .assert()
         .success()
@@ -22,8 +29,7 @@ fn all() {
 
 #[test]
 fn type_short() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
-        .expect("cargo_bin failed")
+    Command::new(BIN_NAME)
         .arg("-t")
         .assert()
         .success()
@@ -32,8 +38,7 @@ fn type_short() {
 
 #[test]
 fn type_long() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
-        .expect("cargo_bin failed")
+    Command::new(BIN_NAME)
         .arg("--type")
         .assert()
         .success()
@@ -42,8 +47,7 @@ fn type_long() {
 
 #[test]
 fn version_short() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
-        .expect("cargo_bin failed")
+    Command::new(BIN_NAME)
         .arg("-v")
         .assert()
         .success()
@@ -52,8 +56,7 @@ fn version_short() {
 
 #[test]
 fn version_long() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
-        .expect("cargo_bin failed")
+    Command::new(BIN_NAME)
         .arg("--version")
         .assert()
         .success()
@@ -62,8 +65,7 @@ fn version_long() {
 
 #[test]
 fn bitness_short() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
-        .expect("cargo_bin failed")
+    Command::new(BIN_NAME)
         .arg("-b")
         .assert()
         .success()
@@ -72,8 +74,7 @@ fn bitness_short() {
 
 #[test]
 fn bitness_long() {
-    Command::cargo_bin(env!("CARGO_PKG_NAME"))
-        .expect("cargo_bin failed")
+    Command::new(BIN_NAME)
         .arg("--bitness")
         .assert()
         .success()
