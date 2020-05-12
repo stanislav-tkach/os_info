@@ -1,3 +1,3 @@
 // spell-checker:ignore doctest
 
-doc_comment::doctest!("../../README.md");
+doc_comment::doctest!("../README.md");
