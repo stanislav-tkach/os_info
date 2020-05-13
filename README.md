@@ -31,7 +31,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "2.0.4"
+os_info = "2.0.5"
 ```
 
 This project has `serde` as an optional dependency, so if you don't need it, then
@@ -39,7 +39,7 @@ you can speed up compilation disabling it:
 
 ```toml
 [dependencies]
-os_info = { version = "2.0.0", default-features = false }
+os_info = { version = "2.0.5", default-features = false }
 ```
 
 ## Example
