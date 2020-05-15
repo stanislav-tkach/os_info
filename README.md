@@ -2,7 +2,8 @@
 
 <!-- cspell:disable -->
 **Status:**
-![CI](https://github.com/DarkEld3r/os_info/workflows/CI/badge.svg)
+[![CI](https://github.com/DarkEld3r/os_info/workflows/CI/badge.svg)](https://github.com/darkeld3r/os_info/actions)
+[![codecov](https://codecov.io/gh/DarkEld3r/os_info/branch/master/graph/badge.svg)](https://codecov.io/gh/DarkEld3r/os_info)
 <!-- cspell:enable -->
 
 **Project info:**
@@ -30,7 +31,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "2.0.1"
+os_info = "2.0.5"
 ```
 
 This project has `serde` as an optional dependency, so if you don't need it, then
@@ -38,7 +39,7 @@ you can speed up compilation disabling it:
 
 ```toml
 [dependencies]
-os_info = { version = "2.0.0", default-features = false }
+os_info = { version = "2.0.5", default-features = false }
 ```
 
 ## Example

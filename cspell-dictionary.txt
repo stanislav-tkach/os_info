@@ -1,5 +1,6 @@
 bitness
 centos
+concat
 emscripten
 libntdll
 macos
@@ -7,6 +8,7 @@ msvc
 println
 redhat
 serde
+structopt
 toml
 winapi
 xenial

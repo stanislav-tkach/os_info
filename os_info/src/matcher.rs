@@ -11,8 +11,8 @@ pub enum Matcher {
     /// Similar to `PrefixedWord`, but only if the word is a valid version.
     PrefixedVersion { prefix: &'static str },
 
-    /// Key/Value file - principally seen on Oracle Linux with the /etc/os-release file. The `key`
-    /// field represents the key name for the field we're extracting the version from.
+    /// Takes a set of lines (separated by `\n`) and searches for the value in a key/value pair
+    /// separated by the `=` character. For example `VERSION_ID="8.1"`.
     #[allow(dead_code)]
     KeyValue { key: &'static str },
 }
@@ -32,12 +32,12 @@ impl Matcher {
 }
 
 fn find_by_key<'a>(string: &'a str, key: &str) -> Option<&'a str> {
-    let lines: Vec<&str> = string.split('\n').collect();
-
-    for line in lines {
-        let kv: Vec<&str> = line.split('=').collect();
-        if kv[0] == key {
-            return Some(kv[1]);
+    let key = [key, "="].concat();
+    for line in string.lines() {
+        if let Some(key_start) = line.find(&key) {
+            return Some(
+                line[key_start + key.len()..].trim_matches(|c: char| c == '"' || c.is_whitespace()),
+            );
         }
     }
 
@@ -93,6 +93,7 @@ mod tests {
         let data = [
             ("", None),
             ("test", Some("")),
+            ("test1", Some("1")),
             ("test 1", Some("1")),
             (" test 1", Some("1")),
             ("test 1.2.3", Some("1.2.3")),
@@ -122,6 +123,25 @@ mod tests {
         ];
 
         let matcher = Matcher::PrefixedVersion { prefix: "test" };
+
+        for (input, expected) in &data {
+            let result = matcher.find(input);
+            assert_eq!(result.as_deref(), *expected);
+        }
+    }
+
+    #[test]
+    fn key_value() {
+        let data = [
+            ("", None),
+            ("key", None),
+            ("key=value", Some("value")),
+            ("key=1", Some("1")),
+            ("key=\"1\"", Some("1")),
+            ("key=\"CentOS Linux\"", Some("CentOS Linux")),
+        ];
+
+        let matcher = Matcher::KeyValue { key: "key" };
 
         for (input, expected) in &data {
             let result = matcher.find(input);
