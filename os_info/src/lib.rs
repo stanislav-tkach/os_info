@@ -3,7 +3,12 @@
 //! Provides interfaces for getting information about the current operating system, such as type,
 //! version, edition and bitness.
 
-#![deny(missing_debug_implementations, missing_docs, unsafe_code, missing_doc_code_examples)]
+#![deny(
+    missing_debug_implementations,
+    missing_docs,
+    unsafe_code,
+    missing_doc_code_examples
+)]
 
 #[cfg(target_os = "android")]
 #[path = "android/mod.rs"]
