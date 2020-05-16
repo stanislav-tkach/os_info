@@ -1,3 +1,10 @@
+//! `os_info_cli`
+//!
+//! Provides command line interfaces for getting information about the current operating system,
+//! such as type, version, edition and bitness.
+
+#![deny(missing_docs, unsafe_code)]
+
 use log::warn;
 use structopt::StructOpt;
 
