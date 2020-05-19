@@ -42,6 +42,7 @@ mod tests {
             | Type::Redhat
             | Type::RedHatEnterprise
             | Type::Ubuntu
+            | Type::Pop
             | Type::Debian
             | Type::Arch
             | Type::Centos

@@ -15,6 +15,7 @@ pub fn get() -> Option<Info> {
 
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
         Some("Ubuntu") => Type::Ubuntu,
+        Some("Pop") => Type::Pop,
         Some("Debian") => Type::Debian,
         Some("Arch") => Type::Arch,
         Some("CentOS") => Type::Centos,
@@ -182,6 +183,13 @@ mod tests {
         assert_eq!(parse_results.version, Some("8.1".to_string()));
     }
 
+    #[test]
+    pub fn pop_os_20_04_lts() {
+        let parse_results = parse(pop_os_20_04_lts_file());
+        assert_eq!(parse_results.distribution, Some("Pop".to_string()));
+        assert_eq!(parse_results.version, Some("20.04".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -303,6 +311,15 @@ mod tests {
         Description:	Oracle Linux Server release 8.1\n\
         Release:	8.1\n\
         Codename:	n/a\n\
+        "
+    }
+
+    fn pop_os_20_04_lts_file() -> &'static str {
+        "No LSB modules are available.\n\
+        Distributor ID: Pop\n\
+        Description: Pop!_OS 20.04 LTS\n\
+        Release: 20.04\n\
+        Codename: focal\n\
         "
     }
 }
