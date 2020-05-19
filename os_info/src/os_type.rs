@@ -20,6 +20,8 @@ pub enum Type {
     RedHatEnterprise,
     /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
     Ubuntu,
+    /// Pop!_OS (<https://en.wikipedia.org/wiki/Pop!_OS>)
+    Pop,
     /// Debian (<https://en.wikipedia.org/wiki/Debian>).
     Debian,
     /// Arch Linux (<https://en.wikipedia.org/wiki/Arch_Linux>).
