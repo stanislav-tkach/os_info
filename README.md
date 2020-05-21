@@ -24,7 +24,7 @@ that uses the library.
 
 ### Library (`os_info`)
 
-#### Usage
+#### `os_info` usage
 
 To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
@@ -67,7 +67,7 @@ This tool can be installed using the following cargo command:
 cargo install os_info_cli
 ```
 
-#### Usage
+#### `os_info_cli` usage
 
 Despite being named `os_info_cli` during installation, it is actually named
 `os_info`. You can use the `--help` flag to see available options:
