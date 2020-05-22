@@ -18,14 +18,13 @@
 
 ## Overview
 
-Library for detecting the operating system type and version.
+This project consists of two parts: the library that can be used to detect the
+operating system type (including version and bitness) and the command line tool
+that uses the library.
 
-Based on [os_type](https://github.com/schultyy/os_type). The main difference of
-`os_info` is that this library separates completely incompatible operating
-systems by conditional compilation and uses specific system API whenever is
-possible.
+### Library (`os_info`)
 
-## Usage
+#### `os_info` usage
 
 To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
@@ -42,7 +41,7 @@ you can speed up compilation disabling it:
 os_info = { version = "2.0.5", default-features = false }
 ```
 
-## Example
+#### Example
 
 ```rust
 let info = os_info::get();
@@ -56,6 +55,29 @@ println!("Version: {}", info.version());
 println!("Bitness: {}", info.bitness());
 ```
 
+### Command line tool (`os_info_cli`)
+
+A simple wrapper around the `os_info` library.
+
+#### Installation
+
+This tool can be installed using the following cargo command:
+
+```console
+cargo install os_info_cli
+```
+
+#### `os_info_cli` usage
+
+Despite being named `os_info_cli` during installation, it is actually named
+`os_info`. You can use the `--help` flag to see available options:
+
+```console
+os_info --help
+```
+
+## Supported operating systems
+
 Right now, the following operating system types can be returned:
 
 - Unknown
@@ -65,6 +87,7 @@ Right now, the following operating system types can be returned:
 - Redhat
 - RedHatEnterprise
 - Ubuntu
+- Pop!_OS
 - Debian
 - Arch
 - CentOS
@@ -77,12 +100,7 @@ Right now, the following operating system types can be returned:
 - Redox
 - Windows
 
-If you need support for more OS types, I am looking forward to your Pull
-Request.
-
-## Requirements
-
-On Linux based systems this library requires that [lsb_release] is installed.
+If you need support for more OS types, I am looking forward to your Pull Request.
 
 ## License
 
