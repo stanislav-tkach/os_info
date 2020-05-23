@@ -345,6 +345,7 @@ mod tests {
         Description:	Solus\n\
         Release:	4.1\n\
         Codename:	fortitude\n\
+        "
     }
 
     fn manjaro_19_0_2_file() -> &'static str {
