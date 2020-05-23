@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.0.6] (2020-05-24)
+
+- Pop!_OS support has been added. (#173)
+
+- Manjaro support has been added. (#180)
+
+- Solus support has been added. (#182)
+
 ## [2.0.5] (2020-05-13)
 
 - The markdown (README.md) test has been fixed. (#167)
@@ -151,9 +159,10 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v2.0.5...HEAD
-[2.0.5]: https://github.com/darkeld3r/os_info/compare/v2.0.4...v2.0.5
-[2.0.4]: https://github.com/darkeld3r/os_info/compare/v2.0.3...v2.0.4
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v2.0.6...HEAD
+[2.0.6]: https://github.com/darkeld3r/os_info/compare/2.0.5...v2.0.6
+[2.0.5]: https://github.com/darkeld3r/os_info/compare/2.0.4...2.0.5
+[2.0.4]: https://github.com/darkeld3r/os_info/compare/v2.0.3...2.0.4
 [2.0.3]: https://github.com/darkeld3r/os_info/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/darkeld3r/os_info/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/darkeld3r/os_info/compare/v2.0...v2.0.1

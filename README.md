@@ -30,7 +30,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "2.0.5"
+os_info = "2.0.6"
 ```
 
 This project has `serde` as an optional dependency, so if you don't need it, then
@@ -38,7 +38,7 @@ you can speed up compilation disabling it:
 
 ```toml
 [dependencies]
-os_info = { version = "2.0.5", default-features = false }
+os_info = { version = "2.0.6", default-features = false }
 ```
 
 #### Example
@@ -96,6 +96,8 @@ Right now, the following operating system types can be returned:
 - Alpine
 - SUSE Linux Enterprise
 - openSUSE
+- Solus
+- Manjaro
 - Macos
 - Redox
 - Windows

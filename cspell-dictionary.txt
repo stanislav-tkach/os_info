@@ -4,6 +4,7 @@ concat
 emscripten
 libntdll
 macos
+manjaro
 msvc
 println
 redhat
@@ -12,4 +13,3 @@ structopt
 toml
 winapi
 xenial
-manjaro
