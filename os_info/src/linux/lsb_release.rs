@@ -21,6 +21,7 @@ pub fn get() -> Option<Info> {
         Some("CentOS") => Type::Centos,
         Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
         Some("Fedora") => Type::Fedora,
+        Some("Solus") => Type::Solus,
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("SUSE") => Type::SUSE,
         Some("openSUSE") => Type::openSUSE,
@@ -190,6 +191,13 @@ mod tests {
         assert_eq!(parse_results.version, Some("20.04".to_string()));
     }
 
+    #[test]
+    pub fn solus_4_1() {
+        let parse_results = parse(solus_4_1_file());
+        assert_eq!(parse_results.distribution, Some("Solus".to_string()));
+        assert_eq!(parse_results.version, Some("4.1".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -320,6 +328,15 @@ mod tests {
         Description: Pop!_OS 20.04 LTS\n\
         Release: 20.04\n\
         Codename: focal\n\
+        "
+    }
+
+    fn solus_4_1_file() -> &'static str {
+        "LSB Version:	1.4\n\
+        Distributor ID:	Solus\n\
+        Description:	Solus\n\
+        Release:	4.1\n\
+        Codename:	fortitude\n\
         "
     }
 }
