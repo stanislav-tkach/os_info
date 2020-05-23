@@ -42,6 +42,8 @@ pub enum Type {
     OracleLinux,
     /// Solus (<https://en.wikipedia.org/wiki/Solus_(operating_system)>).
     Solus,
+    /// Manjaro (<https://en.wikipedia.org/wiki/Manjaro>).
+    Manjaro,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
     /// Redox (<https://en.wikipedia.org/wiki/Redox_(operating_system)>).

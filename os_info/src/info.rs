@@ -158,6 +158,7 @@ mod tests {
             Type::Centos,
             Type::Fedora,
             Type::Solus,
+            Type::Manjaro,
             Type::Alpine,
             Type::Macos,
             Type::Redox,

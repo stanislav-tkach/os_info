@@ -26,6 +26,7 @@ pub fn get() -> Option<Info> {
         Some("SUSE") => Type::SUSE,
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
+        Some("ManjaroLinux") => Type::Manjaro,
         _ => Type::Linux,
     };
 
@@ -198,6 +199,13 @@ mod tests {
         assert_eq!(parse_results.version, Some("4.1".to_string()));
     }
 
+    #[test]
+    pub fn manjaro() {
+        let parse_results = parse(manjaro_19_0_2_file());
+        assert_eq!(parse_results.distribution, Some("ManjaroLinux".to_string()));
+        assert_eq!(parse_results.version, Some("19.0.2".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -337,6 +345,14 @@ mod tests {
         Description:	Solus\n\
         Release:	4.1\n\
         Codename:	fortitude\n\
+    }
+
+    fn manjaro_19_0_2_file() -> &'static str {
+        "LSB Version:    n/a\n\
+        Distributor ID: ManjaroLinux\n\
+        Description:    Manjaro Linux\n\
+        Release:        19.0.2\n\
+        Codename:       n/a\n\
         "
     }
 }

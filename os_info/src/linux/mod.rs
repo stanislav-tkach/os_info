@@ -51,6 +51,7 @@ mod tests {
             | Type::openSUSE
             | Type::OracleLinux
             | Type::Solus
+            | Type::Manjaro
             | Type::Alpine => (),
             os_type => {
                 panic!("Unexpected OS type: {}", os_type);
