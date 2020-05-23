@@ -50,6 +50,7 @@ mod tests {
             | Type::SUSE
             | Type::openSUSE
             | Type::OracleLinux
+            | Type::Solus
             | Type::Manjaro
             | Type::Alpine => (),
             os_type => {
