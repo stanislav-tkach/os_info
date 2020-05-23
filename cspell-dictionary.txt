@@ -12,3 +12,4 @@ structopt
 toml
 winapi
 xenial
+manjaro

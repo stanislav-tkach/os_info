@@ -25,6 +25,7 @@ pub fn get() -> Option<Info> {
         Some("SUSE") => Type::SUSE,
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
+        Some("ManjaroLinux") => Type::Manjaro,
         _ => Type::Linux,
     };
 
@@ -190,6 +191,13 @@ mod tests {
         assert_eq!(parse_results.version, Some("20.04".to_string()));
     }
 
+    #[test]
+    pub fn manjaro() {
+        let parse_results = parse(manjaro_19_0_2_file());
+        assert_eq!(parse_results.distribution, Some("ManjaroLinux".to_string()));
+        assert_eq!(parse_results.version, Some("19.0.2".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -320,6 +328,15 @@ mod tests {
         Description: Pop!_OS 20.04 LTS\n\
         Release: 20.04\n\
         Codename: focal\n\
+        "
+    }
+
+    fn manjaro_19_0_2_file() -> &'static str {
+        "LSB Version:    n/a\n\
+        Distributor ID: ManjaroLinux\n\
+        Description:    Manjaro Linux\n\
+        Release:        19.0.2\n\
+        Codename:       n/a\n\
         "
     }
 }
