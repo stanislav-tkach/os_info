@@ -336,7 +336,7 @@ mod tests {
         Distributor ID: ManjaroLinux\n\
         Description:    Manjaro Linux\n\
         Release:        19.0.2\n\
-        Codename:       Kyria\n\
+        Codename:       n/a\n\
         "
     }
 }
