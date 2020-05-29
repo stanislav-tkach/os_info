@@ -80,26 +80,27 @@ os_info --help
 
 Right now, the following operating system types can be returned:
 
-- Unknown
+- Alpine Linux
+- Amazon Linux AMI
 - Android
-- Emscripten
-- Linux
-- Redhat
-- RedHatEnterprise
-- Ubuntu
-- Pop!_OS
-- Debian
-- Arch
+- Arch Linux
 - CentOS
+- Debian
+- Emscripten
 - Fedora
-- Amazon
-- Alpine
-- SUSE Linux Enterprise
-- openSUSE
-- Solus
+- Linux
+- macOS (Mac OS X or OS X)
 - Manjaro
-- Macos
+- openSUSE
+- Oracle Linux
+- Pop!_OS
+- Red Hat Linux
+- Red Hat Enterprise Linux
 - Redox
+- Solus
+- SUSE Linux Enterprise Server
+- Ubuntu
+- Unknown
 - Windows
 
 If you need support for more OS types, I am looking forward to your Pull Request.
