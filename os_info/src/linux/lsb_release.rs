@@ -79,49 +79,49 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    pub fn debian() {
+    fn debian() {
         let parse_results = parse(file());
         assert_eq!(parse_results.distribution, Some("Debian".to_string()));
         assert_eq!(parse_results.version, Some("7.8".to_string()));
     }
 
     #[test]
-    pub fn arch() {
+    fn arch() {
         let parse_results = parse(arch_file());
         assert_eq!(parse_results.distribution, Some("Arch".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
     }
 
     #[test]
-    pub fn fedora() {
+    fn fedora() {
         let parse_results = parse(fedora_file());
         assert_eq!(parse_results.distribution, Some("Fedora".to_string()));
         assert_eq!(parse_results.version, Some("26".to_string()));
     }
 
     #[test]
-    pub fn ubuntu() {
+    fn ubuntu() {
         let parse_results = parse(ubuntu_file());
         assert_eq!(parse_results.distribution, Some("Ubuntu".to_string()));
         assert_eq!(parse_results.version, Some("16.04".to_string()));
     }
 
     #[test]
-    pub fn amazon1() {
+    fn amazon1() {
         let parse_results = parse(amazon1_file());
         assert_eq!(parse_results.distribution, Some("AmazonAMI".to_string()));
         assert_eq!(parse_results.version, Some("2018.03".to_string()));
     }
 
     #[test]
-    pub fn amazon2() {
+    fn amazon2() {
         let parse_results = parse(amazon2_file());
         assert_eq!(parse_results.distribution, Some("Amazon".to_string()));
         assert_eq!(parse_results.version, Some("2".to_string()));
     }
 
     #[test]
-    pub fn redhat_enterprise_8() {
+    fn redhat_enterprise_8() {
         let parse_results = parse(rhel8_file());
         assert_eq!(
             parse_results.distribution,
@@ -131,7 +131,7 @@ mod tests {
     }
 
     #[test]
-    pub fn redhat_enterprise_7() {
+    fn redhat_enterprise_7() {
         let parse_results = parse(rhel7_file());
         assert_eq!(
             parse_results.distribution,
@@ -141,7 +141,7 @@ mod tests {
     }
 
     #[test]
-    pub fn redhat_enterprise_6() {
+    fn redhat_enterprise_6() {
         let parse_results = parse(rhel6_file());
         assert_eq!(
             parse_results.distribution,
@@ -151,56 +151,56 @@ mod tests {
     }
 
     #[test]
-    pub fn suse_enterprise_15_1() {
+    fn suse_enterprise_15_1() {
         let parse_results = parse(suse_enterprise15_1_file());
         assert_eq!(parse_results.distribution, Some("SUSE".to_string()));
         assert_eq!(parse_results.version, Some("15.1".to_string()));
     }
 
     #[test]
-    pub fn suse_enterprise_12_5() {
+    fn suse_enterprise_12_5() {
         let parse_results = parse(suse_enterprise12_5_file());
         assert_eq!(parse_results.distribution, Some("SUSE".to_string()));
         assert_eq!(parse_results.version, Some("12.5".to_string()));
     }
 
     #[test]
-    pub fn open_suse_15_1() {
+    fn open_suse_15_1() {
         let parse_results = parse(open_suse_15_1_file());
         assert_eq!(parse_results.distribution, Some("openSUSE".to_string()));
         assert_eq!(parse_results.version, Some("15.1".to_string()));
     }
 
     #[test]
-    pub fn oracle_linux_7_5() {
+    fn oracle_linux_7_5() {
         let parse_results = parse(oracle_server_linux_7_5_file());
         assert_eq!(parse_results.distribution, Some("OracleServer".to_string()));
         assert_eq!(parse_results.version, Some("7.5".to_string()));
     }
 
     #[test]
-    pub fn oracle_linux_8_1() {
+    fn oracle_linux_8_1() {
         let parse_results = parse(oracle_server_linux_8_1_file());
         assert_eq!(parse_results.distribution, Some("OracleServer".to_string()));
         assert_eq!(parse_results.version, Some("8.1".to_string()));
     }
 
     #[test]
-    pub fn pop_os_20_04_lts() {
+    fn pop_os_20_04_lts() {
         let parse_results = parse(pop_os_20_04_lts_file());
         assert_eq!(parse_results.distribution, Some("Pop".to_string()));
         assert_eq!(parse_results.version, Some("20.04".to_string()));
     }
 
     #[test]
-    pub fn solus_4_1() {
+    fn solus_4_1() {
         let parse_results = parse(solus_4_1_file());
         assert_eq!(parse_results.distribution, Some("Solus".to_string()));
         assert_eq!(parse_results.version, Some("4.1".to_string()));
     }
 
     #[test]
-    pub fn manjaro() {
+    fn manjaro() {
         let parse_results = parse(manjaro_19_0_2_file());
         assert_eq!(parse_results.distribution, Some("ManjaroLinux".to_string()));
         assert_eq!(parse_results.version, Some("19.0.2".to_string()));
