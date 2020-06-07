@@ -14,6 +14,7 @@
 **Project details:**
 [![LoC](https://tokei.rs/b1/github/darkeld3r/os_info)](https://github.com/darkeld3r/os_info)
 ![rust 1.41+ required](https://img.shields.io/badge/rust-1.41+-blue.svg?label=Required%20Rust)
+![](https://api.dependabot.com/badges/status?host=github&repo=darkeld3r/os_info)
 
 ## Overview
 
