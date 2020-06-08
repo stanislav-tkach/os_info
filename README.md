@@ -11,10 +11,12 @@
 [![Latest Version](http://meritbadge.herokuapp.com/os_info)](https://crates.io/crates/os_info)
 [![License](https://img.shields.io/github/license/darkeld3r/os_info.svg)](https://github.com/darkeld3r/os_info)
 
+<!-- cspell:disable -->
 **Project details:**
 [![LoC](https://tokei.rs/b1/github/darkeld3r/os_info)](https://github.com/darkeld3r/os_info)
 ![rust 1.41+ required](https://img.shields.io/badge/rust-1.41+-blue.svg?label=Required%20Rust)
 ![Dependabot](https://api.dependabot.com/badges/status?host=github&repo=darkeld3r/os_info)
+<!-- cspell:enable -->
 
 ## Overview
 
