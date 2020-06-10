@@ -1,22 +1,18 @@
 # os_info
 
-<!-- cspell:disable -->
 **Status:**
 [![CI](https://github.com/DarkEld3r/os_info/workflows/CI/badge.svg)](https://github.com/darkeld3r/os_info/actions)
-[![codecov](https://codecov.io/gh/DarkEld3r/os_info/branch/master/graph/badge.svg)](https://codecov.io/gh/DarkEld3r/os_info)
-<!-- cspell:enable -->
+[![Coverage](https://codecov.io/gh/DarkEld3r/os_info/branch/master/graph/badge.svg)](https://codecov.io/gh/DarkEld3r/os_info)
 
 **Project info:**
 [![Docs.rs](https://docs.rs/os_info/badge.svg)](https://docs.rs/os_info)
 [![Latest Version](http://meritbadge.herokuapp.com/os_info)](https://crates.io/crates/os_info)
 [![License](https://img.shields.io/github/license/darkeld3r/os_info.svg)](https://github.com/darkeld3r/os_info)
 
-<!-- cspell:disable -->
 **Project details:**
 [![LoC](https://tokei.rs/b1/github/darkeld3r/os_info)](https://github.com/darkeld3r/os_info)
-![rust 1.41+ required](https://img.shields.io/badge/rust-1.41+-blue.svg?label=Required%20Rust)
-![Dependabot](https://api.dependabot.com/badges/status?host=github&repo=darkeld3r/os_info)
-<!-- cspell:enable -->
+![Rust 1.41+ required](https://img.shields.io/badge/rust-1.41+-blue.svg?label=Required%20Rust)
+![Dependencies](https://api.dependabot.com/badges/status?host=github&repo=darkeld3r/os_info)
 
 ## Overview
 
