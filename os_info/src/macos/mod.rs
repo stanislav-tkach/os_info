@@ -1,5 +1,3 @@
-// spell-checker:ignore getconf
-
 use log::{trace, warn};
 
 use crate::{bitness, matcher::Matcher, Bitness, Info, Type, Version};

@@ -1,5 +1,3 @@
-// spell-checker:ignore getconf
-
 mod file_release;
 mod lsb_release;
 

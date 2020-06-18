@@ -1,3 +1,5 @@
+// spell-checker:ignore getconf
+
 use std::fmt::{self, Display, Formatter};
 #[cfg(any(target_os = "linux", target_os = "macos"))]
 use std::process::{Command, Output};
