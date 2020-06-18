@@ -1,4 +1,8 @@
+// spell-checker:ignore getconf
+
 use std::fmt::{self, Display, Formatter};
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+use std::process::{Command, Output};
 
 /// Operating system architecture in terms of how many bits compose the basic values it can deal with.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -20,5 +24,26 @@ impl Display for Bitness {
             Bitness::X32 => write!(f, "32-bit"),
             Bitness::X64 => write!(f, "64-bit"),
         }
+    }
+}
+
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+pub fn get() -> Bitness {
+    match &Command::new("getconf").arg("LONG_BIT").output() {
+        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
+        Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
+        _ => Bitness::Unknown,
+    }
+}
+
+#[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_ne;
+
+    #[test]
+    fn get_bitness() {
+        let b = get();
+        assert_ne!(b, Bitness::Unknown);
     }
 }
