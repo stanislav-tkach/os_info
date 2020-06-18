@@ -1,10 +1,8 @@
 // spell-checker:ignore getconf
 
-use std::process::{Command, Output};
-
 use log::{trace, warn};
 
-use crate::{matcher::Matcher, Bitness, Info, Type, Version};
+use crate::{bitness, matcher::Matcher, Bitness, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
@@ -12,7 +10,7 @@ pub fn current_platform() -> Info {
     let info = Info {
         os_type: Type::Macos,
         version: version(),
-        bitness: bitness(),
+        bitness: bitness::get(),
     };
     trace!("Returning {:?}", info);
     info
@@ -66,18 +64,10 @@ fn parse(sw_vers_output: &str) -> Option<String> {
     .find(sw_vers_output)
 }
 
-fn bitness() -> Bitness {
-    match &Command::new("getconf").arg("LONG_BIT").output() {
-        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
-        Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
-        _ => Bitness::Unknown,
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use pretty_assertions::assert_eq;
+    use pretty_assertions::{assert_eq, assert_ne};
 
     #[test]
     fn os_type() {
@@ -155,11 +145,5 @@ mod tests {
         "ProductName:	Mac OS X\n\
          ProductVersion:	10.15.21\n\
          BuildVersion:	ABCD123"
-    }
-
-    #[test]
-    fn get_bitness() {
-        let b = bitness();
-        assert_ne!(b, Bitness::Unknown);
     }
 }
