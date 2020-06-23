@@ -107,6 +107,16 @@ impl Version {
     }
 }
 
+impl From<&str> for VersionType {
+    fn from(val: &str) -> Self {
+        if let Some((major, minor, patch)) = parse_version(val) {
+            Self::Semantic(major, minor, patch)
+        } else {
+            Self::Custom(val.to_owned())
+        }
+    }
+}
+
 impl Display for Version {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         if let Some(ref edition) = self.edition {
@@ -126,6 +136,10 @@ impl Display for VersionType {
             VersionType::Custom(ref version) => write!(f, "{}", version),
         }
     }
+}
+
+fn parse_version(val: &str) -> Option<(u64, u64, u64)> {
+    todo!()
 }
 
 #[cfg(test)]
