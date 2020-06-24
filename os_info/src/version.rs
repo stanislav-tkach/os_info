@@ -239,7 +239,7 @@ mod tests {
     fn parse_semantic_version() {
         let data = [
             ("", None),
-            ("sdfdsfdsf", None),
+            ("version", None),
             ("1", Some((1, 0, 0))),
             ("1.", Some((1, 0, 0))),
             ("1.2", Some((1, 2, 0))),
