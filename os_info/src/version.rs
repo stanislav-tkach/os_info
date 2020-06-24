@@ -23,7 +23,48 @@ pub enum VersionType {
     Custom(String),
 }
 
+impl VersionType {
+    /// Constructs `VersionType` from the given string.
+    ///
+    /// The resulting type is `VersionType::Semantic` if the given string can be parsed
+    /// as semantic version. Otherwise `VersionType::Custom` is returned.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::VersionType;
+    ///
+    /// let t = VersionType::from_string("custom");
+    /// assert_eq!(VersionType::Custom("custom".to_owned()), t);
+    ///
+    /// let t = VersionType::from_string("1.2.3");
+    /// assert_eq!(VersionType::Semantic(1, 2, 3), t);
+    /// ```
+    pub fn from_string(s: &str) -> Self {
+        if let Some((major, minor, patch)) = parse_version(s) {
+            Self::Semantic(major, minor, patch)
+        } else {
+            Self::Custom(s.to_owned())
+        }
+    }
+}
+
 impl Version {
+    /// Constructs a new `Version` instance with the given version type and edition.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::{Version, VersionType};
+    ///
+    /// let version = Version::new(VersionType::Semantic(1, 2, 3), None);
+    /// assert_eq!(VersionType::Semantic(1, 2, 3), *version.version());
+    /// assert_eq!(None, version.edition());
+    /// ```
+    pub fn new(version: VersionType, edition: Option<String>) -> Self {
+        Self { version, edition }
+    }
+
     /// Constructs a new `Version` instance with unknown version and `None` edition.
     ///
     /// # Examples
@@ -128,10 +169,31 @@ impl Display for VersionType {
     }
 }
 
+fn parse_version(s: &str) -> Option<(u64, u64, u64)> {
+    let mut iter = s.trim().split_terminator('.').fuse();
+
+    let major = iter.next().and_then(|s| s.parse().ok())?;
+    let minor = iter.next().unwrap_or("0").parse().ok()?;
+    let patch = iter.next().unwrap_or("0").parse().ok()?;
+
+    if iter.next().is_some() {
+        return None;
+    }
+
+    Some((major, minor, patch))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
+
+    #[test]
+    fn new_version() {
+        let version = Version::new(VersionType::Semantic(2, 3, 4), None);
+        assert_eq!(VersionType::Semantic(2, 3, 4), *version.version());
+        assert_eq!(None, version.edition());
+    }
 
     #[test]
     fn unknown() {
@@ -149,7 +211,7 @@ mod tests {
             ((1, 0, 0), Some("different edition".to_string())),
         ];
 
-        for &(v, ref edition) in &data {
+        for (v, edition) in &data {
             let version = Version::semantic(v.0, v.1, v.2, edition.clone());
             assert_eq!(VersionType::Semantic(v.0, v.1, v.2), *version.version());
             assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
@@ -165,10 +227,35 @@ mod tests {
             ("Future OS", Some("e".to_string())),
         ];
 
-        for &(ref v, ref edition) in &data {
+        //for &(ref v, ref edition) in &data {
+        for (v, edition) in &data {
             let version = Version::custom(*v, edition.clone());
             assert_eq!(VersionType::Custom(v.to_string()), *version.version());
             assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
+        }
+    }
+
+    #[test]
+    fn parse_semantic_version() {
+        let data = [
+            ("", None),
+            ("version", None),
+            ("1", Some((1, 0, 0))),
+            ("1.", Some((1, 0, 0))),
+            ("1.2", Some((1, 2, 0))),
+            ("1.2.", Some((1, 2, 0))),
+            ("1.2.3", Some((1, 2, 3))),
+            ("1.2.3.", Some((1, 2, 3))),
+            ("1.2.3.  ", Some((1, 2, 3))),
+            ("   1.2.3.", Some((1, 2, 3))),
+            ("   1.2.3.  ", Some((1, 2, 3))),
+            ("1.2.3.4", None),
+            ("1.2.3.4.5.6.7.8.9", None),
+        ];
+
+        for (s, expected) in &data {
+            let result = parse_version(s);
+            assert_eq!(expected, &result);
         }
     }
 }
