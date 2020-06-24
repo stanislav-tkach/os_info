@@ -2,7 +2,7 @@ use std::{fs::File, io::Read, path::Path};
 
 use log::{trace, warn};
 
-use crate::{matcher::Matcher, Bitness, Info, Type, Version};
+use crate::{matcher::Matcher, Bitness, Info, Type, Version, VersionType};
 
 pub fn get() -> Option<Info> {
     retrieve(&DISTRIBUTIONS)
@@ -37,7 +37,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
         let version = release_info
             .version_matcher
             .find(&file_content)
-            .map(|x| Version::custom(x, None))
+            .map(|x| Version::new(VersionType::from_string(&x), None))
             .unwrap_or_else(Version::unknown);
 
         return Some(Info::new(os_type, version, Bitness::Unknown));
@@ -108,7 +108,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::OracleLinux);
-        assert_eq!(info.version, Version::custom("8.1", None));
+        assert_eq!(info.version, Version::semantic(8, 1, 0, None));
     }
 
     #[test]
@@ -118,7 +118,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Centos);
-        assert_eq!(info.version, Version::custom("7", None));
+        assert_eq!(info.version, Version::semantic(7, 0, 0, None));
     }
 
     #[test]
@@ -128,7 +128,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Ubuntu);
-        assert_eq!(info.version, Version::custom("18.10", None));
+        assert_eq!(info.version, Version::semantic(18, 10, 0, None));
     }
 
     #[test]
@@ -148,7 +148,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::custom("26", None));
+        assert_eq!(info.version, Version::semantic(26, 0, 0, None));
     }
 
     #[test]
