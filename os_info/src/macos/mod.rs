@@ -72,30 +72,6 @@ mod tests {
     }
 
     #[test]
-    fn semantic_version() {
-        let test_data = [
-            ("", None),
-            ("some test", None),
-            ("0", None),
-            ("0.", None),
-            ("0.1", Some((0, 1, 0))),
-            ("0.1.", None),
-            ("0.1.2", Some((0, 1, 2))),
-            ("0.1.2.", None),
-            ("1.0.0", Some((1, 0, 0))),
-            ("0.0.1", Some((0, 0, 1))),
-            ("10.1", Some((10, 1, 0))),
-            ("a.b.c", None),
-            ("hello.world", None),
-        ];
-
-        for &(input, ref expected_result) in &test_data {
-            let res = parse_semantic_version(input);
-            assert_eq!(&res, expected_result);
-        }
-    }
-
-    #[test]
     fn parse_version() {
         let parse_output = parse(sw_vers_output());
         assert_eq!(parse_output, Some("10.10.5".to_string()));
