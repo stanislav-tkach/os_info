@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::{trace, warn};
 
-use crate::{bitness, matcher::Matcher, Info, Type, Version};
+use crate::{bitness, matcher::Matcher, Info, Type, Version, VersionType};
 
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
@@ -24,23 +24,7 @@ fn version() -> Version {
         Some(val) => val,
     };
 
-    if let Some((major, minor, patch)) = parse_semantic_version(&version) {
-        Version::semantic(major, minor, patch, None)
-    } else {
-        Version::custom(version, None)
-    }
-}
-
-fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
-    let parts: Vec<_> = version.split('.').collect();
-    if parts.len() < 2 || parts.len() > 3 {
-        return None;
-    }
-
-    let major: u64 = parts[0].parse().ok()?;
-    let minor: u64 = parts[1].parse().ok()?;
-    let patch: u64 = parts.get(2).unwrap_or(&"0").parse().ok()?;
-    Some((major, minor, patch))
+    Version::new(VersionType::from_string(&version), None)
 }
 
 fn product_version() -> Option<String> {
