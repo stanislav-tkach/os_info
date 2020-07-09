@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::{trace, warn};
 
-use crate::{bitness, matcher::Matcher, Info, Type, Version};
+use crate::{bitness, matcher::Matcher, Info, Type, Version, VersionType};
 
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
@@ -24,23 +24,7 @@ fn version() -> Version {
         Some(val) => val,
     };
 
-    if let Some((major, minor, patch)) = parse_semantic_version(&version) {
-        Version::semantic(major, minor, patch, None)
-    } else {
-        Version::custom(version, None)
-    }
-}
-
-fn parse_semantic_version(version: &str) -> Option<(u64, u64, u64)> {
-    let parts: Vec<_> = version.split('.').collect();
-    if parts.len() < 2 || parts.len() > 3 {
-        return None;
-    }
-
-    let major: u64 = parts[0].parse().ok()?;
-    let minor: u64 = parts[1].parse().ok()?;
-    let patch: u64 = parts.get(2).unwrap_or(&"0").parse().ok()?;
-    Some((major, minor, patch))
+    Version::new(VersionType::from_string(&version), None)
 }
 
 fn product_version() -> Option<String> {
@@ -85,30 +69,6 @@ mod tests {
     fn string_product_version() {
         let version = product_version();
         assert!(version.is_some());
-    }
-
-    #[test]
-    fn semantic_version() {
-        let test_data = [
-            ("", None),
-            ("some test", None),
-            ("0", None),
-            ("0.", None),
-            ("0.1", Some((0, 1, 0))),
-            ("0.1.", None),
-            ("0.1.2", Some((0, 1, 2))),
-            ("0.1.2.", None),
-            ("1.0.0", Some((1, 0, 0))),
-            ("0.0.1", Some((0, 0, 1))),
-            ("10.1", Some((10, 1, 0))),
-            ("a.b.c", None),
-            ("hello.world", None),
-        ];
-
-        for &(input, ref expected_result) in &test_data {
-            let res = parse_semantic_version(input);
-            assert_eq!(&res, expected_result);
-        }
     }
 
     #[test]
