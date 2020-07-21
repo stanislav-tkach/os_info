@@ -1,26 +1,43 @@
 on: # rebuild any PRs and main branch changes
-  pull_request:
-  push:
-    branches:
-      - master
+    pull_request:
+    push:
+        branches:
+            - master
 
 name: bloat
 
 jobs:
-  cargo_bloat:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@master
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Run cargo bloat
-        uses: orf/cargo-bloat-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          exclude_packages: "os_info"
+    cargo_bloat:
+        name: ${{ matrix.build }}
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            matrix:
+                build: [Linux, macOS, Win32-gnu, Win64-gnu]
+
+                include:
+                    - build: Linux
+                      os: ubuntu-latest
+                    - build: macOS
+                      os: macOS-latest
+                    - build: Win32-gnu
+                      os: windows-latest
+                      rust: stable-i686-pc-windows-gnu
+                      target: i686-pc-windows-gnu
+                    - build: Win64-gnu
+                      os: windows-latest
+                      rust: stable-x86_64-pc-windows-msvc
+                      target: x86_64-pc-windows-msvc
+
+        steps:
+            - uses: actions/checkout@master
+            - name: Install Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  override: true
+            - name: Run cargo bloat
+              uses: orf/cargo-bloat-action@v1
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  exclude_packages: "os_info"
