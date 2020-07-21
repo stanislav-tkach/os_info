@@ -34,10 +34,10 @@ jobs:
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
-            toolchain: stable
-            override: true
+          toolchain: stable
+          override: true
       - name: Run cargo bloat
         uses: orf/cargo-bloat-action@v1
         with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            exclude_packages: "os_info"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          exclude_packages: "os_info"
