@@ -10,9 +10,15 @@ pub fn get() -> Option<Info> {
     let release = retrieve()?;
     let codename = release.codename;
 
-    let version = release
-        .version
-        .map_or_else(Version::unknown, |v| Version::custom(v, None, codename));
+    let version = match release.version.as_deref() {
+        Some("rolling") => Version::rolling(None, None, codename),
+        Some(v) => Version::custom(v, None, codename),
+        None => {
+            let mut v = Version::unknown();
+            v.codename = codename;
+            v
+        }
+    };
 
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
         Some("Ubuntu") => Type::Ubuntu,
