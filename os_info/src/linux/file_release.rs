@@ -48,6 +48,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 
 fn get_type(name: &str) -> Option<Type> {
     match name.to_lowercase().as_ref() {
+        "arch linux" => Some(Type::Arch),
         "centos linux" => Some(Type::Centos),
         "ubuntu" => Some(Type::Ubuntu),
         _ => None,
