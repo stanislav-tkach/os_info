@@ -26,8 +26,8 @@ jobs:
             target: i686-pc-windows-gnu
           - build: Win64-gnu
             os: windows-latest
-            rust: stable-x86_64-pc-windows-msvc
-            target: x86_64-pc-windows-msvc
+            rust: stable-x86_64-pc-windows-gnu
+            target: x86_64-pc-windows-gnu
 
     steps:
       - uses: actions/checkout@master
