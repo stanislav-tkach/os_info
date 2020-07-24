@@ -139,8 +139,8 @@ jobs:
             target: x86_64-pc-windows-msvc
           - build: Win64-gnu
             os: windows-latest
-            rust: stable-x86_64-pc-windows-msvc
-            target: x86_64-pc-windows-msvc
+            rust: stable-x86_64-pc-windows-gnu
+            target: x86_64-pc-windows-gnu
 
     steps:
       - name: Checkout sources
