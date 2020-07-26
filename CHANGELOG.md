@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.0.7] (2020-07-26)
+
+- Arch Linux detection from the release file has been fixed. (#206)
+
 ## [2.0.6] (2020-05-24)
 
 - Pop!_OS support has been added. (#173)
@@ -125,7 +129,7 @@ All notable changes to this project will be documented in this file.
 
 - Alpine Linux support (#48).
 
-- Use release files is possible (#48).
+- Use release files if possible (#48).
 
 ## [0.5.0] (2017-12-13)
 
@@ -159,7 +163,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v2.0.6...HEAD
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v2.0.7...HEAD
+[2.0.6]: https://github.com/darkeld3r/os_info/compare/2.0.6...v2.0.7
 [2.0.6]: https://github.com/darkeld3r/os_info/compare/2.0.5...v2.0.6
 [2.0.5]: https://github.com/darkeld3r/os_info/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/darkeld3r/os_info/compare/v2.0.3...2.0.4
