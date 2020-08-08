@@ -42,6 +42,8 @@ pub enum Type {
     Redox,
     /// Solus (<https://en.wikipedia.org/wiki/Solus_(operating_system)>).
     Solus,
+    /// EndeavourOS (<https://en.wikipedia.org/wiki/EndeavourOS>).
+    EndeavourOS,
     /// SUSE Linux Enterprise Server (<https://en.wikipedia.org/wiki/SUSE_Linux_Enterprise>).
     SUSE,
     /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
