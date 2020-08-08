@@ -38,6 +38,7 @@ mod tests {
             | Type::openSUSE
             | Type::OracleLinux
             | Type::Solus
+            | Type::EndeavourOS
             | Type::Manjaro
             | Type::Alpine => (),
             os_type => {

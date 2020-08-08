@@ -22,6 +22,7 @@ pub fn get() -> Option<Info> {
         Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
         Some("Fedora") => Type::Fedora,
         Some("Solus") => Type::Solus,
+        Some("EndeavourOS") => Type::EndeavourOS,
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("SUSE") => Type::SUSE,
         Some("openSUSE") => Type::openSUSE,
@@ -206,6 +207,13 @@ mod tests {
         assert_eq!(parse_results.version, Some("19.0.2".to_string()));
     }
 
+    #[test]
+    fn endeavouros() {
+        let parse_results = parse(endeavouros_file());
+        assert_eq!(parse_results.distribution, Some("EndeavourOS".to_string()));
+        assert_eq!(parse_results.version, Some("rolling".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -354,6 +362,15 @@ mod tests {
         Description:    Manjaro Linux\n\
         Release:        19.0.2\n\
         Codename:       n/a\n\
+        "
+    }
+
+    fn endeavouros_file() -> &'static str {
+        "LSB Version:	1.4\n\
+        Distributor ID:	EndeavourOS\n\
+        Description:	EndeavourOS Linux\n\
+        Release:	rolling\n\
+        Codename:	n/a\n\
         "
     }
 }
