@@ -1,6 +1,6 @@
 use std::fmt::{self, Display, Formatter, Write};
 
-use chrono::Date;
+use chrono::{Date, Utc};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -22,7 +22,7 @@ pub enum VersionType {
     /// Semantic version (major.minor.patch).
     Semantic(u64, u64, u64),
     /// Rolling version.
-    Rolling(Date),
+    Rolling(Date<Utc>),
     /// Custom version format.
     Custom(String),
 }
@@ -168,6 +168,7 @@ impl Display for VersionType {
             VersionType::Semantic(major, minor, patch) => {
                 write!(f, "{}.{}.{}", major, minor, patch)
             }
+            VersionType::Rolling(date) => write!(f, "rolling ({})", date),
             VersionType::Custom(ref version) => write!(f, "{}", version),
         }
     }

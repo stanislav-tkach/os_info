@@ -13,7 +13,8 @@ license = "MIT"
 edition = "2018"
 
 [features]
-default = ["serde"]
+default = ["serialize-serde"]
+serialize-serde = ["chrono/serde"]
 
 [dependencies]
 log = "0.4.5"
