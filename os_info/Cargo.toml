@@ -13,13 +13,11 @@ license = "MIT"
 edition = "2018"
 
 [features]
-default = ["serialize-serde"]
-serialize-serde = ["chrono/serde"]
+default = ["serde"]
 
 [dependencies]
 log = "0.4.5"
 serde = { version = "1.0.0", features = ["derive"], optional = true }
-chrono = "0.4.13"
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3.8", features = ["minwindef", "ntdef", "ntstatus", "sysinfoapi", "winnt", "winuser", "libloaderapi", "processthreadsapi"] }
