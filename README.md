@@ -28,7 +28,7 @@ To use this crate, add `os_info` as a dependency to your project's Cargo.toml:
 
 ```toml
 [dependencies]
-os_info = "2.0.7"
+os_info = "2.0.8"
 ```
 
 This project has `serde` as an optional dependency, so if you don't need it, then
@@ -36,7 +36,7 @@ you can speed up compilation disabling it:
 
 ```toml
 [dependencies]
-os_info = { version = "2.0.7", default-features = false }
+os_info = { version = "2.0.8", default-features = false }
 ```
 
 #### Example
@@ -85,6 +85,7 @@ Right now, the following operating system types can be returned:
 - CentOS
 - Debian
 - Emscripten
+- EndeavourOS
 - Fedora
 - Linux
 - macOS (Mac OS X or OS X)

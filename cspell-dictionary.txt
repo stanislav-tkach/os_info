@@ -2,6 +2,7 @@ bitness
 centos
 concat
 emscripten
+endeavouros
 libntdll
 macos
 manjaro

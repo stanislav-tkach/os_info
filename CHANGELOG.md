@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.0.8] (2020-08-10)
+
+- EndeavourOS support has been added. (#210)
+
 ## [2.0.7] (2020-07-26)
 
 - Arch Linux detection from the release file has been fixed. (#206)
@@ -163,8 +167,9 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/darkeld3r/os_info/compare/v2.0.7...HEAD
-[2.0.6]: https://github.com/darkeld3r/os_info/compare/2.0.6...v2.0.7
+[Unreleased]: https://github.com/darkeld3r/os_info/compare/v2.0.8...HEAD
+[2.0.8]: https://github.com/darkeld3r/os_info/compare/2.0.7...v2.0.8
+[2.0.7]: https://github.com/darkeld3r/os_info/compare/2.0.6...v2.0.7
 [2.0.6]: https://github.com/darkeld3r/os_info/compare/2.0.5...v2.0.6
 [2.0.5]: https://github.com/darkeld3r/os_info/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/darkeld3r/os_info/compare/v2.0.3...2.0.4
