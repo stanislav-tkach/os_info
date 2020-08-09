@@ -25,22 +25,23 @@ mod tests {
     fn os_type() {
         let version = current_platform();
         match version.os_type() {
-            Type::Linux
-            | Type::Redhat
-            | Type::RedHatEnterprise
-            | Type::Ubuntu
-            | Type::Pop
-            | Type::Debian
+            Type::Alpine
+            | Type::Amazon
             | Type::Arch
             | Type::Centos
+            | Type::Debian
+            | Type::EndeavourOS
             | Type::Fedora
-            | Type::SUSE
+            | Type::Linux
+            | Type::Manjaro
             | Type::openSUSE
             | Type::OracleLinux
+            | Type::Pop
+            | Type::Redhat
+            | Type::RedHatEnterprise
             | Type::Solus
-            | Type::EndeavourOS
-            | Type::Manjaro
-            | Type::Alpine => (),
+            | Type::SUSE
+            | Type::Ubuntu => (),
             os_type => {
                 panic!("Unexpected OS type: {}", os_type);
             }

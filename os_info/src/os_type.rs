@@ -20,6 +20,8 @@ pub enum Type {
     Debian,
     /// Emscripten (<https://en.wikipedia.org/wiki/Emscripten>).
     Emscripten,
+    /// EndeavourOS (<https://en.wikipedia.org/wiki/EndeavourOS>).
+    EndeavourOS,
     /// Fedora (<https://en.wikipedia.org/wiki/Fedora_(operating_system)>).
     Fedora,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
@@ -42,8 +44,6 @@ pub enum Type {
     Redox,
     /// Solus (<https://en.wikipedia.org/wiki/Solus_(operating_system)>).
     Solus,
-    /// EndeavourOS (<https://en.wikipedia.org/wiki/EndeavourOS>).
-    EndeavourOS,
     /// SUSE Linux Enterprise Server (<https://en.wikipedia.org/wiki/SUSE_Linux_Enterprise>).
     SUSE,
     /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
