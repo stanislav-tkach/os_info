@@ -186,9 +186,11 @@ impl Display for VersionType {
             VersionType::Semantic(major, minor, patch) => {
                 write!(f, "{}.{}.{}", major, minor, patch)
             }
-            VersionType::Rolling(ref date) => {
-                write!(f, "rolling ({})", date.clone().unwrap_or_else(|| "?".to_owned()))
-            }
+            VersionType::Rolling(ref date) => write!(
+                f,
+                "rolling ({})",
+                date.clone().unwrap_or_else(|| "?".to_owned())
+            ),
             VersionType::Custom(ref version) => write!(f, "{}", version),
         }
     }
