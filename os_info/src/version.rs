@@ -103,6 +103,26 @@ impl Version {
         }
     }
 
+    /// Construct a new `Version` instance with "rolling" version and given edition.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::{Version, VersionType};
+    ///
+    /// let date = "2020.03.16".to_owned();
+    /// let edition = "edition".to_owned();
+    /// let version = Version::rolling(Some(date.clone()), Some(edition.clone()));
+    /// assert_eq!(VersionType::Rolling(Some(date)), *version.version());
+    /// assert_eq!(Some(edition.as_ref()), version.edition());
+    /// ```
+    pub fn rolling(date: Option<String>, edition: Option<String>) -> Self {
+        Self {
+            version: VersionType::Rolling(date),
+            edition,
+        }
+    }
+
     /// Construct a new `Version` instance with "custom" (non semantic) version and given edition.
     ///
     /// # Examples
@@ -110,8 +130,8 @@ impl Version {
     /// ```
     /// use os_info::{Version, VersionType};
     ///
-    /// let ver = "version".to_string();
-    /// let edition = "edition".to_string();
+    /// let ver = "version".to_owned();
+    /// let edition = "edition".to_owned();
     /// let version = Version::custom(ver.clone(), Some(edition.clone()));
     /// assert_eq!(VersionType::Custom(ver), *version.version());
     /// assert_eq!(Some(edition.as_ref()), version.edition());
@@ -167,7 +187,7 @@ impl Display for VersionType {
                 write!(f, "{}.{}.{}", major, minor, patch)
             }
             VersionType::Rolling(ref date) => {
-                write!(f, "rolling ({})", date.clone().unwrap_or("?".to_owned()))
+                write!(f, "rolling ({})", date.clone().unwrap_or_else(|| "?".to_owned()))
             }
             VersionType::Custom(ref version) => write!(f, "{}", version),
         }
@@ -219,6 +239,22 @@ mod tests {
         for (v, edition) in &data {
             let version = Version::semantic(v.0, v.1, v.2, edition.clone());
             assert_eq!(VersionType::Semantic(v.0, v.1, v.2), *version.version());
+            assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
+        }
+    }
+
+    #[test]
+    fn rolling() {
+        let data = [
+            (None, None),
+            (Some("2017.03.22".to_owned()), Some("edition".to_string())),
+            (Some("2019.11.12".to_owned()), None),
+            (None, Some("different edition".to_string())),
+        ];
+
+        for (date, edition) in &data {
+            let version = Version::rolling(date.clone(), edition.clone());
+            assert_eq!(VersionType::Rolling(date.clone()), *version.version());
             assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
         }
     }
