@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 pub struct Version {
     pub(crate) version: VersionType,
     pub(crate) edition: Option<String>,
+    pub(crate) codename: Option<String>,
 }
 
 /// Operating system version.
@@ -63,8 +64,12 @@ impl Version {
     /// assert_eq!(VersionType::Semantic(1, 2, 3), *version.version());
     /// assert_eq!(None, version.edition());
     /// ```
-    pub fn new(version: VersionType, edition: Option<String>) -> Self {
-        Self { version, edition }
+    pub fn new(version: VersionType, edition: Option<String>, codename: Option<String>) -> Self {
+        Self {
+            version,
+            edition,
+            codename,
+        }
     }
 
     /// Constructs a new `Version` instance with unknown version and `None` edition.
@@ -82,6 +87,7 @@ impl Version {
         Self {
             version: VersionType::Unknown,
             edition: None,
+            codename: None,
         }
     }
 
@@ -96,10 +102,17 @@ impl Version {
     /// assert_eq!(VersionType::Semantic(0, 1, 2), *version.version());
     /// assert_eq!(None, version.edition());
     /// ```
-    pub fn semantic(major: u64, minor: u64, patch: u64, edition: Option<String>) -> Self {
+    pub fn semantic(
+        major: u64,
+        minor: u64,
+        patch: u64,
+        edition: Option<String>,
+        codename: Option<String>,
+    ) -> Self {
         Self {
             version: VersionType::Semantic(major, minor, patch),
             edition,
+            codename,
         }
     }
 
@@ -116,10 +129,15 @@ impl Version {
     /// assert_eq!(VersionType::Rolling(Some(date)), *version.version());
     /// assert_eq!(Some(edition.as_ref()), version.edition());
     /// ```
-    pub fn rolling(date: Option<String>, edition: Option<String>) -> Self {
+    pub fn rolling(
+        date: Option<String>,
+        edition: Option<String>,
+        codename: Option<String>,
+    ) -> Self {
         Self {
             version: VersionType::Rolling(date),
             edition,
+            codename,
         }
     }
 
@@ -136,10 +154,15 @@ impl Version {
     /// assert_eq!(VersionType::Custom(ver), *version.version());
     /// assert_eq!(Some(edition.as_ref()), version.edition());
     /// ```
-    pub fn custom<T: Into<String>>(version: T, edition: Option<String>) -> Self {
+    pub fn custom<T: Into<String>>(
+        version: T,
+        edition: Option<String>,
+        codename: Option<String>,
+    ) -> Self {
         Self {
             version: VersionType::Custom(version.into()),
             edition,
+            codename,
         }
     }
 

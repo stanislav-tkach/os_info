@@ -37,7 +37,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
         let version = release_info
             .version_matcher
             .find(&file_content)
-            .map(|x| Version::new(VersionType::from_string(&x), None))
+            .map(|x| Version::new(VersionType::from_string(&x), None, None))
             .unwrap_or_else(Version::unknown);
 
         return Some(Info::new(os_type, version, Bitness::Unknown));

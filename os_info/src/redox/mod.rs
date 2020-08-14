@@ -11,7 +11,8 @@ const UNAME_FILE: &str = "sys:uname";
 pub fn current_platform() -> Info {
     trace!("redox::current_platform is called");
 
-    let version = get_version().map_or_else(|| Version::unknown(), |v| Version::custom(v, None));
+    let version =
+        get_version().map_or_else(|| Version::unknown(), |v| Version::custom(v, None, None));
     let info = Info {
         os_type: Type::Redox,
         version,

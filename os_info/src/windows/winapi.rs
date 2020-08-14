@@ -40,6 +40,7 @@ fn version() -> Version {
             v.dwMinorVersion as u64,
             v.dwBuildNumber as u64,
             edition(&v),
+            None,
         ),
     }
 }

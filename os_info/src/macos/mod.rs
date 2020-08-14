@@ -24,7 +24,7 @@ fn version() -> Version {
         Some(val) => val,
     };
 
-    Version::new(VersionType::from_string(&version), None)
+    Version::new(VersionType::from_string(&version), None, None)
 }
 
 fn product_version() -> Option<String> {
