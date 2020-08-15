@@ -37,7 +37,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
         let version = release_info
             .version_matcher
             .find(&file_content)
-            .map(|x| Version::new(VersionType::from_string(&x), None))
+            .map(|x| Version::new(VersionType::from_string(&x), None, None))
             .unwrap_or_else(Version::unknown);
 
         return Some(Info::new(os_type, version, Bitness::Unknown));
@@ -109,7 +109,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::OracleLinux);
-        assert_eq!(info.version, Version::semantic(8, 1, 0, None));
+        assert_eq!(info.version, Version::semantic(8, 1, 0, None, None));
     }
 
     #[test]
@@ -119,7 +119,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Centos);
-        assert_eq!(info.version, Version::semantic(7, 0, 0, None));
+        assert_eq!(info.version, Version::semantic(7, 0, 0, None, None));
     }
 
     #[test]
@@ -129,7 +129,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Ubuntu);
-        assert_eq!(info.version, Version::semantic(18, 10, 0, None));
+        assert_eq!(info.version, Version::semantic(18, 10, 0, None, None));
     }
 
     #[test]
@@ -139,7 +139,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Centos);
-        assert_eq!(info.version, Version::custom("XX", None));
+        assert_eq!(info.version, Version::custom("XX", None, None));
     }
 
     #[test]
@@ -149,7 +149,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::semantic(26, 0, 0, None));
+        assert_eq!(info.version, Version::semantic(26, 0, 0, None, None));
     }
 
     #[test]
@@ -159,7 +159,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Redhat);
-        assert_eq!(info.version, Version::custom("XX", None));
+        assert_eq!(info.version, Version::custom("XX", None, None));
     }
 
     #[test]
@@ -169,6 +169,6 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::custom("A.B.C", None));
+        assert_eq!(info.version, Version::custom("A.B.C", None, None));
     }
 }

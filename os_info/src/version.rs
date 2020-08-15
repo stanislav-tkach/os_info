@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 pub struct Version {
     pub(crate) version: VersionType,
     pub(crate) edition: Option<String>,
+    pub(crate) codename: Option<String>,
 }
 
 /// Operating system version.
@@ -52,22 +53,28 @@ impl VersionType {
 }
 
 impl Version {
-    /// Constructs a new `Version` instance with the given version type and edition.
+    /// Constructs a new `Version` instance with the given version type, edition and codename.
     ///
     /// # Examples
     ///
     /// ```
     /// use os_info::{Version, VersionType};
     ///
-    /// let version = Version::new(VersionType::Semantic(1, 2, 3), None);
+    /// let version = Version::new(VersionType::Semantic(1, 2, 3), None, None);
     /// assert_eq!(VersionType::Semantic(1, 2, 3), *version.version());
     /// assert_eq!(None, version.edition());
+    /// assert_eq!(None, version.codename());
     /// ```
-    pub fn new(version: VersionType, edition: Option<String>) -> Self {
-        Self { version, edition }
+    pub fn new(version: VersionType, edition: Option<String>, codename: Option<String>) -> Self {
+        Self {
+            version,
+            edition,
+            codename,
+        }
     }
 
-    /// Constructs a new `Version` instance with unknown version and `None` edition.
+    /// Constructs a new `Version` instance with an unknown version. The edition and codename are
+    /// set to `None`.
     ///
     /// # Examples
     ///
@@ -77,33 +84,43 @@ impl Version {
     /// let version = Version::unknown();
     /// assert_eq!(VersionType::Unknown, *version.version());
     /// assert_eq!(None, version.edition());
+    /// assert_eq!(None, version.codename());
     /// ```
     pub fn unknown() -> Self {
         Self {
             version: VersionType::Unknown,
             edition: None,
+            codename: None,
         }
     }
 
-    /// Constructs a new `Version` instance with semantic version and given edition.
+    /// Constructs a new `Version` instance with semantic version and given edition and codename.
     ///
     /// # Examples
     ///
     /// ```
     /// use os_info::{Version, VersionType};
     ///
-    /// let version = Version::semantic(0, 1, 2, None);
+    /// let version = Version::semantic(0, 1, 2, None, None);
     /// assert_eq!(VersionType::Semantic(0, 1, 2), *version.version());
     /// assert_eq!(None, version.edition());
+    /// assert_eq!(None, version.codename());
     /// ```
-    pub fn semantic(major: u64, minor: u64, patch: u64, edition: Option<String>) -> Self {
+    pub fn semantic(
+        major: u64,
+        minor: u64,
+        patch: u64,
+        edition: Option<String>,
+        codename: Option<String>,
+    ) -> Self {
         Self {
             version: VersionType::Semantic(major, minor, patch),
             edition,
+            codename,
         }
     }
 
-    /// Construct a new `Version` instance with "rolling" version and given edition.
+    /// Construct a new `Version` instance with "rolling" version and given edition and codename.
     ///
     /// # Examples
     ///
@@ -111,19 +128,25 @@ impl Version {
     /// use os_info::{Version, VersionType};
     ///
     /// let date = "2020.03.16".to_owned();
-    /// let edition = "edition".to_owned();
-    /// let version = Version::rolling(Some(date.clone()), Some(edition.clone()));
+    /// let version = Version::rolling(Some(date.clone()), None, None);
     /// assert_eq!(VersionType::Rolling(Some(date)), *version.version());
-    /// assert_eq!(Some(edition.as_ref()), version.edition());
+    /// assert_eq!(None, version.edition());
+    /// assert_eq!(None, version.codename());
     /// ```
-    pub fn rolling(date: Option<String>, edition: Option<String>) -> Self {
+    pub fn rolling(
+        date: Option<String>,
+        edition: Option<String>,
+        codename: Option<String>,
+    ) -> Self {
         Self {
             version: VersionType::Rolling(date),
             edition,
+            codename,
         }
     }
 
-    /// Construct a new `Version` instance with "custom" (non semantic) version and given edition.
+    /// Construct a new `Version` instance with "custom" (non semantic) version and given edition
+    /// and codename.
     ///
     /// # Examples
     ///
@@ -131,15 +154,20 @@ impl Version {
     /// use os_info::{Version, VersionType};
     ///
     /// let ver = "version".to_owned();
-    /// let edition = "edition".to_owned();
-    /// let version = Version::custom(ver.clone(), Some(edition.clone()));
+    /// let version = Version::custom(ver.clone(), None, None);
     /// assert_eq!(VersionType::Custom(ver), *version.version());
-    /// assert_eq!(Some(edition.as_ref()), version.edition());
+    /// assert_eq!(None, version.edition());
+    /// assert_eq!(None, version.codename());
     /// ```
-    pub fn custom<T: Into<String>>(version: T, edition: Option<String>) -> Self {
+    pub fn custom<T: Into<String>>(
+        version: T,
+        edition: Option<String>,
+        codename: Option<String>,
+    ) -> Self {
         Self {
             version: VersionType::Custom(version.into()),
             edition,
+            codename,
         }
     }
 
@@ -156,7 +184,7 @@ impl Version {
         &self.version
     }
 
-    /// Returns optional (can be absent) operation system edition.
+    /// Returns optional operation system edition.
     ///
     /// # Examples
     ///
@@ -167,6 +195,19 @@ impl Version {
     /// assert_eq!(None, version.edition());
     pub fn edition(&self) -> Option<&str> {
         self.edition.as_ref().map(String::as_ref)
+    }
+
+    /// Returns optional operation system 'codename'.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::Version;
+    ///
+    /// let version = Version::unknown();
+    /// assert_eq!(None, version.codename());
+    pub fn codename(&self) -> Option<&str> {
+        self.codename.as_ref().map(String::as_ref)
     }
 }
 
@@ -217,9 +258,10 @@ mod tests {
 
     #[test]
     fn new_version() {
-        let version = Version::new(VersionType::Semantic(2, 3, 4), None);
+        let version = Version::new(VersionType::Semantic(2, 3, 4), None, None);
         assert_eq!(VersionType::Semantic(2, 3, 4), *version.version());
         assert_eq!(None, version.edition());
+        assert_eq!(None, version.codename());
     }
 
     #[test]
@@ -227,54 +269,73 @@ mod tests {
         let version = Version::unknown();
         assert_eq!(VersionType::Unknown, *version.version());
         assert_eq!(None, version.edition());
+        assert_eq!(None, version.codename());
     }
 
     #[test]
     fn semantic() {
         let data = [
-            ((0, 0, 0), None),
-            ((10, 20, 30), Some("edition".to_string())),
-            ((3, 2, 1), None),
-            ((1, 0, 0), Some("different edition".to_string())),
+            ((0, 0, 0), None, None),
+            ((10, 20, 30), Some("edition".to_owned()), None),
+            ((1, 2, 0), None, Some("codename".to_owned())),
+            ((3, 2, 1), None, None),
+            (
+                (1, 0, 0),
+                Some("different edition".to_owned()),
+                Some("codename".to_owned()),
+            ),
         ];
 
-        for (v, edition) in &data {
-            let version = Version::semantic(v.0, v.1, v.2, edition.clone());
+        for (v, edition, codename) in &data {
+            let version = Version::semantic(v.0, v.1, v.2, edition.clone(), codename.clone());
             assert_eq!(VersionType::Semantic(v.0, v.1, v.2), *version.version());
             assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
+            assert_eq!(codename.as_ref().map(String::as_ref), version.codename());
         }
     }
 
     #[test]
     fn rolling() {
         let data = [
-            (None, None),
-            (Some("2017.03.22".to_owned()), Some("edition".to_string())),
-            (Some("2019.11.12".to_owned()), None),
-            (None, Some("different edition".to_string())),
+            (None, None, None),
+            (
+                Some("2017.03.22".to_owned()),
+                Some("edition".to_owned()),
+                Some("codename".to_owned()),
+            ),
+            (Some("2019.11.12".to_owned()), None, None),
+            (None, Some("edition".to_owned()), None),
+            (None, None, Some("codename".to_owned())),
+            (None, Some("different edition".to_owned()), None),
         ];
 
-        for (date, edition) in &data {
-            let version = Version::rolling(date.clone(), edition.clone());
+        for (date, edition, codename) in &data {
+            let version = Version::rolling(date.clone(), edition.clone(), codename.clone());
             assert_eq!(VersionType::Rolling(date.clone()), *version.version());
             assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
+            assert_eq!(codename.as_ref().map(String::as_ref), version.codename());
         }
     }
 
     #[test]
     fn custom() {
         let data = [
-            ("OS", None),
-            ("Another OS", Some("edition".to_string())),
-            ("", None),
-            ("Future OS", Some("e".to_string())),
+            ("OS", None, None),
+            ("Another OS", Some("edition".to_owned()), None),
+            ("", None, None),
+            (
+                "Future OS",
+                Some("e".to_owned()),
+                Some("codename".to_owned()),
+            ),
         ];
 
         //for &(ref v, ref edition) in &data {
-        for (v, edition) in &data {
-            let version = Version::custom(*v, edition.clone());
+        for (v, edition, codename) in &data {
+            let version = Version::custom(*v, edition.clone(), codename.clone());
             assert_eq!(VersionType::Custom(v.to_string()), *version.version());
             assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
+            assert_eq!(codename.as_ref().map(String::as_ref), version.codename());
         }
     }
 

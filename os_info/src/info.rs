@@ -147,31 +147,48 @@ mod tests {
     #[test]
     fn new() {
         let types = [
-            Type::Unknown,
+            Type::Alpine,
+            Type::Amazon,
             Type::Android,
-            Type::Emscripten,
-            Type::Linux,
-            Type::Redhat,
-            Type::Ubuntu,
-            Type::Debian,
             Type::Arch,
             Type::Centos,
-            Type::Fedora,
-            Type::Solus,
+            Type::Debian,
+            Type::Emscripten,
             Type::EndeavourOS,
-            Type::Manjaro,
-            Type::Alpine,
+            Type::Fedora,
+            Type::Linux,
             Type::Macos,
+            Type::Manjaro,
+            Type::openSUSE,
+            Type::OracleLinux,
+            Type::Pop,
+            Type::Redhat,
+            Type::RedHatEnterprise,
             Type::Redox,
+            Type::Solus,
+            Type::SUSE,
+            Type::Ubuntu,
+            Type::Unknown,
             Type::Windows,
         ];
 
         let versions = [
             Version::unknown(),
-            Version::semantic(0, 0, 0, None),
-            Version::semantic(1, 2, 3, Some("e".to_owned())),
-            Version::custom("version".to_owned(), None),
-            Version::custom("different version".to_owned(), Some("edition".to_owned())),
+            Version::semantic(0, 0, 0, None, None),
+            Version::semantic(1, 2, 3, Some("e".to_owned()), None),
+            Version::semantic(1, 2, 3, Some("e".to_owned()), Some("2020.06.08".to_owned())),
+            Version::rolling(None, None, None),
+            Version::rolling(
+                Some("2020.02.03".to_owned()),
+                Some("edition".to_owned()),
+                Some("codename".to_owned()),
+            ),
+            Version::custom("version".to_owned(), None, None),
+            Version::custom(
+                "different version".to_owned(),
+                Some("edition".to_owned()),
+                Some("codename".to_owned()),
+            ),
         ];
 
         let bitnesses = [Bitness::Unknown, Bitness::X32, Bitness::X64];
