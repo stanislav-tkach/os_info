@@ -8,10 +8,11 @@ use crate::{matcher::Matcher, Bitness, Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     let release = retrieve()?;
+    let codename = release.codename;
 
     let version = release
         .version
-        .map_or_else(Version::unknown, |v| Version::custom(v, None, None));
+        .map_or_else(Version::unknown, |v| Version::custom(v, None, codename));
 
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
         Some("Ubuntu") => Type::Ubuntu,
@@ -37,6 +38,7 @@ pub fn get() -> Option<Info> {
 struct LsbRelease {
     pub distribution: Option<String>,
     pub version: Option<String>,
+    pub codename: Option<String>,
 }
 
 fn retrieve() -> Option<LsbRelease> {
@@ -60,6 +62,12 @@ fn parse(output: &str) -> LsbRelease {
     }
     .find(output);
 
+    let codename = Matcher::PrefixedWord {
+        prefix: "Codename:",
+    }
+    .find(output)
+    .filter(|c| c != "n/a");
+
     let version = Matcher::PrefixedVersion { prefix: "Release:" }.find(output);
 
     trace!(
@@ -71,6 +79,7 @@ fn parse(output: &str) -> LsbRelease {
     LsbRelease {
         distribution,
         version,
+        codename,
     }
 }
 
@@ -84,6 +93,7 @@ mod tests {
         let parse_results = parse(file());
         assert_eq!(parse_results.distribution, Some("Debian".to_string()));
         assert_eq!(parse_results.version, Some("7.8".to_string()));
+        assert_eq!(parse_results.codename, Some("wheezy".to_string()));
     }
 
     #[test]
@@ -91,6 +101,7 @@ mod tests {
         let parse_results = parse(arch_file());
         assert_eq!(parse_results.distribution, Some("Arch".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -98,6 +109,7 @@ mod tests {
         let parse_results = parse(fedora_file());
         assert_eq!(parse_results.distribution, Some("Fedora".to_string()));
         assert_eq!(parse_results.version, Some("26".to_string()));
+        assert_eq!(parse_results.codename, Some("TwentySix".to_string()));
     }
 
     #[test]
@@ -105,6 +117,7 @@ mod tests {
         let parse_results = parse(ubuntu_file());
         assert_eq!(parse_results.distribution, Some("Ubuntu".to_string()));
         assert_eq!(parse_results.version, Some("16.04".to_string()));
+        assert_eq!(parse_results.codename, Some("xenial".to_string()));
     }
 
     #[test]
@@ -112,6 +125,7 @@ mod tests {
         let parse_results = parse(amazon1_file());
         assert_eq!(parse_results.distribution, Some("AmazonAMI".to_string()));
         assert_eq!(parse_results.version, Some("2018.03".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -119,6 +133,7 @@ mod tests {
         let parse_results = parse(amazon2_file());
         assert_eq!(parse_results.distribution, Some("Amazon".to_string()));
         assert_eq!(parse_results.version, Some("2".to_string()));
+        assert_eq!(parse_results.codename, Some("Karoo".to_string()));
     }
 
     #[test]
@@ -129,6 +144,7 @@ mod tests {
             Some("RedHatEnterprise".to_string())
         );
         assert_eq!(parse_results.version, Some("8.1".to_string()));
+        assert_eq!(parse_results.codename, Some("Ootpa".to_string()));
     }
 
     #[test]
@@ -139,6 +155,7 @@ mod tests {
             Some("RedHatEnterpriseServer".to_string())
         );
         assert_eq!(parse_results.version, Some("7.7".to_string()));
+        assert_eq!(parse_results.codename, Some("Maipo".to_string()));
     }
 
     #[test]
@@ -149,6 +166,7 @@ mod tests {
             Some("RedHatEnterpriseServer".to_string())
         );
         assert_eq!(parse_results.version, Some("6.10".to_string()));
+        assert_eq!(parse_results.codename, Some("Santiago".to_string()));
     }
 
     #[test]
@@ -156,6 +174,7 @@ mod tests {
         let parse_results = parse(suse_enterprise15_1_file());
         assert_eq!(parse_results.distribution, Some("SUSE".to_string()));
         assert_eq!(parse_results.version, Some("15.1".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -163,6 +182,7 @@ mod tests {
         let parse_results = parse(suse_enterprise12_5_file());
         assert_eq!(parse_results.distribution, Some("SUSE".to_string()));
         assert_eq!(parse_results.version, Some("12.5".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -170,6 +190,7 @@ mod tests {
         let parse_results = parse(open_suse_15_1_file());
         assert_eq!(parse_results.distribution, Some("openSUSE".to_string()));
         assert_eq!(parse_results.version, Some("15.1".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -177,6 +198,7 @@ mod tests {
         let parse_results = parse(oracle_server_linux_7_5_file());
         assert_eq!(parse_results.distribution, Some("OracleServer".to_string()));
         assert_eq!(parse_results.version, Some("7.5".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -184,6 +206,7 @@ mod tests {
         let parse_results = parse(oracle_server_linux_8_1_file());
         assert_eq!(parse_results.distribution, Some("OracleServer".to_string()));
         assert_eq!(parse_results.version, Some("8.1".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -191,6 +214,7 @@ mod tests {
         let parse_results = parse(pop_os_20_04_lts_file());
         assert_eq!(parse_results.distribution, Some("Pop".to_string()));
         assert_eq!(parse_results.version, Some("20.04".to_string()));
+        assert_eq!(parse_results.codename, Some("focal".to_string()));
     }
 
     #[test]
@@ -198,6 +222,7 @@ mod tests {
         let parse_results = parse(solus_4_1_file());
         assert_eq!(parse_results.distribution, Some("Solus".to_string()));
         assert_eq!(parse_results.version, Some("4.1".to_string()));
+        assert_eq!(parse_results.codename, Some("fortitude".to_string()));
     }
 
     #[test]
@@ -205,6 +230,7 @@ mod tests {
         let parse_results = parse(manjaro_19_0_2_file());
         assert_eq!(parse_results.distribution, Some("ManjaroLinux".to_string()));
         assert_eq!(parse_results.version, Some("19.0.2".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -212,6 +238,7 @@ mod tests {
         let parse_results = parse(endeavouros_file());
         assert_eq!(parse_results.distribution, Some("EndeavourOS".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     fn file() -> &'static str {
