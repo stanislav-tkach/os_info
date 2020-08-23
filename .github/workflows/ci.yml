@@ -3,14 +3,13 @@ name: CI
 on: [pull_request, push]
 
 jobs:
+  # Code formatting.
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-
       - name: Install rust
         uses: actions-rs/toolchain@v1
         with:
@@ -18,21 +17,19 @@ jobs:
           components: rustfmt
           profile: minimal
           override: true
-
       - name: Run rustfmt
         uses: actions-rs/cargo@v1
         with:
           command: fmt
           args: --all -- --check
 
+  # Static analyzer.
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-
       - name: Install rust
         uses: actions-rs/toolchain@v1
         with:
@@ -40,86 +37,75 @@ jobs:
           components: clippy
           profile: minimal
           override: true
-
       - name: Run clippy
         uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: -- -D warnings
 
+  # Security audit.
   audit:
     name: Security audit
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/audit-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+  # Check links in the documentation.
   deadlinks:
     name: Deadlinks
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-
       - name: Install rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           profile: minimal
           override: true
-
       - name: Install deadlinks
         run: cargo install cargo-deadlinks
-
       - name: Cargo doc
         run: cargo doc --no-deps
-
       - name: Run deadlinks
         run: cargo deadlinks --dir target/doc
 
-  # TODO: Replace with a specific action.
+  # Spellcheck.
   spellcheck:
     name: Spell check
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-
       - name: Install cspell
         run: npm install cspell
-
       - name: Check rs files
         run: ./node_modules/.bin/cspell --verbose "**/*.rs"
-
       - name: Check md files
         run: ./node_modules/.bin/cspell --verbose "**/*.md"
 
+  # Markdown formatting.
   markdown:
     name: Markdown lints
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-
       - name: Check md files
         uses: nosborn/github-action-markdown-cli@v1.1.1
         with:
           files: .
 
-  build:
+  # Tests.
+  test:
     name: ${{ matrix.build }}
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
         build: [Linux, macOS, Win32-msvc, Win32-gnu, Win64-msvc, Win64-gnu]
-
         include:
           - build: Linux
             os: ubuntu-latest
@@ -141,7 +127,6 @@ jobs:
             os: windows-latest
             rust: stable-x86_64-pc-windows-gnu
             target: x86_64-pc-windows-gnu
-
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
@@ -153,13 +138,11 @@ jobs:
           target: ${{ matrix.target }}
           profile: minimal
           override: true
-
       - name: Build
         uses: actions-rs/cargo@v1
         with:
           command: build
           args: --examples --all
-
       - name: Test
         uses: actions-rs/cargo@v1
         with:
