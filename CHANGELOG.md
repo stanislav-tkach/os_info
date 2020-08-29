@@ -168,8 +168,8 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
 [Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v2.0.8...HEAD
-[2.0.8]: https://github.com/stanislav-tkach/os_info/compare/2.0.7...v2.0.8
-[2.0.7]: https://github.com/stanislav-tkach/os_info/compare/2.0.6...v2.0.7
+[2.0.8]: https://github.com/stanislav-tkach/os_info/compare/v2.0.7...v2.0.8
+[2.0.7]: https://github.com/stanislav-tkach/os_info/compare/v2.0.6...v2.0.7
 [2.0.6]: https://github.com/stanislav-tkach/os_info/compare/2.0.5...v2.0.6
 [2.0.5]: https://github.com/stanislav-tkach/os_info/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/stanislav-tkach/os_info/compare/v2.0.3...2.0.4
