@@ -1,18 +1,18 @@
 # os_info
 
 **Status:**
-[![CI](https://github.com/DarkEld3r/os_info/workflows/CI/badge.svg)](https://github.com/darkeld3r/os_info/actions)
-[![Coverage](https://codecov.io/gh/DarkEld3r/os_info/branch/master/graph/badge.svg)](https://codecov.io/gh/DarkEld3r/os_info)
+[![CI](https://github.com/stanislav-tkach/os_info/workflows/CI/badge.svg)](https://github.com/stanislav-tkach/os_info/actions)
+[![Coverage](https://codecov.io/gh/stanislav-tkach/os_info/branch/master/graph/badge.svg)](https://codecov.io/gh/stanislav-tkach/os_info)
 
 **Project info:**
 [![Docs.rs](https://docs.rs/os_info/badge.svg)](https://docs.rs/os_info)
 [![Latest Version](http://meritbadge.herokuapp.com/os_info)](https://crates.io/crates/os_info)
-[![License](https://img.shields.io/github/license/darkeld3r/os_info.svg)](https://github.com/darkeld3r/os_info)
+[![License](https://img.shields.io/github/license/stanislav-tkach/os_info.svg)](https://github.com/stanislav-tkach/os_info/blob/master/LICENSE)
 
 **Project details:**
-[![LoC](https://tokei.rs/b1/github/darkeld3r/os_info)](https://github.com/darkeld3r/os_info)
+[![LoC](https://tokei.rs/b1/github/stanislav-tkach/os_info)](https://github.com/stanislav-tkach/os_info)
 ![Rust 1.41+ required](https://img.shields.io/badge/rust-1.41+-blue.svg?label=Required%20Rust)
-![Dependencies](https://api.dependabot.com/badges/status?host=github&repo=darkeld3r/os_info)
+![Dependencies](https://api.dependabot.com/badges/status?host=github&repo=stanislav-tkach/os_info)
 
 ## Overview
 
@@ -109,4 +109,4 @@ If you need support for more OS types, I am looking forward to your Pull Request
 `os_info` is licensed under the MIT license. See [LICENSE] for the details.
 
 [lsb_release]: http://refspecs.linuxbase.org/LSB_2.0.1/LSB-PDA/LSB-PDA/lsbrelease.html
-[LICENSE]: https://github.com/darkeld3r/os_info/blob/master/LICENSE
+[LICENSE]: https://github.com/stanislav-tkach/os_info/blob/master/LICENSE

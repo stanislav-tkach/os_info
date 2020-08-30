@@ -73,6 +73,24 @@ jobs:
       - name: Run deadlinks
         run: cargo deadlinks --dir target/doc
 
+  # Check links in markdown files.
+  mlc:
+    name: MLC
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+      - name: Install mlc
+        run: cargo install mlc
+      - name: Run mlc
+        run: mlc
+
   # Spellcheck.
   spellcheck:
     name: Spell check
