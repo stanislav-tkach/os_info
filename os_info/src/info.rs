@@ -199,4 +199,10 @@ mod tests {
             assert_eq!(version, info.version());
         }
     }
+
+    #[test]
+    fn display_unknown() {
+        let info = Info::unknown();
+        assert_eq!("Unknown [unknown bitness]", &info.to_string());
+    }
 }
