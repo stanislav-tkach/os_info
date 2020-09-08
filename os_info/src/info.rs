@@ -126,7 +126,7 @@ impl Display for Info {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{}", self.os_type)?;
         write!(f, " ({})", self.version)?;
-        write!(f, " ({})", self.bitness)
+        write!(f, " [{}]", self.bitness)
     }
 }
 
@@ -203,6 +203,6 @@ mod tests {
     #[test]
     fn display_unknown() {
         let info = Info::unknown();
-        assert_eq!("Unknown [unknown bitness]", &info.to_string());
+        assert_eq!("Unknown (?) [unknown bitness]", &info.to_string());
     }
 }
