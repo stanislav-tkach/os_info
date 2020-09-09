@@ -205,4 +205,15 @@ mod tests {
         let info = Info::unknown();
         assert_eq!("Unknown (?) [unknown bitness]", &info.to_string());
     }
+
+    #[test]
+    fn display_bitness() {
+        let mut info = Info::unknown();
+
+        info.bitness = Bitness::X32;
+        assert_eq!("Unknown (?) [32-bit]", &info.to_string());
+
+        info.bitness = Bitness::X64;
+        assert_eq!("Unknown (?) [64-bit]", &info.to_string());
+    }
 }
