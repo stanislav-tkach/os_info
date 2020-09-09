@@ -25,7 +25,7 @@ pub fn get() -> Option<Info> {
         Some("Pop") => Type::Pop,
         Some("Debian") => Type::Debian,
         Some("Arch") => Type::Arch,
-        Some("CentOS") => Type::Centos,
+        Some("CentOS") => Type::CentOS,
         Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
         Some("Fedora") => Type::Fedora,
         Some("Solus") => Type::Solus,

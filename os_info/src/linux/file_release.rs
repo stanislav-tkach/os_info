@@ -49,7 +49,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 fn get_type(name: &str) -> Option<Type> {
     match name.to_lowercase().as_ref() {
         "arch linux" => Some(Type::Arch),
-        "centos linux" => Some(Type::Centos),
+        "centos linux" => Some(Type::CentOS),
         "ubuntu" => Some(Type::Ubuntu),
         _ => None,
     }
@@ -76,7 +76,7 @@ const DISTRIBUTIONS: [ReleaseInfo; 5] = [
         version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
     },
     ReleaseInfo {
-        os_type: Type::Centos,
+        os_type: Type::CentOS,
         path: "/etc/centos-release",
         version_matcher: Matcher::PrefixedVersion { prefix: "release" },
     },
@@ -118,7 +118,7 @@ mod tests {
         distributions[0].path = "src/linux/tests/os-release-centos";
 
         let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Centos);
+        assert_eq!(info.os_type(), Type::CentOS);
         assert_eq!(info.version, Version::semantic(7, 0, 0, None, None));
     }
 
@@ -138,7 +138,7 @@ mod tests {
         distributions[0].path = "src/linux/tests/centos-release";
 
         let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Centos);
+        assert_eq!(info.os_type(), Type::CentOS);
         assert_eq!(info.version, Version::custom("XX", None, None));
     }
 

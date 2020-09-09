@@ -28,7 +28,7 @@ mod tests {
             Type::Alpine
             | Type::Amazon
             | Type::Arch
-            | Type::Centos
+            | Type::CentOS
             | Type::Debian
             | Type::EndeavourOS
             | Type::Fedora

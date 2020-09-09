@@ -151,7 +151,7 @@ mod tests {
             Type::Amazon,
             Type::Android,
             Type::Arch,
-            Type::Centos,
+            Type::CentOS,
             Type::Debian,
             Type::Emscripten,
             Type::EndeavourOS,

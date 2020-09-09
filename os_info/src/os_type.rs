@@ -15,7 +15,7 @@ pub enum Type {
     /// Arch Linux (<https://en.wikipedia.org/wiki/Arch_Linux>).
     Arch,
     /// CentOS (<https://en.wikipedia.org/wiki/CentOS>).
-    Centos,
+    CentOS,
     /// Debian (<https://en.wikipedia.org/wiki/Debian>).
     Debian,
     /// Emscripten (<https://en.wikipedia.org/wiki/Emscripten>).
@@ -57,11 +57,53 @@ pub enum Type {
 impl Display for Type {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
-            Type::Redhat => write!(f, "Red Hat Linux"),
+            Type::Alpine => write!(f, "Alpine Linux"),
+            Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
-            Type::Centos => write!(f, "CentOS"),
             Type::Macos => write!(f, "Mac OS"),
+            Type::Pop => write!(f, "Pop!_OS"),
+            Type::Redhat => write!(f, "Red Hat Linux"),
+            Type::RedHatEnterprise => write!(f, "Red Hat Enterprise Linux"),
+            Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
             _ => write!(f, "{:?}", self),
+        }
+    }
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn display() {
+        let data = [
+            (Type::Alpine, "Alpine Linux"),
+            (Type::Amazon, "Amazon Linux AMI"),
+            (Type::Android, "Android"),
+            (Type::Arch, "Arch Linux"),
+            (Type::CentOS, "CentOS"),
+            (Type::Debian, "Debian"),
+            (Type::Emscripten, "Emscripten"),
+            (Type::EndeavourOS, "EndeavourOS"),
+            (Type::Fedora, "Fedora"),
+            (Type::Linux, "Linux"),
+            (Type::Macos, "Mac OS"),
+            (Type::Manjaro, "Manjaro"),
+            (Type::openSUSE, "openSUSE"),
+            (Type::OracleLinux, "OracleLinux"),
+            (Type::Pop, "Pop!_OS"),
+            (Type::Redhat, "Red Hat Linux"),
+            (Type::RedHatEnterprise, "Red Hat Enterprise Linux"),
+            (Type::Redox, "Redox"),
+            (Type::Solus, "Solus"),
+            (Type::SUSE, "SUSE Linux Enterprise Server"),
+            (Type::Ubuntu, "Ubuntu"),
+            (Type::Unknown, "Unknown"),
+            (Type::Windows, "Windows"),
+        ];
+
+        for (t, expected) in &data {
+            assert_eq!(&t.to_string(), expected);
         }
     }
 }
