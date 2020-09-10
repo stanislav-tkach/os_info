@@ -133,6 +133,7 @@ impl Display for Info {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::VersionType;
     use itertools::iproduct;
     use pretty_assertions::assert_eq;
 
@@ -203,7 +204,7 @@ mod tests {
     #[test]
     fn display_unknown() {
         let info = Info::unknown();
-        assert_eq!("Unknown (?) [unknown bitness]", &info.to_string());
+        assert_eq!("Unknown [unknown bitness]", &info.to_string());
     }
 
     #[test]
@@ -211,9 +212,23 @@ mod tests {
         let mut info = Info::unknown();
 
         info.bitness = Bitness::X32;
-        assert_eq!("Unknown (?) [32-bit]", &info.to_string());
+        assert_eq!("Unknown [32-bit]", &info.to_string());
 
         info.bitness = Bitness::X64;
-        assert_eq!("Unknown (?) [64-bit]", &info.to_string());
+        assert_eq!("Unknown [64-bit]", &info.to_string());
+    }
+
+    #[test]
+    fn display_all_fields() {
+        let info = Info::new(
+            Type::Linux,
+            Version::new(
+                VersionType::Semantic(1, 2, 3),
+                Some("edition".to_owned()),
+                Some("codename".to_owned()),
+            ),
+            Bitness::X64,
+        );
+        assert_eq!("Linux (?) [64-bit]", &info.to_string());
     }
 }
