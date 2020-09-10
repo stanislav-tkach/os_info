@@ -362,4 +362,10 @@ mod tests {
             assert_eq!(expected, &result);
         }
     }
+
+    #[test]
+    fn display_unknown() {
+        let version = Version::unknown();
+        assert_eq!("", version.to_string());
+    }
 }
