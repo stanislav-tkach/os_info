@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Version {
     pub(crate) version: VersionType,
-    pub(crate) edition: Option<String>,
-    pub(crate) codename: Option<String>,
 }
 
 /// Operating system version.
