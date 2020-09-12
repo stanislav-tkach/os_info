@@ -11,12 +11,14 @@ const UNAME_FILE: &str = "sys:uname";
 pub fn current_platform() -> Info {
     trace!("redox::current_platform is called");
 
-    let version =
-        get_version().map_or_else(|| Version::unknown(), |v| Version::custom(v, None, None));
+    let version = get_version()
+        .map(Version::from_string)
+        .unwrap_or_else(|| Version::Unknown);
     let info = Info {
         os_type: Type::Redox,
         version,
         bitness: Bitness::Unknown,
+        ..Default::default()
     };
     trace!("Returning {:?}", info);
     info

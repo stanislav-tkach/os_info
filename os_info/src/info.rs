@@ -9,8 +9,6 @@ use super::{Bitness, Type, Version};
 /// The best way to get string representation of the operation system information is to use its
 /// `Display` implementation.
 ///
-/// To conviniently create `Info` with custom parameters the `InfoBuilder` builder is available.
-///
 /// # Examples
 ///
 /// ```
@@ -45,7 +43,7 @@ impl Info {
     ///
     /// let info = Info::unknown();
     /// assert_eq!(Type::Unknown, info.os_type());
-    /// assert_eq!(Version::Unknown, info.version());
+    /// assert_eq!(&Version::Unknown, info.version());
     /// assert_eq!(None, info.edition());
     /// assert_eq!(None, info.codename());
     /// assert_eq!(Bitness::Unknown, info.bitness());
@@ -70,7 +68,7 @@ impl Info {
     /// let os_type = Type::Linux;
     /// let info = Info::with_type(os_type);
     /// assert_eq!(os_type, info.os_type());
-    /// assert_eq!(Version::Unknown, info.version());
+    /// assert_eq!(&Version::Unknown, info.version());
     /// assert_eq!(None, info.edition());
     /// assert_eq!(None, info.codename());
     /// assert_eq!(Bitness::Unknown, info.bitness());
@@ -104,7 +102,7 @@ impl Info {
     /// use os_info::{Info, Version};
     ///
     /// let info = Info::unknown();
-    /// assert_eq!(Version::Unknown, info.version());
+    /// assert_eq!(&Version::Unknown, info.version());
     /// ```
     pub fn version(&self) -> &Version {
         &self.version

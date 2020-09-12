@@ -26,15 +26,15 @@ impl Version {
     /// # Examples
     ///
     /// ```
-    /// use os_info::VersionType;
+    /// use os_info::Version;
     ///
-    /// let t = VersionType::from_string("custom");
-    /// assert_eq!(VersionType::Custom("custom".to_owned()), t);
+    /// let v = Version::from_string("custom");
+    /// assert_eq!(Version::Custom("custom".to_owned()), v);
     ///
-    /// let t = VersionType::from_string("1.2.3");
-    /// assert_eq!(VersionType::Semantic(1, 2, 3), t);
+    /// let v = Version::from_string("1.2.3");
+    /// assert_eq!(Version::Semantic(1, 2, 3), v);
     /// ```
-    pub fn from_str<S: Into<String> + AsRef<str>>(s: S) -> Self {
+    pub fn from_string<S: Into<String> + AsRef<str>>(s: S) -> Self {
         if s.as_ref().is_empty() {
             Self::Unknown
         } else if let Some((major, minor, patch)) = parse_version(s.as_ref()) {
@@ -121,7 +121,7 @@ mod tests {
         ];
 
         for (s, expected) in &data {
-            let version = Version::from_str(*s);
+            let version = Version::from_string(*s);
             assert_eq!(expected, &version);
         }
     }
