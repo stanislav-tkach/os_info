@@ -54,6 +54,12 @@ pub enum Type {
     Windows,
 }
 
+impl Default for Type {
+    fn default() -> Self {
+        Type::Unknown
+    }
+}
+
 impl Display for Type {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
@@ -73,6 +79,11 @@ impl Display for Type {
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
+
+    #[test]
+    fn default() {
+        assert_eq!(Type::Unknown, Type::default());
+    }
 
     #[test]
     fn display() {

@@ -1,4 +1,4 @@
-use std::fmt::{self, Display, Formatter, Write};
+use std::fmt::{self, Display, Formatter};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -35,13 +35,19 @@ impl Version {
     /// assert_eq!(VersionType::Semantic(1, 2, 3), t);
     /// ```
     pub fn from_str<S: Into<String> + AsRef<str>>(s: S) -> Self {
-        if s.is_empty() {
+        if s.as_ref().is_empty() {
             Self::Unknown
         } else if let Some((major, minor, patch)) = parse_version(s.as_ref()) {
             Self::Semantic(major, minor, patch)
         } else {
             Self::Custom(s.into())
         }
+    }
+}
+
+impl Default for Version {
+    fn default() -> Self {
+        Version::Unknown
     }
 }
 
@@ -55,7 +61,7 @@ impl Display for Version {
                     Some(date) => format!(" ({})", date),
                     None => "".to_owned(),
                 };
-                write!(f, "Rolling{}", date)
+                write!(f, "Rolling Release{}", date)
             }
             Self::Custom(ref version) => write!(f, "{}", version),
         }
@@ -115,9 +121,14 @@ mod tests {
         ];
 
         for (s, expected) in &data {
-            let result = parse_version(s);
-            assert_eq!(expected, &result);
+            let version = Version::from_str(*s);
+            assert_eq!(expected, &version);
         }
+    }
+
+    #[test]
+    fn default() {
+        assert_eq!(Version::Unknown, Version::default());
     }
 
     #[test]
@@ -125,12 +136,15 @@ mod tests {
         let data = [
             (Version::Unknown, "Unknown"),
             (Version::Semantic(1, 5, 0), "1.5.0"),
-            (Version::Rolling(None), "Rolling"),
-            (Version::Rolling(Some("date".to_owned())), "Rolling (date)"),
+            (Version::Rolling(None), "Rolling Release"),
+            (
+                Version::Rolling(Some("date".to_owned())),
+                "Rolling Release (date)",
+            ),
         ];
 
         for (version, expected) in &data {
-            assert_eq!(expected, version.to_string());
+            assert_eq!(expected, &version.to_string());
         }
     }
 }

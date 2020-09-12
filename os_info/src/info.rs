@@ -9,6 +9,8 @@ use super::{Bitness, Type, Version};
 /// The best way to get string representation of the operation system information is to use its
 /// `Display` implementation.
 ///
+/// To conviniently create `Info` with custom parameters the `InfoBuilder` builder is available.
+///
 /// # Examples
 ///
 /// ```
@@ -43,37 +45,40 @@ impl Info {
     ///
     /// let info = Info::unknown();
     /// assert_eq!(Type::Unknown, info.os_type());
-    /// assert_eq!(Version::unknown(), *info.version());
+    /// assert_eq!(Version::Unknown, info.version());
+    /// assert_eq!(None, info.edition());
+    /// assert_eq!(None, info.codename());
     /// assert_eq!(Bitness::Unknown, info.bitness());
     /// ```
     pub fn unknown() -> Self {
         Self {
             os_type: Type::Unknown,
-            version: Version::unknown(),
+            version: Version::Unknown,
+            edition: None,
+            codename: None,
             bitness: Bitness::Unknown,
         }
     }
 
-    /// Constructs a new `Info` instance with the given type, version and bitness.
+    /// Constructs a new `Info` instance with the specified operating system type.
     ///
     /// # Examples
     ///
     /// ```
     /// use os_info::{Info, Type, Version, Bitness};
     ///
-    /// let os_type = Type::Unknown;
-    /// let version = Version::unknown();
-    /// let bitness = Bitness::Unknown;
-    /// let info = Info::new(os_type, version.clone(), bitness);
+    /// let os_type = Type::Linux;
+    /// let info = Info::with_type(os_type);
     /// assert_eq!(os_type, info.os_type());
-    /// assert_eq!(version, *info.version());
-    /// assert_eq!(bitness, info.bitness());
+    /// assert_eq!(Version::Unknown, info.version());
+    /// assert_eq!(None, info.edition());
+    /// assert_eq!(None, info.codename());
+    /// assert_eq!(Bitness::Unknown, info.bitness());
     /// ```
-    pub fn new(os_type: Type, version: Version, bitness: Bitness) -> Self {
+    pub fn with_type(os_type: Type) -> Self {
         Self {
             os_type,
-            version,
-            bitness,
+            ..Default::default()
         }
     }
 
@@ -99,10 +104,36 @@ impl Info {
     /// use os_info::{Info, Version};
     ///
     /// let info = Info::unknown();
-    /// assert_eq!(Version::unknown(), *info.version());
+    /// assert_eq!(Version::Unknown, info.version());
     /// ```
     pub fn version(&self) -> &Version {
         &self.version
+    }
+
+    /// Returns optional operation system edition.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::Info;
+    ///
+    /// let info = Info::unknown();
+    /// assert_eq!(None, info.edition());
+    pub fn edition(&self) -> Option<&str> {
+        self.edition.as_ref().map(String::as_ref)
+    }
+
+    /// Returns optional operation system 'codename'.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::Info;
+    ///
+    /// let info = Info::unknown();
+    /// assert_eq!(None, info.codename());
+    pub fn codename(&self) -> Option<&str> {
+        self.codename.as_ref().map(String::as_ref)
     }
 
     /// Returns operating system bitness. See `Bitness` for details.
@@ -121,165 +152,6 @@ impl Info {
 }
 
 /*
-impl Version {
-    /// Constructs a new `Version` instance with the given version type, edition and codename.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use os_info::{Version, VersionType};
-    ///
-    /// let version = Version::new(VersionType::Semantic(1, 2, 3), None, None);
-    /// assert_eq!(VersionType::Semantic(1, 2, 3), *version.version());
-    /// assert_eq!(None, version.edition());
-    /// assert_eq!(None, version.codename());
-    /// ```
-    pub fn new(version: VersionType, edition: Option<String>, codename: Option<String>) -> Self {
-        Self {
-            version,
-            edition,
-            codename,
-        }
-    }
-
-    /// Constructs a new `Version` instance with an unknown version. The edition and codename are
-    /// set to `None`.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use os_info::{Version, VersionType};
-    ///
-    /// let version = Version::unknown();
-    /// assert_eq!(VersionType::Unknown, *version.version());
-    /// assert_eq!(None, version.edition());
-    /// assert_eq!(None, version.codename());
-    /// ```
-    pub fn unknown() -> Self {
-        Self {
-            version: VersionType::Unknown,
-            edition: None,
-            codename: None,
-        }
-    }
-
-    /// Constructs a new `Version` instance with semantic version and given edition and codename.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use os_info::{Version, VersionType};
-    ///
-    /// let version = Version::semantic(0, 1, 2, None, None);
-    /// assert_eq!(VersionType::Semantic(0, 1, 2), *version.version());
-    /// assert_eq!(None, version.edition());
-    /// assert_eq!(None, version.codename());
-    /// ```
-    pub fn semantic(
-        major: u64,
-        minor: u64,
-        patch: u64,
-        edition: Option<String>,
-        codename: Option<String>,
-    ) -> Self {
-        Self {
-            version: VersionType::Semantic(major, minor, patch),
-            edition,
-            codename,
-        }
-    }
-
-    /// Construct a new `Version` instance with "rolling" version and given edition and codename.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use os_info::{Version, VersionType};
-    ///
-    /// let date = "2020.03.16".to_owned();
-    /// let version = Version::rolling(Some(date.clone()), None, None);
-    /// assert_eq!(VersionType::Rolling(Some(date)), *version.version());
-    /// assert_eq!(None, version.edition());
-    /// assert_eq!(None, version.codename());
-    /// ```
-    pub fn rolling(
-        date: Option<String>,
-        edition: Option<String>,
-        codename: Option<String>,
-    ) -> Self {
-        Self {
-            version: VersionType::Rolling(date),
-            edition,
-            codename,
-        }
-    }
-
-    /// Construct a new `Version` instance with "custom" (non semantic) version and given edition
-    /// and codename.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use os_info::{Version, VersionType};
-    ///
-    /// let ver = "version".to_owned();
-    /// let version = Version::custom(ver.clone(), None, None);
-    /// assert_eq!(VersionType::Custom(ver), *version.version());
-    /// assert_eq!(None, version.edition());
-    /// assert_eq!(None, version.codename());
-    /// ```
-    pub fn custom<T: Into<String>>(
-        version: T,
-        edition: Option<String>,
-        codename: Option<String>,
-    ) -> Self {
-        Self {
-            version: VersionType::Custom(version.into()),
-            edition,
-            codename,
-        }
-    }
-
-    /// Returns operating system version. See `VersionType` for details.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use os_info::{Version, VersionType};
-    ///
-    /// let version = Version::unknown();
-    /// assert_eq!(VersionType::Unknown, *version.version());
-    pub fn version(&self) -> &VersionType {
-        &self.version
-    }
-
-    /// Returns optional operation system edition.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use os_info::Version;
-    ///
-    /// let version = Version::unknown();
-    /// assert_eq!(None, version.edition());
-    pub fn edition(&self) -> Option<&str> {
-        self.edition.as_ref().map(String::as_ref)
-    }
-
-    /// Returns optional operation system 'codename'.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use os_info::Version;
-    ///
-    /// let version = Version::unknown();
-    /// assert_eq!(None, version.codename());
-    pub fn codename(&self) -> Option<&str> {
-        self.codename.as_ref().map(String::as_ref)
-    }
-}
-
 impl Display for Version {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         if let Some(ref edition) = self.edition {
@@ -305,89 +177,6 @@ impl Display for VersionType {
         }
     }
 }
-
-
-    #[test]
-    fn new_version() {
-        let version = Version::new(VersionType::Semantic(2, 3, 4), None, None);
-        assert_eq!(VersionType::Semantic(2, 3, 4), *version.version());
-        assert_eq!(None, version.edition());
-        assert_eq!(None, version.codename());
-    }
-
-    #[test]
-    fn unknown() {
-        let version = Version::unknown();
-        assert_eq!(VersionType::Unknown, *version.version());
-        assert_eq!(None, version.edition());
-        assert_eq!(None, version.codename());
-    }
-
-    #[test]
-    fn semantic() {
-        let data = [
-            ((0, 0, 0), None, None),
-            ((10, 20, 30), Some("edition".to_owned()), None),
-            ((1, 2, 0), None, Some("codename".to_owned())),
-            ((3, 2, 1), None, None),
-            (
-                (1, 0, 0),
-                Some("different edition".to_owned()),
-                Some("codename".to_owned()),
-            ),
-        ];
-
-        for (v, edition, codename) in &data {
-            let version = Version::semantic(v.0, v.1, v.2, edition.clone(), codename.clone());
-            assert_eq!(VersionType::Semantic(v.0, v.1, v.2), *version.version());
-            assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
-            assert_eq!(codename.as_ref().map(String::as_ref), version.codename());
-        }
-    }
-
-    #[test]
-    fn rolling() {
-        let data = [
-            (None, None, None),
-            (
-                Some("2017.03.22".to_owned()),
-                Some("edition".to_owned()),
-                Some("codename".to_owned()),
-            ),
-            (Some("2019.11.12".to_owned()), None, None),
-            (None, Some("edition".to_owned()), None),
-            (None, None, Some("codename".to_owned())),
-            (None, Some("different edition".to_owned()), None),
-        ];
-
-        for (date, edition, codename) in &data {
-            let version = Version::rolling(date.clone(), edition.clone(), codename.clone());
-            assert_eq!(VersionType::Rolling(date.clone()), *version.version());
-            assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
-            assert_eq!(codename.as_ref().map(String::as_ref), version.codename());
-        }
-    }
-
-    #[test]
-    fn custom() {
-        let data = [
-            ("OS", None, None),
-            ("Another OS", Some("edition".to_owned()), None),
-            ("", None, None),
-            (
-                "Future OS",
-                Some("e".to_owned()),
-                Some("codename".to_owned()),
-            ),
-        ];
-
-        for (v, edition, codename) in &data {
-            let version = Version::custom(*v, edition.clone(), codename.clone());
-            assert_eq!(VersionType::Custom(v.to_string()), *version.version());
-            assert_eq!(edition.as_ref().map(String::as_ref), version.edition());
-            assert_eq!(codename.as_ref().map(String::as_ref), version.codename());
-        }
-    }
  */
 
 impl Default for Info {
@@ -399,7 +188,15 @@ impl Default for Info {
 impl Display for Info {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{}", self.os_type)?;
-        write!(f, " ({})", self.version)?;
+        if self.version != Version::Unknown {
+            write!(f, " {}", self.version)?;
+        }
+        if let Some(ref edition) = self.edition {
+            write!(f, " ({})", edition)?;
+        }
+        if let Some(ref codename) = self.codename {
+            write!(f, " ({})", codename)?;
+        }
         write!(f, " [{}]", self.bitness)
     }
 }
@@ -407,102 +204,99 @@ impl Display for Info {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::VersionType;
-    use itertools::iproduct;
     use pretty_assertions::assert_eq;
 
     #[test]
     fn unknown() {
         let info = Info::unknown();
         assert_eq!(Type::Unknown, info.os_type());
-        assert_eq!(&Version::unknown(), info.version());
+        assert_eq!(&Version::Unknown, info.version());
+        assert_eq!(None, info.edition());
+        assert_eq!(None, info.codename());
         assert_eq!(Bitness::Unknown, info.bitness());
     }
 
     #[test]
-    fn new() {
-        let types = [
-            Type::Alpine,
-            Type::Amazon,
-            Type::Android,
-            Type::Arch,
-            Type::CentOS,
-            Type::Debian,
-            Type::Emscripten,
-            Type::EndeavourOS,
-            Type::Fedora,
-            Type::Linux,
-            Type::Macos,
-            Type::Manjaro,
-            Type::openSUSE,
-            Type::OracleLinux,
-            Type::Pop,
-            Type::Redhat,
-            Type::RedHatEnterprise,
-            Type::Redox,
-            Type::Solus,
-            Type::SUSE,
-            Type::Ubuntu,
-            Type::Unknown,
-            Type::Windows,
+    fn default() {
+        assert_eq!(Info::default(), Info::unknown());
+    }
+
+    #[test]
+    fn display() {
+        let data = [
+            // All unknown.
+            (Info::unknown(), "Unknown [unknown bitness]"),
+            // Type.
+            (
+                Info {
+                    os_type: Type::Redox,
+                    ..Default::default()
+                },
+                "Redox [unknown bitness]",
+            ),
+            // Type and version.
+            (
+                Info {
+                    os_type: Type::Linux,
+                    version: Version::Semantic(2, 3, 4),
+                    ..Default::default()
+                },
+                "Linux 2.3.4 [unknown bitness]",
+            ),
+            (
+                Info {
+                    os_type: Type::Arch,
+                    version: Version::Rolling(None),
+                    ..Default::default()
+                },
+                "Arch Linux Rolling Release [unknown bitness]",
+            ),
+            (
+                Info {
+                    os_type: Type::Manjaro,
+                    version: Version::Rolling(Some("2020.05.24".to_owned())),
+                    ..Default::default()
+                },
+                "Manjaro Rolling Release (2020.05.24) [unknown bitness]",
+            ),
+            (
+                Info {
+                    os_type: Type::Windows,
+                    version: Version::Custom("Special Version".to_owned()),
+                    ..Default::default()
+                },
+                "Windows Special Version [unknown bitness]",
+            ),
+            // Bitness.
+            (
+                Info {
+                    bitness: Bitness::X32,
+                    ..Default::default()
+                },
+                "Unknown [32-bit]",
+            ),
+            (
+                Info {
+                    bitness: Bitness::X64,
+                    ..Default::default()
+                },
+                "Unknown [64-bit]",
+            ),
+            // All info.
+            (
+                Info {
+                    os_type: Type::Macos,
+                    version: Version::Semantic(10, 2, 0),
+                    edition: Some("edition".to_owned()),
+                    codename: Some("codename".to_owned()),
+                    bitness: Bitness::X64,
+                },
+                "Mac OS 10.2.0 (edition) (codename) [64-bit]",
+            ),
         ];
 
-        let versions = [
-            Version::unknown(),
-            Version::semantic(0, 0, 0, None, None),
-            Version::semantic(1, 2, 3, Some("e".to_owned()), None),
-            Version::semantic(1, 2, 3, Some("e".to_owned()), Some("2020.06.08".to_owned())),
-            Version::rolling(None, None, None),
-            Version::rolling(
-                Some("2020.02.03".to_owned()),
-                Some("edition".to_owned()),
-                Some("codename".to_owned()),
-            ),
-            Version::custom("version".to_owned(), None, None),
-            Version::custom(
-                "different version".to_owned(),
-                Some("edition".to_owned()),
-                Some("codename".to_owned()),
-            ),
-        ];
-
-        let bitnesses = [Bitness::Unknown, Bitness::X32, Bitness::X64];
-
-        for (os_type, version, bitness) in iproduct!(&types, &versions, &bitnesses) {
-            let info = Info::new(*os_type, version.clone(), *bitness);
-            assert_eq!(*os_type, info.os_type());
-            assert_eq!(version, info.version());
+        for (info, expected) in &data {
+            assert_eq!(expected, &info.to_string());
         }
-    }
-
-    #[test]
-    fn display_unknown() {
-        let info = Info::unknown();
-        assert_eq!("Unknown [unknown bitness]", &info.to_string());
-    }
-
-    #[test]
-    fn display_bitness() {
-        let mut info = Info::unknown();
-
-        info.bitness = Bitness::X32;
-        assert_eq!("Unknown [32-bit]", &info.to_string());
-
-        info.bitness = Bitness::X64;
-        assert_eq!("Unknown [64-bit]", &info.to_string());
-    }
-
-    #[test]
-    fn display_all_fields() {
-        let info = Info::new(
-            Type::Linux,
-            Version::new(
-                VersionType::Semantic(1, 2, 3),
-                Some("edition".to_owned()),
-                Some("codename".to_owned()),
-            ),
-            Bitness::X64,
-        );
-        assert_eq!("Linux (?) [64-bit]", &info.to_string());
     }
 }
