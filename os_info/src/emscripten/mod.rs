@@ -1,16 +1,12 @@
 use log::trace;
 
-use crate::{Bitness, Info, Type, Version};
+use crate::{Bitness, Info, Type};
 
 // TODO: Somehow get the real OS version?
 pub fn current_platform() -> Info {
     trace!("emscripten::current_platform is called");
 
-    let info = Info {
-        os_type: Type::Emscripten,
-        version: Version::unknown(),
-        bitness: Bitness::Unknown,
-    };
+    let info = Info::with_type(Type::Emscripten);
     trace!("Returning {:?}", info);
     info
 }

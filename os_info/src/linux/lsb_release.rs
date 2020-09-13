@@ -4,20 +4,15 @@ use std::process::Command;
 
 use log::{trace, warn};
 
-use crate::{matcher::Matcher, Bitness, Info, Type, Version};
+use crate::{matcher::Matcher, Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     let release = retrieve()?;
-    let codename = release.codename;
 
     let version = match release.version.as_deref() {
-        Some("rolling") => Version::rolling(None, None, codename),
-        Some(v) => Version::custom(v, None, codename),
-        None => {
-            let mut v = Version::unknown();
-            v.codename = codename;
-            v
-        }
+        Some("rolling") => Version::Rolling(None),
+        Some(v) => Version::Custom(v.to_owned()),
+        None => Version::Unknown,
     };
 
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
@@ -25,7 +20,7 @@ pub fn get() -> Option<Info> {
         Some("Pop") => Type::Pop,
         Some("Debian") => Type::Debian,
         Some("Arch") => Type::Arch,
-        Some("CentOS") => Type::Centos,
+        Some("CentOS") => Type::CentOS,
         Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
         Some("Fedora") => Type::Fedora,
         Some("Solus") => Type::Solus,
@@ -38,7 +33,12 @@ pub fn get() -> Option<Info> {
         _ => Type::Linux,
     };
 
-    Some(Info::new(os_type, version, Bitness::Unknown))
+    Some(Info {
+        os_type,
+        version,
+        codename: release.codename,
+        ..Default::default()
+    })
 }
 
 struct LsbRelease {

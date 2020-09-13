@@ -2,7 +2,7 @@ use std::{fs::File, io::Read, path::Path};
 
 use log::{trace, warn};
 
-use crate::{matcher::Matcher, Bitness, Info, Type, Version, VersionType};
+use crate::{matcher::Matcher, Bitness, Info, Type, Version};
 
 pub fn get() -> Option<Info> {
     retrieve(&DISTRIBUTIONS)
@@ -37,10 +37,15 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
         let version = release_info
             .version_matcher
             .find(&file_content)
-            .map(|x| Version::new(VersionType::from_string(&x), None, None))
-            .unwrap_or_else(Version::unknown);
+            .map(Version::from_string)
+            .unwrap_or_else(|| Version::Unknown);
 
-        return Some(Info::new(os_type, version, Bitness::Unknown));
+        return Some(Info {
+            os_type,
+            version,
+            bitness: Bitness::Unknown,
+            ..Default::default()
+        });
     }
 
     None
@@ -49,7 +54,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 fn get_type(name: &str) -> Option<Type> {
     match name.to_lowercase().as_ref() {
         "arch linux" => Some(Type::Arch),
-        "centos linux" => Some(Type::Centos),
+        "centos linux" => Some(Type::CentOS),
         "ubuntu" => Some(Type::Ubuntu),
         _ => None,
     }
@@ -76,7 +81,7 @@ const DISTRIBUTIONS: [ReleaseInfo; 5] = [
         version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
     },
     ReleaseInfo {
-        os_type: Type::Centos,
+        os_type: Type::CentOS,
         path: "/etc/centos-release",
         version_matcher: Matcher::PrefixedVersion { prefix: "release" },
     },
@@ -109,7 +114,9 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::OracleLinux);
-        assert_eq!(info.version, Version::semantic(8, 1, 0, None, None));
+        assert_eq!(info.version, Version::Semantic(8, 1, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
     }
 
     #[test]
@@ -118,8 +125,10 @@ mod tests {
         distributions[0].path = "src/linux/tests/os-release-centos";
 
         let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Centos);
-        assert_eq!(info.version, Version::semantic(7, 0, 0, None, None));
+        assert_eq!(info.os_type(), Type::CentOS);
+        assert_eq!(info.version, Version::Semantic(7, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
     }
 
     #[test]
@@ -129,7 +138,9 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Ubuntu);
-        assert_eq!(info.version, Version::semantic(18, 10, 0, None, None));
+        assert_eq!(info.version, Version::Semantic(18, 10, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
     }
 
     #[test]
@@ -138,8 +149,10 @@ mod tests {
         distributions[0].path = "src/linux/tests/centos-release";
 
         let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Centos);
-        assert_eq!(info.version, Version::custom("XX", None, None));
+        assert_eq!(info.os_type(), Type::CentOS);
+        assert_eq!(info.version, Version::Custom("XX".to_owned()));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
     }
 
     #[test]
@@ -149,7 +162,9 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::semantic(26, 0, 0, None, None));
+        assert_eq!(info.version, Version::Semantic(26, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
     }
 
     #[test]
@@ -159,7 +174,9 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Redhat);
-        assert_eq!(info.version, Version::custom("XX", None, None));
+        assert_eq!(info.version, Version::Custom("XX".to_owned()));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
     }
 
     #[test]
@@ -169,6 +186,8 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::custom("A.B.C", None, None));
+        assert_eq!(info.version, Version::Custom("A.B.C".to_owned()));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
     }
 }

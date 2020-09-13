@@ -123,7 +123,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        build: [Linux, macOS, Win32-msvc, Win32-gnu, Win64-msvc, Win64-gnu]
         include:
           - build: Linux
             os: ubuntu-latest

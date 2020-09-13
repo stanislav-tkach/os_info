@@ -1,15 +1,11 @@
 use log::trace;
 
-use crate::{Bitness, Info, Type, Version};
+use crate::{Bitness, Info, Type};
 
 pub fn current_platform() -> Info {
     trace!("android::current_platform is called");
 
-    let info = Info {
-        os_type: Type::Android,
-        version: Version::unknown(),
-        bitness: Bitness::Unknown,
-    };
+    let info = Info::with_type(Type::Android);
     trace!("Returning {:?}", info);
     info
 }

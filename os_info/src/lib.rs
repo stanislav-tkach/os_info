@@ -55,7 +55,7 @@ mod version;
 pub use bitness::Bitness;
 pub use info::Info;
 pub use os_type::Type;
-pub use version::{Version, VersionType};
+pub use version::Version;
 
 /// Returns information about the current operating system (type, version, edition, etc.).
 ///
@@ -72,6 +72,8 @@ pub use version::{Version, VersionType};
 /// // Print information separately:
 /// println!("Type: {}", info.os_type());
 /// println!("Version: {}", info.version());
+/// println!("Edition: {:?}", info.edition());
+/// println!("Codename: {:?}", info.codename());
 /// println!("Bitness: {}", info.bitness());
 /// ```
 pub fn get() -> Info {

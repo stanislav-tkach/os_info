@@ -3,14 +3,14 @@ mod lsb_release;
 
 use log::trace;
 
-use crate::{bitness, Bitness, Info, Type, Version};
+use crate::{bitness, Info, Type};
 
 pub fn current_platform() -> Info {
     trace!("linux::current_platform is called");
 
     let mut info = lsb_release::get()
         .or_else(file_release::get)
-        .unwrap_or_else(|| Info::new(Type::Linux, Version::unknown(), Bitness::Unknown));
+        .unwrap_or_else(|| Info::with_type(Type::Linux));
     info.bitness = bitness::get();
 
     trace!("Returning {:?}", info);
@@ -28,7 +28,7 @@ mod tests {
             Type::Alpine
             | Type::Amazon
             | Type::Arch
-            | Type::Centos
+            | Type::CentOS
             | Type::Debian
             | Type::EndeavourOS
             | Type::Fedora

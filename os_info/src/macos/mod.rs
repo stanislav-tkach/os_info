@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::{trace, warn};
 
-use crate::{bitness, matcher::Matcher, Info, Type, Version, VersionType};
+use crate::{bitness, matcher::Matcher, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
@@ -11,20 +11,17 @@ pub fn current_platform() -> Info {
         os_type: Type::Macos,
         version: version(),
         bitness: bitness::get(),
+        ..Default::default()
     };
     trace!("Returning {:?}", info);
     info
 }
 
 fn version() -> Version {
-    let version = match product_version() {
-        None => {
-            return Version::unknown();
-        }
-        Some(val) => val,
-    };
-
-    Version::new(VersionType::from_string(&version), None, None)
+    match product_version() {
+        None => Version::Unknown,
+        Some(val) => Version::from_string(val),
+    }
 }
 
 fn product_version() -> Option<String> {
@@ -62,7 +59,7 @@ mod tests {
     #[test]
     fn os_version() {
         let version = version();
-        assert_ne!(Version::unknown(), version);
+        assert_ne!(Version::Unknown, version);
     }
 
     #[test]

@@ -24,6 +24,10 @@ pub struct Info {
     pub(crate) os_type: Type,
     /// Operating system version. See `Version` for details.
     pub(crate) version: Version,
+    /// Operating system edition.
+    pub(crate) edition: Option<String>,
+    /// Operating system edition.
+    pub(crate) codename: Option<String>,
     /// Operating system architecture in terms of how many bits compose the basic values it can deal
     /// with. See `Bitness` for details.
     pub(crate) bitness: Bitness,
@@ -39,37 +43,40 @@ impl Info {
     ///
     /// let info = Info::unknown();
     /// assert_eq!(Type::Unknown, info.os_type());
-    /// assert_eq!(Version::unknown(), *info.version());
+    /// assert_eq!(&Version::Unknown, info.version());
+    /// assert_eq!(None, info.edition());
+    /// assert_eq!(None, info.codename());
     /// assert_eq!(Bitness::Unknown, info.bitness());
     /// ```
     pub fn unknown() -> Self {
         Self {
             os_type: Type::Unknown,
-            version: Version::unknown(),
+            version: Version::Unknown,
+            edition: None,
+            codename: None,
             bitness: Bitness::Unknown,
         }
     }
 
-    /// Constructs a new `Info` instance with the given type, version and bitness.
+    /// Constructs a new `Info` instance with the specified operating system type.
     ///
     /// # Examples
     ///
     /// ```
     /// use os_info::{Info, Type, Version, Bitness};
     ///
-    /// let os_type = Type::Unknown;
-    /// let version = Version::unknown();
-    /// let bitness = Bitness::Unknown;
-    /// let info = Info::new(os_type, version.clone(), bitness);
+    /// let os_type = Type::Linux;
+    /// let info = Info::with_type(os_type);
     /// assert_eq!(os_type, info.os_type());
-    /// assert_eq!(version, *info.version());
-    /// assert_eq!(bitness, info.bitness());
+    /// assert_eq!(&Version::Unknown, info.version());
+    /// assert_eq!(None, info.edition());
+    /// assert_eq!(None, info.codename());
+    /// assert_eq!(Bitness::Unknown, info.bitness());
     /// ```
-    pub fn new(os_type: Type, version: Version, bitness: Bitness) -> Self {
+    pub fn with_type(os_type: Type) -> Self {
         Self {
             os_type,
-            version,
-            bitness,
+            ..Default::default()
         }
     }
 
@@ -95,10 +102,36 @@ impl Info {
     /// use os_info::{Info, Version};
     ///
     /// let info = Info::unknown();
-    /// assert_eq!(Version::unknown(), *info.version());
+    /// assert_eq!(&Version::Unknown, info.version());
     /// ```
     pub fn version(&self) -> &Version {
         &self.version
+    }
+
+    /// Returns optional operation system edition.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::Info;
+    ///
+    /// let info = Info::unknown();
+    /// assert_eq!(None, info.edition());
+    pub fn edition(&self) -> Option<&str> {
+        self.edition.as_ref().map(String::as_ref)
+    }
+
+    /// Returns optional operation system 'codename'.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::Info;
+    ///
+    /// let info = Info::unknown();
+    /// assert_eq!(None, info.codename());
+    pub fn codename(&self) -> Option<&str> {
+        self.codename.as_ref().map(String::as_ref)
     }
 
     /// Returns operating system bitness. See `Bitness` for details.
@@ -116,6 +149,34 @@ impl Info {
     }
 }
 
+/*
+impl Display for Version {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        if let Some(ref edition) = self.edition {
+            write!(f, "{} ", edition)?;
+        }
+        write!(f, "{}", self.version)
+    }
+}
+
+impl Display for VersionType {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match *self {
+            VersionType::Unknown => f.write_char('?'),
+            VersionType::Semantic(major, minor, patch) => {
+                write!(f, "{}.{}.{}", major, minor, patch)
+            }
+            VersionType::Rolling(ref date) => write!(
+                f,
+                "rolling ({})",
+                date.clone().unwrap_or_else(|| "?".to_owned())
+            ),
+            VersionType::Custom(ref version) => write!(f, "{}", version),
+        }
+    }
+}
+ */
+
 impl Default for Info {
     fn default() -> Self {
         Self::unknown()
@@ -125,78 +186,115 @@ impl Default for Info {
 impl Display for Info {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{}", self.os_type)?;
-        write!(f, " ({})", self.version)?;
-        write!(f, " ({})", self.bitness)
+        if self.version != Version::Unknown {
+            write!(f, " {}", self.version)?;
+        }
+        if let Some(ref edition) = self.edition {
+            write!(f, " ({})", edition)?;
+        }
+        if let Some(ref codename) = self.codename {
+            write!(f, " ({})", codename)?;
+        }
+        write!(f, " [{}]", self.bitness)
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use itertools::iproduct;
     use pretty_assertions::assert_eq;
 
     #[test]
     fn unknown() {
         let info = Info::unknown();
         assert_eq!(Type::Unknown, info.os_type());
-        assert_eq!(&Version::unknown(), info.version());
+        assert_eq!(&Version::Unknown, info.version());
+        assert_eq!(None, info.edition());
+        assert_eq!(None, info.codename());
         assert_eq!(Bitness::Unknown, info.bitness());
     }
 
     #[test]
-    fn new() {
-        let types = [
-            Type::Alpine,
-            Type::Amazon,
-            Type::Android,
-            Type::Arch,
-            Type::Centos,
-            Type::Debian,
-            Type::Emscripten,
-            Type::EndeavourOS,
-            Type::Fedora,
-            Type::Linux,
-            Type::Macos,
-            Type::Manjaro,
-            Type::openSUSE,
-            Type::OracleLinux,
-            Type::Pop,
-            Type::Redhat,
-            Type::RedHatEnterprise,
-            Type::Redox,
-            Type::Solus,
-            Type::SUSE,
-            Type::Ubuntu,
-            Type::Unknown,
-            Type::Windows,
+    fn default() {
+        assert_eq!(Info::default(), Info::unknown());
+    }
+
+    #[test]
+    fn display() {
+        let data = [
+            // All unknown.
+            (Info::unknown(), "Unknown [unknown bitness]"),
+            // Type.
+            (
+                Info {
+                    os_type: Type::Redox,
+                    ..Default::default()
+                },
+                "Redox [unknown bitness]",
+            ),
+            // Type and version.
+            (
+                Info {
+                    os_type: Type::Linux,
+                    version: Version::Semantic(2, 3, 4),
+                    ..Default::default()
+                },
+                "Linux 2.3.4 [unknown bitness]",
+            ),
+            (
+                Info {
+                    os_type: Type::Arch,
+                    version: Version::Rolling(None),
+                    ..Default::default()
+                },
+                "Arch Linux Rolling Release [unknown bitness]",
+            ),
+            (
+                Info {
+                    os_type: Type::Manjaro,
+                    version: Version::Rolling(Some("2020.05.24".to_owned())),
+                    ..Default::default()
+                },
+                "Manjaro Rolling Release (2020.05.24) [unknown bitness]",
+            ),
+            (
+                Info {
+                    os_type: Type::Windows,
+                    version: Version::Custom("Special Version".to_owned()),
+                    ..Default::default()
+                },
+                "Windows Special Version [unknown bitness]",
+            ),
+            // Bitness.
+            (
+                Info {
+                    bitness: Bitness::X32,
+                    ..Default::default()
+                },
+                "Unknown [32-bit]",
+            ),
+            (
+                Info {
+                    bitness: Bitness::X64,
+                    ..Default::default()
+                },
+                "Unknown [64-bit]",
+            ),
+            // All info.
+            (
+                Info {
+                    os_type: Type::Macos,
+                    version: Version::Semantic(10, 2, 0),
+                    edition: Some("edition".to_owned()),
+                    codename: Some("codename".to_owned()),
+                    bitness: Bitness::X64,
+                },
+                "Mac OS 10.2.0 (edition) (codename) [64-bit]",
+            ),
         ];
 
-        let versions = [
-            Version::unknown(),
-            Version::semantic(0, 0, 0, None, None),
-            Version::semantic(1, 2, 3, Some("e".to_owned()), None),
-            Version::semantic(1, 2, 3, Some("e".to_owned()), Some("2020.06.08".to_owned())),
-            Version::rolling(None, None, None),
-            Version::rolling(
-                Some("2020.02.03".to_owned()),
-                Some("edition".to_owned()),
-                Some("codename".to_owned()),
-            ),
-            Version::custom("version".to_owned(), None, None),
-            Version::custom(
-                "different version".to_owned(),
-                Some("edition".to_owned()),
-                Some("codename".to_owned()),
-            ),
-        ];
-
-        let bitnesses = [Bitness::Unknown, Bitness::X32, Bitness::X64];
-
-        for (os_type, version, bitness) in iproduct!(&types, &versions, &bitnesses) {
-            let info = Info::new(*os_type, version.clone(), *bitness);
-            assert_eq!(*os_type, info.os_type());
-            assert_eq!(version, info.version());
+        for (info, expected) in &data {
+            assert_eq!(expected, &info.to_string());
         }
     }
 }

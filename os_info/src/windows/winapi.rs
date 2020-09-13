@@ -29,18 +29,26 @@ type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXA;
 type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXW;
 
 pub fn get() -> Info {
-    Info::new(Type::Windows, version(), bitness())
+    let (version, edition) = version();
+    Info {
+        os_type: Type::Windows,
+        version,
+        edition,
+        bitness: bitness(),
+        ..Default::default()
+    }
 }
 
-fn version() -> Version {
+fn version() -> (Version, Option<String>) {
     match version_info() {
-        None => Version::unknown(),
-        Some(v) => Version::semantic(
-            v.dwMajorVersion as u64,
-            v.dwMinorVersion as u64,
-            v.dwBuildNumber as u64,
+        None => (Version::Unknown, None),
+        Some(v) => (
+            Version::Semantic(
+                v.dwMajorVersion as u64,
+                v.dwMinorVersion as u64,
+                v.dwBuildNumber as u64,
+            ),
             edition(&v),
-            None,
         ),
     }
 }
