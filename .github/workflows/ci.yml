@@ -89,7 +89,7 @@ jobs:
       - name: Install mlc
         run: cargo install mlc
       - name: Run mlc
-        run: mlc
+        run: mlc --ignore-links https://crates.io/crates/os_info
 
   # Spellcheck.
   spellcheck:
