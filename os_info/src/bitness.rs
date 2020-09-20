@@ -46,4 +46,17 @@ mod tests {
         let b = get();
         assert_ne!(b, Bitness::Unknown);
     }
+
+    #[test]
+    fn display() {
+        let data = [
+            (Bitness::Unknown, "unknown bitness"),
+            (Bitness::X32, "32-bit"),
+            (Bitness::X64, "64-bit"),
+        ];
+
+        for (bitness, expected) in &data {
+            assert_eq!(&bitness.to_string(), expected);
+        }
+    }
 }
