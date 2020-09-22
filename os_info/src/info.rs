@@ -149,34 +149,6 @@ impl Info {
     }
 }
 
-/*
-impl Display for Version {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        if let Some(ref edition) = self.edition {
-            write!(f, "{} ", edition)?;
-        }
-        write!(f, "{}", self.version)
-    }
-}
-
-impl Display for VersionType {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        match *self {
-            VersionType::Unknown => f.write_char('?'),
-            VersionType::Semantic(major, minor, patch) => {
-                write!(f, "{}.{}.{}", major, minor, patch)
-            }
-            VersionType::Rolling(ref date) => write!(
-                f,
-                "rolling ({})",
-                date.clone().unwrap_or_else(|| "?".to_owned())
-            ),
-            VersionType::Custom(ref version) => write!(f, "{}", version),
-        }
-    }
-}
- */
-
 impl Default for Info {
     fn default() -> Self {
         Self::unknown()
@@ -212,6 +184,41 @@ mod tests {
         assert_eq!(None, info.edition());
         assert_eq!(None, info.codename());
         assert_eq!(Bitness::Unknown, info.bitness());
+    }
+
+    #[test]
+    fn with_type() {
+        let types = [
+            Type::Redox,
+            Type::Alpine,
+            Type::Amazon,
+            Type::Android,
+            Type::Arch,
+            Type::CentOS,
+            Type::Debian,
+            Type::Emscripten,
+            Type::EndeavourOS,
+            Type::Fedora,
+            Type::Linux,
+            Type::Macos,
+            Type::Manjaro,
+            Type::openSUSE,
+            Type::OracleLinux,
+            Type::Pop,
+            Type::Redhat,
+            Type::RedHatEnterprise,
+            Type::Redox,
+            Type::Solus,
+            Type::SUSE,
+            Type::Ubuntu,
+            Type::Unknown,
+            Type::Windows,
+        ];
+
+        for t in &types {
+            let info = Info::with_type(*t);
+            assert_eq!(t, &info.os_type());
+        }
     }
 
     #[test]
