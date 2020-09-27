@@ -6,11 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ## [3.0.0] (2020-09-28)
 
-- `VersionType` enum has been extended to support the rolling release versioning. (#211)
+- `VersionType` enum has been extended to support the rolling release
+  versioning. (#211)
 
 - The codename field has been added to `Version`. (#213, #214)
 
-- The `Display` trait implementation for `Version`, `Info` and `Bitness` has been changed. (#219)
+- The `Display` trait implementation for `Version`, `Info` and `Bitness` has
+  been changed. (#219)
 
 - The edition filed has been moved from `Version` to `Info`. (#219)
 
