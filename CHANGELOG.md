@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [3.0.0] (2020-09-27)
+## [3.0.0] (2020-09-28)
 
-- TODO FIXME
+- `VersionType` enum has been extended to support the rolling release versioning. (#211)
+
+- The codename field has been added to `Version`. (#213, #214)
+
+- The `Display` trait implementation for `Version`, `Info` and `Bitness` has been changed. (#219)
+
+- The edition filed has been moved from `Version` to `Info`. (#219)
+
+- `VersionType` has been renamed to `Version`. (#219)
 
 ## [2.0.8] (2020-08-10)
 
