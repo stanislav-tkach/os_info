@@ -56,6 +56,7 @@ fn get_type(name: &str) -> Option<Type> {
         "amazon linux" => Some(Type::Amazon),
         "arch linux" => Some(Type::Arch),
         "centos linux" => Some(Type::CentOS),
+        "sles" => Some(Type::SUSE),
         "ubuntu" => Some(Type::Ubuntu),
         _ => None,
     }
@@ -140,6 +141,30 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::CentOS);
         assert_eq!(info.version, Version::Semantic(7, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_suse_12() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-suse-12";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::SUSE);
+        assert_eq!(info.version, Version::Semantic(12, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_suse_15() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-suse-15";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::SUSE);
+        assert_eq!(info.version, Version::Semantic(15, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
