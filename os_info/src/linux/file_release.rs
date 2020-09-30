@@ -70,7 +70,7 @@ struct ReleaseInfo<'a> {
 
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
-const DISTRIBUTIONS: [ReleaseInfo; 6] = [
+const DISTRIBUTIONS: [ReleaseInfo; 5] = [
     // Due to shenanigans with Oracle Linux including an /etc/redhat-release file that states
     // that the OS is Red Hat Enterprise Linux, this /etc/os-release file MUST be checked
     // before this code checks /etc/redhat-release. If it does not get run first,
@@ -78,11 +78,6 @@ const DISTRIBUTIONS: [ReleaseInfo; 6] = [
     // instead of Oracle Linux.
     ReleaseInfo {
         os_type: Type::OracleLinux,
-        path: "/etc/os-release",
-        version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
-    },
-    ReleaseInfo {
-        os_type: Type::Amazon,
         path: "/etc/os-release",
         version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
     },
@@ -121,6 +116,18 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::OracleLinux);
         assert_eq!(info.version, Version::Semantic(8, 1, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_amazon_2() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-amazon-2";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Amazon);
+        assert_eq!(info.version, Version::Semantic(2, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
