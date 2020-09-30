@@ -152,7 +152,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::SUSE);
-        assert_eq!(info.version, Version::Semantic(12, 0, 0));
+        assert_eq!(info.version, Version::Semantic(12, 5, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
@@ -164,7 +164,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::SUSE);
-        assert_eq!(info.version, Version::Semantic(15, 0, 0));
+        assert_eq!(info.version, Version::Semantic(15, 2, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
