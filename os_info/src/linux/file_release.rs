@@ -53,6 +53,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 
 fn get_type(name: &str) -> Option<Type> {
     match name.to_lowercase().as_ref() {
+        "amazon linux" => Some(Type::Amazon),
         "arch linux" => Some(Type::Arch),
         "centos linux" => Some(Type::CentOS),
         "ubuntu" => Some(Type::Ubuntu),
@@ -69,7 +70,7 @@ struct ReleaseInfo<'a> {
 
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
-const DISTRIBUTIONS: [ReleaseInfo; 5] = [
+const DISTRIBUTIONS: [ReleaseInfo; 6] = [
     // Due to shenanigans with Oracle Linux including an /etc/redhat-release file that states
     // that the OS is Red Hat Enterprise Linux, this /etc/os-release file MUST be checked
     // before this code checks /etc/redhat-release. If it does not get run first,
@@ -77,6 +78,11 @@ const DISTRIBUTIONS: [ReleaseInfo; 5] = [
     // instead of Oracle Linux.
     ReleaseInfo {
         os_type: Type::OracleLinux,
+        path: "/etc/os-release",
+        version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
+    },
+    ReleaseInfo {
+        os_type: Type::Amazon,
         path: "/etc/os-release",
         version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
     },
