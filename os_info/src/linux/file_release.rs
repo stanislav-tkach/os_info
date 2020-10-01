@@ -1,3 +1,5 @@
+// spell-checker:ignore rhel
+
 use std::{fs::File, io::Read, path::Path};
 
 use log::{trace, warn};
