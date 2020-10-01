@@ -57,6 +57,7 @@ fn get_type(name: &str) -> Option<Type> {
         "amazon linux ami" => Some(Type::Amazon),
         "arch linux" => Some(Type::Arch),
         "centos linux" => Some(Type::CentOS),
+        "fedora" => Some(Type::Fedora),
         "ubuntu" => Some(Type::Ubuntu),
         _ => None,
     }
@@ -153,6 +154,18 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::CentOS);
         assert_eq!(info.version, Version::Semantic(7, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_fedora() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-fedora-32";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Fedora);
+        assert_eq!(info.version, Version::Semantic(32, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
