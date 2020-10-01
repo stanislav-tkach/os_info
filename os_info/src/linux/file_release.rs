@@ -1,3 +1,5 @@
+// spell-checker:ignore rhel
+
 use std::{fs::File, io::Read, path::Path};
 
 use log::{trace, warn};
@@ -58,6 +60,7 @@ fn get_type(name: &str) -> Option<Type> {
         "arch linux" => Some(Type::Arch),
         "centos linux" => Some(Type::CentOS),
         "fedora" => Some(Type::Fedora),
+        "red hat enterprise linux" => Some(Type::Redhat),
         "ubuntu" => Some(Type::Ubuntu),
         _ => None,
     }
@@ -166,6 +169,18 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
         assert_eq!(info.version, Version::Semantic(32, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_rhel() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-rhel";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Redhat);
+        assert_eq!(info.version, Version::Semantic(8, 2, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
