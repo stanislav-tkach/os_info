@@ -56,7 +56,7 @@ fn version() -> (Version, Option<String>) {
                 v.dwMinorVersion as u64,
                 v.dwBuildNumber as u64,
             ),
-            edition(&v),
+            edition(&v, release_id()),
         ),
     }
 }
@@ -175,7 +175,7 @@ fn release_id() -> Option<String> {
 
 // Examines data in the OSVERSIONINFOEX structure to determine the Windows edition:
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
-fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
+fn edition(version_info: &OSVERSIONINFOEX, release_id: Option<String>) -> Option<String> {
     match (
         version_info.dwMajorVersion,
         version_info.dwMinorVersion,
@@ -185,7 +185,7 @@ fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
         (10, 0, VER_NT_WORKSTATION) => Some("Windows 10"),
         (10, 0, _) => {
             let mut rv = Some("Windows Server 2016");
-            if let Some(release_id) = release_id() {
+            if let Some(release_id) = release_id {
                 if &release_id[..] >= "1809" {
                     rv = Some("Windows Server 2019");
                     // ...or later
@@ -268,33 +268,40 @@ mod tests {
     #[test]
     fn get_edition() {
         let test_data = [
-            (10, 0, VER_NT_WORKSTATION, "Windows 10"),
-            (10, 0, 0, "Windows Server 2016"),
-            (6, 3, VER_NT_WORKSTATION, "Windows 8.1"),
-            (6, 3, 0, "Windows Server 2012 R2"),
-            (6, 2, VER_NT_WORKSTATION, "Windows 8"),
-            (6, 2, 0, "Windows Server 2012"),
-            (6, 1, VER_NT_WORKSTATION, "Windows 7"),
-            (6, 1, 0, "Windows Server 2008 R2"),
-            (6, 0, VER_NT_WORKSTATION, "Windows Vista"),
-            (6, 0, 0, "Windows Server 2008"),
-            (5, 1, 0, "Windows XP"),
-            (5, 1, 1, "Windows XP"),
-            (5, 1, 100, "Windows XP"),
-            (5, 0, 0, "Windows 2000"),
-            (5, 0, 1, "Windows 2000"),
-            (5, 0, 100, "Windows 2000"),
+            (10, 0, VER_NT_WORKSTATION, None, "Windows 10"),
+            (10, 0, VER_NT_WORKSTATION, Some("1803"), "Windows 10"),
+            (10, 0, VER_NT_WORKSTATION, Some("1809"), "Windows 10"),
+            (10, 0, VER_NT_WORKSTATION, Some("2004"), "Windows 10"),
+            (10, 0, 0, None, "Windows Server 2016"),
+            (10, 0, 0, Some("1803"), "Windows Server 2016"),
+            (10, 0, 0, Some("1809"), "Windows Server 2019"),
+            (10, 0, 0, Some("2004"), "Windows Server 2019"),
+            (6, 3, VER_NT_WORKSTATION, None, "Windows 8.1"),
+            (6, 3, 0, None, "Windows Server 2012 R2"),
+            (6, 2, VER_NT_WORKSTATION, None, "Windows 8"),
+            (6, 2, 0, None, "Windows Server 2012"),
+            (6, 1, VER_NT_WORKSTATION, None, "Windows 7"),
+            (6, 1, 0, None, "Windows Server 2008 R2"),
+            (6, 0, VER_NT_WORKSTATION, None, "Windows Vista"),
+            (6, 0, 0, None, "Windows Server 2008"),
+            (5, 1, 0, None, "Windows XP"),
+            (5, 1, 1, None, "Windows XP"),
+            (5, 1, 100, None, "Windows XP"),
+            (5, 0, 0, None, "Windows 2000"),
+            (5, 0, 1, None, "Windows 2000"),
+            (5, 0, 100, None, "Windows 2000"),
         ];
 
         let mut info = version_info().unwrap();
 
-        for &(major, minor, product_type, expected_edition) in &test_data {
-            info.dwMajorVersion = major;
-            info.dwMinorVersion = minor;
-            info.wProductType = product_type;
+        for (major, minor, product_type, release_id, expected_edition) in &test_data {
+            info.dwMajorVersion = *major;
+            info.dwMinorVersion = *minor;
+            info.wProductType = *product_type;
+            let release_id = release_id.map(|s| s.to_string());
 
-            let edition = edition(&info).unwrap();
-            assert_eq!(edition, expected_edition);
+            let edition = edition(&info, release_id).unwrap();
+            assert_eq!(edition, *expected_edition);
         }
     }
 
