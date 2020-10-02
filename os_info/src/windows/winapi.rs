@@ -4,18 +4,22 @@
 
 #![allow(unsafe_code)]
 
+use std::ffi::{OsStr, OsString};
 use std::mem;
+use std::os::windows::ffi::{OsStrExt, OsStringExt};
 
 use winapi::{
     shared::{
-        minwindef::{DWORD, FARPROC},
+        minwindef::{DWORD, FARPROC, HKEY, LPBYTE},
         ntdef::{LPCSTR, NTSTATUS},
         ntstatus::STATUS_SUCCESS,
+        winerror::ERROR_SUCCESS,
     },
     um::{
         libloaderapi::{GetModuleHandleA, GetProcAddress},
         sysinfoapi::{GetSystemInfo, SYSTEM_INFO},
-        winnt::{PROCESSOR_ARCHITECTURE_AMD64, VER_NT_WORKSTATION, VER_SUITE_WH_SERVER},
+        winnt::{KEY_READ, PROCESSOR_ARCHITECTURE_AMD64, REG_SZ, VER_NT_WORKSTATION, VER_SUITE_WH_SERVER, WCHAR},
+        winreg::{HKEY_LOCAL_MACHINE, LSTATUS, RegOpenKeyExW, RegQueryValueExW},
         winuser::{GetSystemMetrics, SM_SERVERR2},
     },
 };
@@ -114,6 +118,47 @@ fn version_info() -> Option<OSVERSIONINFOEX> {
     }
 }
 
+fn str_to_wide(value: &str) -> Vec<WCHAR> {
+    OsStr::new(value).encode_wide().chain(Some(0)).collect()
+}
+
+fn release_id() -> Option<String> {
+    const REG_SUCCESS: LSTATUS = ERROR_SUCCESS as LSTATUS;
+    const MAX_CHARS: usize = 256;
+    // Assume something will go wrong
+    let mut rv = None;
+    // Path as a wide string (array of WCHAR)
+    let sub_key = str_to_wide("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
+    // Registry key
+    let mut key: HKEY = std::ptr::null_mut();
+    // Try to open the path for reading (should never fail)
+    if unsafe { RegOpenKeyExW(HKEY_LOCAL_MACHINE, sub_key.as_ptr(), 0, KEY_READ, &mut key) } == REG_SUCCESS {
+        // Name as a wide string
+        let name = str_to_wide("ReleaseId");
+        // Where we'll be storing
+        let mut data_type: DWORD = 0;
+        let mut data = [0 as WCHAR; MAX_CHARS];
+        let mut data_size: DWORD = std::mem::size_of::<[WCHAR; MAX_CHARS]>() as DWORD;
+        // Try reading the value
+        let status = unsafe { RegQueryValueExW(key, name.as_ptr(), std::ptr::null_mut(),
+            &mut data_type,
+            &mut data as *mut _ as LPBYTE, &mut data_size) };
+        // Success and the correct datatype?
+        if status == REG_SUCCESS && data_type == REG_SZ {
+            // RegQueryValueExW returns the number of bytes stored including the null terminator.
+            // We want the string length without the terminator.
+            let string_length = (data_size as usize / std::mem::size_of::<WCHAR>()) - 1;
+            let as_slice = unsafe { std::slice::from_raw_parts(&data as *const WCHAR, string_length) };
+            // Convert to a dirty UTF-8 string
+            let osstr: OsString = OsStringExt::from_wide(as_slice);
+            // Drop invalid characters and ensure we own it.  Finally.  A clean Rust string.
+            let value = osstr.to_string_lossy().to_string();
+            rv = Some(value);
+        }
+    }
+    rv
+}
+
 // Examines data in the OSVERSIONINFOEX structure to determine the Windows edition:
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
 fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
@@ -124,7 +169,16 @@ fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
     ) {
         // Windows 10.
         (10, 0, VER_NT_WORKSTATION) => Some("Windows 10"),
-        (10, 0, _) => Some("Windows Server 2016"),
+        (10, 0, _) => {
+            let mut rv = Some("Windows Server 2016");
+            if let Some(release_id) = release_id() {
+                if &release_id[..] >= "1809" {
+                    rv = Some("Windows Server 2019");
+                    // ...or later
+                }
+            }
+            rv
+        }
         // Windows Vista, 7, 8 and 8.1.
         (6, 3, VER_NT_WORKSTATION) => Some("Windows 8.1"),
         (6, 3, _) => Some("Windows Server 2012 R2"),
