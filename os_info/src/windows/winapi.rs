@@ -1,6 +1,7 @@
 // spell-checker:ignore dword, minwindef, ntdef, ntdll, ntstatus, osversioninfoex, osversioninfoexa
 // spell-checker:ignore osversioninfoexw, serverr, sysinfoapi, winnt, winuser, pbool, libloaderapi
-// spell-checker:ignore lpcstr, processthreadsapi, farproc
+// spell-checker:ignore lpcstr, processthreadsapi, farproc, hkey, lpbyte, winerror, wchar, winreg
+// spell-checker:ignore lstatus, osstr
 
 #![allow(unsafe_code)]
 
@@ -18,8 +19,11 @@ use winapi::{
     um::{
         libloaderapi::{GetModuleHandleA, GetProcAddress},
         sysinfoapi::{GetSystemInfo, SYSTEM_INFO},
-        winnt::{KEY_READ, PROCESSOR_ARCHITECTURE_AMD64, REG_SZ, VER_NT_WORKSTATION, VER_SUITE_WH_SERVER, WCHAR},
-        winreg::{HKEY_LOCAL_MACHINE, LSTATUS, RegOpenKeyExW, RegQueryValueExW},
+        winnt::{
+            KEY_READ, PROCESSOR_ARCHITECTURE_AMD64, REG_SZ, VER_NT_WORKSTATION,
+            VER_SUITE_WH_SERVER, WCHAR,
+        },
+        winreg::{RegOpenKeyExW, RegQueryValueExW, HKEY_LOCAL_MACHINE, LSTATUS},
         winuser::{GetSystemMetrics, SM_SERVERR2},
     },
 };
@@ -132,7 +136,9 @@ fn release_id() -> Option<String> {
     // Registry key
     let mut key: HKEY = std::ptr::null_mut();
     // Try to open the path for reading (should never fail)
-    if unsafe { RegOpenKeyExW(HKEY_LOCAL_MACHINE, sub_key.as_ptr(), 0, KEY_READ, &mut key) } == REG_SUCCESS {
+    if unsafe { RegOpenKeyExW(HKEY_LOCAL_MACHINE, sub_key.as_ptr(), 0, KEY_READ, &mut key) }
+        == REG_SUCCESS
+    {
         // Name as a wide string
         let name = str_to_wide("ReleaseId");
         // Where we'll be storing
@@ -140,15 +146,23 @@ fn release_id() -> Option<String> {
         let mut data = [0 as WCHAR; MAX_CHARS];
         let mut data_size: DWORD = std::mem::size_of::<[WCHAR; MAX_CHARS]>() as DWORD;
         // Try reading the value
-        let status = unsafe { RegQueryValueExW(key, name.as_ptr(), std::ptr::null_mut(),
-            &mut data_type,
-            &mut data as *mut _ as LPBYTE, &mut data_size) };
+        let status = unsafe {
+            RegQueryValueExW(
+                key,
+                name.as_ptr(),
+                std::ptr::null_mut(),
+                &mut data_type,
+                &mut data as *mut _ as LPBYTE,
+                &mut data_size,
+            )
+        };
         // Success and the correct datatype?
         if status == REG_SUCCESS && data_type == REG_SZ {
             // RegQueryValueExW returns the number of bytes stored including the null terminator.
             // We want the string length without the terminator.
             let string_length = (data_size as usize / std::mem::size_of::<WCHAR>()) - 1;
-            let as_slice = unsafe { std::slice::from_raw_parts(&data as *const WCHAR, string_length) };
+            let as_slice =
+                unsafe { std::slice::from_raw_parts(&data as *const WCHAR, string_length) };
             // Convert to a dirty UTF-8 string
             let osstr: OsString = OsStringExt::from_wide(as_slice);
             // Drop invalid characters and ensure we own it.  Finally.  A clean Rust string.
