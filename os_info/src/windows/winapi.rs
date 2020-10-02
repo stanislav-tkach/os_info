@@ -56,7 +56,7 @@ fn version() -> (Version, Option<String>) {
                 v.dwMinorVersion as u64,
                 v.dwBuildNumber as u64,
             ),
-            edition(&v, release_id()),
+            edition(&v, release_id),
         ),
     }
 }
@@ -175,7 +175,9 @@ fn release_id() -> Option<String> {
 
 // Examines data in the OSVERSIONINFOEX structure to determine the Windows edition:
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
-fn edition(version_info: &OSVERSIONINFOEX, release_id: Option<String>) -> Option<String> {
+fn edition<R>(version_info: &OSVERSIONINFOEX, release_id: R) -> Option<String>
+    where R: Fn() -> Option<String>
+{
     match (
         version_info.dwMajorVersion,
         version_info.dwMinorVersion,
@@ -185,8 +187,9 @@ fn edition(version_info: &OSVERSIONINFOEX, release_id: Option<String>) -> Option
         (10, 0, VER_NT_WORKSTATION) => Some("Windows 10"),
         (10, 0, _) => {
             let mut rv = Some("Windows Server 2016");
-            if let Some(release_id) = release_id {
-                if &release_id[..] >= "1809" {
+            let rid = release_id();
+            if let Some(rid) = rid {
+                if &rid[..] >= "1809" {
                     rv = Some("Windows Server 2019");
                     // ...or later
                 }
@@ -265,31 +268,37 @@ mod tests {
         assert!(version.is_some());
     }
 
+    fn rid_none() -> Option<String> { None }
+    fn rid_1803() -> Option<String> { Some("1803".to_string()) }
+    fn rid_1809() -> Option<String> { Some("1809".to_string()) }
+    fn rid_2004() -> Option<String> { Some("2004".to_string()) }
+    type RidRef = &'static dyn Fn() -> Option<String>;
+
     #[test]
     fn get_edition() {
         let test_data = [
-            (10, 0, VER_NT_WORKSTATION, None, "Windows 10"),
-            (10, 0, VER_NT_WORKSTATION, Some("1803"), "Windows 10"),
-            (10, 0, VER_NT_WORKSTATION, Some("1809"), "Windows 10"),
-            (10, 0, VER_NT_WORKSTATION, Some("2004"), "Windows 10"),
-            (10, 0, 0, None, "Windows Server 2016"),
-            (10, 0, 0, Some("1803"), "Windows Server 2016"),
-            (10, 0, 0, Some("1809"), "Windows Server 2019"),
-            (10, 0, 0, Some("2004"), "Windows Server 2019"),
-            (6, 3, VER_NT_WORKSTATION, None, "Windows 8.1"),
-            (6, 3, 0, None, "Windows Server 2012 R2"),
-            (6, 2, VER_NT_WORKSTATION, None, "Windows 8"),
-            (6, 2, 0, None, "Windows Server 2012"),
-            (6, 1, VER_NT_WORKSTATION, None, "Windows 7"),
-            (6, 1, 0, None, "Windows Server 2008 R2"),
-            (6, 0, VER_NT_WORKSTATION, None, "Windows Vista"),
-            (6, 0, 0, None, "Windows Server 2008"),
-            (5, 1, 0, None, "Windows XP"),
-            (5, 1, 1, None, "Windows XP"),
-            (5, 1, 100, None, "Windows XP"),
-            (5, 0, 0, None, "Windows 2000"),
-            (5, 0, 1, None, "Windows 2000"),
-            (5, 0, 100, None, "Windows 2000"),
+            (10, 0, VER_NT_WORKSTATION, &rid_none as RidRef, "Windows 10"),
+            (10, 0, VER_NT_WORKSTATION, &rid_1803, "Windows 10"),
+            (10, 0, VER_NT_WORKSTATION, &rid_1809, "Windows 10"),
+            (10, 0, VER_NT_WORKSTATION, &rid_2004, "Windows 10"),
+            (10, 0, 0, &rid_none, "Windows Server 2016"),
+            (10, 0, 0, &rid_1803, "Windows Server 2016"),
+            (10, 0, 0, &rid_1809, "Windows Server 2019"),
+            (10, 0, 0, &rid_2004, "Windows Server 2019"),
+            (6, 3, VER_NT_WORKSTATION, &rid_none, "Windows 8.1"),
+            (6, 3, 0, &rid_none, "Windows Server 2012 R2"),
+            (6, 2, VER_NT_WORKSTATION, &rid_none, "Windows 8"),
+            (6, 2, 0, &rid_none, "Windows Server 2012"),
+            (6, 1, VER_NT_WORKSTATION, &rid_none, "Windows 7"),
+            (6, 1, 0, &rid_none, "Windows Server 2008 R2"),
+            (6, 0, VER_NT_WORKSTATION, &rid_none, "Windows Vista"),
+            (6, 0, 0, &rid_none, "Windows Server 2008"),
+            (5, 1, 0, &rid_none, "Windows XP"),
+            (5, 1, 1, &rid_none, "Windows XP"),
+            (5, 1, 100, &rid_none, "Windows XP"),
+            (5, 0, 0, &rid_none, "Windows 2000"),
+            (5, 0, 1, &rid_none, "Windows 2000"),
+            (5, 0, 100, &rid_none, "Windows 2000"),
         ];
 
         let mut info = version_info().unwrap();
@@ -298,7 +307,6 @@ mod tests {
             info.dwMajorVersion = *major;
             info.dwMinorVersion = *minor;
             info.wProductType = *product_type;
-            let release_id = release_id.map(|s| s.to_string());
 
             let edition = edition(&info, release_id).unwrap();
             assert_eq!(edition, *expected_edition);
