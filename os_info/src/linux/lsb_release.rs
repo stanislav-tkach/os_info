@@ -30,6 +30,7 @@ pub fn get() -> Option<Info> {
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
         Some("ManjaroLinux") => Type::Manjaro,
+        Some("Linuxmint") => Type::Mint,
         _ => Type::Linux,
     };
 
@@ -91,8 +92,9 @@ fn parse(output: &str) -> LsbRelease {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn debian() {
@@ -124,6 +126,14 @@ mod tests {
         assert_eq!(parse_results.distribution, Some("Ubuntu".to_string()));
         assert_eq!(parse_results.version, Some("16.04".to_string()));
         assert_eq!(parse_results.codename, Some("xenial".to_string()));
+    }
+
+    #[test]
+    fn mint() {
+        let parse_results = parse(mint_file());
+        assert_eq!(parse_results.distribution, Some("Linuxmint".to_string()));
+        assert_eq!(parse_results.version, Some("20".to_string()));
+        assert_eq!(parse_results.codename, Some("ulyana".to_string()));
     }
 
     #[test]
@@ -277,6 +287,13 @@ mod tests {
          Description:    Ubuntu 16.04.5 LTS\n\
          Release:        16.04\n\
          Codename:       xenial"
+    }
+
+    fn mint_file() -> &'static str {
+        "Distributor ID:	Linuxmint\n\
+         Description:	    Linux Mint 20\n\
+         Release:	        20\n\
+         Codename:	        ulyana"
     }
 
     // Amazon Linux 1 uses a separate Distributor ID and Release format from Amazon Linux 2

@@ -41,7 +41,8 @@ mod tests {
             | Type::RedHatEnterprise
             | Type::Solus
             | Type::SUSE
-            | Type::Ubuntu => (),
+            | Type::Ubuntu
+            | Type::Mint => (),
             os_type => {
                 panic!("Unexpected OS type: {}", os_type);
             }
