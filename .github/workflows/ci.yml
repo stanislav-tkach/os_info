@@ -117,6 +117,14 @@ jobs:
         with:
           files: .
 
+  # cargo-deny.
+  deny:
+    name: cargo-deny
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: EmbarkStudios/cargo-deny-action@v1
+
   # Tests.
   test:
     name: ${{ matrix.build }}
