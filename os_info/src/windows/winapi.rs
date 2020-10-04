@@ -1,6 +1,7 @@
 // spell-checker:ignore dword, minwindef, ntdef, ntdll, ntstatus, osversioninfoex, osversioninfoexa
 // spell-checker:ignore osversioninfoexw, serverr, sysinfoapi, winnt, winuser, pbool, libloaderapi
-// spell-checker:ignore lpcstr, processthreadsapi, farproc, lstatus, wchar, lpbyte
+// spell-checker:ignore lpcstr, processthreadsapi, farproc, lstatus, wchar, lpbyte, hkey, osstr
+// spell-checker:ignore winerror, winreg
 
 #![allow(unsafe_code)]
 
@@ -22,8 +23,8 @@ use winapi::{
             KEY_READ, PROCESSOR_ARCHITECTURE_AMD64, REG_SZ, VER_NT_WORKSTATION,
             VER_SUITE_WH_SERVER, WCHAR,
         },
+        winreg::{RegOpenKeyExW, RegQueryValueExW, HKEY_LOCAL_MACHINE, LSTATUS},
         winuser::{GetSystemMetrics, SM_SERVERR2},
-        winreg::{HKEY_LOCAL_MACHINE, LSTATUS, RegOpenKeyExW, RegQueryValueExW},
     },
 };
 
