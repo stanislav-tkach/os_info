@@ -20,7 +20,7 @@ log = "0.4.5"
 serde = { version = "1.0.0", features = ["derive"], optional = true }
 
 [target.'cfg(windows)'.dependencies]
-winapi = { version = "0.3.8", features = ["minwindef", "ntdef", "ntstatus", "sysinfoapi", "winnt", "winuser", "libloaderapi", "processthreadsapi", "winreg"] }
+winapi = { version = "0.3.8", features = ["minwindef", "ntdef", "ntstatus", "sysinfoapi", "winnt", "winuser", "libloaderapi", "processthreadsapi", "winerror", "winreg"] }
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"
