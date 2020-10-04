@@ -18,9 +18,12 @@ use winapi::{
     um::{
         libloaderapi::{GetModuleHandleA, GetProcAddress},
         sysinfoapi::{GetSystemInfo, SYSTEM_INFO},
-        winnt::{KEY_READ, PROCESSOR_ARCHITECTURE_AMD64, REG_SZ, VER_NT_WORKSTATION, VER_SUITE_WH_SERVER, WCHAR},
-        winreg::{HKEY_LOCAL_MACHINE, LSTATUS, RegOpenKeyExW, RegQueryValueExW},
+        winnt::{
+            KEY_READ, PROCESSOR_ARCHITECTURE_AMD64, REG_SZ, VER_NT_WORKSTATION,
+            VER_SUITE_WH_SERVER, WCHAR,
+        },
         winuser::{GetSystemMetrics, SM_SERVERR2},
+        winreg::{HKEY_LOCAL_MACHINE, LSTATUS, RegOpenKeyExW, RegQueryValueExW},
     },
 };
 
@@ -52,7 +55,7 @@ fn version() -> (Version, Option<String>) {
                 v.dwMinorVersion as u64,
                 v.dwBuildNumber as u64,
             ),
-            product_name().or_else(||edition(&v)),
+            product_name().or_else(|| edition(&v)),
         ),
     }
 }
