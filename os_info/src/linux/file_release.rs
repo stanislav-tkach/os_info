@@ -64,6 +64,7 @@ fn get_type(name: &str) -> Option<Type> {
         "red hat enterprise linux" => Some(Type::Redhat),
         "sles" => Some(Type::SUSE),
         "ubuntu" => Some(Type::Ubuntu),
+        "linux mint" => Some(Type::Mint),
         _ => None,
     }
 }
@@ -219,6 +220,18 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Ubuntu);
         assert_eq!(info.version, Version::Semantic(18, 10, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_mint() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-mint";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Mint);
+        assert_eq!(info.version, Version::Semantic(20, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

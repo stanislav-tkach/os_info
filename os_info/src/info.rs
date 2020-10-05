@@ -211,6 +211,7 @@ mod tests {
             Type::Solus,
             Type::SUSE,
             Type::Ubuntu,
+            Type::Mint,
             Type::Unknown,
             Type::Windows,
         ];

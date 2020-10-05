@@ -99,6 +99,7 @@ Right now, the following operating system types can be returned:
 - Solus
 - SUSE Linux Enterprise Server
 - Ubuntu
+- Linux Mint
 - Unknown
 - Windows
 
