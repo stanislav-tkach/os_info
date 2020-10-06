@@ -136,7 +136,7 @@ mod tests {
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::Semantic(3, 11, 0));
+        assert_eq!(info.version, Version::Semantic(3, 12, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
