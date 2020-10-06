@@ -56,6 +56,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 
 fn get_type(name: &str) -> Option<Type> {
     match name.to_lowercase().as_ref() {
+        "alpine linux" => Some(Type::Alpine),
         "amazon linux" => Some(Type::Amazon),
         "amazon linux ami" => Some(Type::Amazon),
         "arch linux" => Some(Type::Arch),
@@ -124,6 +125,18 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::OracleLinux);
         assert_eq!(info.version, Version::Semantic(8, 1, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_alpine_3_12() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-alpine-3-12";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Alpine);
+        assert_eq!(info.version, Version::Semantic(3, 11, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
