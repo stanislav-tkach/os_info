@@ -2,7 +2,7 @@
 
 use std::process::Command;
 
-use log::{trace, warn};
+use log::{debug, trace};
 
 use crate::{matcher::Matcher, Info, Type, Version};
 
@@ -55,7 +55,7 @@ fn retrieve() -> Option<LsbRelease> {
             Some(parse(&String::from_utf8_lossy(&output.stdout)))
         }
         Err(e) => {
-            warn!("lsb_release command failed with {:?}", e);
+            debug!("lsb_release command failed with {:?}", e);
             None
         }
     }
