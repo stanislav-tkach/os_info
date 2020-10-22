@@ -14,7 +14,7 @@ use std::{
 
 use winapi::{
     shared::{
-        minwindef::{DWORD, FARPROC, HKEY, LPBYTE},
+        minwindef::{DWORD, FARPROC, LPBYTE},
         ntdef::{LPCSTR, NTSTATUS},
         ntstatus::STATUS_SUCCESS,
         winerror::ERROR_SUCCESS,
@@ -178,13 +178,16 @@ fn product_name() -> Option<String> {
     // If the data has the REG_SZ, REG_MULTI_SZ or REG_EXPAND_SZ type, the string may not have been
     // stored with the proper terminating null characters.
     match data.last() {
-        Some(0) => data.pop(),
+        Some(0) => {
+            data.pop();
+        }
         _ => {}
     }
 
-    Ok(OsStringExt::from_wide(data.as_slice())
+    Ok(OsString::from_wide(data.as_slice())
+        .as_os_str()
         .to_string_lossy()
-        .to_owned())
+        .into_owned())
 }
 
 fn to_wide(value: &str) -> Vec<WCHAR> {
@@ -347,7 +350,7 @@ mod tests {
     fn to_wide_str() {
         let data = [
             ("", [0x0000]),
-            ("Unic", [0x0055, 0x006E, 0x0069, 0x0063, 0x0000]),
+            ("U", [0x0055, 0x0000]),
             ("你好，世界", [0x0000]),
         ];
 

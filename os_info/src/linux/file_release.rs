@@ -189,7 +189,7 @@ mod tests {
     }
 
     #[test]
-    fn os_release_red_hat_enterprise_linux() {
+    fn os_release_rhel() {
         let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-rhel";
 

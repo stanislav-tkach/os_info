@@ -10,6 +10,7 @@ manjaro
 msvc
 println
 redhat
+rhel
 serde
 structopt
 toml
