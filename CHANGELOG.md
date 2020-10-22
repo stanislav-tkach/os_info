@@ -4,19 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [3.0.1] (2020-10-22)
+## [3.0.1] (2020-10-23)
 
 - Linux Mint support has been added. (#233)
 
-- Amazon Linux detection from the release file has been fixed. (#225, #226)
-
-- Red Hat Enterprise Linux detection from the release file has been fixed. (#228)
-
-- Suse detection from the release file has been fixed. (#229)
-
-- Fedora detection from the release file has been fixed. (#230)
-
-- Alpine Linux detection from the release file has been fixed. (#235)
+- Operating system type detection has been fixed for the following Linux distributions:
+    - Amazon Linux. (#225, #226)
+    - Red Hat Enterprise Linux. (#228)
+    - Suse. (#229)
+    - Fedora. (#230)
+    - Alpine Linux. (#235)
 
 - Log level for the message about the absent `lsb_release` has been reduced
   from `warn` to `debug`. (#237)

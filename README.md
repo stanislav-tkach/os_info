@@ -88,6 +88,7 @@ Right now, the following operating system types can be returned:
 - EndeavourOS
 - Fedora
 - Linux
+- Linux Mint
 - macOS (Mac OS X or OS X)
 - Manjaro
 - openSUSE
@@ -99,7 +100,6 @@ Right now, the following operating system types can be returned:
 - Solus
 - SUSE Linux Enterprise Server
 - Ubuntu
-- Linux Mint
 - Unknown
 - Windows
 

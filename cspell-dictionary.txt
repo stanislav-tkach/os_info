@@ -4,6 +4,7 @@ concat
 emscripten
 endeavouros
 libntdll
+linuxmint
 macos
 manjaro
 msvc
@@ -12,7 +13,6 @@ redhat
 serde
 structopt
 toml
+ulyana
 winapi
 xenial
-Linuxmint
-ulyana
