@@ -1,13 +1,16 @@
 // spell-checker:ignore dword, minwindef, ntdef, ntdll, ntstatus, osversioninfoex, osversioninfoexa
 // spell-checker:ignore osversioninfoexw, serverr, sysinfoapi, winnt, winuser, pbool, libloaderapi
-// spell-checker:ignore lpcstr, processthreadsapi, farproc, lstatus, wchar, lpbyte, hkey, osstr
-// spell-checker:ignore winerror, winreg
+// spell-checker:ignore lpcstr, processthreadsapi, farproc, lstatus, wchar, lpbyte, hkey, winerror
+// spell-checker:ignore osstr, winreg
 
 #![allow(unsafe_code)]
 
-use std::ffi::{OsStr, OsString};
-use std::mem;
-use std::os::windows::ffi::{OsStrExt, OsStringExt};
+use std::{
+    ffi::{OsStr, OsString},
+    mem,
+    os::windows::ffi::{OsStrExt, OsStringExt},
+    ptr,
+};
 
 use winapi::{
     shared::{
@@ -122,55 +125,70 @@ fn version_info() -> Option<OSVERSIONINFOEX> {
     }
 }
 
-fn str_to_wide(value: &str) -> Vec<WCHAR> {
-    OsStr::new(value).encode_wide().chain(Some(0)).collect()
-}
-
 fn product_name() -> Option<String> {
     const REG_SUCCESS: LSTATUS = ERROR_SUCCESS as LSTATUS;
-    const MAX_CHARS: usize = 256;
-    // Assume something will go wrong
-    let mut rv = None;
-    // Path as a wide string (array of WCHAR)
-    let sub_key = str_to_wide("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
-    // Registry key
-    let mut key: HKEY = std::ptr::null_mut();
-    // Try to open the path for reading (should never fail)
+
+    let sub_key = to_wide("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
+    let mut key = ptr::null_mut();
     if unsafe { RegOpenKeyExW(HKEY_LOCAL_MACHINE, sub_key.as_ptr(), 0, KEY_READ, &mut key) }
-        == REG_SUCCESS
+        != REG_SUCCESS
+        || key.is_null()
     {
-        // Name as a wide string
-        let name = str_to_wide("ProductName");
-        // Where we'll be storing
-        let mut data_type: DWORD = 0;
-        let mut data = [0 as WCHAR; MAX_CHARS];
-        let mut data_size: DWORD = std::mem::size_of::<[WCHAR; MAX_CHARS]>() as DWORD;
-        // Try reading the value
-        let status = unsafe {
-            RegQueryValueExW(
-                key,
-                name.as_ptr(),
-                std::ptr::null_mut(),
-                &mut data_type,
-                &mut data as *mut _ as LPBYTE,
-                &mut data_size,
-            )
-        };
-        // Success and the correct datatype?
-        if status == REG_SUCCESS && data_type == REG_SZ {
-            // RegQueryValueExW returns the number of bytes stored including the null terminator.
-            // We want the string length without the terminator.
-            let string_length = (data_size as usize / std::mem::size_of::<WCHAR>()) - 1;
-            let as_slice =
-                unsafe { std::slice::from_raw_parts(&data as *const WCHAR, string_length) };
-            // Convert to a dirty UTF-8 string
-            let osstr: OsString = OsStringExt::from_wide(as_slice);
-            // Drop invalid characters and ensure we own it.  Finally.  A clean Rust string.
-            let value = osstr.to_string_lossy().to_string();
-            rv = Some(value);
-        }
+        return None;
     }
-    rv
+
+    // Get size of the data.
+    let name = to_wide("ProductName");
+    let mut data_type: DWORD = 0;
+    let mut data_size: DWORD = 0;
+    if unsafe {
+        RegQueryValueExW(
+            key,
+            name.as_ptr(),
+            ptr::null_mut(),
+            &mut data_type,
+            ptr::null_mut(),
+            &mut data_size,
+        )
+    } != REG_SUCCESS
+        || data_type != REG_SZ
+        || data_size == 0
+        || data_size % 2 == 0
+    {
+        return None;
+    }
+
+    // Get the data.
+    let mut data = vec![0u16; data_size as usize / 2];
+    if unsafe {
+        RegQueryValueExW(
+            key,
+            name.as_ptr(),
+            ptr::null_mut(),
+            ptr::null_mut(),
+            data.as_mut_ptr() as LPBYTE,
+            &mut data_size,
+        )
+    } != REG_SUCCESS
+        || data_size as usize != data.len() * 2
+    {
+        return None;
+    }
+
+    // If the data has the REG_SZ, REG_MULTI_SZ or REG_EXPAND_SZ type, the string may not have been
+    // stored with the proper terminating null characters.
+    match data.last() {
+        Some(0) => data.pop(),
+        _ => {}
+    }
+
+    Ok(OsStringExt::from_wide(data.as_slice())
+        .to_string_lossy()
+        .to_owned())
+}
+
+fn to_wide(value: &str) -> Vec<WCHAR> {
+    OsStr::new(value).encode_wide().chain(Some(0)).collect()
 }
 
 // Examines data in the OSVERSIONINFOEX structure to determine the Windows edition:
@@ -323,5 +341,25 @@ mod tests {
     fn proc_address() {
         let address = get_proc_address(b"ntdll\0", b"RtlGetVersion\0");
         assert!(address.is_some());
+    }
+
+    #[test]
+    fn to_wide_str() {
+        let data = [
+            ("", [0x0000]),
+            ("Unic", [0x0055, 0x006E, 0x0069, 0x0063, 0x0000]),
+            ("你好，世界", [0x0000]),
+        ];
+
+        for (s, expected) in &data {
+            let wide = to_wide(s);
+            assert_eq!(wide, expected);
+        }
+    }
+
+    #[test]
+    fn get_edition() {
+        let edition = edition().expect("edition() failed");
+        assert!(!edition.is_empty());
     }
 }

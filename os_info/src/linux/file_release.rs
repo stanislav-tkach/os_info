@@ -1,4 +1,3 @@
-// spell-checker:ignore rhel
 // spell-checker:ignore sles
 
 use std::{fs::File, io::Read, path::Path};
@@ -62,10 +61,10 @@ fn get_type(name: &str) -> Option<Type> {
         "arch linux" => Some(Type::Arch),
         "centos linux" => Some(Type::CentOS),
         "fedora" => Some(Type::Fedora),
+        "linux mint" => Some(Type::Mint),
         "red hat enterprise linux" => Some(Type::Redhat),
         "sles" => Some(Type::SUSE),
         "ubuntu" => Some(Type::Ubuntu),
-        "linux mint" => Some(Type::Mint),
         _ => None,
     }
 }
@@ -190,7 +189,7 @@ mod tests {
     }
 
     #[test]
-    fn os_release_rhel() {
+    fn os_release_red_hat_enterprise_linux() {
         let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-rhel";
 
