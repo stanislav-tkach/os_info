@@ -153,7 +153,7 @@ fn product_name() -> Option<String> {
     } != REG_SUCCESS
         || data_type != REG_SZ
         || data_size == 0
-        || data_size % 2 == 0
+        || data_size % 2 != 0
     {
         return None;
     }
@@ -184,10 +184,11 @@ fn product_name() -> Option<String> {
         _ => {}
     }
 
-    Ok(OsString::from_wide(data.as_slice())
-        .as_os_str()
-        .to_string_lossy()
-        .into_owned())
+    Some(
+        OsString::from_wide(data.as_slice())
+            .to_string_lossy()
+            .into_owned(),
+    )
 }
 
 fn to_wide(value: &str) -> Vec<WCHAR> {
@@ -347,22 +348,22 @@ mod tests {
     }
 
     #[test]
+    fn get_product_name() {
+        let edition = product_name().expect("edition() failed");
+        assert!(!edition.is_empty());
+    }
+
+    #[test]
     fn to_wide_str() {
         let data = [
-            ("", [0x0000]),
-            ("U", [0x0055, 0x0000]),
-            ("你好，世界", [0x0000]),
+            ("", [0x0000].as_ref()),
+            ("U", &[0x0055, 0x0000]),
+            ("你好", &[0x4F60, 0x597D, 0x0000]),
         ];
 
         for (s, expected) in &data {
             let wide = to_wide(s);
-            assert_eq!(wide, expected);
+            assert_eq!(&wide, expected);
         }
-    }
-
-    #[test]
-    fn get_edition() {
-        let edition = edition().expect("edition() failed");
-        assert!(!edition.is_empty());
     }
 }
