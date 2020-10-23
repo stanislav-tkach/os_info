@@ -21,5 +21,6 @@ mod tests {
     fn os_type() {
         let version = current_platform();
         assert_eq!(Type::Windows, version.os_type());
+        assert!(version.edition().is_some());
     }
 }

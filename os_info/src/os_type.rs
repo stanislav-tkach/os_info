@@ -30,6 +30,8 @@ pub enum Type {
     Macos,
     /// Manjaro (<https://en.wikipedia.org/wiki/Manjaro>).
     Manjaro,
+    /// Mint (<https://en.wikipedia.org/wiki/Linux_Mint>).
+    Mint,
     /// openSUSE (<https://en.wikipedia.org/wiki/OpenSUSE>).
     openSUSE,
     /// Oracle Linux (<https://en.wikipedia.org/wiki/Oracle_Linux>).
@@ -48,8 +50,6 @@ pub enum Type {
     SUSE,
     /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
     Ubuntu,
-    /// Mint (<https://en.wikipedia.org/wiki/Linux_Mint>).
-    Mint,
     /// Unknown operating system.
     Unknown,
     /// Windows (<https://en.wikipedia.org/wiki/Microsoft_Windows>).
@@ -69,11 +69,11 @@ impl Display for Type {
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
             Type::Macos => write!(f, "Mac OS"),
+            Type::Mint => write!(f, "Linux Mint"),
             Type::Pop => write!(f, "Pop!_OS"),
             Type::Redhat => write!(f, "Red Hat Linux"),
             Type::RedHatEnterprise => write!(f, "Red Hat Enterprise Linux"),
             Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
-            Type::Mint => write!(f, "Linux Mint"),
             _ => write!(f, "{:?}", self),
         }
     }
@@ -103,6 +103,7 @@ mod tests {
             (Type::Linux, "Linux"),
             (Type::Macos, "Mac OS"),
             (Type::Manjaro, "Manjaro"),
+            (Type::Mint, "Linux Mint"),
             (Type::openSUSE, "openSUSE"),
             (Type::OracleLinux, "OracleLinux"),
             (Type::Pop, "Pop!_OS"),
@@ -112,7 +113,6 @@ mod tests {
             (Type::Solus, "Solus"),
             (Type::SUSE, "SUSE Linux Enterprise Server"),
             (Type::Ubuntu, "Ubuntu"),
-            (Type::Mint, "Linux Mint"),
             (Type::Unknown, "Unknown"),
             (Type::Windows, "Windows"),
         ];

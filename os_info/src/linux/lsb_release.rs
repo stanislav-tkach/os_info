@@ -16,21 +16,21 @@ pub fn get() -> Option<Info> {
     };
 
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
-        Some("Ubuntu") => Type::Ubuntu,
-        Some("Pop") => Type::Pop,
-        Some("Debian") => Type::Debian,
+        Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("Arch") => Type::Arch,
         Some("CentOS") => Type::CentOS,
-        Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
-        Some("Fedora") => Type::Fedora,
-        Some("Solus") => Type::Solus,
+        Some("Debian") => Type::Debian,
         Some("EndeavourOS") => Type::EndeavourOS,
-        Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
-        Some("SUSE") => Type::SUSE,
+        Some("Fedora") => Type::Fedora,
+        Some("Linuxmint") => Type::Mint,
+        Some("ManjaroLinux") => Type::Manjaro,
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
-        Some("ManjaroLinux") => Type::Manjaro,
-        Some("Linuxmint") => Type::Mint,
+        Some("Pop") => Type::Pop,
+        Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
+        Some("Solus") => Type::Solus,
+        Some("SUSE") => Type::SUSE,
+        Some("Ubuntu") => Type::Ubuntu,
         _ => Type::Linux,
     };
 
@@ -92,9 +92,8 @@ fn parse(output: &str) -> LsbRelease {
 
 #[cfg(test)]
 mod tests {
-    use pretty_assertions::assert_eq;
-
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn debian() {
