@@ -69,9 +69,9 @@ jobs:
       - name: Install deadlinks
         run: cargo install cargo-deadlinks
       - name: Cargo doc
-        run: cargo doc --no-deps
+        run: cargo doc --no-deps -p os_info
       - name: Run deadlinks
-        run: cargo deadlinks --dir target/doc
+        run: cargo deadlinks
 
   # Check links in markdown files.
   mlc:
