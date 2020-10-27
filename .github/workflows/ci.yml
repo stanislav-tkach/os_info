@@ -81,7 +81,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Markup Link Checker (mlc)
-        uses: becheran/mlc@v0.13.7
+        uses: becheran/mlc@v0.13.11
 
   # Spellcheck.
   spellcheck:
