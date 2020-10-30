@@ -134,6 +134,7 @@ fn product_name() -> Option<String> {
         != REG_SUCCESS
         || key.is_null()
     {
+        log::error!("RegOpenKeyExW(HKEY_LOCAL_MACHINE, ...) failed");
         return None;
     }
 
@@ -155,6 +156,7 @@ fn product_name() -> Option<String> {
         || data_size == 0
         || data_size % 2 != 0
     {
+        log::error!("RegQueryValueExW failed");
         return None;
     }
 
