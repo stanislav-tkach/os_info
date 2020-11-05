@@ -82,6 +82,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Markup Link Checker (mlc)
         uses: becheran/mlc@v0.13.11
+        with:
+          args: --ignore-links https://deps.rs/repo/github/stanislav-tkach/os_info
 
   # Spellcheck.
   spellcheck:

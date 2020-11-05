@@ -3,10 +3,11 @@
 **Status:**
 [![CI](https://github.com/stanislav-tkach/os_info/workflows/CI/badge.svg)](https://github.com/stanislav-tkach/os_info/actions)
 [![Coverage](https://codecov.io/gh/stanislav-tkach/os_info/branch/master/graph/badge.svg)](https://codecov.io/gh/stanislav-tkach/os_info)
+[![Dependency status](https://deps.rs/repo/github/stanislav-tkach/os_info/status.svg)](https://deps.rs/repo/github/stanislav-tkach/os_info)
 
 **Project info:**
 [![Docs.rs](https://docs.rs/os_info/badge.svg)](https://docs.rs/os_info)
-[![Latest Version](http://meritbadge.herokuapp.com/os_info)](https://crates.io/crates/os_info)
+[![Latest version](http://meritbadge.herokuapp.com/os_info)](https://crates.io/crates/os_info)
 [![License](https://img.shields.io/github/license/stanislav-tkach/os_info.svg)](https://github.com/stanislav-tkach/os_info/blob/master/LICENSE)
 
 **Project details:**
