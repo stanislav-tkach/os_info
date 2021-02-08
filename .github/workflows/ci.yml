@@ -89,6 +89,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: streetsidesoftware/cspell-action@v1.0.1
+        with:
+          files: "**/*.{rs,md}"
 
   # Markdown formatting.
   markdown:
