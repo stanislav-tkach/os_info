@@ -85,17 +85,10 @@ jobs:
 
   # Spellcheck.
   spellcheck:
-    name: Spell check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Install cspell
-        run: npm install cspell
-      - name: Check rs files
-        run: ./node_modules/.bin/cspell --verbose "**/*.rs"
-      - name: Check md files
-        run: ./node_modules/.bin/cspell --verbose "**/*.md"
+      - uses: actions/checkout@v2
+      - uses: streetsidesoftware/cspell-action@v1.0.1
 
   # Markdown formatting.
   markdown:
