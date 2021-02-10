@@ -71,7 +71,7 @@ jobs:
       - name: Cargo doc
         run: cargo doc --no-deps -p os_info
       - name: Run deadlinks
-        run: cargo deadlinks
+        run: cargo deadlinks --no-build
 
   # Check links in markdown files.
   mlc:
