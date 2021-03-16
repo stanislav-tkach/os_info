@@ -34,6 +34,7 @@ mod tests {
             | Type::Fedora
             | Type::Linux
             | Type::Manjaro
+            | Type::NixOS
             | Type::openSUSE
             | Type::OracleLinux
             | Type::Pop

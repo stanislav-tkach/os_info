@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- NixOS support has been added. (#252)
+
 ## [3.0.1] (2020-10-23)
 
 - Linux Mint support has been added. (#233)
