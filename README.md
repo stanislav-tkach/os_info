@@ -88,6 +88,7 @@ Right now, the following operating system types can be returned:
 - Emscripten
 - EndeavourOS
 - Fedora
+- FreeBSD
 - Linux
 - Linux Mint
 - macOS (Mac OS X or OS X)

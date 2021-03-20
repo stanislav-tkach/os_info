@@ -24,6 +24,8 @@ pub enum Type {
     EndeavourOS,
     /// Fedora (<https://en.wikipedia.org/wiki/Fedora_(operating_system)>).
     Fedora,
+    /// FreeBSD operating system (<https://en.wikipedia.org/wiki/FreeBSD>).
+    FreeBSD,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     Linux,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
@@ -100,6 +102,7 @@ mod tests {
             (Type::Emscripten, "Emscripten"),
             (Type::EndeavourOS, "EndeavourOS"),
             (Type::Fedora, "Fedora"),
+            (Type::FreeBSD, "FreeBSD"),
             (Type::Linux, "Linux"),
             (Type::Macos, "Mac OS"),
             (Type::Manjaro, "Manjaro"),

@@ -18,6 +18,10 @@ mod imp;
 #[path = "emscripten/mod.rs"]
 mod imp;
 
+#[cfg(target_os = "freebsd")]
+#[path = "freebsd/mod.rs"]
+mod imp;
+
 #[cfg(target_os = "linux")]
 #[path = "linux/mod.rs"]
 mod imp;
@@ -37,6 +41,7 @@ mod imp;
 #[cfg(not(any(
     target_os = "android",
     target_os = "emscripten",
+    target_os = "freebsd",
     target_os = "linux",
     target_os = "macos",
     target_os = "redox",
