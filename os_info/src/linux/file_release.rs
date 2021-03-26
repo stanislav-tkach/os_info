@@ -62,6 +62,7 @@ fn get_type(name: &str) -> Option<Type> {
         "centos linux" => Some(Type::CentOS),
         "fedora" => Some(Type::Fedora),
         "linux mint" => Some(Type::Mint),
+        "nixos" => Some(Type::NixOS),
         "red hat enterprise linux" => Some(Type::Redhat),
         "sles" => Some(Type::SUSE),
         "ubuntu" => Some(Type::Ubuntu),
@@ -184,6 +185,21 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
         assert_eq!(info.version, Version::Semantic(32, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_nixos() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-nixos";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::NixOS);
+        assert_eq!(
+            info.version,
+            Version::Custom("21.05pre275822.916ee862e87".to_string())
+        );
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

@@ -24,6 +24,7 @@ pub fn get() -> Option<Info> {
         Some("Fedora") => Type::Fedora,
         Some("Linuxmint") => Type::Mint,
         Some("ManjaroLinux") => Type::Manjaro,
+        Some("NixOS") => Type::NixOS,
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
         Some("Pop") => Type::Pop,
@@ -133,6 +134,17 @@ mod tests {
         assert_eq!(parse_results.distribution, Some("Linuxmint".to_string()));
         assert_eq!(parse_results.version, Some("20".to_string()));
         assert_eq!(parse_results.codename, Some("ulyana".to_string()));
+    }
+
+    #[test]
+    fn nixos() {
+        let parse_results = parse(nixos_file());
+        assert_eq!(parse_results.distribution, Some("NixOS".to_string()));
+        assert_eq!(
+            parse_results.version,
+            Some("21.05pre275822.916ee862e87".to_string())
+        );
+        assert_eq!(parse_results.codename, Some("okapi".to_string()));
     }
 
     #[test]
@@ -293,6 +305,13 @@ mod tests {
          Description:	    Linux Mint 20\n\
          Release:	        20\n\
          Codename:	        ulyana"
+    }
+
+    fn nixos_file() -> &'static str {
+        "Distributor ID: NixOS\n\
+         Description:    NixOS 21.05 (Okapi)\n\
+         Release:        21.05pre275822.916ee862e87\n\
+         Codename:       okapi"
     }
 
     // Amazon Linux 1 uses a separate Distributor ID and Release format from Amazon Linux 2

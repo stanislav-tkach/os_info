@@ -202,6 +202,7 @@ mod tests {
             Type::Linux,
             Type::Macos,
             Type::Manjaro,
+            Type::NixOS,
             Type::openSUSE,
             Type::OracleLinux,
             Type::Pop,
