@@ -1,7 +1,7 @@
 // spell-checker:ignore getconf
 
 use std::fmt::{self, Display, Formatter};
-#[cfg(any(target_os = "linux", target_os = "macos"))]
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "macos"))]
 use std::process::{Command, Output};
 
 /// Operating system architecture in terms of how many bits compose the basic values it can deal with.
@@ -27,7 +27,7 @@ impl Display for Bitness {
     }
 }
 
-#[cfg(any(target_os = "linux", target_os = "macos"))]
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "macos"))]
 pub fn get() -> Bitness {
     match &Command::new("getconf").arg("LONG_BIT").output() {
         Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
@@ -36,7 +36,7 @@ pub fn get() -> Bitness {
     }
 }
 
-#[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
+#[cfg(all(test, any(target_os = "linux", target_os = "freebsd", target_os = "macos")))]
 mod tests {
     use super::*;
     use pretty_assertions::assert_ne;
