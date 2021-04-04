@@ -36,7 +36,10 @@ pub fn get() -> Bitness {
     }
 }
 
-#[cfg(all(test, any(target_os = "linux", target_os = "freebsd", target_os = "macos")))]
+#[cfg(all(
+    test,
+    any(target_os = "linux", target_os = "freebsd", target_os = "macos")
+))]
 mod tests {
     use super::*;
     use pretty_assertions::assert_ne;
