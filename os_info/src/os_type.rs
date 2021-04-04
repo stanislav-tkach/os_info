@@ -3,7 +3,7 @@ use std::fmt::{self, Display, Formatter};
 /// A list of supported operating system types.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 #[non_exhaustive]
 pub enum Type {
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>).
