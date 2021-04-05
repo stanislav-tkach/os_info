@@ -1,8 +1,10 @@
 bitness
 centos
+clippy
 concat
 emscripten
 endeavouros
+freebsd
 libntdll
 linuxmint
 macos

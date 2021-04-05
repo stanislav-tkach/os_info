@@ -1,11 +1,11 @@
 /// An implementation to match on simple strings.
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 pub enum Matcher {
     /// Considers the entire string (trimmed) to be the match.
     AllTrimmed,
 
     /// After finding the `prefix` followed by one or more spaces, returns the following word.
-    #[allow(dead_code)]
     PrefixedWord { prefix: &'static str },
 
     /// Similar to `PrefixedWord`, but only if the word is a valid version.
@@ -13,7 +13,6 @@ pub enum Matcher {
 
     /// Takes a set of lines (separated by `\n`) and searches for the value in a key/value pair
     /// separated by the `=` character. For example `VERSION_ID="8.1"`.
-    #[allow(dead_code)]
     KeyValue { key: &'static str },
 }
 
