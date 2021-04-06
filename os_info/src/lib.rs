@@ -14,6 +14,10 @@
 #[path = "android/mod.rs"]
 mod imp;
 
+#[cfg(target_os = "dragonfly")]
+#[path = "dflybsd/mod.rs"]
+mod imp;
+
 #[cfg(target_os = "emscripten")]
 #[path = "emscripten/mod.rs"]
 mod imp;
@@ -40,6 +44,7 @@ mod imp;
 
 #[cfg(not(any(
     target_os = "android",
+    target_os = "dragonfly",
     target_os = "emscripten",
     target_os = "freebsd",
     target_os = "linux",
