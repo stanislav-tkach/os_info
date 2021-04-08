@@ -42,6 +42,7 @@ jobs:
           override: true
 
       - name: Run cargo bloat
+        continue-on-error: true
         uses: orf/cargo-bloat-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
