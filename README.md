@@ -85,6 +85,7 @@ Right now, the following operating system types can be returned:
 - Arch Linux
 - CentOS
 - Debian
+- DragonFly BSD
 - Emscripten
 - EndeavourOS
 - Fedora

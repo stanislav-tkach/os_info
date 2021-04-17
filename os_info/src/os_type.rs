@@ -18,6 +18,8 @@ pub enum Type {
     CentOS,
     /// Debian (<https://en.wikipedia.org/wiki/Debian>).
     Debian,
+    /// DragonFly BSD operating system (<https://en.wikipedia.org/wiki/DragonFly_BSD>).
+    DragonFly,
     /// Emscripten (<https://en.wikipedia.org/wiki/Emscripten>).
     Emscripten,
     /// EndeavourOS (<https://en.wikipedia.org/wiki/EndeavourOS>).
@@ -72,6 +74,7 @@ impl Display for Type {
             Type::Alpine => write!(f, "Alpine Linux"),
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
+            Type::DragonFly => write!(f, "DragonFly BSD"),
             Type::Macos => write!(f, "Mac OS"),
             Type::Mint => write!(f, "Linux Mint"),
             Type::Pop => write!(f, "Pop!_OS"),
@@ -101,6 +104,7 @@ mod tests {
             (Type::Arch, "Arch Linux"),
             (Type::CentOS, "CentOS"),
             (Type::Debian, "Debian"),
+            (Type::DragonFly, "DragonFly BSD"),
             (Type::Emscripten, "Emscripten"),
             (Type::EndeavourOS, "EndeavourOS"),
             (Type::Fedora, "Fedora"),
