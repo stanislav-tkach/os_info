@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::error;
 
-fn uname() -> Option<String> {
+pub fn uname() -> Option<String> {
     Command::new("uname")
         .arg("-r")
         .output()
