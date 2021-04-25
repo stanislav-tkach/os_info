@@ -7,7 +7,7 @@ use crate::{bitness, Info, Type, Version};
 pub fn current_platform() -> Info {
     trace!("freebsd::current_platform is called");
 
-    let version = uname
+    let version = uname()
         .map(Version::from_string)
         .unwrap_or_else(|| Version::Unknown);
 
