@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::{error, trace};
 
-use crate::{bitness, Info, Type, Version};
+use crate::{bitness, uname::uname, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("freebsd::current_platform is called");
@@ -20,24 +20,6 @@ pub fn current_platform() -> Info {
 
     trace!("Returning {:?}", info);
     info
-}
-
-fn uname() -> Option<String> {
-    Command::new("uname")
-        .arg("-r")
-        .output()
-        .map_err(|e| {
-            error!("Failed to invoke 'uname': {:?}", e);
-        })
-        .ok()
-        .and_then(|out| {
-            if out.status.success() {
-                Some(String::from_utf8_lossy(&out.stdout).trim_end().to_owned())
-            } else {
-                log::error!("'uname' invocation error: {:?}", out);
-                None
-            }
-        })
 }
 
 #[cfg(test)]

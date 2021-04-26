@@ -1,32 +1,24 @@
-use crate::{Bitness, Info, Type, Version};
 use std::process::Command;
 
-fn uname(arg: &str) -> Option<String> {
-    Command::new("uname")
-        .args(&[arg])
-        .output()
-        .ok()
-        .and_then(|out| {
-            if out.status.success() {
-                String::from_utf8(out.stdout)
-                    .ok()
-                    .map(|sz| sz.trim_end().to_string())
-            } else {
-                None
-            }
-        })
-}
+use log::trace;
+
+use crate::{bitness, uname::uname, Bitness, Info, Type, Version};
 
 pub fn current_platform() -> Info {
-    let version = uname("-r")
+    trace!("dragonfly::current_platform is called");
+
+    let version = uname()
         .map(Version::from_string)
         .unwrap_or_else(|| Version::Unknown);
+
     let info = Info {
         os_type: Type::DragonFly,
         version,
-        bitness: Bitness::X64,
+        bitness: bitness::get(),
         ..Default::default()
     };
+
+    trace!("Returning {:?}", info);
     info
 }
 

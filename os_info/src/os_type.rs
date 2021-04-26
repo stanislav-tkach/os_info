@@ -18,7 +18,7 @@ pub enum Type {
     CentOS,
     /// Debian (<https://en.wikipedia.org/wiki/Debian>).
     Debian,
-    /// DragonFly BSD operating system (<https://en.wikipedia.org/wiki/DragonFly_BSD>).
+    /// DragonFly BSD (<https://en.wikipedia.org/wiki/DragonFly_BSD>).
     DragonFly,
     /// Emscripten (<https://en.wikipedia.org/wiki/Emscripten>).
     Emscripten,
@@ -26,7 +26,7 @@ pub enum Type {
     EndeavourOS,
     /// Fedora (<https://en.wikipedia.org/wiki/Fedora_(operating_system)>).
     Fedora,
-    /// FreeBSD operating system (<https://en.wikipedia.org/wiki/FreeBSD>).
+    /// FreeBSD (<https://en.wikipedia.org/wiki/FreeBSD>).
     FreeBSD,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     Linux,

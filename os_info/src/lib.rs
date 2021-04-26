@@ -15,7 +15,7 @@
 mod imp;
 
 #[cfg(target_os = "dragonfly")]
-#[path = "dflybsd/mod.rs"]
+#[path = "dragonfly/mod.rs"]
 mod imp;
 
 #[cfg(target_os = "emscripten")]
@@ -60,12 +60,11 @@ mod info;
 #[cfg(not(windows))]
 mod matcher;
 mod os_type;
+#[cfg(any(target_os = "freebsd", target_os = "dragonfly"))]
+mod uname;
 mod version;
 
-pub use bitness::Bitness;
-pub use info::Info;
-pub use os_type::Type;
-pub use version::Version;
+pub use crate::{bitness::Bitness, info::Info, os_type::Type, version::Version};
 
 /// Returns information about the current operating system (type, version, edition, etc.).
 ///
