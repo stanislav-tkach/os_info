@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.0.4] (2021-04-28)
+
+- Compilation for the DragonFly BSD operating system has been fixed. (#260)
+
 ## [3.0.3] (2021-04-26)
 
 - DragonFly BSD support has been added. (#256)
@@ -207,7 +211,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.0.3...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.0.4...HEAD
+[3.0.4]: https://github.com/stanislav-tkach/os_info/compare/v3.0.3...v3.0.4
 [3.0.3]: https://github.com/stanislav-tkach/os_info/compare/v3.0.2...v3.0.3
 [3.0.2]: https://github.com/stanislav-tkach/os_info/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/stanislav-tkach/os_info/compare/v3.0...v3.0.1
