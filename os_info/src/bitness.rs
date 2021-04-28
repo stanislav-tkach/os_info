@@ -27,7 +27,12 @@ impl Display for Bitness {
     }
 }
 
-#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "macos"))]
+#[cfg(any(
+    target_os = "linux",
+    target_os = "freebsd",
+    target_os = "dragonfly",
+    target_os = "macos"
+))]
 pub fn get() -> Bitness {
     match &Command::new("getconf").arg("LONG_BIT").output() {
         Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
