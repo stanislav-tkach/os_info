@@ -98,6 +98,7 @@ Right now, the following operating system types can be returned:
 - openSUSE
 - Oracle Linux
 - Pop!_OS
+- Raspberry OS
 - Red Hat Linux
 - Red Hat Enterprise Linux
 - Redox

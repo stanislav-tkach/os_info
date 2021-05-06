@@ -28,6 +28,7 @@ pub fn get() -> Option<Info> {
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
         Some("Pop") => Type::Pop,
+        Some("Raspbian") => Type::Raspbian,
         Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
         Some("Solus") => Type::Solus,
         Some("SUSE") => Type::SUSE,
@@ -268,6 +269,14 @@ mod tests {
         assert_eq!(parse_results.codename, None);
     }
 
+    #[test]
+    fn raspbian(){
+        let parse_results = parse(raspberry_os_file());
+        assert_eq!(parse_results.distribution, Some("Raspbian".to_string()));
+        assert_eq!(parse_results.version, Some("10".to_string()));
+        assert_eq!(parse_results.codename, None);
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -377,6 +386,14 @@ mod tests {
         Release:	12.5\n\
         Codename:	n/a\n\
         "
+    }
+    fn raspberry_os_file() -> &'static str{
+        "LSB Version:   n/a\n\
+         Distributor ID: Raspbian\n\
+         Description:    Raspbian GNU/Linux 10 (buster)\n\
+         Release:        10\n\
+         Codename:       n/a\n\
+         "
     }
 
     fn open_suse_15_1_file() -> &'static str {
