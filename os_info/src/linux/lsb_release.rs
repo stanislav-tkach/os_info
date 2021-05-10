@@ -270,7 +270,7 @@ mod tests {
     }
 
     #[test]
-    fn raspbian(){
+    fn raspbian() {
         let parse_results = parse(raspberry_os_file());
         assert_eq!(parse_results.distribution, Some("Raspbian".to_string()));
         assert_eq!(parse_results.version, Some("10".to_string()));
@@ -387,7 +387,7 @@ mod tests {
         Codename:	n/a\n\
         "
     }
-    fn raspberry_os_file() -> &'static str{
+    fn raspberry_os_file() -> &'static str {
         "LSB Version:   n/a\n\
          Distributor ID: Raspbian\n\
          Description:    Raspbian GNU/Linux 10 (buster)\n\

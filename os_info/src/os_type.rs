@@ -44,7 +44,7 @@ pub enum Type {
     OracleLinux,
     /// Pop!_OS (<https://en.wikipedia.org/wiki/Pop!_OS>)
     Pop,
-    /// Raspery Pi OS (<https://en.wikipedia.org/wiki/Raspberry_Pi_OS>).
+    /// Raspbery Pi OS (<https://en.wikipedia.org/wiki/Raspberry_Pi_OS>).
     Raspbian,
     /// Red Hat Linux (<https://en.wikipedia.org/wiki/Red_Hat_Linux>).
     Redhat,
