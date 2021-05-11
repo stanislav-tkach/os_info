@@ -20,3 +20,5 @@ toml
 ulyana
 winapi
 xenial
+raspbian
+Raspberry

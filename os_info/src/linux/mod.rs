@@ -38,6 +38,7 @@ mod tests {
             | Type::openSUSE
             | Type::OracleLinux
             | Type::Pop
+            | Type::Raspbian
             | Type::Redhat
             | Type::RedHatEnterprise
             | Type::Solus

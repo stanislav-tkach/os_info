@@ -44,6 +44,8 @@ pub enum Type {
     OracleLinux,
     /// Pop!_OS (<https://en.wikipedia.org/wiki/Pop!_OS>)
     Pop,
+    /// Raspberry Pi OS (<https://en.wikipedia.org/wiki/Raspberry_Pi_OS>).
+    Raspbian,
     /// Red Hat Linux (<https://en.wikipedia.org/wiki/Red_Hat_Linux>).
     Redhat,
     /// Red Hat Enterprise Linux (<https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux>).
@@ -78,6 +80,7 @@ impl Display for Type {
             Type::Macos => write!(f, "Mac OS"),
             Type::Mint => write!(f, "Linux Mint"),
             Type::Pop => write!(f, "Pop!_OS"),
+            Type::Raspbian => write!(f, "Raspberry Pi OS"),
             Type::Redhat => write!(f, "Red Hat Linux"),
             Type::RedHatEnterprise => write!(f, "Red Hat Enterprise Linux"),
             Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
@@ -117,6 +120,7 @@ mod tests {
             (Type::openSUSE, "openSUSE"),
             (Type::OracleLinux, "OracleLinux"),
             (Type::Pop, "Pop!_OS"),
+            (Type::Raspbian, "Raspberry Pi OS"),
             (Type::Redhat, "Red Hat Linux"),
             (Type::RedHatEnterprise, "Red Hat Enterprise Linux"),
             (Type::Redox, "Redox"),
