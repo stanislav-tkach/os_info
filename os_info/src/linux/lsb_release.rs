@@ -387,6 +387,7 @@ mod tests {
         Codename:	n/a\n\
         "
     }
+
     fn raspberry_os_file() -> &'static str {
         "LSB Version:   n/a\n\
          Distributor ID: Raspbian\n\
