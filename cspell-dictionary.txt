@@ -12,6 +12,8 @@ manjaro
 msvc
 nixos
 println
+raspberry
+raspbian
 redhat
 rhel
 serde
@@ -20,5 +22,3 @@ toml
 ulyana
 winapi
 xenial
-raspbian
-Raspberry
