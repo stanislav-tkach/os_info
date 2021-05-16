@@ -1,7 +1,12 @@
 // spell-checker:ignore getconf
 
 use std::fmt::{self, Display, Formatter};
-#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "macos", target_os = "dragonfly"))]
+#[cfg(any(
+    target_os = "linux",
+    target_os = "freebsd",
+    target_os = "macos",
+    target_os = "dragonfly"
+))]
 use std::process::{Command, Output};
 
 /// Operating system architecture in terms of how many bits compose the basic values it can deal with.

@@ -17,7 +17,7 @@ name = "os_info"
 path = "src/main.rs"
 
 [dependencies]
-os_info = { version = "3.0.5", default-features = false, path = "../os_info" }
+os_info = { version = "3.0.6", default-features = false, path = "../os_info" }
 log = "0.4.5"
 env_logger = "0.8.1"
 structopt = "0.3"
