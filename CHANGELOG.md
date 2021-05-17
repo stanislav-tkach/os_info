@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.0.6] (2021-05-17)
+
+- Compilation for the DragonFly BSD operating system has been fixed. (#264)
+
 ## [3.0.5] (2021-05-13)
 
 - Raspberry Pi OS support has been added. (#262)
@@ -215,7 +219,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.0.5...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.0.6...HEAD
+[3.0.6]: https://github.com/stanislav-tkach/os_info/compare/v3.0.5...v3.0.6
 [3.0.5]: https://github.com/stanislav-tkach/os_info/compare/v3.0.4...v3.0.5
 [3.0.4]: https://github.com/stanislav-tkach/os_info/compare/v3.0.3...v3.0.4
 [3.0.3]: https://github.com/stanislav-tkach/os_info/compare/v3.0.2...v3.0.3
