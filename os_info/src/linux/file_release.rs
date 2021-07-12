@@ -60,6 +60,7 @@ fn get_type(name: &str) -> Option<Type> {
         "amazon linux ami" => Some(Type::Amazon),
         "arch linux" => Some(Type::Arch),
         "centos linux" => Some(Type::CentOS),
+        "centos stream" => Some(Type::CentOS),
         "fedora" => Some(Type::Fedora),
         "linux mint" => Some(Type::Mint),
         "nixos" => Some(Type::NixOS),
@@ -173,6 +174,18 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::CentOS);
         assert_eq!(info.version, Version::Semantic(7, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_centos_stream() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-centos-stream";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::CentOS);
+        assert_eq!(info.version, Version::Semantic(8, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
