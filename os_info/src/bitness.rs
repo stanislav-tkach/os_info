@@ -40,11 +40,20 @@ impl Display for Bitness {
     target_os = "macos",
     target_os = "netbsd"
 ))]
+
+#[cfg(target_pointer_width = "64")]
+const VAL: u8 = 64;
+
+#[cfg(target_pointer_width = "32")]
+const VAL: u8 = 32;
+
 pub fn get() -> Bitness {
-    match &Command::new("getconf").arg("LONG_BIT").output() {
-        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
-        Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
-        _ => Bitness::Unknown,
+    if VAL == 64 {
+        Bitness::X64
+    } else if VAL == 32 {
+        Bitness::X32
+    } else {
+        Bitness::Unknown
     }
 }
 
