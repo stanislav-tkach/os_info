@@ -41,13 +41,13 @@ impl Display for Bitness {
     target_os = "netbsd"
 ))]
 
-#[cfg(target_pointer_width = "64")]
-const VAL: u8 = 64;
-
-#[cfg(target_pointer_width = "32")]
-const VAL: u8 = 32;
-
 pub fn get() -> Bitness {
+    #[cfg(target_pointer_width = "64")]
+    const VAL: u8 = 64;
+
+    #[cfg(target_pointer_width = "32")]
+    const VAL: u8 = 32;
+
     if VAL == 64 {
         Bitness::X64
     } else if VAL == 32 {
