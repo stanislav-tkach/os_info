@@ -1,0 +1,30 @@
+name: Rust version compatibility check
+
+on: [pull_request, push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          # Feel free to bump this version if you need features of newer Rust.
+          # Sync with badge in README.md
+          toolchain: 1.41.0
+          profile: minimal
+          override: true
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --examples --all
