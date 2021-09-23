@@ -1,6 +1,6 @@
 // spell-checker:ignore getconf
-
 use std::fmt::{self, Display, Formatter};
+use std::mem;
 #[cfg(any(
     target_os = "dragonfly",
     target_os = "freebsd",
@@ -42,15 +42,12 @@ impl Display for Bitness {
 ))]
 
 pub fn get() -> Bitness {
-    #[cfg(target_pointer_width = "64")]
-    const VAL: u8 = 64;
+    let mut size = mem::size_of::<usize>();
+    size = size * 8;
 
-    #[cfg(target_pointer_width = "32")]
-    const VAL: u8 = 32;
-
-    if VAL == 64 {
+    if size == 64 {
         Bitness::X64
-    } else if VAL == 32 {
+    } else if size == 32 {
         Bitness::X32
     } else {
         Bitness::Unknown
