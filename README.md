@@ -7,7 +7,7 @@
 
 **Project info:**
 [![Docs.rs](https://docs.rs/os_info/badge.svg)](https://docs.rs/os_info)
-[![Latest version](http://meritbadge.herokuapp.com/os_info)](https://crates.io/crates/os_info)
+[![Latest version](https://img.shields.io/crates/v/os_info.svg)](https://crates.io/crates/os_info)
 [![License](https://img.shields.io/github/license/stanislav-tkach/os_info.svg)](https://github.com/stanislav-tkach/os_info/blob/master/LICENSE)
 
 **Project details:**
