@@ -23,5 +23,5 @@ serde = { version = "1.0.0", features = ["derive"], optional = true }
 winapi = { version = "0.3.8", features = ["minwindef", "ntdef", "ntstatus", "sysinfoapi", "winnt", "winuser", "libloaderapi", "processthreadsapi", "winerror", "winreg"] }
 
 [dev-dependencies]
-pretty_assertions = "0.7.1"
+pretty_assertions = "1.0.0"
 doc-comment = "0.3.1"
