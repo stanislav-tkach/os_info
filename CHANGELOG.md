@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fedora 35 detection has been fixed. (#281)
+
 ## [3.0.7] (2021-08-12)
 
 - CentOS Stream detection has been fixed. (#267)

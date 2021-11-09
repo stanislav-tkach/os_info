@@ -21,7 +21,7 @@ pub fn get() -> Option<Info> {
         Some("CentOS") => Type::CentOS,
         Some("Debian") => Type::Debian,
         Some("EndeavourOS") => Type::EndeavourOS,
-        Some("Fedora") => Type::Fedora,
+        Some("Fedora") | Some("Fedora Linux") => Type::Fedora,
         Some("Linuxmint") => Type::Mint,
         Some("ManjaroLinux") => Type::Manjaro,
         Some("NixOS") => Type::NixOS,
