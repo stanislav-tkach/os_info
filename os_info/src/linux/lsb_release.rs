@@ -16,12 +16,12 @@ pub fn get() -> Option<Info> {
     };
 
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
-        Some("Amazon" | "AmazonAMI") => Type::Amazon,
+        Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("Arch") => Type::Arch,
         Some("CentOS") => Type::CentOS,
         Some("Debian") => Type::Debian,
         Some("EndeavourOS") => Type::EndeavourOS,
-        Some("Fedora" | "Fedora Linux") => Type::Fedora,
+        Some("Fedora") | Some("Fedora Linux") => Type::Fedora,
         Some("Linuxmint") => Type::Mint,
         Some("ManjaroLinux") => Type::Manjaro,
         Some("NixOS") => Type::NixOS,
@@ -29,7 +29,7 @@ pub fn get() -> Option<Info> {
         Some("OracleServer") => Type::OracleLinux,
         Some("Pop") => Type::Pop,
         Some("Raspbian") => Type::Raspbian,
-        Some("RedHatEnterprise" | "RedHatEnterpriseServer") => Type::RedHatEnterprise,
+        Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
         Some("Solus") => Type::Solus,
         Some("SUSE") => Type::SUSE,
         Some("Ubuntu") => Type::Ubuntu,
