@@ -2,10 +2,11 @@
 
 use std::fmt::{self, Display, Formatter};
 #[cfg(any(
-    target_os = "linux",
+    target_os = "dragonfly",
     target_os = "freebsd",
+    target_os = "linux",
     target_os = "macos",
-    target_os = "dragonfly"
+    target_os = "netbsd"
 ))]
 use std::process::{Command, Output};
 
@@ -33,10 +34,11 @@ impl Display for Bitness {
 }
 
 #[cfg(any(
-    target_os = "linux",
-    target_os = "freebsd",
     target_os = "dragonfly",
-    target_os = "macos"
+    target_os = "freebsd",
+    target_os = "linux",
+    target_os = "macos",
+    target_os = "netbsd"
 ))]
 pub fn get() -> Bitness {
     match &Command::new("getconf").arg("LONG_BIT").output() {
@@ -48,7 +50,7 @@ pub fn get() -> Bitness {
 
 #[cfg(all(
     test,
-    any(target_os = "linux", target_os = "freebsd", target_os = "macos")
+    any(target_os = "freebsd", target_os = "linux", target_os = "macos", target_os = "netbsd")
 ))]
 mod tests {
     use super::*;

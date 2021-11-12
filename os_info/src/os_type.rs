@@ -36,6 +36,8 @@ pub enum Type {
     Manjaro,
     /// Mint (<https://en.wikipedia.org/wiki/Linux_Mint>).
     Mint,
+    /// NetBSD (<https://en.wikipedia.org/wiki/NetBSD>).
+    NetBSD,
     /// NixOS (<https://en.wikipedia.org/wiki/NixOS>).
     NixOS,
     /// openSUSE (<https://en.wikipedia.org/wiki/OpenSUSE>).
@@ -116,6 +118,7 @@ mod tests {
             (Type::Macos, "Mac OS"),
             (Type::Manjaro, "Manjaro"),
             (Type::Mint, "Linux Mint"),
+            (Type::NetBSD, "NetBSD"),
             (Type::NixOS, "NixOS"),
             (Type::openSUSE, "openSUSE"),
             (Type::OracleLinux, "OracleLinux"),
