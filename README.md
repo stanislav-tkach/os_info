@@ -13,7 +13,6 @@
 **Project details:**
 [![LoC](https://tokei.rs/b1/github/stanislav-tkach/os_info)](https://github.com/stanislav-tkach/os_info)
 ![Rust 1.41+ required](https://img.shields.io/badge/rust-1.41+-blue.svg?label=Required%20Rust)
-![Dependencies](https://api.dependabot.com/badges/status?host=github&repo=stanislav-tkach/os_info)
 
 ## Overview
 
