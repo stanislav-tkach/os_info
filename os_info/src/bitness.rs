@@ -50,7 +50,12 @@ pub fn get() -> Bitness {
 
 #[cfg(all(
     test,
-    any(target_os = "freebsd", target_os = "linux", target_os = "macos", target_os = "netbsd")
+    any(
+        target_os = "freebsd",
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "netbsd"
+    )
 ))]
 mod tests {
     use super::*;

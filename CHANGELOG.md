@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.0.8] (2021-11-23)
+
+- NetBSD support has been added. (#279)
+
 - Fedora 35 detection has been fixed. (#281)
 
 ## [3.0.7] (2021-08-12)
@@ -227,7 +231,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.0.7...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.0.8...HEAD
+[3.0.8]: https://github.com/stanislav-tkach/os_info/compare/v3.0.7...v3.0.8
 [3.0.7]: https://github.com/stanislav-tkach/os_info/compare/v3.0.6...v3.0.7
 [3.0.6]: https://github.com/stanislav-tkach/os_info/compare/v3.0.5...v3.0.6
 [3.0.5]: https://github.com/stanislav-tkach/os_info/compare/v3.0.4...v3.0.5
