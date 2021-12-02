@@ -41,6 +41,18 @@ impl Display for Bitness {
     target_os = "netbsd"
 ))]
 pub fn get() -> Bitness {
+
+    if cfg!(target_os = "netbsd") {
+        let bitness =  match &Command::new("sysctl").arg("-n").arg("hw.machine_arch").output() {
+            Ok(Output { stdout, .. }) if stdout == b"amd64\n" => Bitness::X64,
+            Ok(Output { stdout, .. }) if stdout == b"x86_64\n" => Bitness::X64,
+            Ok(Output { stdout, .. }) if stdout == b"i386\n" => Bitness::X32,
+            Ok(Output { stdout, .. }) if stdout == b"aarch64\n" => Bitness::X64,
+            _ => Bitness::Unknown
+        };
+        return bitness;
+    }
+
     match &Command::new("getconf").arg("LONG_BIT").output() {
         Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
         Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
