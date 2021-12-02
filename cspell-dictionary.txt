@@ -3,6 +3,7 @@ bitness
 centos
 clippy
 concat
+earmv
 emscripten
 endeavouros
 freebsd
