@@ -38,25 +38,8 @@ impl Display for Bitness {
     target_os = "freebsd",
     target_os = "linux",
     target_os = "macos",
-    target_os = "netbsd"
 ))]
 pub fn get() -> Bitness {
-    if cfg!(target_os = "netbsd") {
-        let bitness = match &Command::new("sysctl")
-            .arg("-n")
-            .arg("hw.machine_arch")
-            .output()
-        {
-            Ok(Output { stdout, .. }) if stdout == b"amd64\n" => Bitness::X64,
-            Ok(Output { stdout, .. }) if stdout == b"x86_64\n" => Bitness::X64,
-            Ok(Output { stdout, .. }) if stdout == b"i386\n" => Bitness::X32,
-            Ok(Output { stdout, .. }) if stdout == b"aarch64\n" => Bitness::X64,
-            Ok(Output { stdout, .. }) if stdout == b"earmv7hf\n" => Bitness::X32,
-            _ => Bitness::Unknown,
-        };
-        return bitness;
-    }
-
     match &Command::new("getconf").arg("LONG_BIT").output() {
         Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
         Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
@@ -64,13 +47,30 @@ pub fn get() -> Bitness {
     }
 }
 
+#[cfg(target_os = "netbsd")]
+pub fn get() -> Bitness {
+    match &Command::new("sysctl")
+        .arg("-n")
+        .arg("hw.machine_arch")
+        .output()
+    {
+        Ok(Output { stdout, .. }) if stdout == b"amd64\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"x86_64\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"i386\n" => Bitness::X32,
+        Ok(Output { stdout, .. }) if stdout == b"aarch64\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"earmv7hf\n" => Bitness::X32,
+        _ => Bitness::Unknown,
+    }
+}
+
 #[cfg(all(
     test,
     any(
+        target_os = "dragonfly",
         target_os = "freebsd",
         target_os = "linux",
         target_os = "macos",
-        target_os = "netbsd"
+        target_os = "netbsd",
     )
 ))]
 mod tests {
