@@ -40,6 +40,8 @@ pub enum Type {
     NetBSD,
     /// NixOS (<https://en.wikipedia.org/wiki/NixOS>).
     NixOS,
+    /// OpenBSD (<https://en.wikipedia.org/wiki/OpenBSD>).
+    OpenBSD,
     /// openSUSE (<https://en.wikipedia.org/wiki/OpenSUSE>).
     openSUSE,
     /// Oracle Linux (<https://en.wikipedia.org/wiki/Oracle_Linux>).
@@ -120,6 +122,7 @@ mod tests {
             (Type::Mint, "Linux Mint"),
             (Type::NetBSD, "NetBSD"),
             (Type::NixOS, "NixOS"),
+            (Type::OpenBSD, "OpenBSD"),
             (Type::openSUSE, "openSUSE"),
             (Type::OracleLinux, "OracleLinux"),
             (Type::Pop, "Pop!_OS"),

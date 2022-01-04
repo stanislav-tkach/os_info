@@ -38,6 +38,10 @@ mod imp;
 #[path = "netbsd/mod.rs"]
 mod imp;
 
+#[cfg(target_os = "openbsd")]
+#[path = "openbsd/mod.rs"]
+mod imp;
+
 #[cfg(target_os = "redox")]
 #[path = "redox/mod.rs"]
 mod imp;
@@ -54,6 +58,7 @@ mod imp;
     target_os = "linux",
     target_os = "macos",
     target_os = "netbsd",
+    target_os = "openbsd",
     target_os = "redox",
     target_os = "windows"
 )))]
