@@ -70,7 +70,7 @@ mod info;
 #[cfg(not(windows))]
 mod matcher;
 mod os_type;
-#[cfg(any(target_os = "dragonfly", target_os = "freebsd", target_os = "netbsd"))]
+#[cfg(any(target_os = "dragonfly", target_os = "freebsd", target_os = "netbsd", target_os="openbsd"))]
 mod uname;
 mod version;
 
