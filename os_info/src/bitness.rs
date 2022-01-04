@@ -66,7 +66,7 @@ pub fn get() -> Bitness {
 
 #[cfg(target_os = "openbsd")]
 pub fn get() -> Bitness {
-    match &Command::new("sysctl").arg("-n").arg("hw.machine).output() {
+    match &Command::new("sysctl").arg("-n").arg("hw.machine").output() {
     {
         Ok(Output { stdout, .. }) if stdout == b"amd64\n" => Bitness::X64,
         Ok(Output { stdout, .. }) if stdout == b"x86_64\n" => Bitness::X64,
