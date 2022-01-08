@@ -6,7 +6,8 @@ use std::fmt::{self, Display, Formatter};
     target_os = "freebsd",
     target_os = "linux",
     target_os = "macos",
-    target_os = "netbsd"
+    target_os = "netbsd",
+    target_os = "openbsd"
 ))]
 use std::process::{Command, Output};
 
@@ -63,6 +64,18 @@ pub fn get() -> Bitness {
     }
 }
 
+#[cfg(target_os = "openbsd")]
+pub fn get() -> Bitness {
+    match &Command::new("sysctl").arg("-n").arg("hw.machine").output() {
+        Ok(Output { stdout, .. }) if stdout == b"amd64\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"x86_64\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"i386\n" => Bitness::X32,
+        Ok(Output { stdout, .. }) if stdout == b"aarch64\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"earmv7hf\n" => Bitness::X32,
+        _ => Bitness::Unknown,
+    }
+}
+
 #[cfg(all(
     test,
     any(
@@ -71,6 +84,7 @@ pub fn get() -> Bitness {
         target_os = "linux",
         target_os = "macos",
         target_os = "netbsd",
+        target_os = "openbsd"
     )
 ))]
 mod tests {

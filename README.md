@@ -95,6 +95,7 @@ Right now, the following operating system types can be returned:
 - Manjaro
 - NetBSD
 - NixOS
+- OpenBSD
 - openSUSE
 - Oracle Linux
 - Pop!_OS
