@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.1.0] (2022-01-14)
+
+- OpenBSD support has been added. (#286)
+
 ## [3.0.9] (2021-12-21)
 
 - NetBSD bitness detection has been fixed. (#283)
@@ -235,7 +239,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.0.9...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/stanislav-tkach/os_info/compare/v3.0.9...v3.1.0
 [3.0.9]: https://github.com/stanislav-tkach/os_info/compare/v3.0.8...v3.0.9
 [3.0.8]: https://github.com/stanislav-tkach/os_info/compare/v3.0.7...v3.0.8
 [3.0.7]: https://github.com/stanislav-tkach/os_info/compare/v3.0.6...v3.0.7
