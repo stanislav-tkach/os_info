@@ -11,6 +11,7 @@ libntdll
 linuxmint
 macos
 manjaro
+midnightbsd
 msvc
 netbsd
 nixos

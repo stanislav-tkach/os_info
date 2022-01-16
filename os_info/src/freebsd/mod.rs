@@ -22,6 +22,10 @@ pub fn current_platform() -> Info {
     info
 }
 
+fn get_os () -> Type {
+    let os = Command::new("uname").arg("-s").output().expect();
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -35,6 +35,8 @@ pub enum Type {
     /// Manjaro (<https://en.wikipedia.org/wiki/Manjaro>).
     Manjaro,
     /// Mint (<https://en.wikipedia.org/wiki/Linux_Mint>).
+    MidnightBSD,
+    /// MidnightBSD(<https://en.wikipedia.org/wiki/MidnightBSD>).
     Mint,
     /// NetBSD (<https://en.wikipedia.org/wiki/NetBSD>).
     NetBSD,
@@ -82,6 +84,7 @@ impl Display for Type {
             Type::Arch => write!(f, "Arch Linux"),
             Type::DragonFly => write!(f, "DragonFly BSD"),
             Type::Macos => write!(f, "Mac OS"),
+            Type::MidnightBSD => write!(f, "Midnight BSD"),
             Type::Mint => write!(f, "Linux Mint"),
             Type::Pop => write!(f, "Pop!_OS"),
             Type::Raspbian => write!(f, "Raspberry Pi OS"),
@@ -119,6 +122,7 @@ mod tests {
             (Type::Linux, "Linux"),
             (Type::Macos, "Mac OS"),
             (Type::Manjaro, "Manjaro"),
+            (Type::MidnightBSD, "MidnightBSD"),
             (Type::Mint, "Linux Mint"),
             (Type::NetBSD, "NetBSD"),
             (Type::NixOS, "NixOS"),
