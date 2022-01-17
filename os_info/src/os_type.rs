@@ -122,7 +122,6 @@ mod tests {
             (Type::Linux, "Linux"),
             (Type::Macos, "Mac OS"),
             (Type::Manjaro, "Manjaro"),
-            (Type::MidnightBSD, "MidnightBSD"),
             (Type::Mint, "Linux Mint"),
             (Type::NetBSD, "NetBSD"),
             (Type::NixOS, "NixOS"),
