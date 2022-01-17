@@ -93,6 +93,7 @@ Right now, the following operating system types can be returned:
 - Linux Mint
 - macOS (Mac OS X or OS X)
 - Manjaro
+- MidnightBSD
 - NetBSD
 - NixOS
 - OpenBSD
