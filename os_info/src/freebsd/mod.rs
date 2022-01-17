@@ -26,7 +26,7 @@ pub fn current_platform() -> Info {
 fn get_os () -> Type {
     let os = Command::new("uname").arg("-s").output().expect("Failed to get OS");
 
-    match str::from_ut8(&os.stdout).unwrap() {
+    match str::from_utf8(&os.stdout).unwrap() {
         "FreeBSD\n" => Type::FreeBSD,
         "MidnightBSD\n" => Type::MidnightBSD,
         _ => Type::Unknown
