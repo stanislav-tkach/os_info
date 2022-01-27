@@ -1,4 +1,5 @@
 use std::process::Command;
+use std::str;
 
 use log::{error, trace};
 
@@ -12,7 +13,7 @@ pub fn current_platform() -> Info {
         .unwrap_or_else(|| Version::Unknown);
 
     let info = Info {
-        os_type: Type::FreeBSD,
+        os_type: get_os(),
         version,
         bitness: bitness::get(),
         ..Default::default()
@@ -20,6 +21,19 @@ pub fn current_platform() -> Info {
 
     trace!("Returning {:?}", info);
     info
+}
+
+fn get_os() -> Type {
+    let os = Command::new("uname")
+        .arg("-s")
+        .output()
+        .expect("Failed to get OS");
+
+    match str::from_utf8(&os.stdout).unwrap() {
+        "FreeBSD\n" => Type::FreeBSD,
+        "MidnightBSD\n" => Type::MidnightBSD,
+        _ => Type::Unknown,
+    }
 }
 
 #[cfg(test)]
