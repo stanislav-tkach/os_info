@@ -60,6 +60,7 @@ pub fn get() -> Bitness {
         Ok(Output { stdout, .. }) if stdout == b"i386\n" => Bitness::X32,
         Ok(Output { stdout, .. }) if stdout == b"aarch64\n" => Bitness::X64,
         Ok(Output { stdout, .. }) if stdout == b"earmv7hf\n" => Bitness::X32,
+        Ok(Output { stdout, .. }) if stdout == b"sparc64\n" => Bitness::X64,
         _ => Bitness::Unknown,
     }
 }
@@ -72,6 +73,7 @@ pub fn get() -> Bitness {
         Ok(Output { stdout, .. }) if stdout == b"i386\n" => Bitness::X32,
         Ok(Output { stdout, .. }) if stdout == b"aarch64\n" => Bitness::X64,
         Ok(Output { stdout, .. }) if stdout == b"earmv7hf\n" => Bitness::X32,
+        Ok(Output { stdout, .. }) if stdout == b"sparc64\n" => Bitness::X64,
         _ => Bitness::Unknown,
     }
 }
