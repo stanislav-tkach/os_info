@@ -7,7 +7,7 @@
     missing_debug_implementations,
     missing_docs,
     unsafe_code,
-    missing_doc_code_examples
+    rustdoc::missing_doc_code_examples
 )]
 
 #[cfg(target_os = "android")]

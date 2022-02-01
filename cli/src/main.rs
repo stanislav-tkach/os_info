@@ -9,6 +9,7 @@ use clap::Parser;
 use log::warn;
 
 #[derive(Parser)]
+#[clap(about, version)]
 struct Options {
     /// Show all OS information.
     #[clap(long)]
@@ -17,8 +18,8 @@ struct Options {
     #[clap(short = 't', long = "type")]
     type_: bool,
     /// Show OS version.
-    #[clap(short, long)]
-    version: bool,
+    #[clap(short = 'v', long)]
+    os_version: bool,
     /// Show OS bitness.
     #[clap(short, long)]
     bitness: bool,
@@ -30,8 +31,8 @@ fn main() {
     let options = Options::parse();
     let info = os_info::get();
 
-    if options.all || !(options.type_ || options.version || options.bitness) {
-        if options.type_ || options.version || options.bitness {
+    if options.all || !(options.type_ || options.os_version || options.bitness) {
+        if options.type_ || options.os_version || options.bitness {
             warn!("--all supersedes all other options");
         }
 
@@ -46,7 +47,7 @@ fn main() {
             println!("OS type: {}", info.os_type());
         }
 
-        if options.version {
+        if options.os_version {
             println!("OS version: {}", info.version());
         }
 

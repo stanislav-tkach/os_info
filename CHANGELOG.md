@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- FIXME: Mention command line tool parameters change.
+
 ## [3.1.0] (2022-01-14)
 
 - OpenBSD support has been added. (#286)
