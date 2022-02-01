@@ -5,16 +5,16 @@
 
 #![deny(missing_docs, unsafe_code)]
 
+use clap::Parser;
 use log::warn;
-use structopt::StructOpt;
 
-#[derive(StructOpt)]
+#[derive(Parser)]
 struct Options {
     /// Show all OS information.
     #[structopt(long)]
     all: bool,
     /// Show OS type.
-    #[structopt(short = "t", long = "type")]
+    #[structopt(short = 't', long = "type")]
     type_: bool,
     /// Show OS version.
     #[structopt(short, long)]
@@ -27,7 +27,7 @@ struct Options {
 fn main() {
     env_logger::init();
 
-    let options = Options::from_args();
+    let options = Options::parse();
     let info = os_info::get();
 
     if options.all || !(options.type_ || options.version || options.bitness) {
