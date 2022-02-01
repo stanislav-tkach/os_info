@@ -11,16 +11,16 @@ use log::warn;
 #[derive(Parser)]
 struct Options {
     /// Show all OS information.
-    #[structopt(long)]
+    #[clap(long)]
     all: bool,
     /// Show OS type.
-    #[structopt(short = 't', long = "type")]
+    #[clap(short = 't', long = "type")]
     type_: bool,
     /// Show OS version.
-    #[structopt(short, long)]
+    #[clap(short, long)]
     version: bool,
     /// Show OS bitness.
-    #[structopt(short, long)]
+    #[clap(short, long)]
     bitness: bool,
 }
 
