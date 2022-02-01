@@ -20,6 +20,7 @@ raspberry
 raspbian
 redhat
 rhel
+rustdoc
 serde
 structopt
 toml
