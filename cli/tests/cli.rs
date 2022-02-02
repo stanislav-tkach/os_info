@@ -57,7 +57,7 @@ fn version_short() {
 #[test]
 fn version_long() {
     Command::new(BIN_NAME)
-        .arg("--version")
+        .arg("--os-version")
         .assert()
         .success()
         .stdout(version_predicate());

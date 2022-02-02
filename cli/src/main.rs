@@ -5,33 +5,34 @@
 
 #![deny(missing_docs, unsafe_code)]
 
+use clap::Parser;
 use log::warn;
-use structopt::StructOpt;
 
-#[derive(StructOpt)]
+#[derive(Parser)]
+#[clap(about, version)]
 struct Options {
     /// Show all OS information.
-    #[structopt(long)]
+    #[clap(long)]
     all: bool,
     /// Show OS type.
-    #[structopt(short = "t", long = "type")]
+    #[clap(short = 't', long = "type")]
     type_: bool,
     /// Show OS version.
-    #[structopt(short, long)]
-    version: bool,
+    #[clap(short = 'v', long)]
+    os_version: bool,
     /// Show OS bitness.
-    #[structopt(short, long)]
+    #[clap(short, long)]
     bitness: bool,
 }
 
 fn main() {
     env_logger::init();
 
-    let options = Options::from_args();
+    let options = Options::parse();
     let info = os_info::get();
 
-    if options.all || !(options.type_ || options.version || options.bitness) {
-        if options.type_ || options.version || options.bitness {
+    if options.all || !(options.type_ || options.os_version || options.bitness) {
+        if options.type_ || options.os_version || options.bitness {
             warn!("--all supersedes all other options");
         }
 
@@ -46,7 +47,7 @@ fn main() {
             println!("OS type: {}", info.os_type());
         }
 
-        if options.version {
+        if options.os_version {
             println!("OS version: {}", info.version());
         }
 
