@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- FIXME: Mention command line tool parameters change.
+## [3.2.0] (2022-02-04)
+
+- MidnightBSD support has been added. (#290)
+
+- Bitness detection has been fixed for SPARC v9 platform on NetBSD and OpenBSD. (#291)
 
 ## [3.1.0] (2022-01-14)
 
@@ -241,8 +245,9 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.10.0...HEAD
-[3.1.0]: https://github.com/stanislav-tkach/os_info/compare/v3.0.9...v3.10.0
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/stanislav-tkach/os_info/compare/v3.1.0...v3.2.0
+[3.1.0]: https://github.com/stanislav-tkach/os_info/compare/v3.0.9...v3.1.0
 [3.0.9]: https://github.com/stanislav-tkach/os_info/compare/v3.0.8...v3.0.9
 [3.0.8]: https://github.com/stanislav-tkach/os_info/compare/v3.0.7...v3.0.8
 [3.0.7]: https://github.com/stanislav-tkach/os_info/compare/v3.0.6...v3.0.7
