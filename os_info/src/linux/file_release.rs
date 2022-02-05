@@ -62,6 +62,7 @@ fn get_type(name: &str) -> Option<Type> {
         "centos linux" => Some(Type::CentOS),
         "centos stream" => Some(Type::CentOS),
         "fedora" => Some(Type::Fedora),
+        "fedora linux" => Some(Type::Fedora),
         "linux mint" => Some(Type::Mint),
         "nixos" => Some(Type::NixOS),
         "red hat enterprise linux" => Some(Type::Redhat),
@@ -198,6 +199,18 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
         assert_eq!(info.version, Version::Semantic(32, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_fedora_35() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/os-release-fedora-35";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Fedora);
+        assert_eq!(info.version, Version::Semantic(35, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
