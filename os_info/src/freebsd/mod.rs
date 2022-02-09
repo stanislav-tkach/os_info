@@ -13,7 +13,7 @@ pub fn current_platform() -> Info {
         .unwrap_or_else(|| Version::Unknown);
 
     let info = Info {
-        os_type: get_os(),
+        os_type: get_os(version),
         version,
         bitness: bitness::get(),
         ..Default::default()
@@ -23,14 +23,20 @@ pub fn current_platform() -> Info {
     info
 }
 
-fn get_os() -> Type {
-    let os = Command::new("uname")
+fn get_os(ver: String) -> Type {
+    let mut os = Command::new("uname")
         .arg("-s")
         .output()
         .expect("Failed to get OS");
 
     match str::from_utf8(&os.stdout).unwrap() {
-        "FreeBSD\n" => Type::FreeBSD,
+        "FreeBSD\n" => {
+            if ver.contains("HBSD") {
+                println!("Got hardened");
+                Type::FreeBSD
+            }
+            Type::FreeBSD
+        }
         "MidnightBSD\n" => Type::MidnightBSD,
         _ => Type::Unknown,
     }
