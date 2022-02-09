@@ -32,9 +32,9 @@ fn get_os(ver: String) -> Type {
     match str::from_utf8(&os.stdout).unwrap() {
         "FreeBSD\n" => {
             if ver.contains("HBSD") {
-                return Type::HardenedBSD
+                return Type::HardenedBSD;
             }
-            return Type::FreeBSD
+            return Type::FreeBSD;
         }
         "MidnightBSD\n" => Type::MidnightBSD,
         _ => Type::Unknown,
