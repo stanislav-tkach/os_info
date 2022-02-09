@@ -29,6 +29,8 @@ pub enum Type {
     /// FreeBSD (<https://en.wikipedia.org/wiki/FreeBSD>).
     FreeBSD,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
+    HardenedBSD,
+    /// HardenedBSD (https://hardenedbsd.org/)
     Linux,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
