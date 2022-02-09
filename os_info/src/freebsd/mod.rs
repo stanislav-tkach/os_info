@@ -33,7 +33,7 @@ fn get_os(ver: String) -> Type {
         "FreeBSD\n" => {
             if ver.contains("HBSD") {
                 println!("Got hardened");
-                return Type::FreeBSD
+                return Type::HardenedBSD
             }
             return Type::FreeBSD
         }
