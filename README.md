@@ -89,6 +89,7 @@ Right now, the following operating system types can be returned:
 - EndeavourOS
 - Fedora
 - FreeBSD
+- HardenedBSD
 - Linux
 - Linux Mint
 - macOS (Mac OS X or OS X)
