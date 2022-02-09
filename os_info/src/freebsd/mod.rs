@@ -32,7 +32,6 @@ fn get_os(ver: String) -> Type {
     match str::from_utf8(&os.stdout).unwrap() {
         "FreeBSD\n" => {
             if ver.contains("HBSD") {
-                println!("Got hardened");
                 return Type::HardenedBSD
             }
             return Type::FreeBSD
