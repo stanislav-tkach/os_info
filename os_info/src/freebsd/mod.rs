@@ -13,7 +13,7 @@ pub fn current_platform() -> Info {
         .unwrap_or_else(|| Version::Unknown);
 
     let info = Info {
-        os_type: get_os(version),
+        os_type: get_os(version.toString()),
         version,
         bitness: bitness::get(),
         ..Default::default()
@@ -33,9 +33,9 @@ fn get_os(ver: String) -> Type {
         "FreeBSD\n" => {
             if ver.contains("HBSD") {
                 println!("Got hardened");
-                Type::FreeBSD
+                return Type::FreeBSD
             }
-            Type::FreeBSD
+            return Type::FreeBSD
         }
         "MidnightBSD\n" => Type::MidnightBSD,
         _ => Type::Unknown,
