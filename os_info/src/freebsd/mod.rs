@@ -24,7 +24,7 @@ pub fn current_platform() -> Info {
 }
 
 fn get_os(ver: String) -> Type {
-    let mut os = Command::new("uname")
+    let os = Command::new("uname")
         .arg("-s")
         .output()
         .expect("Failed to get OS");
