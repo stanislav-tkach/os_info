@@ -6,6 +6,8 @@ use std::fmt::{self, Display, Formatter};
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 #[non_exhaustive]
 pub enum Type {
+    /// Unknown operating system.
+    Unknown,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>).
     Alpine,
     /// Amazon Linux AMI (<https://en.wikipedia.org/wiki/Amazon_Machine_Image#Amazon_Linux_AMI>).
@@ -64,8 +66,6 @@ pub enum Type {
     SUSE,
     /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
     Ubuntu,
-    /// Unknown operating system.
-    Unknown,
     /// Windows (<https://en.wikipedia.org/wiki/Microsoft_Windows>).
     Windows,
 }
