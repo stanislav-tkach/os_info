@@ -13,7 +13,7 @@ pub fn current_platform() -> Info {
         .unwrap_or_else(|| Version::Unknown);
 
     let info = Info {
-        os_type: get_os(version.to_string()),
+        os_type: get_os(),
         version,
         bitness: bitness::get(),
         ..Default::default()
@@ -23,7 +23,7 @@ pub fn current_platform() -> Info {
     info
 }
 
-fn get_os(ver: String) -> Type {
+fn get_os() -> Type {
     let os = Command::new("uname")
         .arg("-s")
         .output()
@@ -31,11 +31,15 @@ fn get_os(ver: String) -> Type {
 
     match str::from_utf8(&os.stdout).unwrap() {
         "FreeBSD\n" => {
-            if ver.contains("HBSD") {
-                return Type::HardenedBSD;
+            let check_hardening = Command::new("sysctl")
+                .arg("hardening.version")
+                .output()
+                .expect("Failed to check if is hardened");
+            match str::from_utf8(&check_hardening.stderr).unwrap() {
+                "" => return Type::HardenedBSD,
+                _ => return Type::FreeBSD,
             }
-            return Type::FreeBSD;
-        }
+        },
         "MidnightBSD\n" => Type::MidnightBSD,
         _ => Type::Unknown,
     }
