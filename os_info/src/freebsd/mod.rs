@@ -39,7 +39,7 @@ fn get_os() -> Type {
                 "" => return Type::HardenedBSD,
                 _ => return Type::FreeBSD,
             }
-        },
+        }
         "MidnightBSD\n" => Type::MidnightBSD,
         _ => Type::Unknown,
     }
