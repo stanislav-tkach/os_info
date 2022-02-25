@@ -51,7 +51,7 @@ fn find_prefixed_word<'a>(string: &'a str, prefix: &str) -> Option<&'a str> {
         // Find where the word boundary ends
         let word_end = string
             .find(|c: char| c.is_whitespace())
-            .unwrap_or_else(|| string.len());
+            .unwrap_or(string.len());
         let string = &string[..word_end];
 
         Some(string)
