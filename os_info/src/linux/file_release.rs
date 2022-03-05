@@ -64,6 +64,7 @@ fn get_type(name: &str) -> Option<Type> {
         "fedora" => Some(Type::Fedora),
         "fedora linux" => Some(Type::Fedora),
         "linux mint" => Some(Type::Mint),
+        "mariner" => Some(Type::Mariner),
         "nixos" => Some(Type::NixOS),
         "red hat enterprise linux" => Some(Type::Redhat),
         "sles" => Some(Type::SUSE),
@@ -81,16 +82,18 @@ struct ReleaseInfo<'a> {
 
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
-const DISTRIBUTIONS: [ReleaseInfo; 5] = [
+const DISTRIBUTIONS: [ReleaseInfo; 6] = [
     // Due to shenanigans with Oracle Linux including an /etc/redhat-release file that states
     // that the OS is Red Hat Enterprise Linux, this /etc/os-release file MUST be checked
     // before this code checks /etc/redhat-release. If it does not get run first,
     // it will unintentionally report that the operating system is Red Hat Enterprise Linux
     // instead of Oracle Linux.
     ReleaseInfo {
-        os_type: Type::OracleLinux,
-        path: "/etc/os-release",
-        version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
+        os_type: Type::Mariner,
+        path: "/etc/mariner-release",
+        version_matcher: Matcher::PrefixedVersion {
+            prefix: "CBL-Mariner "
+        },
     },
     ReleaseInfo {
         os_type: Type::CentOS,
@@ -103,14 +106,19 @@ const DISTRIBUTIONS: [ReleaseInfo; 5] = [
         version_matcher: Matcher::PrefixedVersion { prefix: "release" },
     },
     ReleaseInfo {
-        os_type: Type::Redhat,
-        path: "/etc/redhat-release",
-        version_matcher: Matcher::PrefixedVersion { prefix: "release" },
-    },
-    ReleaseInfo {
         os_type: Type::Alpine,
         path: "/etc/alpine-release",
         version_matcher: Matcher::AllTrimmed,
+    },
+    ReleaseInfo {
+        os_type: Type::OracleLinux,
+        path: "/etc/os-release",
+        version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
+    },
+    ReleaseInfo {
+        os_type: Type::Redhat,
+        path: "/etc/redhat-release",
+        version_matcher: Matcher::PrefixedVersion { prefix: "release" },
     },
 ];
 
@@ -121,7 +129,7 @@ mod tests {
 
     #[test]
     fn oracle_linux() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release";
 
         let info = retrieve(&distributions).unwrap();
@@ -133,7 +141,7 @@ mod tests {
 
     #[test]
     fn os_release_alpine_3_12() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-alpine-3-12";
 
         let info = retrieve(&distributions).unwrap();
@@ -145,7 +153,7 @@ mod tests {
 
     #[test]
     fn os_release_amazon_1() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-amazon-1";
 
         let info = retrieve(&distributions).unwrap();
@@ -157,7 +165,7 @@ mod tests {
 
     #[test]
     fn os_release_amazon_2() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-amazon-2";
 
         let info = retrieve(&distributions).unwrap();
@@ -169,7 +177,7 @@ mod tests {
 
     #[test]
     fn os_release_centos() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-centos";
 
         let info = retrieve(&distributions).unwrap();
@@ -181,7 +189,7 @@ mod tests {
 
     #[test]
     fn os_release_centos_stream() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-centos-stream";
 
         let info = retrieve(&distributions).unwrap();
@@ -193,7 +201,7 @@ mod tests {
 
     #[test]
     fn os_release_fedora() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-fedora-32";
 
         let info = retrieve(&distributions).unwrap();
@@ -205,7 +213,7 @@ mod tests {
 
     #[test]
     fn os_release_fedora_35() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-fedora-35";
 
         let info = retrieve(&distributions).unwrap();
@@ -217,7 +225,7 @@ mod tests {
 
     #[test]
     fn os_release_nixos() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-nixos";
 
         let info = retrieve(&distributions).unwrap();
@@ -232,7 +240,7 @@ mod tests {
 
     #[test]
     fn os_release_rhel() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-rhel";
 
         let info = retrieve(&distributions).unwrap();
@@ -244,7 +252,7 @@ mod tests {
 
     #[test]
     fn os_release_suse_12() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-suse-12";
 
         let info = retrieve(&distributions).unwrap();
@@ -256,7 +264,7 @@ mod tests {
 
     #[test]
     fn os_release_suse_15() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-suse-15";
 
         let info = retrieve(&distributions).unwrap();
@@ -268,7 +276,7 @@ mod tests {
 
     #[test]
     fn os_release_ubuntu() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-ubuntu";
 
         let info = retrieve(&distributions).unwrap();
@@ -280,7 +288,7 @@ mod tests {
 
     #[test]
     fn os_release_mint() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/os-release-mint";
 
         let info = retrieve(&distributions).unwrap();
@@ -316,7 +324,7 @@ mod tests {
 
     #[test]
     fn redhat() {
-        let mut distributions = [DISTRIBUTIONS[3].clone()];
+        let mut distributions = [DISTRIBUTIONS[5].clone()];
         distributions[0].path = "src/linux/tests/redhat-release";
 
         let info = retrieve(&distributions).unwrap();
@@ -328,12 +336,24 @@ mod tests {
 
     #[test]
     fn alpine() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[3].clone()];
         distributions[0].path = "src/linux/tests/alpine-release";
 
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
         assert_eq!(info.version, Version::Custom("A.B.C".to_owned()));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn mariner() {
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        distributions[0].path = "src/linux/tests/mariner-release";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Mariner);
+        assert_eq!(info.version, Version::Semantic(2, 0, 20220210));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

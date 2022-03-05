@@ -34,6 +34,8 @@ pub enum Type {
     Macos,
     /// Manjaro (<https://en.wikipedia.org/wiki/Manjaro>).
     Manjaro,
+    /// Mariner (<https://en.wikipedia.org/wiki/CBL-Mariner>).
+    Mariner,
     /// Mint (<https://en.wikipedia.org/wiki/Linux_Mint>).
     MidnightBSD,
     /// MidnightBSD(<https://en.wikipedia.org/wiki/MidnightBSD>).
