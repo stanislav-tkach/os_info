@@ -24,6 +24,7 @@ pub fn get() -> Option<Info> {
         Some("Fedora") | Some("Fedora Linux") => Type::Fedora,
         Some("Linuxmint") => Type::Mint,
         Some("ManjaroLinux") => Type::Manjaro,
+        Some("Mariner") => Type::Mariner,
         Some("NixOS") => Type::NixOS,
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
@@ -262,6 +263,15 @@ mod tests {
     }
 
     #[test]
+    fn mariner() {
+        let parse_results = parse(mariner_file());
+        assert_eq!(parse_results.distribution, Some("Mariner".to_string()));
+        assert_eq!(parse_results.version, Some("2.0.20220210".to_string()));
+        assert_eq!(parse_results.codename, Some("Mariner".to_string()));
+    }
+
+
+    #[test]
     fn endeavouros() {
         let parse_results = parse(endeavouros_file());
         assert_eq!(parse_results.distribution, Some("EndeavourOS".to_string()));
@@ -448,6 +458,15 @@ mod tests {
         Description:    Manjaro Linux\n\
         Release:        19.0.2\n\
         Codename:       n/a\n\
+        "
+    }
+
+    fn mariner_file() -> &'static str {
+        "LSB Version:    n/a\n\
+        Distributor ID: Mariner\n\
+        Description:    CBL-Mariner 2.0.20220210\n\
+        Release:        2.0.20220210\n\
+        Codename:       Mariner\n\
         "
     }
 
