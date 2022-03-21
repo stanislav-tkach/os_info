@@ -7,6 +7,8 @@ earmv
 emscripten
 endeavouros
 freebsd
+hardenedbsd
+hbsd
 libntdll
 linuxmint
 macos

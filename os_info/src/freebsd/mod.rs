@@ -30,7 +30,16 @@ fn get_os() -> Type {
         .expect("Failed to get OS");
 
     match str::from_utf8(&os.stdout).unwrap() {
-        "FreeBSD\n" => Type::FreeBSD,
+        "FreeBSD\n" => {
+            let check_hardening = Command::new("sysctl")
+                .arg("hardening.version")
+                .output()
+                .expect("Failed to check if is hardened");
+            match str::from_utf8(&check_hardening.stderr).unwrap() {
+                "" => return Type::HardenedBSD,
+                _ => return Type::FreeBSD,
+            }
+        }
         "MidnightBSD\n" => Type::MidnightBSD,
         _ => Type::Unknown,
     }
