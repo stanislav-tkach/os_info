@@ -35,12 +35,14 @@ fn get_os() -> Type {
                 .arg("hardening.version")
                 .output()
                 .expect("Failed to check if is hardened");
-            match str::from_utf8(&check_hardening.stderr).trim() {
+            match str::from_utf8(&check_hardening.stderr) {
                 Ok("0\n") => return Type::HardenedBSD,
+                Ok(_) => return Type::Unknown,
                 Err(_) => return Type::FreeBSD,
             }
-        }
+        },
         Ok("MidnightBSD\n") => Type::MidnightBSD,
+        Ok(_) => Type::Unknown,
         Err(_) => Type::Unknown,
     }
 }
