@@ -270,7 +270,6 @@ mod tests {
         assert_eq!(parse_results.codename, Some("Mariner".to_string()));
     }
 
-
     #[test]
     fn endeavouros() {
         let parse_results = parse(endeavouros_file());

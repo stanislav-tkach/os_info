@@ -40,7 +40,7 @@ fn get_os() -> Type {
                 Ok(_) => return Type::Unknown,
                 Err(_) => return Type::FreeBSD,
             }
-        },
+        }
         Ok("MidnightBSD\n") => Type::MidnightBSD,
         Ok(_) => Type::Unknown,
         Err(_) => Type::Unknown,
