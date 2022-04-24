@@ -92,7 +92,7 @@ const DISTRIBUTIONS: [ReleaseInfo; 6] = [
         os_type: Type::Mariner,
         path: "/etc/mariner-release",
         version_matcher: Matcher::PrefixedVersion {
-            prefix: "CBL-Mariner "
+            prefix: "CBL-Mariner ",
         },
     },
     ReleaseInfo {
