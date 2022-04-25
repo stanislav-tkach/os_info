@@ -20,6 +20,25 @@ pub fn uname() -> Option<String> {
         })
 }
 
+#[cfg(target_os = "illumos")]
+pub fn uname() -> Option<String> {
+    Command::new("uname")
+        .arg("-v")
+        .output()
+        .map_err(|e| {
+            error!("Failed to invoke 'uname': {:?}", e);
+        })
+        .ok()
+        .and_then(|out| {
+            if out.status.success() {
+                Some(String::from_utf8_lossy(&out.stdout).trim_end().to_owned())
+            } else {
+                log::error!("'uname' invocation error: {:?}", out);
+                None
+            }
+        })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
