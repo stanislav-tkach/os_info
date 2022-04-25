@@ -8,7 +8,7 @@ use crate::{bitness, uname::uname, Info, Type, Version};
 pub fn current_platform() -> Info {
     trace!("illumos::current_platform is called");
 
-    let version = uname()
+    let version = get_version()
         .map(Version::from_string)
         .unwrap_or_else(|| Version::Unknown);
 
@@ -21,6 +21,24 @@ pub fn current_platform() -> Info {
 
     trace!("Returning {:?}", info);
     info
+}
+
+fn get_version() -> Option<String> {
+    Command::new("uname")
+        .arg("-v")
+        .output()
+        .map_err(|e| {
+            error!("Failed to invoke 'uname': {:?}", e);
+        })
+        .ok()
+        .and_then(|out| {
+            if out.status.success() {
+                Some(String::from_utf8_lossy(&out.stdout).trim_end().to_owned())
+            } else {
+                log::error!("'uname' invocation error: {:?}", out);
+                None
+            }
+        })
 }
 
 fn get_os() -> Type {
