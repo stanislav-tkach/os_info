@@ -9,6 +9,7 @@ endeavouros
 freebsd
 hardenedbsd
 hbsd
+illumos
 libntdll
 linuxmint
 macos
