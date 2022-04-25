@@ -10,6 +10,7 @@ freebsd
 hardenedbsd
 hbsd
 illumos
+isainfo
 libntdll
 linuxmint
 macos
