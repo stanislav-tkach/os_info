@@ -48,15 +48,9 @@ fn get_os() -> Type {
         .expect("Failed to get OS");
 
     match str::from_utf8(&os.stdout) {
-        Ok("illumos\n") => {
-            Type::Illumos
-        },
-        Ok(_) => {
-            Type::Unknown
-        },
-        Err(_) => {
-            Type::Unknown
-        }
+        Ok("illumos\n") => Type::Illumos,
+        Ok(_) => Type::Unknown,
+        Err(_) => Type::Unknown,
     }
 }
 
