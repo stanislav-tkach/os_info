@@ -30,7 +30,7 @@ fn get_os() -> Type {
         .expect("Failed to get OS");
 
     match str::from_utf8(&os.stdout) {
-        Ok("illumos") => {
+        Ok("illumos\n") => {
             Type::Illumos
         },
         Ok(_) => {
