@@ -83,7 +83,7 @@ pub fn get() -> Bitness {
 pub fn get() -> Bitness {
     match &Command::new("isainfo").arg("-b").output() {
         Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
-        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
         _ => Bitness::Unknown,
     }
 }
