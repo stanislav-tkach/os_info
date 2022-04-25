@@ -31,6 +31,8 @@ pub enum Type {
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     HardenedBSD,
     /// HardenedBSD (https://hardenedbsd.org/)
+    Illumos,
+    /// Illumos (https://en.wikipedia.org/wiki/Illumos)
     Linux,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
