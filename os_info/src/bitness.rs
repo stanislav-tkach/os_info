@@ -81,13 +81,9 @@ pub fn get() -> Bitness {
 
 #[cfg(target_os = "illumos")]
 pub fn get() -> Bitness {
-    match &Command::new("uname").arg("-p").output() {
-        Ok(Output { stdout, .. }) if stdout == b"amd64\n" => Bitness::X64,
-        Ok(Output { stdout, .. }) if stdout == b"x86_64\n" => Bitness::X64,
-        Ok(Output { stdout, .. }) if stdout == b"i386\n" => Bitness::X32,
-        Ok(Output { stdout, .. }) if stdout == b"aarch64\n" => Bitness::X64,
-        Ok(Output { stdout, .. }) if stdout == b"earmv7hf\n" => Bitness::X32,
-        Ok(Output { stdout, .. }) if stdout == b"sparc64\n" => Bitness::X64,
+    match &Command::new("isainfo").arg("-b").output() {
+        Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X64,
         _ => Bitness::Unknown,
     }
 }
