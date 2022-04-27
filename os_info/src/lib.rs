@@ -26,6 +26,10 @@ mod imp;
 #[path = "freebsd/mod.rs"]
 mod imp;
 
+#[cfg(target_os = "illumos")]
+#[path = "illumos/mod.rs"]
+mod imp;
+
 #[cfg(target_os = "linux")]
 #[path = "linux/mod.rs"]
 mod imp;
@@ -55,6 +59,7 @@ mod imp;
     target_os = "dragonfly",
     target_os = "emscripten",
     target_os = "freebsd",
+    target_os = "illumos",
     target_os = "linux",
     target_os = "macos",
     target_os = "netbsd",
@@ -73,6 +78,7 @@ mod os_type;
 #[cfg(any(
     target_os = "dragonfly",
     target_os = "freebsd",
+    target_os = "illumos",
     target_os = "netbsd",
     target_os = "openbsd"
 ))]

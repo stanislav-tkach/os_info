@@ -31,6 +31,8 @@ pub enum Type {
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     HardenedBSD,
     /// HardenedBSD (https://hardenedbsd.org/)
+    Illumos,
+    /// Illumos (https://en.wikipedia.org/wiki/Illumos)
     Linux,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
@@ -87,6 +89,7 @@ impl Display for Type {
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
             Type::DragonFly => write!(f, "DragonFly BSD"),
+            Type::Illumos => write!(f, "illumos"),
             Type::Macos => write!(f, "Mac OS"),
             Type::MidnightBSD => write!(f, "Midnight BSD"),
             Type::Mint => write!(f, "Linux Mint"),

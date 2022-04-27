@@ -4,6 +4,7 @@ use std::fmt::{self, Display, Formatter};
 #[cfg(any(
     target_os = "dragonfly",
     target_os = "freebsd",
+    target_os = "illumos",
     target_os = "linux",
     target_os = "macos",
     target_os = "netbsd",
@@ -74,6 +75,15 @@ pub fn get() -> Bitness {
         Ok(Output { stdout, .. }) if stdout == b"aarch64\n" => Bitness::X64,
         Ok(Output { stdout, .. }) if stdout == b"earmv7hf\n" => Bitness::X32,
         Ok(Output { stdout, .. }) if stdout == b"sparc64\n" => Bitness::X64,
+        _ => Bitness::Unknown,
+    }
+}
+
+#[cfg(target_os = "illumos")]
+pub fn get() -> Bitness {
+    match &Command::new("isainfo").arg("-b").output() {
+        Ok(Output { stdout, .. }) if stdout == b"64\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"32\n" => Bitness::X32,
         _ => Bitness::Unknown,
     }
 }

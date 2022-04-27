@@ -90,6 +90,7 @@ Right now, the following operating system types can be returned:
 - Fedora
 - FreeBSD
 - HardenedBSD
+- Illumos
 - Linux
 - Linux Mint
 - macOS (Mac OS X or OS X)
