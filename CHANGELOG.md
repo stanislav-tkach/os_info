@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.3.0] (2022-05-01)
+
+- Fedora 35 (without `lsb_release`) detection has been fixed. (#293)
+
+- HardenedBSD support has been added. (#295)
+
+- Mariner support has been added. (#299)
+
+- Illumos support has been added. (#305)
+
 ## [3.2.0] (2022-02-04)
 
 - MidnightBSD support has been added. (#290)
@@ -245,7 +255,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.2.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.3.0...HEAD
+[3.3.0]: https://github.com/stanislav-tkach/os_info/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/stanislav-tkach/os_info/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/stanislav-tkach/os_info/compare/v3.0.9...v3.1.0
 [3.0.9]: https://github.com/stanislav-tkach/os_info/compare/v3.0.8...v3.0.9
