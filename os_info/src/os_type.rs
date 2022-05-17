@@ -28,6 +28,8 @@ pub enum Type {
     Fedora,
     /// FreeBSD (<https://en.wikipedia.org/wiki/FreeBSD>).
     FreeBSD,
+    /// Gentoo Linux (<https://en.wikipedia.org/wiki/Gentoo_Linux>).
+    Gentoo,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     HardenedBSD,
     /// HardenedBSD (https://hardenedbsd.org/)
