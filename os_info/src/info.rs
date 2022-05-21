@@ -199,6 +199,7 @@ mod tests {
             Type::Emscripten,
             Type::EndeavourOS,
             Type::Fedora,
+            Type::Gentoo,
             Type::Linux,
             Type::Macos,
             Type::Manjaro,
