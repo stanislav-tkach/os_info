@@ -54,7 +54,14 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 }
 
 fn get_type(name: &str) -> Option<Type> {
-    match name.to_lowercase().as_ref() {
+    let name = name.to_lowercase();
+
+    // RHEL sometimes has a suffix, like Server or Workstation
+    if name.starts_with("red hat enterprise linux") {
+        return Some(Type::RedHatEnterprise);
+    }
+
+    match name.as_str() {
         "alpine linux" => Some(Type::Alpine),
         "amazon linux" => Some(Type::Amazon),
         "amazon linux ami" => Some(Type::Amazon),
@@ -66,7 +73,6 @@ fn get_type(name: &str) -> Option<Type> {
         "linux mint" => Some(Type::Mint),
         "mariner" => Some(Type::Mariner),
         "nixos" => Some(Type::NixOS),
-        "red hat enterprise linux" => Some(Type::Redhat),
         "sles" => Some(Type::SUSE),
         "ubuntu" => Some(Type::Ubuntu),
         _ => None,
@@ -116,7 +122,7 @@ const DISTRIBUTIONS: [ReleaseInfo; 6] = [
         version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
     },
     ReleaseInfo {
-        os_type: Type::Redhat,
+        os_type: Type::RedHatEnterprise,
         path: "/etc/redhat-release",
         version_matcher: Matcher::PrefixedVersion { prefix: "release" },
     },
@@ -244,8 +250,20 @@ mod tests {
         distributions[0].path = "src/linux/tests/os-release-rhel";
 
         let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Redhat);
+        assert_eq!(info.os_type(), Type::RedHatEnterprise);
         assert_eq!(info.version, Version::Semantic(8, 2, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn os_release_rhel_7() {
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        distributions[0].path = "src/linux/tests/os-release-rhel-7";
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::RedHatEnterprise);
+        assert_eq!(info.version, Version::Semantic(7, 9, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
@@ -328,7 +346,7 @@ mod tests {
         distributions[0].path = "src/linux/tests/redhat-release";
 
         let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Redhat);
+        assert_eq!(info.os_type(), Type::RedHatEnterprise);
         assert_eq!(info.version, Version::Custom("XX".to_owned()));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
