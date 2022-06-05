@@ -3,7 +3,7 @@ mod lsb_release;
 
 use log::trace;
 
-use crate::{bitness, Info, Type};
+use crate::{bitness, Info, Type, Fmaily};
 
 pub fn current_platform() -> Info {
     trace!("linux::current_platform is called");
@@ -12,6 +12,7 @@ pub fn current_platform() -> Info {
         .or_else(file_release::get)
         .unwrap_or_else(|| Info::with_type(Type::Linux));
     info.bitness = bitness::get();
+    info.family = Family::Linux;
 
     trace!("Returning {:?}", info);
     info

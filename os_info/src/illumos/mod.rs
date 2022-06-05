@@ -3,7 +3,7 @@ use std::str;
 
 use log::{error, trace};
 
-use crate::{bitness, uname::uname, Info, Type, Version};
+use crate::{bitness, uname::uname, Info, Type, Version, Family};
 
 pub fn current_platform() -> Info {
     trace!("illumos::current_platform is called");
@@ -16,6 +16,7 @@ pub fn current_platform() -> Info {
         os_type: get_os(),
         version,
         bitness: bitness::get(),
+        family: Family::SunOS,
         ..Default::default()
     };
 
