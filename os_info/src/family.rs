@@ -2,7 +2,7 @@ use std::fmt::{self, Display, Formatter};
 
 /// A general category for operating system to place them into 'families'
 /// Example of use case is when program logic needs to perform an operation
-/// on linux, but doesnt care which distro it is.
+/// on linux, but does not care which distro it is.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
