@@ -106,6 +106,7 @@ pub use crate::{bitness::Bitness, family::Family, info::Info, os_type::Type, ver
 /// println!("Edition: {:?}", info.edition());
 /// println!("Codename: {:?}", info.codename());
 /// println!("Bitness: {}", info.bitness());
+/// println!("family: {}", info.family());
 /// ```
 pub fn get() -> Info {
     imp::current_platform()
