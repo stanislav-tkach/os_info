@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::trace;
 
-use crate::{bitness, uname::uname, Bitness, Info, Type, Version, Family};
+use crate::{bitness, uname::uname, Bitness, Family, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("dragonfly::current_platform is called");

@@ -4,7 +4,7 @@ use std::{fs::File, io::Read};
 
 use log::{error, trace};
 
-use crate::{Bitness, Info, Type, Version, Family};
+use crate::{Bitness, Family, Info, Type, Version};
 
 const UNAME_FILE: &str = "sys:uname";
 

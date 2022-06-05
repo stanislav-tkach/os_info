@@ -1,6 +1,6 @@
 use log::trace;
 
-use crate::{Bitness, Info, Type, Family};
+use crate::{Bitness, Family, Info, Type};
 
 pub fn current_platform() -> Info {
     trace!("android::current_platform is called");

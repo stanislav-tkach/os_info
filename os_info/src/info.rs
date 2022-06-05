@@ -2,7 +2,7 @@
 
 use std::fmt::{self, Display, Formatter};
 
-use super::{Bitness, Type, Version, Family};
+use super::{Bitness, Family, Type, Version};
 
 /// Holds information about operating system (type, version, etc.).
 ///
@@ -57,7 +57,7 @@ impl Info {
             edition: None,
             codename: None,
             bitness: Bitness::Unknown,
-	        family: Family::Unknown,
+            family: Family::Unknown,
         }
     }
 
@@ -152,19 +152,18 @@ impl Info {
     }
 
     /// Returns the operating system family. See 'Family' for details.
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ```
     /// use os_info::{Info, Family};
-    /// 
+    ///
     /// let info = Info::unknown();
     /// assert_eq!(Family::Unknown, info.family());
     /// ```
     pub fn family(&self) -> Family {
         self.family
     }
-
 }
 
 impl Default for Info {

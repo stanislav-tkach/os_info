@@ -29,19 +29,19 @@ pub enum Family {
 
 impl Default for Family {
     fn default() -> Self {
-	Family::Unknown
+        Family::Unknown
     }
 }
 
 impl Display for Family {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-	match *self {
-	    Family::BSD => write!(f, "BSD"),
-	    Family::Linux => write!(f, "Linux"),
-	    Family::MacOS => write!(f, "MacOS"),
-	    Family::SunOS => write!(f, "SunOS"),
-	    Family::DOS => write!(f, "DOS"),
-	    _ => write!(f, "{:?}", self),
-	}
+        match *self {
+            Family::BSD => write!(f, "BSD"),
+            Family::Linux => write!(f, "Linux"),
+            Family::MacOS => write!(f, "MacOS"),
+            Family::SunOS => write!(f, "SunOS"),
+            Family::DOS => write!(f, "DOS"),
+            _ => write!(f, "{:?}", self),
+        }
     }
 }
