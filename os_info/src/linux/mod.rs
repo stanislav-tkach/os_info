@@ -3,7 +3,7 @@ mod lsb_release;
 
 use log::trace;
 
-use crate::{bitness, Fmaily, Info, Type};
+use crate::{bitness, Family, Info, Type};
 
 pub fn current_platform() -> Info {
     trace!("linux::current_platform is called");
