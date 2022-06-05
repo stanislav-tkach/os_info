@@ -2,12 +2,11 @@ mod winapi;
 
 use log::trace;
 
-use crate::{Family, Info};
+use crate::Info;
 
 pub fn current_platform() -> Info {
     trace!("windows::current_platform is called");
     let info = winapi::get();
-    info.family = Family::DOS;
     trace!("Returning {:?}", info);
     info
 }
