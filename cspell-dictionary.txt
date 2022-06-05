@@ -1,11 +1,14 @@
 aarch64
+berkely
 bitness
 centos
 clippy
 concat
+distro
 earmv
 emscripten
 endeavouros
+family
 freebsd
 hardenedbsd
 hbsd
