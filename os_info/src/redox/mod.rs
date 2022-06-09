@@ -18,7 +18,7 @@ pub fn current_platform() -> Info {
         os_type: Type::Redox,
         version,
         bitness: Bitness::Unknown,
-        family: Family::WindowsNT,
+        family: Family::Unknown,
         ..Default::default()
     };
     trace!("Returning {:?}", info);
