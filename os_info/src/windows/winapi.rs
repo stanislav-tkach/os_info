@@ -46,7 +46,7 @@ pub fn get() -> Info {
         version,
         edition,
         bitness: bitness(),
-        family: Family::DOS,
+        family: Family::WindowsNT,
         ..Default::default()
     }
 }

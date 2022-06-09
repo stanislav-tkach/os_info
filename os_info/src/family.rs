@@ -17,14 +17,14 @@ pub enum Family {
     /// Apple's MacOS
     /// https://en.wikipedia.org/wiki/Macintosh_operating_systems
     MacOS,
+    /// NT based operatings system
+    /// https://en.wikipedia.org/wiki/Windows_NT
+    WindowsNT,
     /// SunOS and OSs derived from SunOS such as Illumos
     /// https://en.wikipedia.org/wiki/SunOS
     SunOS,
     /// Operating systems whose family is unknown
     Unknown,
-    /// Operating systems that are DOS or derived from DOS
-    /// https://en.wikipedia.org/wiki/Disk_operating_system
-    DOS,
 }
 
 impl Default for Family {
@@ -40,7 +40,7 @@ impl Display for Family {
             Family::Linux => write!(f, "Linux"),
             Family::MacOS => write!(f, "MacOS"),
             Family::SunOS => write!(f, "SunOS"),
-            Family::DOS => write!(f, "DOS"),
+            Family::WindowsNT => write!(f, "Windows NT"),
             _ => write!(f, "{:?}", self),
         }
     }
