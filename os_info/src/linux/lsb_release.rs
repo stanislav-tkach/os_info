@@ -35,6 +35,7 @@ pub fn get() -> Option<Info> {
         Some("Solus") => Type::Solus,
         Some("SUSE") => Type::SUSE,
         Some("Ubuntu") => Type::Ubuntu,
+        Some("Garuda") => Type::Garuda,
         _ => Type::Linux,
     };
 

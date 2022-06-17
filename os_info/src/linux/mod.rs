@@ -45,6 +45,7 @@ mod tests {
             | Type::Solus
             | Type::SUSE
             | Type::Ubuntu
+            | Type::Garuda
             | Type::Mint => (),
             os_type => {
                 panic!("Unexpected OS type: {}", os_type);
