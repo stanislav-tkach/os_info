@@ -72,6 +72,8 @@ pub enum Type {
     SUSE,
     /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
     Ubuntu,
+    /// Garuda Linux (<https://en.wikipedia.org/wiki/Garuda_Linux>)
+    Garuda,
     /// Unknown operating system.
     Unknown,
     /// Windows (<https://en.wikipedia.org/wiki/Microsoft_Windows>).
@@ -101,6 +103,7 @@ impl Display for Type {
             Type::Redhat => write!(f, "Red Hat Linux"),
             Type::RedHatEnterprise => write!(f, "Red Hat Enterprise Linux"),
             Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
+            Type::Garuda => write!(f, "Garuda Linux"),
             _ => write!(f, "{:?}", self),
         }
     }
@@ -147,6 +150,7 @@ mod tests {
             (Type::Solus, "Solus"),
             (Type::SUSE, "SUSE Linux Enterprise Server"),
             (Type::Ubuntu, "Ubuntu"),
+            (Type::Garuda, "Garuda Linux"),
             (Type::Unknown, "Unknown"),
             (Type::Windows, "Windows"),
         ];
