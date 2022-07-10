@@ -1,6 +1,6 @@
 // spell-checker:ignore sles
 
-use std::{fs::File, io::Read, path::Path};
+use std::{fmt, fs::File, io::Read, path::Path};
 
 use log::{trace, warn};
 
@@ -31,100 +31,158 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
             continue;
         }
 
-        let os_type = Matcher::KeyValue { key: "NAME" }
-            .find(&file_content)
-            .and_then(|name| get_type(&name))
-            .unwrap_or(release_info.os_type);
+        let os_type = (release_info.os_type)(&file_content);
 
-        let version = release_info
-            .version_matcher
-            .find(&file_content)
-            .map(Version::from_string)
-            .unwrap_or_else(|| Version::Unknown);
+        // If os_type is indeterminate, try the next release_info
+        if let None = os_type {
+            continue;
+        }
+
+        let version = (release_info.version)(&file_content);
 
         return Some(Info {
-            os_type,
-            version,
+            os_type: os_type.unwrap(),
+            version: version.unwrap_or_else(|| Version::Unknown),
             bitness: Bitness::Unknown,
             ..Default::default()
         });
     }
 
+    // Failed to determine os info
     None
 }
 
-fn get_type(name: &str) -> Option<Type> {
-    let name = name.to_lowercase();
-
-    // RHEL sometimes has a suffix, like Server or Workstation
-    if name.starts_with("red hat enterprise linux") {
-        return Some(Type::RedHatEnterprise);
-    }
-
-    match name.as_str() {
-        "alpine linux" => Some(Type::Alpine),
-        "amazon linux" => Some(Type::Amazon),
-        "amazon linux ami" => Some(Type::Amazon),
-        "arch linux" => Some(Type::Arch),
-        "centos linux" => Some(Type::CentOS),
-        "centos stream" => Some(Type::CentOS),
-        "fedora" => Some(Type::Fedora),
-        "fedora linux" => Some(Type::Fedora),
-        "linux mint" => Some(Type::Mint),
-        "mariner" => Some(Type::Mariner),
-        "nixos" => Some(Type::NixOS),
-        "sles" => Some(Type::SUSE),
-        "ubuntu" => Some(Type::Ubuntu),
-        _ => None,
-    }
+#[derive(Clone)]
+struct ReleaseInfo<'a> {
+    // The release file the struct corresponds to
+    path: &'a str,
+    // Outputs the os type given the release file
+    os_type: for<'b> fn(&'b str) -> Option<Type>,
+    // Outputs the os version given the release file
+    version: for<'b> fn(&'b str) -> Option<Version>,
 }
 
-#[derive(Debug, Clone)]
-struct ReleaseInfo<'a> {
-    os_type: Type,
-    path: &'a str,
-    version_matcher: Matcher,
+impl fmt::Debug for ReleaseInfo<'_> {
+    fn fmt<'a>(&'a self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ReleaseInfo")
+            .field("path", &self.path)
+            .field("os_type", &(self.os_type as fn(&'a str) -> Option<Type>))
+            .field("version", &(self.version as fn(&'a str) -> Option<Version>))
+            .finish()
+    }
 }
 
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
-const DISTRIBUTIONS: [ReleaseInfo; 6] = [
-    // Due to shenanigans with Oracle Linux including an /etc/redhat-release file that states
-    // that the OS is Red Hat Enterprise Linux, this /etc/os-release file MUST be checked
-    // before this code checks /etc/redhat-release. If it does not get run first,
-    // it will unintentionally report that the operating system is Red Hat Enterprise Linux
-    // instead of Oracle Linux.
+static DISTRIBUTIONS: [ReleaseInfo; 6] = [
     ReleaseInfo {
-        os_type: Type::Mariner,
         path: "/etc/mariner-release",
-        version_matcher: Matcher::PrefixedVersion {
-            prefix: "CBL-Mariner ",
+        os_type: |_| Some(Type::Mariner),
+        version: |release| {
+            Matcher::PrefixedVersion {
+                prefix: "CBL-Mariner",
+            }
+            .find(&release)
+            .map(Version::from_string)
         },
     },
     ReleaseInfo {
-        os_type: Type::CentOS,
         path: "/etc/centos-release",
-        version_matcher: Matcher::PrefixedVersion { prefix: "release" },
+        os_type: |_| Some(Type::CentOS),
+        version: |release| {
+            Matcher::PrefixedVersion { prefix: "release" }
+                .find(&release)
+                .map(Version::from_string)
+        },
     },
     ReleaseInfo {
-        os_type: Type::Fedora,
         path: "/etc/fedora-release",
-        version_matcher: Matcher::PrefixedVersion { prefix: "release" },
+        os_type: |_| Some(Type::Fedora),
+        version: |release| {
+            Matcher::PrefixedVersion { prefix: "release" }
+                .find(&release)
+                .map(Version::from_string)
+        },
     },
     ReleaseInfo {
-        os_type: Type::Alpine,
         path: "/etc/alpine-release",
-        version_matcher: Matcher::AllTrimmed,
+        os_type: |_| Some(Type::Alpine),
+        version: |release| Matcher::AllTrimmed.find(&release).map(Version::from_string),
     },
+    // TODO: This should be placed first, as most modern distributions
+    // will have this file.
     ReleaseInfo {
-        os_type: Type::OracleLinux,
         path: "/etc/os-release",
-        version_matcher: Matcher::KeyValue { key: "VERSION_ID" },
+        os_type: |release| {
+            Matcher::KeyValue { key: "ID" }
+                .find(&release)
+                .map(|id| match id.as_str() {
+                    // os-release information collected from
+                    // https://github.com/chef/os_release
+
+                    //"almalinux" => Alma
+                    "alpine" => Some(Type::Alpine),
+                    "amzn" => Some(Type::Amazon),
+                    //"antergos" => Antergos
+                    //"aosc" => AOSC
+                    "arch" => Some(Type::Arch),
+                    //"artix" => Artix
+                    "centos" => Some(Type::CentOS),
+                    //"clear-linux-os" => ClearLinuxOS
+                    //"clearos" => ClearOS
+                    //"coreos"
+                    //"cumulus-linux" => Cumulus
+                    //"debian" => Debian
+                    //"devuan" => Devuan
+                    //"elementary" => Elementary
+                    "fedora" => Some(Type::Fedora),
+                    //"gentoo" => Gentoo
+                    //"ios_xr" => ios_xr
+                    //"kali" => Kali
+                    //"mageia" => Mageia
+                    //"manjaro" => Manjaro
+                    "linuxmint" => Some(Type::Mint),
+                    "mariner" => Some(Type::Mariner),
+                    //"nexus" => Nexus
+                    "nixos" => Some(Type::NixOS),
+                    "ol" => Some(Type::OracleLinux),
+                    "opensuse" => Some(Type::openSUSE),
+                    "opensuse-leap" => Some(Type::openSUSE),
+                    //"rancheros" => RancherOS
+                    //"raspbian" => Raspbian
+                    // note XBian also uses "raspbian"
+                    "rhel" => Some(Type::RedHatEnterprise),
+                    //"rocky" => Rocky
+                    //"sabayon" => Sabayon
+                    //"scientific" => Scientific
+                    //"slackware" => Slackware
+                    "sled" => Some(Type::SUSE), // SUSE desktop
+                    "sles" => Some(Type::SUSE),
+                    "sles_sap" => Some(Type::SUSE), // SUSE SAP
+                    "ubuntu" => Some(Type::Ubuntu),
+                    //"virtuozzo" => Virtuozzo
+                    //"void" => Void
+                    //"XCP-ng" => xcp-ng
+                    //"xenenterprise" => xcp-ng
+                    //"xenserver" => xcp-ng 
+                    _ => None,
+                })
+                .flatten()
+        },
+        version: |release| {
+            Matcher::KeyValue { key: "VERSION_ID" }
+                .find(&release)
+                .map(Version::from_string)
+        },
     },
     ReleaseInfo {
-        os_type: Type::RedHatEnterprise,
         path: "/etc/redhat-release",
-        version_matcher: Matcher::PrefixedVersion { prefix: "release" },
+        os_type: |_| Some(Type::RedHatEnterprise),
+        version: |release| {
+            Matcher::PrefixedVersion { prefix: "release" }
+                .find(&release)
+                .map(Version::from_string)
+        },
     },
 ];
 
@@ -374,5 +432,10 @@ mod tests {
         assert_eq!(info.version, Version::Semantic(2, 0, 20220210));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn release_info_debug() {
+        dbg!("{:?}", &DISTRIBUTIONS[0]);
     }
 }
