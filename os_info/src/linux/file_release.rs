@@ -12,22 +12,24 @@ pub fn get() -> Option<Info> {
 
 fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
     for release_info in distributions {
-        if !Path::new(release_info.path).exists() {
+        let path = Path::new(release_info.path);
+
+        if !path.exists() {
             trace!("Path '{}' doesn't exist", release_info.path);
             continue;
         }
 
-        let mut file = match File::open(&release_info.path) {
+        let mut file = match File::open(&path) {
             Ok(val) => val,
             Err(e) => {
-                warn!("Unable to open {:?} file: {:?}", release_info.path, e);
+                warn!("Unable to open {:?} file: {:?}", &path, e);
                 continue;
             }
         };
 
         let mut file_content = String::new();
         if let Err(e) = file.read_to_string(&mut file_content) {
-            warn!("Unable to read {:?} file: {:?}", release_info.path, e);
+            warn!("Unable to read {:?} file: {:?}", &path, e);
             continue;
         }
 
@@ -52,13 +54,50 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
     None
 }
 
+/// Struct containing information on how to parse distribution info from a
+/// release file.
+///
+/// # Example
+/// ```rust,ignore
+/// ReleaseInfo {
+///     path: "/etc/fedora-release",
+///     os_type: |_| Some(Type::Fedora),
+///     version: |release| {
+///         Matcher::PrefixedVersion { prefix: "release" }
+///             .find(&release)
+///             .map(Version::from_string)
+///     },
+/// },
+/// ```
 #[derive(Clone)]
 struct ReleaseInfo<'a> {
-    // The release file the struct corresponds to
+    /// The release file the struct corresponds to.
+    ///
+    /// # Example
+    /// ```rust,ignore
+    /// path: "/etc/os-release"
+    /// ```
     path: &'a str,
-    // Outputs the os type given the release file
+
+    /// A closure that determines the os type from the release file contents.
+    ///
+    /// # Example
+    /// ```rust,ignore
+    /// //path: "/etc/mariner-release",
+    /// os_type: |_| Some(Type::Mariner),
+    /// ```
     os_type: for<'b> fn(&'b str) -> Option<Type>,
-    // Outputs the os version given the release file
+
+    /// A closure that determines the os version from the release file contents.
+    ///
+    /// # Example
+    /// ```rust,ignore
+    /// version: |release| {
+    ///     Matcher::KeyValue { key: "VERSION_ID" }
+    ///         .find(&release)
+    ///         .map(Version::from_string)
+    /// },
+    /// ```
     version: for<'b> fn(&'b str) -> Option<Version>,
 }
 
@@ -164,7 +203,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"void" => Void
                     //"XCP-ng" => xcp-ng
                     //"xenenterprise" => xcp-ng
-                    //"xenserver" => xcp-ng 
+                    //"xenserver" => xcp-ng
                     _ => None,
                 })
                 .flatten()
