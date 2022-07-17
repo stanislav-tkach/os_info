@@ -36,7 +36,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
         let os_type = (release_info.os_type)(&file_content);
 
         // If os_type is indeterminate, try the next release_info
-        if let None = os_type {
+        if os_type.is_none() {
             continue;
         }
 
@@ -44,7 +44,7 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 
         return Some(Info {
             os_type: os_type.unwrap(),
-            version: version.unwrap_or_else(|| Version::Unknown),
+            version: version.unwrap_or(Version::Unknown),
             bitness: Bitness::Unknown,
             ..Default::default()
         });
@@ -121,7 +121,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
             Matcher::PrefixedVersion {
                 prefix: "CBL-Mariner",
             }
-            .find(&release)
+            .find(release)
             .map(Version::from_string)
         },
     },
@@ -130,7 +130,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
         os_type: |_| Some(Type::CentOS),
         version: |release| {
             Matcher::PrefixedVersion { prefix: "release" }
-                .find(&release)
+                .find(release)
                 .map(Version::from_string)
         },
     },
@@ -139,14 +139,14 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
         os_type: |_| Some(Type::Fedora),
         version: |release| {
             Matcher::PrefixedVersion { prefix: "release" }
-                .find(&release)
+                .find(release)
                 .map(Version::from_string)
         },
     },
     ReleaseInfo {
         path: "/etc/alpine-release",
         os_type: |_| Some(Type::Alpine),
-        version: |release| Matcher::AllTrimmed.find(&release).map(Version::from_string),
+        version: |release| Matcher::AllTrimmed.find(release).map(Version::from_string),
     },
     // TODO: This should be placed first, as most modern distributions
     // will have this file.
@@ -154,8 +154,8 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
         path: "/etc/os-release",
         os_type: |release| {
             Matcher::KeyValue { key: "ID" }
-                .find(&release)
-                .map(|id| match id.as_str() {
+                .find(release)
+                .and_then(|id| match id.as_str() {
                     // os-release information collected from
                     // https://github.com/chef/os_release
 
@@ -206,11 +206,10 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"xenserver" => xcp-ng
                     _ => None,
                 })
-                .flatten()
         },
         version: |release| {
             Matcher::KeyValue { key: "VERSION_ID" }
-                .find(&release)
+                .find(release)
                 .map(Version::from_string)
         },
     },
@@ -219,7 +218,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
         os_type: |_| Some(Type::RedHatEnterprise),
         version: |release| {
             Matcher::PrefixedVersion { prefix: "release" }
-                .find(&release)
+                .find(release)
                 .map(Version::from_string)
         },
     },
