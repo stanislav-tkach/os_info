@@ -114,42 +114,7 @@ impl fmt::Debug for ReleaseInfo<'_> {
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
 static DISTRIBUTIONS: [ReleaseInfo; 6] = [
-    ReleaseInfo {
-        path: "/etc/mariner-release",
-        os_type: |_| Some(Type::Mariner),
-        version: |release| {
-            Matcher::PrefixedVersion {
-                prefix: "CBL-Mariner",
-            }
-            .find(release)
-            .map(Version::from_string)
-        },
-    },
-    ReleaseInfo {
-        path: "/etc/centos-release",
-        os_type: |_| Some(Type::CentOS),
-        version: |release| {
-            Matcher::PrefixedVersion { prefix: "release" }
-                .find(release)
-                .map(Version::from_string)
-        },
-    },
-    ReleaseInfo {
-        path: "/etc/fedora-release",
-        os_type: |_| Some(Type::Fedora),
-        version: |release| {
-            Matcher::PrefixedVersion { prefix: "release" }
-                .find(release)
-                .map(Version::from_string)
-        },
-    },
-    ReleaseInfo {
-        path: "/etc/alpine-release",
-        os_type: |_| Some(Type::Alpine),
-        version: |release| Matcher::AllTrimmed.find(release).map(Version::from_string),
-    },
-    // TODO: This should be placed first, as most modern distributions
-    // will have this file.
+    // Keep this first; most modern distributions have this file.
     ReleaseInfo {
         path: "/etc/os-release",
         os_type: |release| {
@@ -213,6 +178,41 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .map(Version::from_string)
         },
     },
+    // Older distributions must have their specific release file parsed.
+    ReleaseInfo {
+        path: "/etc/mariner-release",
+        os_type: |_| Some(Type::Mariner),
+        version: |release| {
+            Matcher::PrefixedVersion {
+                prefix: "CBL-Mariner",
+            }
+            .find(release)
+            .map(Version::from_string)
+        },
+    },
+    ReleaseInfo {
+        path: "/etc/centos-release",
+        os_type: |_| Some(Type::CentOS),
+        version: |release| {
+            Matcher::PrefixedVersion { prefix: "release" }
+                .find(release)
+                .map(Version::from_string)
+        },
+    },
+    ReleaseInfo {
+        path: "/etc/fedora-release",
+        os_type: |_| Some(Type::Fedora),
+        version: |release| {
+            Matcher::PrefixedVersion { prefix: "release" }
+                .find(release)
+                .map(Version::from_string)
+        },
+    },
+    ReleaseInfo {
+        path: "/etc/alpine-release",
+        os_type: |_| Some(Type::Alpine),
+        version: |release| Matcher::AllTrimmed.find(release).map(Version::from_string),
+    },
     ReleaseInfo {
         path: "/etc/redhat-release",
         os_type: |_| Some(Type::RedHatEnterprise),
@@ -231,7 +231,7 @@ mod tests {
 
     #[test]
     fn oracle_linux() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release";
 
         let info = retrieve(&distributions).unwrap();
@@ -243,7 +243,7 @@ mod tests {
 
     #[test]
     fn os_release_alpine_3_12() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-alpine-3-12";
 
         let info = retrieve(&distributions).unwrap();
@@ -255,7 +255,7 @@ mod tests {
 
     #[test]
     fn os_release_amazon_1() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-amazon-1";
 
         let info = retrieve(&distributions).unwrap();
@@ -267,7 +267,7 @@ mod tests {
 
     #[test]
     fn os_release_amazon_2() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-amazon-2";
 
         let info = retrieve(&distributions).unwrap();
@@ -279,7 +279,7 @@ mod tests {
 
     #[test]
     fn os_release_centos() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-centos";
 
         let info = retrieve(&distributions).unwrap();
@@ -291,7 +291,7 @@ mod tests {
 
     #[test]
     fn os_release_centos_stream() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-centos-stream";
 
         let info = retrieve(&distributions).unwrap();
@@ -303,7 +303,7 @@ mod tests {
 
     #[test]
     fn os_release_fedora() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-fedora-32";
 
         let info = retrieve(&distributions).unwrap();
@@ -315,7 +315,7 @@ mod tests {
 
     #[test]
     fn os_release_fedora_35() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-fedora-35";
 
         let info = retrieve(&distributions).unwrap();
@@ -327,7 +327,7 @@ mod tests {
 
     #[test]
     fn os_release_nixos() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-nixos";
 
         let info = retrieve(&distributions).unwrap();
@@ -342,7 +342,7 @@ mod tests {
 
     #[test]
     fn os_release_rhel() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-rhel";
 
         let info = retrieve(&distributions).unwrap();
@@ -354,7 +354,7 @@ mod tests {
 
     #[test]
     fn os_release_rhel_7() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-rhel-7";
 
         let info = retrieve(&distributions).unwrap();
@@ -366,7 +366,7 @@ mod tests {
 
     #[test]
     fn os_release_suse_12() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-suse-12";
 
         let info = retrieve(&distributions).unwrap();
@@ -378,7 +378,7 @@ mod tests {
 
     #[test]
     fn os_release_suse_15() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-suse-15";
 
         let info = retrieve(&distributions).unwrap();
@@ -390,7 +390,7 @@ mod tests {
 
     #[test]
     fn os_release_ubuntu() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-ubuntu";
 
         let info = retrieve(&distributions).unwrap();
@@ -402,7 +402,7 @@ mod tests {
 
     #[test]
     fn os_release_mint() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        let mut distributions = [DISTRIBUTIONS[0].clone()];
         distributions[0].path = "src/linux/tests/os-release-mint";
 
         let info = retrieve(&distributions).unwrap();
@@ -414,7 +414,7 @@ mod tests {
 
     #[test]
     fn centos() {
-        let mut distributions = [DISTRIBUTIONS[1].clone()];
+        let mut distributions = [DISTRIBUTIONS[2].clone()];
         distributions[0].path = "src/linux/tests/centos-release";
 
         let info = retrieve(&distributions).unwrap();
@@ -426,7 +426,7 @@ mod tests {
 
     #[test]
     fn fedora() {
-        let mut distributions = [DISTRIBUTIONS[2].clone()];
+        let mut distributions = [DISTRIBUTIONS[3].clone()];
         distributions[0].path = "src/linux/tests/fedora-release";
 
         let info = retrieve(&distributions).unwrap();
@@ -450,7 +450,7 @@ mod tests {
 
     #[test]
     fn alpine() {
-        let mut distributions = [DISTRIBUTIONS[3].clone()];
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
         distributions[0].path = "src/linux/tests/alpine-release";
 
         let info = retrieve(&distributions).unwrap();
@@ -462,7 +462,7 @@ mod tests {
 
     #[test]
     fn mariner() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
+        let mut distributions = [DISTRIBUTIONS[1].clone()];
         distributions[0].path = "src/linux/tests/mariner-release";
 
         let info = retrieve(&distributions).unwrap();
