@@ -7,12 +7,12 @@ use log::{trace, warn};
 use crate::{matcher::Matcher, Bitness, Info, Type, Version};
 
 pub fn get() -> Option<Info> {
-    retrieve(&DISTRIBUTIONS)
+    retrieve(&DISTRIBUTIONS, "/")
 }
 
-fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
+fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
     for release_info in distributions {
-        let path = Path::new(release_info.path);
+        let path = Path::new(root).join(release_info.path);
 
         if !path.exists() {
             trace!("Path '{}' doesn't exist", release_info.path);
@@ -71,11 +71,11 @@ fn retrieve(distributions: &[ReleaseInfo]) -> Option<Info> {
 /// ```
 #[derive(Clone)]
 struct ReleaseInfo<'a> {
-    /// The release file the struct corresponds to.
+    /// Relative path to the release file this struct corresponds to from root.
     ///
     /// # Example
     /// ```rust,ignore
-    /// path: "/etc/os-release"
+    /// path: "etc/os-release"
     /// ```
     path: &'a str,
 
@@ -116,7 +116,7 @@ impl fmt::Debug for ReleaseInfo<'_> {
 static DISTRIBUTIONS: [ReleaseInfo; 6] = [
     // Keep this first; most modern distributions have this file.
     ReleaseInfo {
-        path: "/etc/os-release",
+        path: "etc/os-release",
         os_type: |release| {
             Matcher::KeyValue { key: "ID" }
                 .find(release)
@@ -180,7 +180,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
     },
     // Older distributions must have their specific release file parsed.
     ReleaseInfo {
-        path: "/etc/mariner-release",
+        path: "etc/mariner-release",
         os_type: |_| Some(Type::Mariner),
         version: |release| {
             Matcher::PrefixedVersion {
@@ -191,7 +191,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
         },
     },
     ReleaseInfo {
-        path: "/etc/centos-release",
+        path: "etc/centos-release",
         os_type: |_| Some(Type::CentOS),
         version: |release| {
             Matcher::PrefixedVersion { prefix: "release" }
@@ -200,7 +200,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
         },
     },
     ReleaseInfo {
-        path: "/etc/fedora-release",
+        path: "etc/fedora-release",
         os_type: |_| Some(Type::Fedora),
         version: |release| {
             Matcher::PrefixedVersion { prefix: "release" }
@@ -209,12 +209,12 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
         },
     },
     ReleaseInfo {
-        path: "/etc/alpine-release",
+        path: "etc/alpine-release",
         os_type: |_| Some(Type::Alpine),
         version: |release| Matcher::AllTrimmed.find(release).map(Version::from_string),
     },
     ReleaseInfo {
-        path: "/etc/redhat-release",
+        path: "etc/redhat-release",
         os_type: |_| Some(Type::RedHatEnterprise),
         version: |release| {
             Matcher::PrefixedVersion { prefix: "release" }
@@ -230,23 +230,10 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    fn oracle_linux() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release";
+    fn alpine_3_12_os_release() {
+        let root = "src/linux/tests/Alpine_3_12";
 
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::OracleLinux);
-        assert_eq!(info.version, Version::Semantic(8, 1, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn os_release_alpine_3_12() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-alpine-3-12";
-
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
         assert_eq!(info.version, Version::Semantic(3, 12, 0));
         assert_eq!(info.edition, None);
@@ -254,11 +241,21 @@ mod tests {
     }
 
     #[test]
-    fn os_release_amazon_1() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-amazon-1";
+    fn alpine_release() {
+        let root = "src/linux/tests/Alpine";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Alpine);
+        assert_eq!(info.version, Version::Custom("A.B.C".to_owned()));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn amazon_1_os_release() {
+        let root = "src/linux/tests/Amazon_1";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Amazon);
         assert_eq!(info.version, Version::Semantic(2018, 3, 0));
         assert_eq!(info.edition, None);
@@ -266,11 +263,10 @@ mod tests {
     }
 
     #[test]
-    fn os_release_amazon_2() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-amazon-2";
+    fn amazon_2_os_release() {
+        let root = "src/linux/tests/Amazon_2";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Amazon);
         assert_eq!(info.version, Version::Semantic(2, 0, 0));
         assert_eq!(info.edition, None);
@@ -278,11 +274,10 @@ mod tests {
     }
 
     #[test]
-    fn os_release_centos() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-centos";
+    fn centos_7_os_release() {
+        let root = "src/linux/tests/CentOS_7";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::CentOS);
         assert_eq!(info.version, Version::Semantic(7, 0, 0));
         assert_eq!(info.edition, None);
@@ -290,11 +285,10 @@ mod tests {
     }
 
     #[test]
-    fn os_release_centos_stream() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-centos-stream";
+    fn centos_stream_os_release() {
+        let root = "src/linux/tests/CentOS_Stream";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::CentOS);
         assert_eq!(info.version, Version::Semantic(8, 0, 0));
         assert_eq!(info.edition, None);
@@ -302,11 +296,32 @@ mod tests {
     }
 
     #[test]
-    fn os_release_fedora() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-fedora-32";
+    fn centos_release() {
+        let root = "src/linux/tests/CentOS";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::CentOS);
+        assert_eq!(info.version, Version::Custom("XX".to_owned()));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn centos_release_unknown() {
+        let root = "src/linux/tests/CentOS_Unknown";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::CentOS);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn fedora_32_os_release() {
+        let root = "src/linux/tests/Fedora_32";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
         assert_eq!(info.version, Version::Semantic(32, 0, 0));
         assert_eq!(info.edition, None);
@@ -314,11 +329,10 @@ mod tests {
     }
 
     #[test]
-    fn os_release_fedora_35() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-fedora-35";
+    fn fedora_35_os_release() {
+        let root = "src/linux/tests/Fedora_35";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
         assert_eq!(info.version, Version::Semantic(35, 0, 0));
         assert_eq!(info.edition, None);
@@ -326,11 +340,65 @@ mod tests {
     }
 
     #[test]
-    fn os_release_nixos() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-nixos";
+    fn fedora_release() {
+        let root = "src/linux/tests/Fedora";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Fedora);
+        assert_eq!(info.version, Version::Semantic(26, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn fedora_release_unknown() {
+        let root = "src/linux/tests/Fedora_Unknown";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Fedora);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn mariner_release() {
+        let root = "src/linux/tests/Mariner";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Mariner);
+        assert_eq!(info.version, Version::Semantic(2, 0, 20220210));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn mariner_release_unknown() {
+        let root = "src/linux/tests/Mariner_Unknown";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Mariner);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn mint_os_release() {
+        let root = "src/linux/tests/Mint";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Mint);
+        assert_eq!(info.version, Version::Semantic(20, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn nixos_os_release() {
+        let root = "src/linux/tests/NixOS";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::NixOS);
         assert_eq!(
             info.version,
@@ -341,11 +409,45 @@ mod tests {
     }
 
     #[test]
-    fn os_release_rhel() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-rhel";
+    fn none_invalid_os_release() {
+        let root = "src/linux/tests/none_invalid_os_release";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root);
+        assert_eq!(info, None);
+    }
+
+    #[test]
+    fn none_no_release() {
+        let root = "src/linux/tests/none_no_release";
+
+        let info = retrieve(&DISTRIBUTIONS, root);
+        assert_eq!(info, None);
+    }
+
+    #[test]
+    fn none_no_path() {
+        let root = "src/linux/tests/none_no_path";
+
+        let info = retrieve(&DISTRIBUTIONS, root);
+        assert_eq!(info, None);
+    }
+
+    #[test]
+    fn oracle_linux_os_release() {
+        let root = "src/linux/tests/OracleLinux";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::OracleLinux);
+        assert_eq!(info.version, Version::Semantic(8, 1, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn rhel_8_os_release() {
+        let root = "src/linux/tests/RedHatEnterprise_8";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::RedHatEnterprise);
         assert_eq!(info.version, Version::Semantic(8, 2, 0));
         assert_eq!(info.edition, None);
@@ -353,11 +455,10 @@ mod tests {
     }
 
     #[test]
-    fn os_release_rhel_7() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-rhel-7";
+    fn rhel_7_os_release() {
+        let root = "src/linux/tests/RedHatEnterprise_7";
 
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::RedHatEnterprise);
         assert_eq!(info.version, Version::Semantic(7, 9, 0));
         assert_eq!(info.edition, None);
@@ -365,83 +466,10 @@ mod tests {
     }
 
     #[test]
-    fn os_release_suse_12() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-suse-12";
+    fn redhat_release() {
+        let root = "src/linux/tests/RedHatEnterprise";
 
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::SUSE);
-        assert_eq!(info.version, Version::Semantic(12, 5, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn os_release_suse_15() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-suse-15";
-
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::SUSE);
-        assert_eq!(info.version, Version::Semantic(15, 2, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn os_release_ubuntu() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-ubuntu";
-
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Ubuntu);
-        assert_eq!(info.version, Version::Semantic(18, 10, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn os_release_mint() {
-        let mut distributions = [DISTRIBUTIONS[0].clone()];
-        distributions[0].path = "src/linux/tests/os-release-mint";
-
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Mint);
-        assert_eq!(info.version, Version::Semantic(20, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn centos() {
-        let mut distributions = [DISTRIBUTIONS[2].clone()];
-        distributions[0].path = "src/linux/tests/centos-release";
-
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::CentOS);
-        assert_eq!(info.version, Version::Custom("XX".to_owned()));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn fedora() {
-        let mut distributions = [DISTRIBUTIONS[3].clone()];
-        distributions[0].path = "src/linux/tests/fedora-release";
-
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::Semantic(26, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn redhat() {
-        let mut distributions = [DISTRIBUTIONS[5].clone()];
-        distributions[0].path = "src/linux/tests/redhat-release";
-
-        let info = retrieve(&distributions).unwrap();
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::RedHatEnterprise);
         assert_eq!(info.version, Version::Custom("XX".to_owned()));
         assert_eq!(info.edition, None);
@@ -449,25 +477,45 @@ mod tests {
     }
 
     #[test]
-    fn alpine() {
-        let mut distributions = [DISTRIBUTIONS[4].clone()];
-        distributions[0].path = "src/linux/tests/alpine-release";
+    fn redhat_release_unknown() {
+        let root = "src/linux/tests/RedHatEnterprise_Unknown";
 
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::Custom("A.B.C".to_owned()));
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::RedHatEnterprise);
+        assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
 
     #[test]
-    fn mariner() {
-        let mut distributions = [DISTRIBUTIONS[1].clone()];
-        distributions[0].path = "src/linux/tests/mariner-release";
+    fn suse_12_os_release() {
+        let root = "src/linux/tests/SUSE_12";
 
-        let info = retrieve(&distributions).unwrap();
-        assert_eq!(info.os_type(), Type::Mariner);
-        assert_eq!(info.version, Version::Semantic(2, 0, 20220210));
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::SUSE);
+        assert_eq!(info.version, Version::Semantic(12, 5, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn suse_15_os_release() {
+        let root = "src/linux/tests/SUSE_15";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::SUSE);
+        assert_eq!(info.version, Version::Semantic(15, 2, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn ubuntu_os_release() {
+        let root = "src/linux/tests/Ubuntu";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Ubuntu);
+        assert_eq!(info.version, Version::Semantic(18, 10, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
