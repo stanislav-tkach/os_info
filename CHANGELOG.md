@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.5.0] (2022-08-01)
+
+- Red Hat Enterprise Linux detection has been improved. (#311)
+
+- Garuda Linux support has been added. (#314)
+
+- The operating system detection from the release files has been improved. (#317)
+
 ## [3.4.0] (2022-05-22)
 
 - Gentoo Linux support has been added. (#307)
@@ -261,7 +269,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.4.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.5.0...HEAD
+[3.5.0]: https://github.com/stanislav-tkach/os_info/compare/v3.4.0...v3.5.0
 [3.4.0]: https://github.com/stanislav-tkach/os_info/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/stanislav-tkach/os_info/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/stanislav-tkach/os_info/compare/v3.1.0...v3.2.0

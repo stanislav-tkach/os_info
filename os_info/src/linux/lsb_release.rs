@@ -22,6 +22,7 @@ pub fn get() -> Option<Info> {
         Some("Debian") => Type::Debian,
         Some("EndeavourOS") => Type::EndeavourOS,
         Some("Fedora") | Some("Fedora Linux") => Type::Fedora,
+        Some("Garuda") => Type::Garuda,
         Some("Gentoo") => Type::Gentoo,
         Some("Linuxmint") => Type::Mint,
         Some("ManjaroLinux") => Type::Manjaro,
