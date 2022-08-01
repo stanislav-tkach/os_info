@@ -28,13 +28,15 @@ pub enum Type {
     Fedora,
     /// FreeBSD (<https://en.wikipedia.org/wiki/FreeBSD>).
     FreeBSD,
+    /// Garuda Linux (<https://en.wikipedia.org/wiki/Garuda_Linux>)
+    Garuda,
     /// Gentoo Linux (<https://en.wikipedia.org/wiki/Gentoo_Linux>).
     Gentoo,
-    /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
+    /// HardenedBSD (https://hardenedbsd.org/).
     HardenedBSD,
-    /// HardenedBSD (https://hardenedbsd.org/)
+    /// Illumos (https://en.wikipedia.org/wiki/Illumos).
     Illumos,
-    /// Illumos (https://en.wikipedia.org/wiki/Illumos)
+    /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     Linux,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
@@ -42,9 +44,9 @@ pub enum Type {
     Manjaro,
     /// Mariner (<https://en.wikipedia.org/wiki/CBL-Mariner>).
     Mariner,
-    /// Mint (<https://en.wikipedia.org/wiki/Linux_Mint>).
+    /// MidnightBSD (<https://en.wikipedia.org/wiki/MidnightBSD>).
     MidnightBSD,
-    /// MidnightBSD(<https://en.wikipedia.org/wiki/MidnightBSD>).
+    /// Mint (<https://en.wikipedia.org/wiki/Linux_Mint>).
     Mint,
     /// NetBSD (<https://en.wikipedia.org/wiki/NetBSD>).
     NetBSD,
@@ -72,8 +74,6 @@ pub enum Type {
     SUSE,
     /// Ubuntu (<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>).
     Ubuntu,
-    /// Garuda Linux (<https://en.wikipedia.org/wiki/Garuda_Linux>)
-    Garuda,
     /// Unknown operating system.
     Unknown,
     /// Windows (<https://en.wikipedia.org/wiki/Microsoft_Windows>).
@@ -93,6 +93,7 @@ impl Display for Type {
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
             Type::DragonFly => write!(f, "DragonFly BSD"),
+            Type::Garuda => write!(f, "Garuda Linux"),
             Type::Gentoo => write!(f, "Gentoo Linux"),
             Type::Illumos => write!(f, "illumos"),
             Type::Macos => write!(f, "Mac OS"),
@@ -103,7 +104,6 @@ impl Display for Type {
             Type::Redhat => write!(f, "Red Hat Linux"),
             Type::RedHatEnterprise => write!(f, "Red Hat Enterprise Linux"),
             Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
-            Type::Garuda => write!(f, "Garuda Linux"),
             _ => write!(f, "{:?}", self),
         }
     }
@@ -131,6 +131,7 @@ mod tests {
             (Type::Emscripten, "Emscripten"),
             (Type::EndeavourOS, "EndeavourOS"),
             (Type::Fedora, "Fedora"),
+            (Type::Garuda, "Garuda Linux"),
             (Type::Gentoo, "Gentoo Linux"),
             (Type::FreeBSD, "FreeBSD"),
             (Type::Linux, "Linux"),
@@ -150,7 +151,6 @@ mod tests {
             (Type::Solus, "Solus"),
             (Type::SUSE, "SUSE Linux Enterprise Server"),
             (Type::Ubuntu, "Ubuntu"),
-            (Type::Garuda, "Garuda Linux"),
             (Type::Unknown, "Unknown"),
             (Type::Windows, "Windows"),
         ];

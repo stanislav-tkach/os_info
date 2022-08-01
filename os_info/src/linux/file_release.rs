@@ -54,50 +54,16 @@ fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
     None
 }
 
-/// Struct containing information on how to parse distribution info from a
-/// release file.
-///
-/// # Example
-/// ```rust,ignore
-/// ReleaseInfo {
-///     path: "/etc/fedora-release",
-///     os_type: |_| Some(Type::Fedora),
-///     version: |release| {
-///         Matcher::PrefixedVersion { prefix: "release" }
-///             .find(&release)
-///             .map(Version::from_string)
-///     },
-/// },
-/// ```
+/// Struct containing information on how to parse distribution info from a release file.
 #[derive(Clone)]
 struct ReleaseInfo<'a> {
     /// Relative path to the release file this struct corresponds to from root.
-    ///
-    /// # Example
-    /// ```rust,ignore
-    /// path: "etc/os-release"
-    /// ```
     path: &'a str,
 
     /// A closure that determines the os type from the release file contents.
-    ///
-    /// # Example
-    /// ```rust,ignore
-    /// //path: "/etc/mariner-release",
-    /// os_type: |_| Some(Type::Mariner),
-    /// ```
     os_type: for<'b> fn(&'b str) -> Option<Type>,
 
     /// A closure that determines the os version from the release file contents.
-    ///
-    /// # Example
-    /// ```rust,ignore
-    /// version: |release| {
-    ///     Matcher::KeyValue { key: "VERSION_ID" }
-    ///         .find(&release)
-    ///         .map(Version::from_string)
-    /// },
-    /// ```
     version: for<'b> fn(&'b str) -> Option<Version>,
 }
 

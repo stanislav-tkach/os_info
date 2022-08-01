@@ -89,20 +89,23 @@ Right now, the following operating system types can be returned:
 - EndeavourOS
 - Fedora
 - FreeBSD
+- Garuda Linux
+- Gentoo Linux
 - HardenedBSD
 - Illumos
 - Linux
-- Linux Mint
 - macOS (Mac OS X or OS X)
 - Manjaro
+- Mariner
 - MidnightBSD
+- Mint
 - NetBSD
 - NixOS
 - OpenBSD
 - openSUSE
 - Oracle Linux
 - Pop!_OS
-- Raspberry OS
+- Raspberry Pi OS
 - Red Hat Linux
 - Red Hat Enterprise Linux
 - Redox
