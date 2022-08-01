@@ -54,22 +54,7 @@ fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
     None
 }
 
-/// Struct containing information on how to parse distribution info from a
-/// release file.
-///
-/// # Examples
-///
-/// ```
-/// ReleaseInfo {
-///     path: "/etc/fedora-release",
-///     os_type: |_| Some(Type::Fedora),
-///     version: |release| {
-///         Matcher::PrefixedVersion { prefix: "release" }
-///             .find(&release)
-///             .map(Version::from_string)
-///     },
-/// }
-/// ```
+/// Struct containing information on how to parse distribution info from a release file.
 #[derive(Clone)]
 struct ReleaseInfo<'a> {
     /// Relative path to the release file this struct corresponds to from root.
