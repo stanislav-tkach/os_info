@@ -59,7 +59,7 @@ fn version() -> (Version, Option<String>) {
                 v.dwMinorVersion as u64,
                 v.dwBuildNumber as u64,
             ),
-            product_name().or_else(|| edition(&v)),
+            product_name(&v).or_else(|| edition(&v)),
         ),
     }
 }
@@ -125,7 +125,7 @@ fn version_info() -> Option<OSVERSIONINFOEX> {
     }
 }
 
-fn product_name() -> Option<String> {
+fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
     const REG_SUCCESS: LSTATUS = ERROR_SUCCESS as LSTATUS;
 
     let sub_key = to_wide("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
@@ -138,8 +138,14 @@ fn product_name() -> Option<String> {
         return None;
     }
 
+    let is_win_11 = info.dwMajorVersion == 10 && info.dwBuildNumber >= 22000;
+
     // Get size of the data.
-    let name = to_wide("ProductName");
+    let name = to_wide(if is_win_11 {
+        "EditionID"
+    } else {
+        "ProductName"
+    });
     let mut data_type: DWORD = 0;
     let mut data_size: DWORD = 0;
     if unsafe {
@@ -186,11 +192,15 @@ fn product_name() -> Option<String> {
         _ => {}
     }
 
-    Some(
-        OsString::from_wide(data.as_slice())
-            .to_string_lossy()
-            .into_owned(),
-    )
+    let value = OsString::from_wide(data.as_slice())
+        .to_string_lossy()
+        .into_owned();
+
+    if is_win_11 {
+        Some(format!("Windows 11 {}", value))
+    } else {
+        Some(value)
+    }
 }
 
 fn to_wide(value: &str) -> Vec<WCHAR> {
@@ -206,7 +216,13 @@ fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
         version_info.wProductType,
     ) {
         // Windows 10.
-        (10, 0, VER_NT_WORKSTATION) => Some("Windows 10"),
+        (10, 0, VER_NT_WORKSTATION) => {
+            if version_info.dwBuildNumber >= 22000 {
+                Some("Windows 11")
+            } else {
+                Some("Windows 10")
+            }
+        },
         (10, 0, _) => Some("Windows Server 2016"),
         // Windows Vista, 7, 8 and 8.1.
         (6, 3, VER_NT_WORKSTATION) => Some("Windows 8.1"),
@@ -283,7 +299,6 @@ mod tests {
     #[test]
     fn get_edition() {
         let test_data = [
-            (10, 0, VER_NT_WORKSTATION, "Windows 10"),
             (10, 0, 0, "Windows Server 2016"),
             (6, 3, VER_NT_WORKSTATION, "Windows 8.1"),
             (6, 3, 0, "Windows Server 2012 R2"),
@@ -351,7 +366,8 @@ mod tests {
 
     #[test]
     fn get_product_name() {
-        let edition = product_name().expect("edition() failed");
+        let version = version_info().expect("version_info() failed");
+        let edition = product_name(&version).expect("edition() failed");
         assert!(!edition.is_empty());
     }
 
