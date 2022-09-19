@@ -19,7 +19,7 @@ jobs:
         with:
           # Feel free to bump this version if you need features of newer Rust.
           # Sync with badge in README.md
-          toolchain: 1.41.0
+          toolchain: 1.45.0
           profile: minimal
           override: true
 

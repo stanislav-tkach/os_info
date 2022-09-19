@@ -222,7 +222,7 @@ fn edition(version_info: &OSVERSIONINFOEX) -> Option<String> {
             } else {
                 Some("Windows 10")
             }
-        },
+        }
         (10, 0, _) => Some("Windows Server 2016"),
         // Windows Vista, 7, 8 and 8.1.
         (6, 3, VER_NT_WORKSTATION) => Some("Windows 8.1"),
