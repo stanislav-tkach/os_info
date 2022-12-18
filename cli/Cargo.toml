@@ -11,6 +11,7 @@ keywords = ["cli", "os", "os_type", "os_version", "os_info"]
 categories = ["command-line-interface", "os"]
 license = "MIT"
 edition = "2018"
+rust-version = "1.31"
 
 [[bin]]
 name = "os_info"
