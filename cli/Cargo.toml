@@ -21,7 +21,7 @@ path = "src/main.rs"
 os_info = { version = "3.5.1", default-features = false, path = "../os_info" }
 log = "0.4.5"
 env_logger = "0.9"
-clap = { version = "3", features = ["derive"] }
+clap = { version = "4", features = ["derive"] }
 
 [dev-dependencies]
 assert_cmd = "2"
