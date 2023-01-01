@@ -303,6 +303,15 @@ mod tests {
                 }),
             ),
             (
+                "src/linux/tests/Debian/11.0.0",
+                Some(Info {
+                    os_type: Type::Debian,
+                    version: Version::Semantic(11, 0, 0),
+                    codename: Some("bullseye".to_owned()),
+                    ..Default::default()
+                }),
+            ),
+            (
                 "src/linux/tests/EndeavourOS/rolling",
                 Some(Info {
                     os_type: Type::EndeavourOS,
