@@ -89,6 +89,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .and_then(|id| match id.as_str() {
                     // os-release information collected from
                     // https://github.com/chef/os_release
+                    // and iso installations
 
                     //"almalinux" => Alma
                     "alpine" => Some(Type::Alpine),
@@ -102,32 +103,38 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"clearos" => ClearOS
                     //"coreos"
                     //"cumulus-linux" => Cumulus
-                    //"debian" => Debian
+                    "debian" => Some(Type::Debian),
                     //"devuan" => Devuan
                     //"elementary" => Elementary
+                    "endeavouros" => Some(Type::EndeavourOS),
                     "fedora" => Some(Type::Fedora),
-                    //"gentoo" => Gentoo
+                    "garuda" => Some(Type::Garuda),
+                    "gentoo" => Some(Type::Gentoo),
                     //"ios_xr" => ios_xr
                     //"kali" => Kali
                     //"mageia" => Mageia
-                    //"manjaro" => Manjaro
-                    "linuxmint" => Some(Type::Mint),
+                    "manjaro" => Some(Type::Manjaro),
                     "mariner" => Some(Type::Mariner),
+                    "linuxmint" => Some(Type::Mint),
                     //"nexus" => Nexus
                     "nixos" => Some(Type::NixOS),
                     "opencloudos" => Some(Type::OpenCloudOS),
                     "openEuler" => Some(Type::openEuler),
-                    "ol" => Some(Type::OracleLinux),
                     "opensuse" => Some(Type::openSUSE),
                     "opensuse-leap" => Some(Type::openSUSE),
+                    "ol" => Some(Type::OracleLinux),
+                    "pop" => Some(Type::Pop),
                     //"rancheros" => RancherOS
+                    "raspbian" => Some(Type::Raspbian),
                     //"raspbian" => Raspbian
                     // note XBian also uses "raspbian"
+                    // => Some(Type::Redhat),
                     "rhel" => Some(Type::RedHatEnterprise),
                     //"rocky" => Rocky
                     //"sabayon" => Sabayon
                     //"scientific" => Scientific
                     //"slackware" => Slackware
+                    "solus" => Some(Type::Solus),
                     "sled" => Some(Type::SUSE), // SUSE desktop
                     "sles" => Some(Type::SUSE),
                     "sles_sap" => Some(Type::SUSE), // SUSE SAP
@@ -198,12 +205,12 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    fn alpine_3_12_os_release() {
-        let root = "src/linux/tests/Alpine_3_12";
+    fn alpine_3_17_os_release() {
+        let root = "src/linux/tests/Alpine_3_17";
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::Semantic(3, 12, 0));
+        assert_eq!(info.version, Version::Semantic(3, 17, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
@@ -214,7 +221,7 @@ mod tests {
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::Custom("A.B.C".to_owned()));
+        assert_eq!(info.version, Version::Semantic(3, 17, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
@@ -237,6 +244,18 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Amazon);
         assert_eq!(info.version, Version::Semantic(2, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn arch_os_release() {
+        let root = "src/linux/tests/Arch";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Arch);
+        // TODO: Should be Version::Rolling
+        assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
@@ -286,6 +305,18 @@ mod tests {
     }
 
     #[test]
+    fn endeavour_os_release() {
+        let root = "src/linux/tests/EndeavourOS";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::EndeavourOS);
+        // TOOD: Should be Version::Rolling
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
     fn fedora_32_os_release() {
         let root = "src/linux/tests/Fedora_32";
 
@@ -327,6 +358,19 @@ mod tests {
         assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn garuda_os_release() {
+        let root = "src/linux/tests/Garuda";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Garuda);
+        // TODO: Should be Version::Rolling
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+        // NOTE: lsb-release has DISTRIB_CODENAME="Talon" and DISTRIB_RELEASE=Soaring
     }
 
     #[test]
@@ -420,7 +464,7 @@ mod tests {
         assert_eq!(info.version, Version::Semantic(22, 3, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
-        
+
     }
 
     #[test]
@@ -430,6 +474,28 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::OracleLinux);
         assert_eq!(info.version, Version::Semantic(8, 1, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn pop_22_os_release() {
+        let root = "src/linux/tests/Pop_22";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Pop);
+        assert_eq!(info.version, Version::Semantic(22, 4, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn raspbian_10_os_release() {
+        let root = "src/linux/tests/Raspbian_10";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Raspbian);
+        assert_eq!(info.version, Version::Semantic(10, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
@@ -474,6 +540,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::RedHatEnterprise);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn solus_os_release() {
+        let root = "src/linux/tests/Solus";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Solus);
+        assert_eq!(info.version, Version::Semantic(4, 3, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

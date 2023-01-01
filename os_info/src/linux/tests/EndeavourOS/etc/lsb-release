@@ -1,0 +1,4 @@
+DISTRIB_ID=EndeavourOS
+DISTRIB_RELEASE="rolling"
+DISTRIB_DESCRIPTION="EndeavourOS Linux"
+DISTRIB_CODENAME=rolling
