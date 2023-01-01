@@ -54,6 +54,10 @@ pub enum Type {
     NixOS,
     /// OpenBSD (<https://en.wikipedia.org/wiki/OpenBSD>).
     OpenBSD,
+    /// OpenCloudOS (<https://www.opencloudos.org>).
+    OpenCloudOS,
+    /// openEuler (<https://en.wikipedia.org/wiki/EulerOS>).
+    openEuler,
     /// openSUSE (<https://en.wikipedia.org/wiki/OpenSUSE>).
     openSUSE,
     /// Oracle Linux (<https://en.wikipedia.org/wiki/Oracle_Linux>).

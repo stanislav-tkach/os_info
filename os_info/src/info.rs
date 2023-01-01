@@ -205,6 +205,8 @@ mod tests {
             Type::Manjaro,
             Type::Mariner,
             Type::NixOS,
+            Type::OpenCloudOS,
+            Type::openEuler,
             Type::openSUSE,
             Type::OracleLinux,
             Type::Pop,

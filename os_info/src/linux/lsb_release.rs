@@ -28,6 +28,8 @@ pub fn get() -> Option<Info> {
         Some("ManjaroLinux") => Type::Manjaro,
         Some("Mariner") => Type::Mariner,
         Some("NixOS") => Type::NixOS,
+        Some("OpenCloudOS") => Type::OpenCloudOS,
+        Some("openEuler") => Type::openEuler,
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
         Some("Pop") => Type::Pop,

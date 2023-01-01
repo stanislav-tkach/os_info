@@ -115,6 +115,8 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "mariner" => Some(Type::Mariner),
                     //"nexus" => Nexus
                     "nixos" => Some(Type::NixOS),
+                    "opencloudos" => Some(Type::OpenCloudOS),
+                    "openEuler" => Some(Type::openEuler),
                     "ol" => Some(Type::OracleLinux),
                     "opensuse" => Some(Type::openSUSE),
                     "opensuse-leap" => Some(Type::openSUSE),
@@ -396,6 +398,29 @@ mod tests {
 
         let info = retrieve(&DISTRIBUTIONS, root);
         assert_eq!(info, None);
+    }
+
+    #[test]
+    fn opencloudos_os_release() {
+        let root = "src/linux/tests/OpenCloudOS";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::OpenCloudOS);
+        assert_eq!(info.version, Version::Semantic(8, 6, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn openeuler_os_release() {
+        let root = "src/linux/tests/openEuler";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::openEuler);
+        assert_eq!(info.version, Version::Semantic(22, 3, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+        
     }
 
     #[test]
