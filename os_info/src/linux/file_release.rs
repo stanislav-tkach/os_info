@@ -356,6 +356,15 @@ mod tests {
                 }),
             ),
             (
+                "src/linux/tests/Manjaro/rolling",
+                Some(Info {
+                    os_type: Type::Manjaro,
+                    version: Version::Unknown,
+                    // TODO: Should be Version::Rolling
+                    ..Default::default()
+                }),
+            ),
+            (
                 "src/linux/tests/Mariner/2.0.20220210",
                 Some(Info {
                     os_type: Type::Mariner,
