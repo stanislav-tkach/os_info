@@ -126,8 +126,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "pop" => Some(Type::Pop),
                     //"rancheros" => RancherOS
                     "raspbian" => Some(Type::Raspbian),
-                    //"raspbian" => Raspbian
-                    // note XBian also uses "raspbian"
+                    // NOTE: XBian also uses "raspbian"
                     // => Some(Type::Redhat),
                     "rhel" => Some(Type::RedHatEnterprise),
                     //"rocky" => Rocky
@@ -205,387 +204,275 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    fn alpine_3_17_os_release() {
-        let root = "src/linux/tests/Alpine_3_17";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::Semantic(3, 17, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn alpine_release() {
-        let root = "src/linux/tests/Alpine";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Alpine);
-        assert_eq!(info.version, Version::Semantic(3, 17, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn amazon_1_os_release() {
-        let root = "src/linux/tests/Amazon_1";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Amazon);
-        assert_eq!(info.version, Version::Semantic(2018, 3, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn amazon_2_os_release() {
-        let root = "src/linux/tests/Amazon_2";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Amazon);
-        assert_eq!(info.version, Version::Semantic(2, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn arch_os_release() {
-        let root = "src/linux/tests/Arch";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Arch);
-        // TODO: Should be Version::Rolling
-        assert_eq!(info.version, Version::Unknown);
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn centos_7_os_release() {
-        let root = "src/linux/tests/CentOS_7";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::CentOS);
-        assert_eq!(info.version, Version::Semantic(7, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn centos_stream_os_release() {
-        let root = "src/linux/tests/CentOS_Stream";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::CentOS);
-        assert_eq!(info.version, Version::Semantic(8, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn centos_release() {
-        let root = "src/linux/tests/CentOS";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::CentOS);
-        assert_eq!(info.version, Version::Custom("XX".to_owned()));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn centos_release_unknown() {
-        let root = "src/linux/tests/CentOS_Unknown";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::CentOS);
-        assert_eq!(info.version, Version::Unknown);
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn endeavour_os_release() {
-        let root = "src/linux/tests/EndeavourOS";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::EndeavourOS);
-        // TODO: Should be Version::Rolling
-        assert_eq!(info.version, Version::Unknown);
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn fedora_32_os_release() {
-        let root = "src/linux/tests/Fedora_32";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::Semantic(32, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn fedora_35_os_release() {
-        let root = "src/linux/tests/Fedora_35";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::Semantic(35, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn fedora_release() {
-        let root = "src/linux/tests/Fedora";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::Semantic(26, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn fedora_release_unknown() {
-        let root = "src/linux/tests/Fedora_Unknown";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Fedora);
-        assert_eq!(info.version, Version::Unknown);
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn garuda_os_release() {
-        let root = "src/linux/tests/Garuda";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Garuda);
-        // TODO: Should be Version::Rolling
-        assert_eq!(info.version, Version::Unknown);
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-        // NOTE: lsb-release has DISTRIB_CODENAME="Talon" and DISTRIB_RELEASE=Soaring
-    }
-
-    #[test]
-    fn mariner_release() {
-        let root = "src/linux/tests/Mariner";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Mariner);
-        assert_eq!(info.version, Version::Semantic(2, 0, 20220210));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn mariner_release_unknown() {
-        let root = "src/linux/tests/Mariner_Unknown";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Mariner);
-        assert_eq!(info.version, Version::Unknown);
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn mint_os_release() {
-        let root = "src/linux/tests/Mint";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Mint);
-        assert_eq!(info.version, Version::Semantic(20, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn nixos_os_release() {
-        let root = "src/linux/tests/NixOS";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::NixOS);
-        assert_eq!(
-            info.version,
-            Version::Custom("21.05pre275822.916ee862e87".to_string())
-        );
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn none_invalid_os_release() {
-        let root = "src/linux/tests/none_invalid_os_release";
-
-        let info = retrieve(&DISTRIBUTIONS, root);
-        assert_eq!(info, None);
-    }
-
-    #[test]
-    fn none_no_release() {
-        let root = "src/linux/tests/none_no_release";
-
-        let info = retrieve(&DISTRIBUTIONS, root);
-        assert_eq!(info, None);
-    }
-
-    #[test]
-    fn none_no_path() {
-        let root = "src/linux/tests/none_no_path";
-
-        let info = retrieve(&DISTRIBUTIONS, root);
-        assert_eq!(info, None);
-    }
-
-    #[test]
-    fn opencloudos_os_release() {
-        let root = "src/linux/tests/OpenCloudOS";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::OpenCloudOS);
-        assert_eq!(info.version, Version::Semantic(8, 6, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn openeuler_os_release() {
-        let root = "src/linux/tests/openEuler";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::openEuler);
-        assert_eq!(info.version, Version::Semantic(22, 3, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-
-    }
-
-    #[test]
-    fn oracle_linux_os_release() {
-        let root = "src/linux/tests/OracleLinux";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::OracleLinux);
-        assert_eq!(info.version, Version::Semantic(8, 1, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn pop_22_os_release() {
-        let root = "src/linux/tests/Pop_22";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Pop);
-        assert_eq!(info.version, Version::Semantic(22, 4, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn raspbian_10_os_release() {
-        let root = "src/linux/tests/Raspbian_10";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Raspbian);
-        assert_eq!(info.version, Version::Semantic(10, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn rhel_8_os_release() {
-        let root = "src/linux/tests/RedHatEnterprise_8";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::RedHatEnterprise);
-        assert_eq!(info.version, Version::Semantic(8, 2, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn rhel_7_os_release() {
-        let root = "src/linux/tests/RedHatEnterprise_7";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::RedHatEnterprise);
-        assert_eq!(info.version, Version::Semantic(7, 9, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn redhat_release() {
-        let root = "src/linux/tests/RedHatEnterprise";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::RedHatEnterprise);
-        assert_eq!(info.version, Version::Custom("XX".to_owned()));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn redhat_release_unknown() {
-        let root = "src/linux/tests/RedHatEnterprise_Unknown";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::RedHatEnterprise);
-        assert_eq!(info.version, Version::Unknown);
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn solus_os_release() {
-        let root = "src/linux/tests/Solus";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Solus);
-        assert_eq!(info.version, Version::Semantic(4, 3, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn suse_12_os_release() {
-        let root = "src/linux/tests/SUSE_12";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::SUSE);
-        assert_eq!(info.version, Version::Semantic(12, 5, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn suse_15_os_release() {
-        let root = "src/linux/tests/SUSE_15";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::SUSE);
-        assert_eq!(info.version, Version::Semantic(15, 2, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
-    fn ubuntu_os_release() {
-        let root = "src/linux/tests/Ubuntu";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Ubuntu);
-        assert_eq!(info.version, Version::Semantic(18, 10, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+    fn retrieve() {
+        let expected_pairs = [
+            (
+                "src/linux/tests/Alpine_3_17",
+                Some(Info {
+                    os_type: Type::Alpine,
+                    version: Version::Semantic(3, 17, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Alpine",
+                Some(Info {
+                    os_type: Type::Alpine,
+                    version: Version::Semantic(3, 17, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Amazon_1",
+                Some(Info {
+                    os_type: Type::Amazon,
+                    version: Version::Semantic(2018, 3, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Amazon_2",
+                Some(Info {
+                    os_type: Type::Amazon,
+                    version: Version::Semantic(2, 0, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Arch",
+                Some(Info {
+                    os_type: Type::Arch,
+                    // TODO: Should be Version::Rolling
+                    version: Version::Unknown,
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/CentOS_7",
+                Some(Info {
+                    os_type: Type::CentOS,
+                    version: Version::Semantic(7, 0, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/CentOS_Stream",
+                Some(Info {
+                    os_type: Type::CentOS,
+                    version: Version::Semantic(8, 0, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/CentOS",
+                Some(Info {
+                    os_type: Type::CentOS,
+                    version: Version::Custom("XX".to_owned()),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/CentOS_Unknown",
+                Some(Info {
+                    os_type: Type::CentOS,
+                    version: Version::Unknown,
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/EndeavourOS",
+                Some(Info {
+                    os_type: Type::EndeavourOS,
+                    // TODO: Should be Version::Rolling
+                    version: Version::Unknown,
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Fedora_32",
+                Some(Info {
+                    os_type: Type::Fedora,
+                    version: Version::Semantic(32, 0, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Fedora_35",
+                Some(Info {
+                    os_type: Type::Fedora,
+                    version: Version::Semantic(35, 0, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Fedora",
+                Some(Info {
+                    os_type: Type::Fedora,
+                    version: Version::Semantic(26, 0, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Fedora_Unknown",
+                Some(Info {
+                    os_type: Type::Fedora,
+                    version: Version::Unknown,
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Garuda",
+                Some(Info {
+                    os_type: Type::Garuda,
+                    // TODO: Should be Version::Rolling
+                    version: Version::Unknown,
+                    ..Default::default() // NOTE: lsb-release has DISTRIB_CODENAME="Talon" and DISTRIB_RELEASE=Soaring
+                }),
+            ),
+            (
+                "src/linux/tests/Mariner",
+                Some(Info {
+                    os_type: Type::Mariner,
+                    version: Version::Semantic(2, 0, 20220210),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Mariner_Unknown",
+                Some(Info {
+                    os_type: Type::Mariner,
+                    version: Version::Unknown,
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Mint",
+                Some(Info {
+                    os_type: Type::Mint,
+                    version: Version::Semantic(20, 0, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/NixOS",
+                Some(Info {
+                    os_type: Type::NixOS,
+                    version: Version::Custom("21.05pre275822.916ee862e87".to_owned()),
+                    ..Default::default()
+                }),
+            ),
+            ("src/linux/tests/none_invalid_os_release", None),
+            ("src/linux/tests/none_no_release", None),
+            ("src/linux/tests/none_no_path", None),
+            (
+                "src/linux/tests/OpenCloudOS",
+                Some(Info {
+                    os_type: Type::OpenCloudOS,
+                    version: Version::Semantic(8, 6, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/openEuler",
+                Some(Info {
+                    os_type: Type::openEuler,
+                    version: Version::Semantic(22, 3, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/OracleLinux",
+                Some(Info {
+                    os_type: Type::OracleLinux,
+                    version: Version::Semantic(8, 1, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Pop_22",
+                Some(Info {
+                    os_type: Type::Pop,
+                    version: Version::Semantic(22, 4, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Raspbian_10",
+                Some(Info {
+                    os_type: Type::Raspbian,
+                    version: Version::Semantic(10, 0, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/RedHatEnterprise_8",
+                Some(Info {
+                    os_type: Type::RedHatEnterprise,
+                    version: Version::Semantic(8, 2, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/RedHatEnterprise_7",
+                Some(Info {
+                    os_type: Type::RedHatEnterprise,
+                    version: Version::Semantic(7, 9, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/RedHatEnterprise",
+                Some(Info {
+                    os_type: Type::RedHatEnterprise,
+                    version: Version::Custom("XX".to_owned()),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/RedHatEnterprise_Unknown",
+                Some(Info {
+                    os_type: Type::RedHatEnterprise,
+                    version: Version::Unknown,
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Solus",
+                Some(Info {
+                    os_type: Type::Solus,
+                    version: Version::Semantic(4, 3, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/SUSE_12",
+                Some(Info {
+                    os_type: Type::SUSE,
+                    version: Version::Semantic(12, 5, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/SUSE_15",
+                Some(Info {
+                    os_type: Type::SUSE,
+                    version: Version::Semantic(15, 2, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
+                "src/linux/tests/Ubuntu",
+                Some(Info {
+                    os_type: Type::Ubuntu,
+                    version: Version::Semantic(18, 10, 0),
+                    ..Default::default()
+                }),
+            ),
+        ];
+
+        for (root, expected) in expected_pairs {
+            assert_eq!(super::retrieve(&DISTRIBUTIONS, root), expected)
+        }
     }
 
     #[test]
