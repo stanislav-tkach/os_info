@@ -356,6 +356,15 @@ mod tests {
                 }),
             ),
             (
+                "src/linux/tests/Gentoo/rolling",
+                Some(Info {
+                    os_type: Type::Gentoo,
+                    // TODO: Should be Version::Rolling
+                    version: Version::Unknown,
+                    ..Default::default()
+                }),
+            ),
+            (
                 "src/linux/tests/Manjaro/rolling",
                 Some(Info {
                     os_type: Type::Manjaro,
