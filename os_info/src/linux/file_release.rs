@@ -50,7 +50,6 @@ fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
             edition,
             codename,
             bitness: Bitness::Unknown,
-            ..Default::default()
         });
     }
 
