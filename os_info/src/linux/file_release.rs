@@ -41,10 +41,12 @@ fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
         }
 
         let version = (release_info.version)(&file_content);
+        let edition = (release_info.edition)(&file_content);
 
         return Some(Info {
             os_type: os_type.unwrap(),
             version: version.unwrap_or(Version::Unknown),
+            edition,
             bitness: Bitness::Unknown,
             ..Default::default()
         });
@@ -65,6 +67,9 @@ struct ReleaseInfo<'a> {
 
     /// A closure that determines the os version from the release file contents.
     version: for<'b> fn(&'b str) -> Option<Version>,
+
+    /// A closure that determines the os edition (variant) from the release file contents.
+    edition: for<'b> fn(&'b str) -> Option<String>,
 }
 
 impl fmt::Debug for ReleaseInfo<'_> {
@@ -73,6 +78,7 @@ impl fmt::Debug for ReleaseInfo<'_> {
             .field("path", &self.path)
             .field("os_type", &(self.os_type as fn(&'a str) -> Option<Type>))
             .field("version", &(self.version as fn(&'a str) -> Option<Version>))
+            .field("edition", &(self.edition as fn(&'a str) -> Option<String>))
             .finish()
     }
 }
@@ -151,6 +157,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .find(release)
                 .map(Version::from_string)
         },
+        edition: |release| Matcher::KeyValue { key: "VARIANT" }.find(release),
     },
     // Older distributions must have their specific release file parsed.
     ReleaseInfo {
@@ -163,6 +170,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
             .find(release)
             .map(Version::from_string)
         },
+        edition: |_| None,
     },
     ReleaseInfo {
         path: "etc/centos-release",
@@ -172,6 +180,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .find(release)
                 .map(Version::from_string)
         },
+        edition: |_| None,
     },
     ReleaseInfo {
         path: "etc/fedora-release",
@@ -181,11 +190,13 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .find(release)
                 .map(Version::from_string)
         },
+        edition: |_| None,
     },
     ReleaseInfo {
         path: "etc/alpine-release",
         os_type: |_| Some(Type::Alpine),
         version: |release| Matcher::AllTrimmed.find(release).map(Version::from_string),
+        edition: |_| None,
     },
     ReleaseInfo {
         path: "etc/redhat-release",
@@ -195,6 +206,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .find(release)
                 .map(Version::from_string)
         },
+        edition: |_| None,
     },
 ];
 
@@ -288,6 +300,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::Fedora,
                     version: Version::Semantic(32, 0, 0),
+                    edition: Some("Cloud Edition".to_owned()),
                     ..Default::default()
                 }),
             ),
@@ -296,6 +309,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::Fedora,
                     version: Version::Semantic(35, 0, 0),
+                    edition: Some("Workstation Edition".to_owned()),
                     ..Default::default()
                 }),
             ),
@@ -364,6 +378,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::OracleLinux,
                     version: Version::Semantic(8, 1, 0),
+                    edition: Some("Server".to_owned()),
                     ..Default::default()
                 }),
             ),
@@ -396,6 +411,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::RedHatEnterprise,
                     version: Version::Semantic(7, 9, 0),
+                    edition: Some("Server".to_owned()),
                     ..Default::default()
                 }),
             ),
