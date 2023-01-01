@@ -310,7 +310,7 @@ mod tests {
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::EndeavourOS);
-        // TOOD: Should be Version::Rolling
+        // TODO: Should be Version::Rolling
         assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);

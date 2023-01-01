@@ -10,6 +10,7 @@ clearos
 concat
 coreos
 devuan
+distrib
 earmv
 emscripten
 endeavouros
