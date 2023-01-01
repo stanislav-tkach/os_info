@@ -410,6 +410,15 @@ mod tests {
                 }),
             ),
             (
+                // openSUSE Leap
+                "src/linux/tests/openSUSE/15.1.0",
+                Some(Info {
+                    os_type: Type::openSUSE,
+                    version: Version::Semantic(15, 1, 0),
+                    ..Default::default()
+                }),
+            ),
+            (
                 "src/linux/tests/OracleLinux/8.1.0/server",
                 Some(Info {
                     os_type: Type::OracleLinux,
