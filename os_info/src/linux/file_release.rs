@@ -50,6 +50,7 @@ fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
             edition,
             codename,
             bitness: Bitness::Unknown,
+            ..Default::default()
         });
     }
 
@@ -229,13 +230,13 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
 #[cfg(test)]
 mod tests {
     use super::*;
-    use lazy_static::lazy_static;
     use pretty_assertions::assert_eq;
 
-    lazy_static! {
-        static ref EXPECTED_PAIRS: [(String, Option<Info>); 29] = [
+    #[test]
+    fn retrieve() {
+        let expected_pairs = [
             (
-                "src/linux/tests/Alpine/3.17.0".to_owned(),
+                "src/linux/tests/Alpine/3.17.0",
                 Some(Info {
                     os_type: Type::Alpine,
                     version: Version::Semantic(3, 17, 0),
@@ -244,7 +245,7 @@ mod tests {
             ),
             (
                 // Isolated alpine-release test
-                "src/linux/tests/Alpine/3.17.0/alpine-release".to_owned(),
+                "src/linux/tests/Alpine/3.17.0/alpine-release",
                 Some(Info {
                     os_type: Type::Alpine,
                     version: Version::Semantic(3, 17, 0),
@@ -252,7 +253,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Amazon/2018.3.0".to_owned(),
+                "src/linux/tests/Amazon/2018.3.0",
                 Some(Info {
                     os_type: Type::Amazon,
                     version: Version::Semantic(2018, 3, 0),
@@ -260,7 +261,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Amazon/2.0.0".to_owned(),
+                "src/linux/tests/Amazon/2.0.0",
                 Some(Info {
                     os_type: Type::Amazon,
                     version: Version::Semantic(2, 0, 0),
@@ -268,7 +269,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Arch/rolling".to_owned(),
+                "src/linux/tests/Arch/rolling",
                 Some(Info {
                     os_type: Type::Arch,
                     // TODO: Should be Version::Rolling
@@ -278,7 +279,7 @@ mod tests {
             ),
             (
                 // CentOS Linux
-                "src/linux/tests/CentOS/7.0.0".to_owned(),
+                "src/linux/tests/CentOS/7.0.0",
                 Some(Info {
                     os_type: Type::CentOS,
                     version: Version::Semantic(7, 0, 0),
@@ -286,7 +287,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/CentOS/7.0.0/centos-release".to_owned(),
+                "src/linux/tests/CentOS/7.0.0/centos-release",
                 Some(Info {
                     os_type: Type::CentOS,
                     version: Version::Semantic(7, 0, 0),
@@ -295,7 +296,7 @@ mod tests {
             ),
             (
                 // CentOS Stream
-                "src/linux/tests/CentOS/8.0.0".to_owned(),
+                "src/linux/tests/CentOS/8.0.0",
                 Some(Info {
                     os_type: Type::CentOS,
                     version: Version::Semantic(8, 0, 0),
@@ -303,7 +304,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/EndeavourOS/rolling".to_owned(),
+                "src/linux/tests/EndeavourOS/rolling",
                 Some(Info {
                     os_type: Type::EndeavourOS,
                     // TODO: Should be Version::Rolling
@@ -312,7 +313,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Fedora/32.0.0/cloud".to_owned(),
+                "src/linux/tests/Fedora/32.0.0/cloud",
                 Some(Info {
                     os_type: Type::Fedora,
                     version: Version::Semantic(32, 0, 0),
@@ -321,7 +322,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Fedora/35.0.0/workstation".to_owned(),
+                "src/linux/tests/Fedora/35.0.0/workstation",
                 Some(Info {
                     os_type: Type::Fedora,
                     version: Version::Semantic(35, 0, 0),
@@ -330,7 +331,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Fedora/35.0.0/workstation/fedora-release".to_owned(),
+                "src/linux/tests/Fedora/35.0.0/workstation/fedora-release",
                 Some(Info {
                     os_type: Type::Fedora,
                     version: Version::Semantic(35, 0, 0),
@@ -338,7 +339,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Garuda/rolling".to_owned(),
+                "src/linux/tests/Garuda/rolling",
                 Some(Info {
                     os_type: Type::Garuda,
                     // TODO: Should be Version::Rolling
@@ -347,7 +348,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Mariner/2.0.20220210".to_owned(),
+                "src/linux/tests/Mariner/2.0.20220210",
                 Some(Info {
                     os_type: Type::Mariner,
                     version: Version::Semantic(2, 0, 20220210),
@@ -355,7 +356,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Mint/20.0.0".to_owned(),
+                "src/linux/tests/Mint/20.0.0",
                 Some(Info {
                     os_type: Type::Mint,
                     version: Version::Semantic(20, 0, 0),
@@ -364,7 +365,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/NixOS/21.05pre275822.916ee862e87".to_owned(),
+                "src/linux/tests/NixOS/21.05pre275822.916ee862e87",
                 Some(Info {
                     os_type: Type::NixOS,
                     version: Version::Custom("21.05pre275822.916ee862e87".to_owned()),
@@ -372,11 +373,11 @@ mod tests {
                     ..Default::default()
                 }),
             ),
-            ("src/linux/tests/none_invalid_os_release".to_owned(), None),
-            ("src/linux/tests/none_no_path".to_owned(), None),
-            ("src/linux/tests/none_no_release".to_owned(), None),
+            ("src/linux/tests/none_invalid_os_release", None),
+            ("src/linux/tests/none_no_path", None),
+            ("src/linux/tests/none_no_release", None),
             (
-                "src/linux/tests/OpenCloudOS/8.6.0".to_owned(),
+                "src/linux/tests/OpenCloudOS/8.6.0",
                 Some(Info {
                     os_type: Type::OpenCloudOS,
                     version: Version::Semantic(8, 6, 0),
@@ -384,7 +385,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/openEuler/22.3.0".to_owned(),
+                "src/linux/tests/openEuler/22.3.0",
                 Some(Info {
                     os_type: Type::openEuler,
                     version: Version::Semantic(22, 3, 0),
@@ -392,7 +393,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/OracleLinux/8.1.0/server".to_owned(),
+                "src/linux/tests/OracleLinux/8.1.0/server",
                 Some(Info {
                     os_type: Type::OracleLinux,
                     version: Version::Semantic(8, 1, 0),
@@ -401,7 +402,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Pop/22.4.0".to_owned(),
+                "src/linux/tests/Pop/22.4.0",
                 Some(Info {
                     os_type: Type::Pop,
                     version: Version::Semantic(22, 4, 0),
@@ -410,7 +411,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Raspbian/10.0.0".to_owned(),
+                "src/linux/tests/Raspbian/10.0.0",
                 Some(Info {
                     os_type: Type::Raspbian,
                     version: Version::Semantic(10, 0, 0),
@@ -419,7 +420,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/RedHatEnterprise/8.2.0".to_owned(),
+                "src/linux/tests/RedHatEnterprise/8.2.0",
                 Some(Info {
                     os_type: Type::RedHatEnterprise,
                     version: Version::Semantic(8, 2, 0),
@@ -427,7 +428,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/RedHatEnterprise/7.9.0/server".to_owned(),
+                "src/linux/tests/RedHatEnterprise/7.9.0/server",
                 Some(Info {
                     os_type: Type::RedHatEnterprise,
                     version: Version::Semantic(7, 9, 0),
@@ -436,7 +437,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/RedHatEnterprise/7.9.0/server/redhat-release".to_owned(),
+                "src/linux/tests/RedHatEnterprise/7.9.0/server/redhat-release",
                 Some(Info {
                     os_type: Type::RedHatEnterprise,
                     version: Version::Semantic(7, 9, 0),
@@ -444,7 +445,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Solus/4.3.0".to_owned(),
+                "src/linux/tests/Solus/4.3.0",
                 Some(Info {
                     os_type: Type::Solus,
                     version: Version::Semantic(4, 3, 0),
@@ -453,7 +454,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/SUSE/12.5.0".to_owned(),
+                "src/linux/tests/SUSE/12.5.0",
                 Some(Info {
                     os_type: Type::SUSE,
                     version: Version::Semantic(12, 5, 0),
@@ -461,7 +462,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/SUSE/15.2.0".to_owned(),
+                "src/linux/tests/SUSE/15.2.0",
                 Some(Info {
                     os_type: Type::SUSE,
                     version: Version::Semantic(15, 2, 0),
@@ -469,7 +470,7 @@ mod tests {
                 }),
             ),
             (
-                "src/linux/tests/Ubuntu/18.10.0".to_owned(),
+                "src/linux/tests/Ubuntu/18.10.0",
                 Some(Info {
                     os_type: Type::Ubuntu,
                     version: Version::Semantic(18, 10, 0),
@@ -478,16 +479,13 @@ mod tests {
                 }),
             ),
         ];
-    }
 
-    #[test]
-    fn retrieve() {
-        for (root, expected) in EXPECTED_PAIRS.iter() {
+        for (root, expected) in expected_pairs {
             assert_eq!(
-                &super::retrieve(&DISTRIBUTIONS, &root),
+                super::retrieve(&DISTRIBUTIONS, root),
                 expected,
                 "the parsed release files (left) at `{}` did not match expected values (right)",
-                &root
+                root
             )
         }
     }
