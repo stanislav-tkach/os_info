@@ -42,11 +42,13 @@ fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
 
         let version = (release_info.version)(&file_content);
         let edition = (release_info.edition)(&file_content);
+        let codename = (release_info.codename)(&file_content);
 
         return Some(Info {
             os_type: os_type.unwrap(),
             version: version.unwrap_or(Version::Unknown),
             edition,
+            codename,
             bitness: Bitness::Unknown,
             ..Default::default()
         });
@@ -70,6 +72,9 @@ struct ReleaseInfo<'a> {
 
     /// A closure that determines the os edition (variant) from the release file contents.
     edition: for<'b> fn(&'b str) -> Option<String>,
+
+    /// A closure that determines the os codename from the release file contents.
+    codename: for<'b> fn(&'b str) -> Option<String>,
 }
 
 impl fmt::Debug for ReleaseInfo<'_> {
@@ -158,6 +163,13 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .map(Version::from_string)
         },
         edition: |release| Matcher::KeyValue { key: "VARIANT" }.find(release),
+        codename: |release| {
+            Matcher::KeyValue {
+                key: "VERSION_CODENAME",
+            }
+            .find(release)
+            .filter(|v| !v.is_empty())
+        },
     },
     // Older distributions must have their specific release file parsed.
     ReleaseInfo {
@@ -171,6 +183,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
             .map(Version::from_string)
         },
         edition: |_| None,
+        codename: |_| None,
     },
     ReleaseInfo {
         path: "etc/centos-release",
@@ -181,6 +194,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .map(Version::from_string)
         },
         edition: |_| None,
+        codename: |_| None,
     },
     ReleaseInfo {
         path: "etc/fedora-release",
@@ -191,12 +205,14 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .map(Version::from_string)
         },
         edition: |_| None,
+        codename: |_| None,
     },
     ReleaseInfo {
         path: "etc/alpine-release",
         os_type: |_| Some(Type::Alpine),
         version: |release| Matcher::AllTrimmed.find(release).map(Version::from_string),
         edition: |_| None,
+        codename: |_| None,
     },
     ReleaseInfo {
         path: "etc/redhat-release",
@@ -207,6 +223,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .map(Version::from_string)
         },
         edition: |_| None,
+        codename: |_| None,
     },
 ];
 
@@ -343,6 +360,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::Mint,
                     version: Version::Semantic(20, 0, 0),
+                    codename: Some("ulyana".to_owned()),
                     ..Default::default()
                 }),
             ),
@@ -351,6 +369,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::NixOS,
                     version: Version::Custom("21.05pre275822.916ee862e87".to_owned()),
+                    codename: Some("okapi".to_owned()),
                     ..Default::default()
                 }),
             ),
@@ -387,6 +406,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::Pop,
                     version: Version::Semantic(22, 4, 0),
+                    codename: Some("jammy".to_string()),
                     ..Default::default()
                 }),
             ),
@@ -395,6 +415,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::Raspbian,
                     version: Version::Semantic(10, 0, 0),
+                    codename: Some("buster".to_owned()),
                     ..Default::default()
                 }),
             ),
@@ -428,6 +449,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::Solus,
                     version: Version::Semantic(4, 3, 0),
+                    codename: Some("fortitude".to_string()),
                     ..Default::default()
                 }),
             ),
@@ -452,6 +474,7 @@ mod tests {
                 Some(Info {
                     os_type: Type::Ubuntu,
                     version: Version::Semantic(18, 10, 0),
+                    codename: Some("cosmic".to_string()),
                     ..Default::default()
                 }),
             ),
