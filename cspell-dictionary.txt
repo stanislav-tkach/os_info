@@ -10,6 +10,7 @@ clearos
 concat
 coreos
 devuan
+distrib
 earmv
 emscripten
 endeavouros
@@ -29,6 +30,8 @@ msvc
 netbsd
 nixos
 openbsd
+opencloudos
+openeuler
 opensuse
 println
 raspberry
