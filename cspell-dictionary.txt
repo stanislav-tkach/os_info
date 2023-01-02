@@ -30,6 +30,8 @@ msvc
 netbsd
 nixos
 openbsd
+opencloudos
+openeuler
 opensuse
 println
 raspberry
