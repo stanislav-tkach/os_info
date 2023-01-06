@@ -420,7 +420,6 @@ mod tests {
         assert_eq!(info.version, Version::Semantic(22, 3, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
-        
     }
 
     #[test]
