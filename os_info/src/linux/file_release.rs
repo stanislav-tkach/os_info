@@ -96,13 +96,14 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"antergos" => Antergos
                     //"aosc" => AOSC
                     "arch" => Some(Type::Arch),
+                    "archarm" => Some(Type::Arch),
                     //"artix" => Artix
                     "centos" => Some(Type::CentOS),
                     //"clear-linux-os" => ClearLinuxOS
                     //"clearos" => ClearOS
                     //"coreos"
                     //"cumulus-linux" => Cumulus
-                    //"debian" => Debian
+                    "debian" => Some(Type::Debian),
                     //"devuan" => Devuan
                     //"elementary" => Elementary
                     "fedora" => Some(Type::Fedora),
@@ -242,6 +243,28 @@ mod tests {
     }
 
     #[test]
+    fn arch_os_release() {
+        let root = "src/linux/tests/Arch";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Arch);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn archarm_os_release() {
+        let root = "src/linux/tests/ArchARM";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Arch);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
     fn centos_7_os_release() {
         let root = "src/linux/tests/CentOS_7";
 
@@ -281,6 +304,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::CentOS);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn debian_11_os_release() {
+        let root = "src/linux/tests/Debian_11";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Debian);
+        assert_eq!(info.version, Version::Semantic(11, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
