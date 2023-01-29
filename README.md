@@ -45,7 +45,7 @@ os_info = { version = "3", default-features = false }
 let info = os_info::get();
 
 // Print full information:
-println!("OS information: {}", info);
+println!("OS information: {info}");
 
 // Print information separately:
 println!("Type: {}", info.os_type());

@@ -7,7 +7,7 @@
     missing_debug_implementations,
     missing_docs,
     unsafe_code,
-    missing_doc_code_examples
+    rustdoc::missing_doc_code_examples
 )]
 
 #[cfg(target_os = "android")]
@@ -97,7 +97,7 @@ pub use crate::{bitness::Bitness, info::Info, os_type::Type, version::Version};
 /// let info = os_info::get();
 ///
 /// // Print full information:
-/// println!("OS information: {}", info);
+/// println!("OS information: {info}");
 ///
 /// // Print information separately:
 /// println!("Type: {}", info.os_type());

@@ -15,7 +15,7 @@ use super::{Bitness, Type, Version};
 /// use os_info;
 ///
 /// let info = os_info::get();
-/// println!("OS information: {}", info);
+/// println!("OS information: {info}");
 /// ```
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
