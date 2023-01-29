@@ -162,10 +162,10 @@ impl Display for Info {
             write!(f, " {}", self.version)?;
         }
         if let Some(ref edition) = self.edition {
-            write!(f, " ({})", edition)?;
+            write!(f, " ({edition})")?;
         }
         if let Some(ref codename) = self.codename {
-            write!(f, " ({})", codename)?;
+            write!(f, " ({codename})")?;
         }
         write!(f, " [{}]", self.bitness)
     }

@@ -108,7 +108,7 @@ impl Display for Type {
             Type::Redhat => write!(f, "Red Hat Linux"),
             Type::RedHatEnterprise => write!(f, "Red Hat Enterprise Linux"),
             Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
-            _ => write!(f, "{:?}", self),
+            _ => write!(f, "{self:?}"),
         }
     }
 }
