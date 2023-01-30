@@ -15,7 +15,7 @@ use super::{Bitness, Type, Version};
 /// use os_info;
 ///
 /// let info = os_info::get();
-/// println!("OS information: {}", info);
+/// println!("OS information: {info}");
 /// ```
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -162,10 +162,10 @@ impl Display for Info {
             write!(f, " {}", self.version)?;
         }
         if let Some(ref edition) = self.edition {
-            write!(f, " ({})", edition)?;
+            write!(f, " ({edition})")?;
         }
         if let Some(ref codename) = self.codename {
-            write!(f, " ({})", codename)?;
+            write!(f, " ({codename})")?;
         }
         write!(f, " [{}]", self.bitness)
     }

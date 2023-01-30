@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.6.0] (2023-01-30)
+
+- OpenCloudOS support has been added. (#328)
+
+- openEuler support has been added. (#328)
+
+- Arch Linux ARM and Debian ARM detection has been improved. (#331)
+
 ## [3.5.1] (2022-09-19)
 
 - Windows 11 detection has been fixed. (#322)
@@ -273,7 +281,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.5.1...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.6.0...HEAD
+[3.6.0]: https://github.com/stanislav-tkach/os_info/compare/v3.5.1...v3.6.0
 [3.5.1]: https://github.com/stanislav-tkach/os_info/compare/v3.5.0...v3.5.1
 [3.5.0]: https://github.com/stanislav-tkach/os_info/compare/v3.4.0...v3.5.0
 [3.4.0]: https://github.com/stanislav-tkach/os_info/compare/v3.3.0...v3.4.0

@@ -2,6 +2,7 @@ aarch64
 almalinux
 antergos
 aosc
+archarm
 artix
 bitness
 centos
