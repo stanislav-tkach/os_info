@@ -37,10 +37,11 @@ fn main() {
         }
 
         println!(
-            "OS information:\nType: {}\nVersion: {}\nBitness: {}",
+            "OS information:\nType: {}\nVersion: {}\nBitness: {}\nFamily: {}",
             info.os_type(),
             info.version(),
-            info.bitness()
+            info.bitness(),
+            info.family(),
         );
     } else {
         if options.type_ {

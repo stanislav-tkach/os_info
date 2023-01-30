@@ -31,7 +31,7 @@ use winapi::{
     },
 };
 
-use crate::{Bitness, Info, Type, Version};
+use crate::{Bitness, Family, Info, Type, Version};
 
 #[cfg(target_arch = "x86")]
 type OSVERSIONINFOEX = winapi::um::winnt::OSVERSIONINFOEXA;
@@ -46,6 +46,7 @@ pub fn get() -> Info {
         version,
         edition,
         bitness: bitness(),
+        family: Family::WindowsNT,
         ..Default::default()
     }
 }

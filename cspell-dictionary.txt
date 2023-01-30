@@ -1,4 +1,5 @@
 aarch64
+berkely
 almalinux
 antergos
 aosc
@@ -9,11 +10,13 @@ centos
 clippy
 clearos
 concat
+distro
 coreos
 devuan
 earmv
 emscripten
 endeavouros
+family
 freebsd
 garuda
 hardenedbsd

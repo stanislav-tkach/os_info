@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::{error, trace};
 
-use crate::{bitness, uname::uname, Info, Type, Version};
+use crate::{bitness, uname::uname, Family, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("openbsd::current_platform is called");
@@ -15,6 +15,7 @@ pub fn current_platform() -> Info {
         os_type: Type::OpenBSD,
         version,
         bitness: bitness::get(),
+        family: Family::BSD,
         ..Default::default()
     };
 

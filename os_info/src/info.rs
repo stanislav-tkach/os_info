@@ -2,7 +2,7 @@
 
 use std::fmt::{self, Display, Formatter};
 
-use super::{Bitness, Type, Version};
+use super::{Bitness, Family, Type, Version};
 
 /// Holds information about operating system (type, version, etc.).
 ///
@@ -31,6 +31,8 @@ pub struct Info {
     /// Operating system architecture in terms of how many bits compose the basic values it can deal
     /// with. See `Bitness` for details.
     pub(crate) bitness: Bitness,
+    /// Get the family of operating system. See "Family" for details.
+    pub(crate) family: Family,
 }
 
 impl Info {
@@ -55,6 +57,7 @@ impl Info {
             edition: None,
             codename: None,
             bitness: Bitness::Unknown,
+            family: Family::Unknown,
         }
     }
 
@@ -146,6 +149,20 @@ impl Info {
     /// ```
     pub fn bitness(&self) -> Bitness {
         self.bitness
+    }
+
+    /// Returns the operating system family. See 'Family' for details.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::{Info, Family};
+    ///
+    /// let info = Info::unknown();
+    /// assert_eq!(Family::Unknown, info.family());
+    /// ```
+    pub fn family(&self) -> Family {
+        self.family
     }
 }
 
@@ -301,6 +318,7 @@ mod tests {
                     edition: Some("edition".to_owned()),
                     codename: Some("codename".to_owned()),
                     bitness: Bitness::X64,
+                    family: Family::MacOS,
                 },
                 "Mac OS 10.2.0 (edition) (codename) [64-bit]",
             ),

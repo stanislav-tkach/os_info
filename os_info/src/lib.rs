@@ -71,6 +71,7 @@ mod imp;
 mod imp;
 
 mod bitness;
+mod family;
 mod info;
 #[cfg(not(windows))]
 mod matcher;
@@ -85,7 +86,7 @@ mod os_type;
 mod uname;
 mod version;
 
-pub use crate::{bitness::Bitness, info::Info, os_type::Type, version::Version};
+pub use crate::{bitness::Bitness, family::Family, info::Info, os_type::Type, version::Version};
 
 /// Returns information about the current operating system (type, version, edition, etc.).
 ///
@@ -105,6 +106,7 @@ pub use crate::{bitness::Bitness, info::Info, os_type::Type, version::Version};
 /// println!("Edition: {:?}", info.edition());
 /// println!("Codename: {:?}", info.codename());
 /// println!("Bitness: {}", info.bitness());
+/// println!("family: {}", info.family());
 /// ```
 pub fn get() -> Info {
     imp::current_platform()

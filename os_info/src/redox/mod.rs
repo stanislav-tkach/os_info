@@ -4,7 +4,7 @@ use std::{fs::File, io::Read};
 
 use log::{error, trace};
 
-use crate::{Bitness, Info, Type, Version};
+use crate::{Bitness, Family, Info, Type, Version};
 
 const UNAME_FILE: &str = "sys:uname";
 
@@ -18,6 +18,7 @@ pub fn current_platform() -> Info {
         os_type: Type::Redox,
         version,
         bitness: Bitness::Unknown,
+        family: Family::Unknown,
         ..Default::default()
     };
     trace!("Returning {:?}", info);
