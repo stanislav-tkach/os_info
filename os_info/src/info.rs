@@ -26,7 +26,7 @@ pub struct Info {
     pub(crate) version: Version,
     /// Operating system edition.
     pub(crate) edition: Option<String>,
-    /// Operating system edition.
+    /// Operating system codename.
     pub(crate) codename: Option<String>,
     /// Operating system architecture in terms of how many bits compose the basic values it can deal
     /// with. See `Bitness` for details.
