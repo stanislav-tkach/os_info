@@ -31,6 +31,8 @@ pub struct Info {
     /// Operating system architecture in terms of how many bits compose the basic values it can deal
     /// with. See `Bitness` for details.
     pub(crate) bitness: Bitness,
+    // Processor architecture.
+    pub(crate) architecture: Option<String>,
 }
 
 impl Info {
@@ -47,6 +49,7 @@ impl Info {
     /// assert_eq!(None, info.edition());
     /// assert_eq!(None, info.codename());
     /// assert_eq!(Bitness::Unknown, info.bitness());
+    /// assert_eq!(None, info.architecture());
     /// ```
     pub fn unknown() -> Self {
         Self {
@@ -55,6 +58,7 @@ impl Info {
             edition: None,
             codename: None,
             bitness: Bitness::Unknown,
+            architecture: None,
         }
     }
 
@@ -72,6 +76,7 @@ impl Info {
     /// assert_eq!(None, info.edition());
     /// assert_eq!(None, info.codename());
     /// assert_eq!(Bitness::Unknown, info.bitness());
+    /// assert_eq!(None, info.architecture());
     /// ```
     pub fn with_type(os_type: Type) -> Self {
         Self {
@@ -147,6 +152,19 @@ impl Info {
     pub fn bitness(&self) -> Bitness {
         self.bitness
     }
+
+    /// Returns operating system architecture.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use os_info::Info;
+    ///
+    /// let info = Info::unknown();
+    /// assert_eq!(None, info.architecture());
+    pub fn architecture(&self) -> Option<&str> {
+        self.architecture.as_ref().map(String::as_ref)
+    }
 }
 
 impl Default for Info {
@@ -184,6 +202,7 @@ mod tests {
         assert_eq!(None, info.edition());
         assert_eq!(None, info.codename());
         assert_eq!(Bitness::Unknown, info.bitness());
+        assert_eq!(None, info.architecture());
     }
 
     #[test]
@@ -301,6 +320,7 @@ mod tests {
                     edition: Some("edition".to_owned()),
                     codename: Some("codename".to_owned()),
                     bitness: Bitness::X64,
+                    architecture: Some("architecture".to_owned()),
                 },
                 "Mac OS 10.2.0 (edition) (codename) [64-bit]",
             ),

@@ -70,6 +70,7 @@ mod imp;
 #[path = "unknown/mod.rs"]
 mod imp;
 
+mod architecture;
 mod bitness;
 mod info;
 #[cfg(not(windows))]
@@ -105,6 +106,7 @@ pub use crate::{bitness::Bitness, info::Info, os_type::Type, version::Version};
 /// println!("Edition: {:?}", info.edition());
 /// println!("Codename: {:?}", info.codename());
 /// println!("Bitness: {}", info.bitness());
+/// println!("Architecture: {:?}", info.architecture());
 /// ```
 pub fn get() -> Info {
     imp::current_platform()

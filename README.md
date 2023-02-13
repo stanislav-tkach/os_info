@@ -51,6 +51,7 @@ println!("OS information: {info}");
 println!("Type: {}", info.os_type());
 println!("Version: {}", info.version());
 println!("Bitness: {}", info.bitness());
+println!("Architecture: {}", info.architecture());
 ```
 
 ### Command line tool (`os_info_cli`)
