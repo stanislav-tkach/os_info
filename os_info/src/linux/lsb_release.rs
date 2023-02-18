@@ -25,6 +25,7 @@ pub fn get() -> Option<Info> {
         Some("Garuda") => Type::Garuda,
         Some("Gentoo") => Type::Gentoo,
         Some("Linuxmint") => Type::Mint,
+        Some("MaboxLinux") => Type::Mabox,
         Some("ManjaroLinux") => Type::Manjaro,
         Some("Mariner") => Type::Mariner,
         Some("NixOS") => Type::NixOS,

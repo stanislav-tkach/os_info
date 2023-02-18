@@ -38,6 +38,8 @@ pub enum Type {
     Illumos,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     Linux,
+    /// Mabox (<https://maboxlinux.org/>).
+    Mabox,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
     Macos,
     /// Manjaro (<https://en.wikipedia.org/wiki/Manjaro>).

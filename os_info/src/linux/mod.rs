@@ -35,6 +35,7 @@ mod tests {
             | Type::Garuda
             | Type::Gentoo
             | Type::Linux
+            | Type::Mabox
             | Type::Manjaro
             | Type::Mariner
             | Type::NixOS
