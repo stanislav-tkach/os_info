@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::{error, trace};
 
-use crate::{bitness, uname::uname, Info, Type, Version};
+use crate::{architecture::architecture, bitness, uname::uname, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("netbsd::current_platform is called");
@@ -15,6 +15,7 @@ pub fn current_platform() -> Info {
         os_type: Type::NetBSD,
         version,
         bitness: bitness::get(),
+        architecture: architecture::architecture(),
         ..Default::default()
     };
 

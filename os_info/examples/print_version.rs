@@ -10,4 +10,5 @@ fn main() {
     println!("Edition: {:?}", info.edition());
     println!("Codename: {:?}", info.codename());
     println!("Bitness: {}", info.bitness());
+    println!("Architecture: {:?}", info.architecture());
 }
