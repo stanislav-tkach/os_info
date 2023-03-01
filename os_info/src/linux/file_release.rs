@@ -91,6 +91,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     // https://github.com/chef/os_release
 
                     //"almalinux" => Alma
+                    "alpaquita" => Some(Type::Alpaquita),
                     "alpine" => Some(Type::Alpine),
                     "amzn" => Some(Type::Amazon),
                     //"antergos" => Antergos
@@ -197,6 +198,17 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
+
+    #[test]
+    fn alpaquita_os_release() {
+        let root = "src/linux/tests/Alpaquita";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Alpaquita);
+        assert_eq!(info.version, Version::Semantic(23, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
 
     #[test]
     fn alpine_3_12_os_release() {

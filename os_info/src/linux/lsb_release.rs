@@ -16,6 +16,7 @@ pub fn get() -> Option<Info> {
     };
 
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
+        Some("Alpaquita") => Type::Alpaquita,
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("Arch") => Type::Arch,
         Some("CentOS") => Type::CentOS,
@@ -109,6 +110,14 @@ mod tests {
         assert_eq!(parse_results.distribution, Some("Debian".to_string()));
         assert_eq!(parse_results.version, Some("7.8".to_string()));
         assert_eq!(parse_results.codename, Some("wheezy".to_string()));
+    }
+
+    #[test]
+    fn alpaquita() {
+        let parse_results = parse(alpaquita_file());
+        assert_eq!(parse_results.distribution, Some("Alpaquita".to_string()));
+        assert_eq!(parse_results.version, Some("23".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -297,6 +306,13 @@ mod tests {
          Release:	7.8\n\
          Codename:	wheezy\n\
          "
+    }
+
+    fn alpaquita_file() -> &'static str {
+        "\nDistributor ID: Alpaquita\n\
+        Description:    BellSoft Alpaquita Linux Stream 23 (musl)\n\
+        Release:        23\n\
+        Codename:       n/a"
     }
 
     fn arch_file() -> &'static str {

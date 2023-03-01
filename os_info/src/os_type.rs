@@ -6,6 +6,8 @@ use std::fmt::{self, Display, Formatter};
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 #[non_exhaustive]
 pub enum Type {
+    /// Alpaquita Linux (<https://bell-sw.com/alpaquita-linux/>).
+    Alpaquita,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>).
     Alpine,
     /// Amazon Linux AMI (<https://en.wikipedia.org/wiki/Amazon_Machine_Image#Amazon_Linux_AMI>).
@@ -95,6 +97,7 @@ impl Default for Type {
 impl Display for Type {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
+            Type::Alpaquita => write!(f, "Alpaquita Linux"),
             Type::Alpine => write!(f, "Alpine Linux"),
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
@@ -127,6 +130,7 @@ mod tests {
     #[test]
     fn display() {
         let data = [
+            (Type::Alpaquita, "Alpaquita Linux"),
             (Type::Alpine, "Alpine Linux"),
             (Type::Amazon, "Amazon Linux AMI"),
             (Type::Android, "Android"),

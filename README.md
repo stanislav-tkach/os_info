@@ -79,6 +79,7 @@ os_info --help
 
 Right now, the following operating system types can be returned:
 
+- Alpaquita Linux
 - Alpine Linux
 - Amazon Linux AMI
 - Android
