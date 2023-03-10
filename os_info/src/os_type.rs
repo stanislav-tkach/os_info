@@ -14,6 +14,8 @@ pub enum Type {
     Android,
     /// Arch Linux (<https://en.wikipedia.org/wiki/Arch_Linux>).
     Arch,
+    /// Artix Linux (<https://en.wikipedia.org/wiki/Artix_Linux>).
+    Artix,
     /// CentOS (<https://en.wikipedia.org/wiki/CentOS>).
     CentOS,
     /// Debian (<https://en.wikipedia.org/wiki/Debian>).
@@ -98,6 +100,7 @@ impl Display for Type {
             Type::Alpine => write!(f, "Alpine Linux"),
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
+            Type::Artix => write!(f, "Artix Linux"),
             Type::DragonFly => write!(f, "DragonFly BSD"),
             Type::Garuda => write!(f, "Garuda Linux"),
             Type::Gentoo => write!(f, "Gentoo Linux"),
@@ -131,6 +134,7 @@ mod tests {
             (Type::Amazon, "Amazon Linux AMI"),
             (Type::Android, "Android"),
             (Type::Arch, "Arch Linux"),
+            (Type::Artix, "Artix Linux"),
             (Type::CentOS, "CentOS"),
             (Type::Debian, "Debian"),
             (Type::DragonFly, "DragonFly BSD"),

@@ -18,6 +18,7 @@ pub fn get() -> Option<Info> {
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("Arch") => Type::Arch,
+        Some("Artix") => Type::Artix,
         Some("CentOS") => Type::CentOS,
         Some("Debian") => Type::Debian,
         Some("EndeavourOS") => Type::EndeavourOS,
@@ -115,6 +116,14 @@ mod tests {
     fn arch() {
         let parse_results = parse(arch_file());
         assert_eq!(parse_results.distribution, Some("Arch".to_string()));
+        assert_eq!(parse_results.version, Some("rolling".to_string()));
+        assert_eq!(parse_results.codename, None);
+    }
+
+    #[test]
+    fn artix() {
+        let parse_results = parse(artix_file());
+        assert_eq!(parse_results.distribution, Some("Artix".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
         assert_eq!(parse_results.codename, None);
     }
@@ -303,6 +312,14 @@ mod tests {
         "\nLSB Version:	1.4\n\
          Distributor ID:	Arch\n\
          Description:	Arch Linux\n\
+         Release:	rolling\n\
+         Codename:	n/a"
+    }
+
+    fn artix_file() -> &'static str {
+        "\nLSB Version:	n/a\n\
+         Distributor ID:	Artix\n\
+         Description:	Artix Linux\n\
          Release:	rolling\n\
          Codename:	n/a"
     }

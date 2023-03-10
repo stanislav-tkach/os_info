@@ -83,6 +83,7 @@ Right now, the following operating system types can be returned:
 - Amazon Linux AMI
 - Android
 - Arch Linux
+- Artix Linux
 - CentOS
 - Debian
 - DragonFly BSD
