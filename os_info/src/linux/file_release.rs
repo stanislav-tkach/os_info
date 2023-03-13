@@ -97,7 +97,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"aosc" => AOSC
                     "arch" => Some(Type::Arch),
                     "archarm" => Some(Type::Arch),
-                    //"artix" => Artix
+                    "artix" => Some(Type::Artix),
                     "centos" => Some(Type::CentOS),
                     //"clear-linux-os" => ClearLinuxOS
                     //"clearos" => ClearOS
@@ -259,6 +259,17 @@ mod tests {
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Arch);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn artix_os_release() {
+        let root = "src/linux/tests/Artix";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Artix);
         assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);

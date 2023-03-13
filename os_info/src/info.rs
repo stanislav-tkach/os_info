@@ -213,6 +213,7 @@ mod tests {
             Type::Amazon,
             Type::Android,
             Type::Arch,
+            Type::Artix,
             Type::CentOS,
             Type::Debian,
             Type::Emscripten,
@@ -280,6 +281,14 @@ mod tests {
                     ..Default::default()
                 },
                 "Arch Linux Rolling Release [unknown bitness]",
+            ),
+            (
+                Info {
+                    os_type: Type::Artix,
+                    version: Version::Rolling(None),
+                    ..Default::default()
+                },
+                "Artix Linux Rolling Release [unknown bitness]",
             ),
             (
                 Info {
