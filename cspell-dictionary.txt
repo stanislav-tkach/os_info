@@ -1,5 +1,6 @@
 aarch64
 almalinux
+alpaquita
 antergos
 aosc
 archarm
@@ -28,6 +29,7 @@ mageia
 manjaro
 midnightbsd
 msvc
+musl
 netbsd
 nixos
 openbsd

@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 - Mabox Linux support has been added. (#338)
 
+- Alpaquita Linux support has been added. (#340)
+
 - Artix Linux support has been added. (#342)
 
 ## [3.6.0] (2023-01-30)
