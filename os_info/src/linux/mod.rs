@@ -12,7 +12,7 @@ pub fn current_platform() -> Info {
         .or_else(file_release::get)
         .unwrap_or_else(|| Info::with_type(Type::Linux));
     info.bitness = bitness::get();
-    info.architecture = architecture::architecture();
+    info.architecture = architecture::get();
 
     trace!("Returning {:?}", info);
     info

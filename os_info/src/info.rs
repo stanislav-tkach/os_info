@@ -31,7 +31,7 @@ pub struct Info {
     /// Operating system architecture in terms of how many bits compose the basic values it can deal
     /// with. See `Bitness` for details.
     pub(crate) bitness: Bitness,
-    // Processor architecture.
+    /// Processor architecture.
     pub(crate) architecture: Option<String>,
 }
 

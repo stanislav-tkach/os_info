@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.7.0] (2023-03-20)
+
+- Information about a processor's architecture has been added. (#336)
+
+- Mabox Linux support has been added. (#338)
+
+- Artix Linux support has been added. (#342)
+
 ## [3.6.0] (2023-01-30)
 
 - OpenCloudOS support has been added. (#328)
@@ -281,7 +289,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.6.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.7.0...HEAD
+[3.7.0]: https://github.com/stanislav-tkach/os_info/compare/v3.6.0...v3.7.0
 [3.6.0]: https://github.com/stanislav-tkach/os_info/compare/v3.5.1...v3.6.0
 [3.5.1]: https://github.com/stanislav-tkach/os_info/compare/v3.5.0...v3.5.1
 [3.5.0]: https://github.com/stanislav-tkach/os_info/compare/v3.4.0...v3.5.0
