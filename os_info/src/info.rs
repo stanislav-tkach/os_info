@@ -209,6 +209,7 @@ mod tests {
     fn with_type() {
         let types = [
             Type::Redox,
+            Type::Alpaquita,
             Type::Alpine,
             Type::Amazon,
             Type::Android,
