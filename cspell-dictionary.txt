@@ -1,5 +1,6 @@
 aarch64
 almalinux
+alpaquita
 antergos
 aosc
 archarm
@@ -22,11 +23,13 @@ illumos
 isainfo
 libntdll
 linuxmint
+mabox
 macos
 mageia
 manjaro
 midnightbsd
 msvc
+musl
 netbsd
 nixos
 openbsd

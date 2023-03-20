@@ -2,7 +2,7 @@ use std::process::Command;
 
 use log::error;
 
-pub fn architecture() -> Option<String> {
+pub fn get() -> Option<String> {
     Command::new("uname")
         .arg("-m")
         .output()
@@ -26,7 +26,7 @@ mod tests {
 
     #[test]
     fn uname_nonempty() {
-        let val = architecture().expect("uname failed");
+        let val = get().expect("uname failed");
         assert!(!val.is_empty());
     }
 }

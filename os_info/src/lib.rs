@@ -7,7 +7,7 @@
     missing_debug_implementations,
     missing_docs,
     unsafe_code,
-    rustdoc::missing_doc_code_examples
+    missing_doc_code_examples
 )]
 
 #[cfg(target_os = "android")]
@@ -70,6 +70,12 @@ mod imp;
 #[path = "unknown/mod.rs"]
 mod imp;
 
+#[cfg(any(
+    target_os = "linux",
+    target_os = "macos",
+    target_os = "netbsd",
+    target_os = "openbsd"
+))]
 mod architecture;
 mod bitness;
 mod info;
