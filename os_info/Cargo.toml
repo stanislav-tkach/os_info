@@ -21,7 +21,15 @@ log = "0.4.5"
 serde = { version = "1", features = ["derive"], optional = true }
 
 [target.'cfg(windows)'.dependencies]
-winapi = { version = "0.3.8", features = ["minwindef", "ntdef", "ntstatus", "sysinfoapi", "winnt", "winuser", "libloaderapi", "processthreadsapi", "winerror", "winreg"] }
+windows-sys = { version = "0.45", features = [
+    "Win32_Foundation",
+    "Win32_System_Diagnostics_Debug",
+    "Win32_System_LibraryLoader",
+    "Win32_System_SystemInformation",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_System_Registry",
+    "Win32_System_SystemServices",
+]}
 
 [dev-dependencies]
 pretty_assertions = "1"
