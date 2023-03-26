@@ -7,7 +7,7 @@
 
 use std::{
     ffi::{OsStr, OsString},
-    mem,
+    mem::{self, MaybeUninit},
     os::windows::ffi::{OsStrExt, OsStringExt},
     ptr,
 };
@@ -15,10 +15,13 @@ use std::{
 use windows_sys::Win32::{
     Foundation::{ERROR_SUCCESS, FARPROC, NTSTATUS, STATUS_SUCCESS},
     System::{
-        Diagnostics::Debug::PROCESSOR_ARCHITECTURE_AMD64,
+        Diagnostics::Debug::{
+            PROCESSOR_ARCHITECTURE_AMD64, PROCESSOR_ARCHITECTURE_ARM, PROCESSOR_ARCHITECTURE_IA64,
+            PROCESSOR_ARCHITECTURE_INTEL,
+        },
         LibraryLoader::{GetModuleHandleA, GetProcAddress},
         Registry::{RegOpenKeyExW, RegQueryValueExW, HKEY_LOCAL_MACHINE, KEY_READ, REG_SZ},
-        SystemInformation::{GetSystemInfo, SYSTEM_INFO},
+        SystemInformation::{GetNativeSystemInfo, GetSystemInfo, SYSTEM_INFO},
         SystemServices::{VER_NT_WORKSTATION, VER_SUITE_WH_SERVER},
     },
     UI::WindowsAndMessaging::{GetSystemMetrics, SM_SERVERR2},
@@ -34,11 +37,14 @@ type OSVERSIONINFOEX = windows_sys::Win32::System::SystemInformation::OSVERSIONI
 
 pub fn get() -> Info {
     let (version, edition) = version();
+    let native_system_info = native_system_info();
+
     Info {
         os_type: Type::Windows,
         version,
         edition,
         bitness: bitness(),
+        architecture: architecture(native_system_info),
         ..Default::default()
     }
 }
@@ -55,6 +61,33 @@ fn version() -> (Version, Option<String>) {
             product_name(&v).or_else(|| edition(&v)),
         ),
     }
+}
+
+// According to https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info
+// there is a variant for AMD64 CPUs, but it's not defined in generated bindings.
+const PROCESSOR_ARCHITECTURE_ARM64: u16 = 12;
+
+fn native_system_info() -> SYSTEM_INFO {
+    let mut system_info: MaybeUninit<SYSTEM_INFO> = MaybeUninit::zeroed();
+    unsafe {
+        GetNativeSystemInfo(system_info.as_mut_ptr());
+    };
+
+    unsafe { system_info.assume_init() }
+}
+
+fn architecture(system_info: SYSTEM_INFO) -> Option<String> {
+    let cpu_architecture = unsafe { system_info.Anonymous.Anonymous.wProcessorArchitecture };
+
+    match cpu_architecture {
+        PROCESSOR_ARCHITECTURE_AMD64 => Some("x86_64"),
+        PROCESSOR_ARCHITECTURE_IA64 => Some("ia64"),
+        PROCESSOR_ARCHITECTURE_ARM => Some("arm"),
+        PROCESSOR_ARCHITECTURE_ARM64 => Some("aarch64"),
+        PROCESSOR_ARCHITECTURE_INTEL => Some("i386"),
+        _ => None,
+    }
+    .map(str::to_string)
 }
 
 #[cfg(target_pointer_width = "64")]
@@ -349,6 +382,25 @@ mod tests {
     fn proc_address() {
         let address = get_proc_address(b"ntdll\0", b"RtlGetVersion\0");
         assert!(address.is_some());
+    }
+
+    #[test]
+    fn get_architecture() {
+        let cpu_types: [(u16, Option<String>); 6] = [
+            (PROCESSOR_ARCHITECTURE_AMD64, Some("x86_64".to_owned())),
+            (PROCESSOR_ARCHITECTURE_ARM, Some("arm".to_owned())),
+            (PROCESSOR_ARCHITECTURE_ARM64, Some("aarch64".to_owned())),
+            (PROCESSOR_ARCHITECTURE_IA64, Some("ia64".to_owned())),
+            (PROCESSOR_ARCHITECTURE_INTEL, Some("i386".to_owned())),
+            (0xffff, None),
+        ];
+
+        let mut native_info = native_system_info();
+
+        for cpu_type in cpu_types {
+            native_info.Anonymous.Anonymous.wProcessorArchitecture = cpu_type.0;
+            assert_eq!(architecture(native_info), cpu_type.1);
+        }
     }
 
     #[test]
