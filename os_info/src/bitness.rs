@@ -2,6 +2,7 @@
 
 use std::fmt::{self, Display, Formatter};
 #[cfg(any(
+    target_os = "aix",
     target_os = "dragonfly",
     target_os = "freebsd",
     target_os = "illumos",
@@ -88,9 +89,19 @@ pub fn get() -> Bitness {
     }
 }
 
+#[cfg(target_os = "aix")]
+pub fn get() -> Bitness {
+    match &Command::new("prtconf").arg("-c").output() {
+        Ok(Output { stdout, .. }) if stdout == b"CPU Type: 64-bit\n" => Bitness::X64,
+        Ok(Output { stdout, .. }) if stdout == b"CPU Type: 32-bit\n" => Bitness::X32,
+        _ => Bitness::Unknown,
+    }
+}
+
 #[cfg(all(
     test,
     any(
+        target_os = "aix",
         target_os = "dragonfly",
         target_os = "freebsd",
         target_os = "linux",

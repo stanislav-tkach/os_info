@@ -6,6 +6,8 @@ use std::fmt::{self, Display, Formatter};
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 #[non_exhaustive]
 pub enum Type {
+    /// IBM AIX (<https://en.wikipedia.org/wiki/IBM_AIX>).
+    AIX,
     /// Alpaquita Linux (<https://bell-sw.com/alpaquita-linux/>).
     Alpaquita,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>).
@@ -133,6 +135,7 @@ mod tests {
     #[test]
     fn display() {
         let data = [
+            (Type::AIX, "AIX"),
             (Type::Alpaquita, "Alpaquita Linux"),
             (Type::Alpine, "Alpine Linux"),
             (Type::Amazon, "Amazon Linux AMI"),

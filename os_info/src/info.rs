@@ -208,6 +208,7 @@ mod tests {
     #[test]
     fn with_type() {
         let types = [
+            Type::AIX,
             Type::Redox,
             Type::Alpaquita,
             Type::Alpine,
