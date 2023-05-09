@@ -10,6 +10,10 @@
     missing_doc_code_examples
 )]
 
+#[cfg(target_os = "aix")]
+#[path = "aix/mod.rs"]
+mod imp;
+
 #[cfg(target_os = "android")]
 #[path = "android/mod.rs"]
 mod imp;
@@ -55,6 +59,7 @@ mod imp;
 mod imp;
 
 #[cfg(not(any(
+    target_os = "aix",
     target_os = "android",
     target_os = "dragonfly",
     target_os = "emscripten",
@@ -83,6 +88,7 @@ mod info;
 mod matcher;
 mod os_type;
 #[cfg(any(
+    target_os = "aix",
     target_os = "dragonfly",
     target_os = "freebsd",
     target_os = "illumos",
