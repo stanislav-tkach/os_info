@@ -42,6 +42,8 @@ pub enum Type {
     HardenedBSD,
     /// Illumos (https://en.wikipedia.org/wiki/Illumos).
     Illumos,
+    /// Kali Linux (https://en.wikipedia.org/wiki/Kali_Linux).
+    Kali,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     Linux,
     /// Mabox (<https://maboxlinux.org/>).
@@ -110,6 +112,7 @@ impl Display for Type {
             Type::Garuda => write!(f, "Garuda Linux"),
             Type::Gentoo => write!(f, "Gentoo Linux"),
             Type::Illumos => write!(f, "illumos"),
+            Type::Kali => write!(f, "Kali Linux"),
             Type::Macos => write!(f, "Mac OS"),
             Type::MidnightBSD => write!(f, "Midnight BSD"),
             Type::Mint => write!(f, "Linux Mint"),
@@ -151,6 +154,7 @@ mod tests {
             (Type::Garuda, "Garuda Linux"),
             (Type::Gentoo, "Gentoo Linux"),
             (Type::FreeBSD, "FreeBSD"),
+            (Type::Kali, "Kali Linux"),
             (Type::Linux, "Linux"),
             (Type::Macos, "Mac OS"),
             (Type::Manjaro, "Manjaro"),
