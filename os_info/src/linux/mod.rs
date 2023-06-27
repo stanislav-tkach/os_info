@@ -37,6 +37,7 @@ mod tests {
             | Type::Fedora
             | Type::Garuda
             | Type::Gentoo
+            | Type::Kali
             | Type::Linux
             | Type::Mabox
             | Type::Manjaro
