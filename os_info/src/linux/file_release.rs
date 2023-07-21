@@ -110,7 +110,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "fedora" => Some(Type::Fedora),
                     //"gentoo" => Gentoo
                     //"ios_xr" => ios_xr
-                    //"kali" => Kali
+                    "kali" => Some(Type::Kali),
                     //"mageia" => Mageia
                     //"manjaro" => Manjaro
                     "linuxmint" => Some(Type::Mint),
@@ -382,6 +382,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Fedora);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn kali_2023_2_os_release() {
+        let root = "src/linux/tests/Kali_2023_2";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Kali);
+        assert_eq!(info.version, Version::Semantic(2023, 2, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

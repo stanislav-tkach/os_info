@@ -26,6 +26,7 @@ pub fn get() -> Option<Info> {
         Some("Fedora") | Some("Fedora Linux") => Type::Fedora,
         Some("Garuda") => Type::Garuda,
         Some("Gentoo") => Type::Gentoo,
+        Some("Kali") => Type::Kali,
         Some("Linuxmint") => Type::Mint,
         Some("MaboxLinux") => Type::Mabox,
         Some("ManjaroLinux") => Type::Manjaro,
@@ -143,6 +144,14 @@ mod tests {
         assert_eq!(parse_results.distribution, Some("Fedora".to_string()));
         assert_eq!(parse_results.version, Some("26".to_string()));
         assert_eq!(parse_results.codename, Some("TwentySix".to_string()));
+    }
+
+    #[test]
+    fn kali_2023_2() {
+        let parse_results = parse(kali_2023_2_file());
+        assert_eq!(parse_results.distribution, Some("Kali".to_string()));
+        assert_eq!(parse_results.version, Some("2023.2".to_string()));
+        assert_eq!(parse_results.codename, Some("kali-rolling".to_string()));
     }
 
     #[test]
@@ -346,6 +355,14 @@ mod tests {
          Description:    Fedora release 26 (Twenty Six)\n\
          Release:    26\n\
          Codename:   TwentySix\n\
+         "
+    }
+
+    fn kali_2023_2_file() -> &'static str {
+        "\nDistributor ID: Kali\n\
+         Description:    Kali GNU/Linux Rolling\n\
+         Release:        2023.2\n\
+         Codename:       kali-rolling\n\
          "
     }
 

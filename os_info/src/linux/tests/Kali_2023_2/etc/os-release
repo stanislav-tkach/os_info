@@ -1,0 +1,11 @@
+PRETTY_NAME="Kali GNU/Linux Rolling"
+NAME="Kali GNU/Linux"
+VERSION_ID="2023.2"
+VERSION="2023.2"
+VERSION_CODENAME=kali-rolling
+ID=kali
+ID_LIKE=debian
+HOME_URL="https://www.kali.org/"
+SUPPORT_URL="https://forums.kali.org/"
+BUG_REPORT_URL="https://bugs.kali.org/"
+ANSI_COLOR="1;31"
