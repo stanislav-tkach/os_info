@@ -122,6 +122,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "ol" => Some(Type::OracleLinux),
                     "opensuse" => Some(Type::openSUSE),
                     "opensuse-leap" => Some(Type::openSUSE),
+                    "opensuse-tumbleweed" => Some(Type::openSUSE),
                     //"rancheros" => RancherOS
                     //"raspbian" => Raspbian
                     // note XBian also uses "raspbian"
@@ -486,6 +487,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::openEuler);
         assert_eq!(info.version, Version::Semantic(22, 3, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn opensuse_tumbleweed_os_release() {
+        let root = "src/linux/tests/openSUSE_Tumbleweed";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::openSUSE);
+        assert_eq!(info.version, Version::Semantic(20230816, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
