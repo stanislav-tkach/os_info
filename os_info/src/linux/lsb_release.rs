@@ -11,7 +11,7 @@ pub fn get() -> Option<Info> {
 
     let version = match release.version.as_deref() {
         Some("rolling") => Version::Rolling(None),
-        Some(v) => Version::Custom(v.to_owned()),
+        Some(v) => Version::from_string(v.to_owned()),
         None => Version::Unknown,
     };
 
