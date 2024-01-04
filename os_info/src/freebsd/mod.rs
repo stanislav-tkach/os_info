@@ -31,7 +31,7 @@ fn get_os() -> Type {
 
     match str::from_utf8(&os.stdout) {
         Ok("FreeBSD\n") => {
-            let check_hardening = Command::new("sysctl")
+            let check_hardening = Command::new("/sbin/sysctl")
                 .arg("hardening.version")
                 .output()
                 .expect("Failed to check if is hardened");
