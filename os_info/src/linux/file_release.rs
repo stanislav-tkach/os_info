@@ -135,6 +135,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "sles" => Some(Type::SUSE),
                     "sles_sap" => Some(Type::SUSE), // SUSE SAP
                     "ubuntu" => Some(Type::Ubuntu),
+                    "ultramarine" => Some(Type::Ultramarine),
                     //"virtuozzo" => Virtuozzo
                     //"void" => Void
                     //"XCP-ng" => xcp-ng
@@ -586,6 +587,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Ubuntu);
         assert_eq!(info.version, Version::Semantic(18, 10, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn ultramarine_os_release() {
+        let root = "src/linux/tests/Ultramarine";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Ultramarine);
+        assert_eq!(info.version, Version::Semantic(39, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

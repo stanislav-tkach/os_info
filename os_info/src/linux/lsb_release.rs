@@ -42,6 +42,7 @@ pub fn get() -> Option<Info> {
         Some("Solus") => Type::Solus,
         Some("SUSE") => Type::SUSE,
         Some("Ubuntu") => Type::Ubuntu,
+        Some("Ultramarine") => Type::Ultramarine,
         _ => Type::Linux,
     };
 
@@ -530,6 +531,16 @@ mod tests {
         Description:	EndeavourOS Linux\n\
         Release:	rolling\n\
         Codename:	n/a\n\
+        "
+    }
+
+    fn ultramarine_file() -> &'static str {
+
+        "LSB Version:    n/a\n\
+        Distributor ID: UltramarineLinux\n\
+        Description:    Ultramarine Linux 39 (Kuma)\n\
+        Release:        39\n\
+        Codename:       kuma\n\
         "
     }
 }
