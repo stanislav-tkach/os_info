@@ -8,6 +8,8 @@ use std::fmt::{self, Display, Formatter};
 pub enum Type {
     /// IBM AIX (<https://en.wikipedia.org/wiki/IBM_AIX>).
     AIX,
+    /// AlmaLinux (<https://en.wikipedia.org/wiki/AlmaLinux>).
+    AlmaLinux,
     /// Alpaquita Linux (<https://bell-sw.com/alpaquita-linux/>).
     Alpaquita,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>).
@@ -107,6 +109,7 @@ impl Display for Type {
         match *self {
             Type::Alpaquita => write!(f, "Alpaquita Linux"),
             Type::Alpine => write!(f, "Alpine Linux"),
+            Type::AlmaLinux => write!(f, "AlmaLinux"),
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
             Type::Artix => write!(f, "Artix Linux"),

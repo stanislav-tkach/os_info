@@ -26,7 +26,8 @@ mod tests {
     fn os_type() {
         let version = current_platform();
         match version.os_type() {
-            Type::Alpaquita
+            Type::AlmaLinux
+            | Type::Alpaquita
             | Type::Alpine
             | Type::Amazon
             | Type::Arch

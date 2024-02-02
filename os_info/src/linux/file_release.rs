@@ -89,8 +89,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .and_then(|id| match id.as_str() {
                     // os-release information collected from
                     // https://github.com/chef/os_release
-
-                    //"almalinux" => Alma
+                    "almalinux" => Some(Type::AlmaLinux),
                     "alpaquita" => Some(Type::Alpaquita),
                     "alpine" => Some(Type::Alpine),
                     "amzn" => Some(Type::Amazon),
@@ -199,6 +198,17 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
+
+    #[test]
+    fn almalinux_9_0_release() {
+        let root = "src/linux/tests/AlmaLinux-9.0";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::AlmaLinux);
+        assert_eq!(info.version, Version::Semantic(9, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
 
     #[test]
     fn alpaquita_os_release() {
