@@ -127,7 +127,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"raspbian" => Raspbian
                     // note XBian also uses "raspbian"
                     "rhel" => Some(Type::RedHatEnterprise),
-                    //"rocky" => Rocky
+                    "rocky" => Some(Type::RockyLinux),
                     //"sabayon" => Sabayon
                     //"scientific" => Scientific
                     //"slackware" => Slackware
@@ -553,6 +553,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::RedHatEnterprise);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn rocky_9_2_release() {
+        let root = "src/linux/tests/RockyLinux-9.2";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::RockyLinux);
+        assert_eq!(info.version, Version::Semantic(9, 2, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

@@ -51,6 +51,7 @@ mod tests {
             | Type::Raspbian
             | Type::Redhat
             | Type::RedHatEnterprise
+            | Type::RockyLinux
             | Type::Solus
             | Type::SUSE
             | Type::Ubuntu
