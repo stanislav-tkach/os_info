@@ -8,6 +8,8 @@ use std::fmt::{self, Display, Formatter};
 pub enum Type {
     /// IBM AIX (<https://en.wikipedia.org/wiki/IBM_AIX>).
     AIX,
+    /// AlmaLinux (<https://en.wikipedia.org/wiki/AlmaLinux>).
+    AlmaLinux,
     /// Alpaquita Linux (<https://bell-sw.com/alpaquita-linux/>).
     Alpaquita,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>).
@@ -82,6 +84,8 @@ pub enum Type {
     RedHatEnterprise,
     /// Redox (<https://en.wikipedia.org/wiki/Redox_(operating_system)>).
     Redox,
+    /// Rocky Linux (<https://en.wikipedia.org/wiki/Rocky_Linux>).
+    RockyLinux,
     /// Solus (<https://en.wikipedia.org/wiki/Solus_(operating_system)>).
     Solus,
     /// SUSE Linux Enterprise Server (<https://en.wikipedia.org/wiki/SUSE_Linux_Enterprise>).
@@ -105,6 +109,7 @@ impl Display for Type {
         match *self {
             Type::Alpaquita => write!(f, "Alpaquita Linux"),
             Type::Alpine => write!(f, "Alpine Linux"),
+            Type::AlmaLinux => write!(f, "AlmaLinux"),
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
             Type::Artix => write!(f, "Artix Linux"),
@@ -120,6 +125,7 @@ impl Display for Type {
             Type::Raspbian => write!(f, "Raspberry Pi OS"),
             Type::Redhat => write!(f, "Red Hat Linux"),
             Type::RedHatEnterprise => write!(f, "Red Hat Enterprise Linux"),
+            Type::RockyLinux => write!(f, "Rocky Linux"),
             Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
             _ => write!(f, "{self:?}"),
         }
