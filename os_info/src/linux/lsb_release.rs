@@ -312,6 +312,14 @@ mod tests {
     }
 
     #[test]
+    fn ultramarine() {
+        let parse_results = parse(ultramarine_file());
+        assert_eq!(parse_results.distribution, Some("UltramarineLinux".to_string()));
+        assert_eq!(parse_results.version, Some("39".to_string()));
+        assert_eq!(parse_results.codename, Some("kuma".to_string()));
+    }
+
+    #[test]
     fn raspbian() {
         let parse_results = parse(raspberry_os_file());
         assert_eq!(parse_results.distribution, Some("Raspbian".to_string()));
