@@ -42,7 +42,7 @@ pub fn get() -> Option<Info> {
         Some("Solus") => Type::Solus,
         Some("SUSE") => Type::SUSE,
         Some("Ubuntu") => Type::Ubuntu,
-        Some("Ultramarine") => Type::Ultramarine,
+        Some("UltramarineLinux") => Type::Ultramarine,
         _ => Type::Linux,
     };
 
