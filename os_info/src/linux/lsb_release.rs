@@ -314,7 +314,10 @@ mod tests {
     #[test]
     fn ultramarine() {
         let parse_results = parse(ultramarine_file());
-        assert_eq!(parse_results.distribution, Some("UltramarineLinux".to_string()));
+        assert_eq!(
+            parse_results.distribution, 
+            Some("UltramarineLinux".to_string())
+        );
         assert_eq!(parse_results.version, Some("39".to_string()));
         assert_eq!(parse_results.codename, Some("kuma".to_string()));
     }
@@ -543,7 +546,6 @@ mod tests {
     }
 
     fn ultramarine_file() -> &'static str {
-
         "LSB Version:    n/a\n\
         Distributor ID: UltramarineLinux\n\
         Description:    Ultramarine Linux 39 (Kuma)\n\
