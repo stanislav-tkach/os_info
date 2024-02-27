@@ -315,7 +315,7 @@ mod tests {
     fn ultramarine() {
         let parse_results = parse(ultramarine_file());
         assert_eq!(
-            parse_results.distribution, 
+            parse_results.distribution,
             Some("UltramarineLinux".to_string())
         );
         assert_eq!(parse_results.version, Some("39".to_string()));
