@@ -52,3 +52,5 @@ xbian
 xenenterprise
 xenial
 xenserver
+ultramarine
+kuma

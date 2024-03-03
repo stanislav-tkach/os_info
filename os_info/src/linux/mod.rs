@@ -56,6 +56,7 @@ mod tests {
             | Type::Solus
             | Type::SUSE
             | Type::Ubuntu
+            | Type::Ultramarine
             | Type::Mint => (),
             os_type => {
                 panic!("Unexpected OS type: {}", os_type);

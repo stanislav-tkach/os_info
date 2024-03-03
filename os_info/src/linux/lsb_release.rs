@@ -42,7 +42,7 @@ pub fn get() -> Option<Info> {
         Some("Solus") => Type::Solus,
         Some("SUSE") => Type::SUSE,
         Some("Ubuntu") => Type::Ubuntu,
-        Some("Ultramarine") => Type::Ultramarine,
+        Some("UltramarineLinux") => Type::Ultramarine,
         _ => Type::Linux,
     };
 
@@ -312,6 +312,17 @@ mod tests {
     }
 
     #[test]
+    fn ultramarine() {
+        let parse_results = parse(ultramarine_file());
+        assert_eq!(
+            parse_results.distribution,
+            Some("UltramarineLinux".to_string())
+        );
+        assert_eq!(parse_results.version, Some("39".to_string()));
+        assert_eq!(parse_results.codename, Some("kuma".to_string()));
+    }
+
+    #[test]
     fn raspbian() {
         let parse_results = parse(raspberry_os_file());
         assert_eq!(parse_results.distribution, Some("Raspbian".to_string()));
@@ -535,7 +546,6 @@ mod tests {
     }
 
     fn ultramarine_file() -> &'static str {
-
         "LSB Version:    n/a\n\
         Distributor ID: UltramarineLinux\n\
         Description:    Ultramarine Linux 39 (Kuma)\n\
