@@ -94,6 +94,8 @@ pub enum Type {
     Ubuntu,
     /// Ultramarine (<https://ultramarine-linux.org/>).
     Ultramarine,
+    /// Void Linux (<https://en.wikipedia.org/wiki/Void_Linux>).
+    Void,
     /// Unknown operating system.
     Unknown,
     /// Windows (<https://en.wikipedia.org/wiki/Microsoft_Windows>).
@@ -130,6 +132,7 @@ impl Display for Type {
             Type::RockyLinux => write!(f, "Rocky Linux"),
             Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
             Type::Ultramarine => write!(f, "Ultramarine Linux"),
+            Type::Void => write!(f, "Void Linux"),
             _ => write!(f, "{self:?}"),
         }
     }
@@ -182,6 +185,7 @@ mod tests {
             (Type::SUSE, "SUSE Linux Enterprise Server"),
             (Type::Ubuntu, "Ubuntu"),
             (Type::Ultramarine, "Ultramarine Linux"),
+            (Type::Void, "Void Linux"),
             (Type::Unknown, "Unknown"),
             (Type::Windows, "Windows"),
         ];

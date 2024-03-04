@@ -136,7 +136,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "ubuntu" => Some(Type::Ubuntu),
                     "ultramarine" => Some(Type::Ultramarine),
                     //"virtuozzo" => Virtuozzo
-                    //"void" => Void
+                    "void" => Some(Type::Void),
                     //"XCP-ng" => xcp-ng
                     //"xenenterprise" => xcp-ng
                     //"xenserver" => xcp-ng
@@ -619,6 +619,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Ultramarine);
         assert_eq!(info.version, Version::Semantic(39, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn void_os_release() {
+        let root = "src/linux/tests/Void";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Void);
+        assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
