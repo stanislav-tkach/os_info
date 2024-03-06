@@ -239,6 +239,7 @@ mod tests {
             Type::SUSE,
             Type::Ubuntu,
             Type::Ultramarine,
+            Type::Void,
             Type::Mint,
             Type::Unknown,
             Type::Windows,

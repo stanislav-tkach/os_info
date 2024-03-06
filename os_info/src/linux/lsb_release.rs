@@ -43,6 +43,7 @@ pub fn get() -> Option<Info> {
         Some("SUSE") => Type::SUSE,
         Some("Ubuntu") => Type::Ubuntu,
         Some("UltramarineLinux") => Type::Ultramarine,
+        Some("VoidLinux") => Type::Void,
         _ => Type::Linux,
     };
 
@@ -323,6 +324,13 @@ mod tests {
     }
 
     #[test]
+    fn void_linux() {
+        let parse_results = parse(void_file());
+        assert_eq!(parse_results.distribution, Some("Void".to_string()));
+        assert_eq!(parse_results.version, Some("rolling".to_string()));
+    }
+
+    #[test]
     fn raspbian() {
         let parse_results = parse(raspberry_os_file());
         assert_eq!(parse_results.distribution, Some("Raspbian".to_string()));
@@ -552,5 +560,14 @@ mod tests {
         Release:        39\n\
         Codename:       kuma\n\
         "
+    }
+
+    fn void_file() -> &'static str {
+        "LSB Version:        n/a\n\
+          Distributor ID:        Void\n\
+          Description:        Void Linux\n\
+          Release:        rolling\n\
+          Codename:        n/a\n\
+          "
     }
 }
