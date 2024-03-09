@@ -29,6 +29,7 @@ windows-sys = { version = "0.52", features = [
     "Win32_UI_WindowsAndMessaging",
     "Win32_System_Registry",
     "Win32_System_SystemServices",
+    "Win32_System_Threading",
 ]}
 
 [dev-dependencies]
