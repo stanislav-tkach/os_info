@@ -11,7 +11,7 @@ keywords = ["os", "os_type", "os_version", "os_info"]
 categories = ["os"]
 license = "MIT"
 edition = "2018"
-rust-version = "1.60"
+rust-version = "1.76"
 
 [features]
 default = ["serde"]
