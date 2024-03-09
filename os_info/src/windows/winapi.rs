@@ -15,13 +15,13 @@ use std::{
 use windows_sys::Win32::{
     Foundation::{ERROR_SUCCESS, FARPROC, NTSTATUS, STATUS_SUCCESS},
     System::{
-        Diagnostics::Debug::{
-            PROCESSOR_ARCHITECTURE_AMD64, PROCESSOR_ARCHITECTURE_ARM, PROCESSOR_ARCHITECTURE_IA64,
-            PROCESSOR_ARCHITECTURE_INTEL,
-        },
         LibraryLoader::{GetModuleHandleA, GetProcAddress},
         Registry::{RegOpenKeyExW, RegQueryValueExW, HKEY_LOCAL_MACHINE, KEY_READ, REG_SZ},
-        SystemInformation::{GetNativeSystemInfo, GetSystemInfo, SYSTEM_INFO},
+        SystemInformation::{
+            GetNativeSystemInfo, GetSystemInfo, PROCESSOR_ARCHITECTURE_AMD64,
+            PROCESSOR_ARCHITECTURE_ARM, PROCESSOR_ARCHITECTURE_IA64, PROCESSOR_ARCHITECTURE_INTEL,
+            SYSTEM_INFO,
+        },
         SystemServices::{VER_NT_WORKSTATION, VER_SUITE_WH_SERVER},
     },
     UI::WindowsAndMessaging::{GetSystemMetrics, SM_SERVERR2},
