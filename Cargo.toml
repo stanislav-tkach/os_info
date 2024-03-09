@@ -1,5 +1,9 @@
 [workspace]
+
 members = [
     "os_info",
     "cli",
 ]
+
+[workspace.dependencies]
+log = "0.4"

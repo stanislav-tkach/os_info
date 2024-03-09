@@ -17,11 +17,11 @@ rust-version = "1.60"
 default = ["serde"]
 
 [dependencies]
-log = "0.4.5"
+log.workspace = true
 serde = { version = "1", features = ["derive"], optional = true }
 
 [target.'cfg(windows)'.dependencies]
-windows-sys = { version = "0.45", features = [
+windows-sys = { version = "0.52", features = [
     "Win32_Foundation",
     "Win32_System_Diagnostics_Debug",
     "Win32_System_LibraryLoader",
@@ -33,4 +33,4 @@ windows-sys = { version = "0.45", features = [
 
 [dev-dependencies]
 pretty_assertions = "1"
-doc-comment = "0.3.1"
+doc-comment = "0.3"

@@ -8,86 +8,43 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Install rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          components: rustfmt
-          profile: minimal
-          override: true
-      - name: Run rustfmt
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo fmt --all -- --check
 
   # Static analyzer.
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Install rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          components: clippy
-          profile: minimal
-          override: true
-      - name: Run clippy
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-targets --all-features -- -D warnings
-
-  # Security audit.
-  audit:
-    name: Security audit
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/audit-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo clippy --all-targets --all-features -- -D warnings
 
   # Check links in the documentation.
   deadlinks:
     name: Deadlinks
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Install rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
-      - name: Install deadlinks
-        run: cargo install cargo-deadlinks
-      - name: Cargo doc
-        run: cargo doc --no-deps -p os_info
-      - name: Run deadlinks
-        run: cargo deadlinks --no-build
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo install cargo-deadlinks
+      - run: cargo doc --no-deps -p os_info
+      - run: cargo deadlinks --no-build
 
   # Check links in markdown files.
   mlc:
     name: MLC
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Markup Link Checker (mlc)
-        uses: becheran/mlc@v0.14.3
+      - uses: actions/checkout@v3
+      - uses: becheran/mlc@v0.14.3
 
   # Spellcheck.
   spellcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: streetsidesoftware/cspell-action@v1.0.1
         with:
           files: "**/*.{rs,md}"
@@ -97,10 +54,8 @@ jobs:
     name: Markdown lints
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Check md files
-        uses: nosborn/github-action-markdown-cli@v1.1.1
+      - uses: actions/checkout@v3
+      - uses: nosborn/github-action-markdown-cli@v1.1.1
         with:
           files: .
 
@@ -109,7 +64,7 @@ jobs:
     name: cargo-deny
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: EmbarkStudios/cargo-deny-action@v1
 
   # Tests.
