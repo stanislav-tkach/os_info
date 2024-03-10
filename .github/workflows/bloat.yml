@@ -1,4 +1,4 @@
-on: # rebuild any PRs and main branch changes
+on:
   pull_request:
   push:
     branches:
@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install rust
         uses: actions-rs/toolchain@v1
