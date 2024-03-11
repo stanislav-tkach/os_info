@@ -43,6 +43,7 @@ fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
         let version = (release_info.version)(&file_content);
 
         return Some(Info {
+            // Unwrap is OK here because of the `os_type.is_none()` check above.
             os_type: os_type.unwrap(),
             version: version.unwrap_or(Version::Unknown),
             bitness: Bitness::Unknown,

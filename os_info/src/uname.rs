@@ -2,12 +2,12 @@ use std::process::Command;
 
 use log::error;
 
-pub fn uname() -> Option<String> {
+pub fn uname(arg: &str) -> Option<String> {
     Command::new("uname")
-        .arg("-r")
+        .arg(arg)
         .output()
         .map_err(|e| {
-            error!("Failed to invoke 'uname': {:?}", e);
+            error!("Failed to invoke 'uname {}': {:?}", arg, e);
         })
         .ok()
         .and_then(|out| {

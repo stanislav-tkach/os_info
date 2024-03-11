@@ -26,7 +26,7 @@ mod tests {
 
     #[test]
     fn uname_nonempty() {
-        let val = get().expect("uname failed");
+        let val = get().expect("architecture::get() failed");
         assert!(!val.is_empty());
     }
 }
