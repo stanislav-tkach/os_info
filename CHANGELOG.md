@@ -6,7 +6,29 @@ All notable changes to this project will be documented in this file.
 
 ## [3.8.0] (2024-03-12)
 
-- FIXME
+- The `windows-sys` crate instead of `winapi` is now used internally. (#341)
+
+- Architecture information for Windows targets has been added. (#345)
+
+- Artix Linux detection has been fixed. (#348)
+
+- AIX support has been added. (#348)
+
+- Kali Linux support has been added. (#350)
+
+- openSUSE Tumbleweed detection has been fixed. (#353)
+
+- Version parsing from `lsb_release` has been added. (#354)
+
+- HardenedBSD detection has been fixed. (#358)
+
+- Ultramarine Linux support has been added. (#359)
+
+- AlmaLinux and Rocky Linux support has been added. (#360)
+
+- Ultramarine Linux support has been added. (#363)
+
+- Void Linux support has been added. (#365)
 
 ## [3.7.0] (2023-03-20)
 

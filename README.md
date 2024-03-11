@@ -79,6 +79,8 @@ os_info --help
 
 Right now, the following operating system types can be returned:
 
+- AIX
+- AlmaLinux
 - Alpaquita Linux
 - Alpine Linux
 - Amazon Linux AMI
@@ -95,8 +97,10 @@ Right now, the following operating system types can be returned:
 - Garuda Linux
 - Gentoo Linux
 - HardenedBSD
-- Illumos
+- illumos
+- Kali Linux
 - Linux
+- Mabox
 - macOS (Mac OS X or OS X)
 - Manjaro
 - Mariner
@@ -105,6 +109,8 @@ Right now, the following operating system types can be returned:
 - NetBSD
 - NixOS
 - OpenBSD
+- OpenCloudOS
+- openEuler (EulerOS)
 - openSUSE
 - Oracle Linux
 - Pop!_OS
@@ -112,10 +118,13 @@ Right now, the following operating system types can be returned:
 - Red Hat Linux
 - Red Hat Enterprise Linux
 - Redox
+- Rocky Linux
 - Solus
 - SUSE Linux Enterprise Server
 - Ubuntu
+- Ultramarine Linux
 - Unknown
+- Void Linux
 - Windows
 
 If you need support for more OS types, I am looking forward to your Pull Request.
