@@ -24,26 +24,39 @@ pub fn current_platform() -> Info {
 }
 
 fn get_os() -> Type {
-    let os = Command::new("uname")
-        .arg("-s")
-        .output()
-        .expect("Failed to get OS");
+    let os = match uname("-s") {
+        Some(o) => o,
+        None => return Type::Unknown,
+    };
 
-    match str::from_utf8(&os.stdout) {
-        Ok("FreeBSD\n") => {
-            let check_hardening = Command::new("/sbin/sysctl")
+    let os = match Command::new("uname").arg("-s").output() {
+        Ok(o) => o,
+        Err(e) => {
+            error!("Failed to invoke 'uname': {:?}", e);
+            return Type::Unknown;
+        }
+    };
+
+    match uname("-s") {
+        None => Type::Unknown,
+        Some("MidnightBSD") => Type::MidnightBSD,
+        Some("FreeBSD") => {
+            let check_hardening = match Command::new("/sbin/sysctl")
                 .arg("hardening.version")
                 .output()
-                .expect("Failed to check if is hardened");
+            {
+                Ok(o) => o,
+                Err(e) => {
+                    error!("Failed to invoke '/sbin/sysctl': {:?}", e);
+                    return Type::FreeBSD;
+                }
+            };
             match str::from_utf8(&check_hardening.stderr) {
                 Ok("0\n") => Type::HardenedBSD,
                 Ok(_) => Type::FreeBSD,
                 Err(_) => Type::FreeBSD,
             }
         }
-        Ok("MidnightBSD\n") => Type::MidnightBSD,
-        Ok(_) => Type::Unknown,
-        Err(_) => Type::Unknown,
     }
 }
 

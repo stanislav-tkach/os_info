@@ -43,6 +43,7 @@ raspbian
 redhat
 rhel
 rustdoc
+sbin
 serde
 structopt
 toml

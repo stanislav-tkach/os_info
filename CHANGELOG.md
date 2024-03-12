@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.8.0] (2024-03-12)
+
+- The `windows-sys` crate instead of `winapi` is now used internally. (#341)
+
+- Architecture information for Windows targets has been added. (#345)
+
+- Artix Linux detection has been fixed. (#348)
+
+- AIX support has been added. (#348)
+
+- Kali Linux support has been added. (#350)
+
+- openSUSE Tumbleweed detection has been fixed. (#353)
+
+- Version parsing from `lsb_release` has been added. (#354)
+
+- HardenedBSD detection has been fixed. (#358)
+
+- Ultramarine Linux support has been added. (#359)
+
+- AlmaLinux and Rocky Linux support has been added. (#360)
+
+- Ultramarine Linux support has been added. (#363)
+
+- Void Linux support has been added. (#365)
+
 ## [3.7.0] (2023-03-20)
 
 - Information about a processor's architecture has been added. (#336)
@@ -291,7 +317,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.7.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.8.0...HEAD
+[3.8.0]: https://github.com/stanislav-tkach/os_info/compare/v3.7.0...v3.8.0
 [3.7.0]: https://github.com/stanislav-tkach/os_info/compare/v3.6.0...v3.7.0
 [3.6.0]: https://github.com/stanislav-tkach/os_info/compare/v3.5.1...v3.6.0
 [3.5.1]: https://github.com/stanislav-tkach/os_info/compare/v3.5.0...v3.5.1
