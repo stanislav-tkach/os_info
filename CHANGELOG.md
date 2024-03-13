@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 
 - Artix Linux detection has been fixed. (#348)
 
-- AIX support has been added. (#348)
+- AIX support has been added. (#349)
 
 - Kali Linux support has been added. (#350)
 
