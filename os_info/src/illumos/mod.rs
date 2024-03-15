@@ -28,9 +28,14 @@ fn get_version() -> Option<String> {
 }
 
 fn get_os() -> Type {
-    match uname("-o") {
-        Some("illumos") => Type::Illumos,
-        None => Type::Unknown,
+    let os = match uname("-o") {
+        Some(o) => o,
+        None => return Type::Unknown,
+    };
+
+    match os.as_str() {
+        "illumos" => Type::Illumos,
+        _ => Type::Unknown
     }
 }
 
