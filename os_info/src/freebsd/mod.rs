@@ -8,7 +8,7 @@ use crate::{bitness, uname::uname, Info, Type, Version};
 pub fn current_platform() -> Info {
     trace!("freebsd::current_platform is called");
 
-    let version = uname()
+    let version = uname("-s")
         .map(Version::from_string)
         .unwrap_or_else(|| Version::Unknown);
 
@@ -29,18 +29,9 @@ fn get_os() -> Type {
         None => return Type::Unknown,
     };
 
-    let os = match Command::new("uname").arg("-s").output() {
-        Ok(o) => o,
-        Err(e) => {
-            error!("Failed to invoke 'uname': {:?}", e);
-            return Type::Unknown;
-        }
-    };
-
-    match uname("-s") {
-        None => Type::Unknown,
-        Some("MidnightBSD") => Type::MidnightBSD,
-        Some("FreeBSD") => {
+    match os.as_str() {
+        "MidnightBSD" => Type::MidnightBSD,
+        "FreeBSD" => {
             let check_hardening = match Command::new("/sbin/sysctl")
                 .arg("hardening.version")
                 .output()
@@ -56,7 +47,8 @@ fn get_os() -> Type {
                 Ok(_) => Type::FreeBSD,
                 Err(_) => Type::FreeBSD,
             }
-        }
+        },
+        _ => Type::Unknown
     }
 }
 
