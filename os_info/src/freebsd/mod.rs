@@ -24,12 +24,7 @@ pub fn current_platform() -> Info {
 }
 
 fn get_os() -> Type {
-    let os = match uname("-s") {
-        Some(o) => o,
-        None => return Type::Unknown,
-    };
-
-    match os.as_str() {
+    match uname("-s").as_deref() {
         "MidnightBSD" => Type::MidnightBSD,
         "FreeBSD" => {
             let check_hardening = match Command::new("/sbin/sysctl")
@@ -47,8 +42,8 @@ fn get_os() -> Type {
                 Ok(_) => Type::FreeBSD,
                 Err(_) => Type::FreeBSD,
             }
-        },
-        _ => Type::Unknown
+        }
+        _ => Type::Unknown,
     }
 }
 

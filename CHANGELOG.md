@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Build on FreeSBD has been fixed. (#372)
+
+- Build on Illumos has been fixed. (#373)
+
+- Build on NetBSD has been fixed. (#374)
+
+- Few more regressions introduced in the `3.8.0` release were (hopefully) fixed.
+
+## [3.8.1] (2024-03-17)
+
 ## [3.8.0] (2024-03-12)
 
 - The `windows-sys` crate instead of `winapi` is now used internally. (#341)
@@ -317,7 +327,8 @@ All notable changes to this project will be documented in this file.
 
 The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.8.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.8.1...HEAD
+[3.8.1]: https://github.com/stanislav-tkach/os_info/compare/v3.8.0...v3.8.1
 [3.8.0]: https://github.com/stanislav-tkach/os_info/compare/v3.7.0...v3.8.0
 [3.7.0]: https://github.com/stanislav-tkach/os_info/compare/v3.6.0...v3.7.0
 [3.6.0]: https://github.com/stanislav-tkach/os_info/compare/v3.5.1...v3.6.0
