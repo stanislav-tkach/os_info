@@ -8,7 +8,7 @@ use crate::{bitness, uname::uname, Info, Type, Version};
 pub fn current_platform() -> Info {
     trace!("illumos::current_platform is called");
 
-    let version = get_version()
+    let version = uname("-v")
         .map(Version::from_string)
         .unwrap_or_else(|| Version::Unknown);
 
@@ -23,19 +23,10 @@ pub fn current_platform() -> Info {
     info
 }
 
-fn get_version() -> Option<String> {
-    uname("-v")
-}
-
 fn get_os() -> Type {
-    let os = match uname("-o") {
-        Some(o) => o,
-        None => return Type::Unknown,
-    };
-
-    match os.as_str() {
+    match uname("-o").as_deref() {
         "illumos" => Type::Illumos,
-        _ => Type::Unknown
+        _ => Type::Unknown,
     }
 }
 

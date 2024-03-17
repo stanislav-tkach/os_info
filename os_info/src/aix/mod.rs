@@ -29,9 +29,9 @@ fn get_version() -> Option<String> {
 }
 
 fn get_os() -> Type {
-    match uname("-o") {
+    match uname("-o").as_deref() {
         Some("AIX") => Type::AIX,
-        None => Type::Unknown,
+        _ => Type::Unknown,
     }
 }
 
