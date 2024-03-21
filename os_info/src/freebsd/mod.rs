@@ -25,8 +25,8 @@ pub fn current_platform() -> Info {
 
 fn get_os() -> Type {
     match uname("-s").as_deref() {
-        "MidnightBSD" => Type::MidnightBSD,
-        "FreeBSD" => {
+        Some("MidnightBSD") => Type::MidnightBSD,
+        Some("FreeBSD") => {
             let check_hardening = match Command::new("/sbin/sysctl")
                 .arg("hardening.version")
                 .output()
