@@ -25,7 +25,7 @@ pub fn current_platform() -> Info {
 
 fn get_os() -> Type {
     match uname("-o").as_deref() {
-        "illumos" => Type::Illumos,
+        Some("illumos") => Type::Illumos,
         _ => Type::Unknown,
     }
 }
