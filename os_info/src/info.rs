@@ -227,6 +227,7 @@ mod tests {
             Type::Manjaro,
             Type::Mariner,
             Type::NixOS,
+            Type::Nobara,
             Type::OpenCloudOS,
             Type::openEuler,
             Type::openSUSE,
