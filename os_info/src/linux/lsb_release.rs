@@ -32,6 +32,7 @@ pub fn get() -> Option<Info> {
         Some("ManjaroLinux") => Type::Manjaro,
         Some("Mariner") => Type::Mariner,
         Some("NixOS") => Type::NixOS,
+        Some("NobaraLinux") => Type::Nobara,
         Some("OpenCloudOS") => Type::OpenCloudOS,
         Some("openEuler") => Type::openEuler,
         Some("openSUSE") => Type::openSUSE,
@@ -181,6 +182,17 @@ mod tests {
             Some("21.05pre275822.916ee862e87".to_string())
         );
         assert_eq!(parse_results.codename, Some("okapi".to_string()));
+    }
+
+    #[test]
+    fn nobara() {
+        let parse_results = parse(nobara_file());
+        assert_eq!(
+            parse_results.distribution,
+            Some("NobaraLinux".to_string())
+        );
+        assert_eq!(parse_results.version, Some("39".to_string()));
+        assert_eq!(parse_results.codename, None);
     }
 
     #[test]
@@ -405,6 +417,15 @@ mod tests {
          Description:    NixOS 21.05 (Okapi)\n\
          Release:        21.05pre275822.916ee862e87\n\
          Codename:       okapi"
+    }
+
+    fn nobara_file() -> &'static str {
+        "LSB Version:	n/a\n\
+        Distributor ID:	NobaraLinux\n\
+        Description:	Nobara Linux 39 (KDE Plasma)\n\
+        Release:	39\n\
+        Codename:	n/a\n\
+        "
     }
 
     // Amazon Linux 1 uses a separate Distributor ID and Release format from Amazon Linux 2

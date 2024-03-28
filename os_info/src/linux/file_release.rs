@@ -117,6 +117,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "mariner" => Some(Type::Mariner),
                     //"nexus" => Nexus
                     "nixos" => Some(Type::NixOS),
+                    "nobara" => Some(Type::Nobara),
                     "opencloudos" => Some(Type::OpenCloudOS),
                     "openEuler" => Some(Type::openEuler),
                     "ol" => Some(Type::OracleLinux),
@@ -453,6 +454,17 @@ mod tests {
             info.version,
             Version::Custom("21.05pre275822.916ee862e87".to_string())
         );
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn nobara_os_release() {
+        let root = "src/linux/tests/Nobara";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Nobara);
+        assert_eq!(info.version, Version::Semantic(39, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

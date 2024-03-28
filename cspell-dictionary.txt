@@ -33,6 +33,7 @@ msvc
 musl
 netbsd
 nixos
+nobara
 openbsd
 opencloudos
 openeuler

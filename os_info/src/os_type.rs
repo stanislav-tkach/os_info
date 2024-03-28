@@ -64,6 +64,8 @@ pub enum Type {
     NetBSD,
     /// NixOS (<https://en.wikipedia.org/wiki/NixOS>).
     NixOS,
+    /// Nobara (<https://nobaraproject.org/>).
+    Nobara,
     /// OpenBSD (<https://en.wikipedia.org/wiki/OpenBSD>).
     OpenBSD,
     /// OpenCloudOS (<https://www.opencloudos.org>).
@@ -125,6 +127,7 @@ impl Display for Type {
             Type::Macos => write!(f, "Mac OS"),
             Type::MidnightBSD => write!(f, "Midnight BSD"),
             Type::Mint => write!(f, "Linux Mint"),
+            Type::Nobara => write!(f, "Nobara Linux"),
             Type::openEuler => write!(f, "EulerOS"),
             Type::OracleLinux => write!(f, "Oracle Linux"),
             Type::Pop => write!(f, "Pop!_OS"),
@@ -181,6 +184,7 @@ mod tests {
             (Type::Mint, "Linux Mint"),
             (Type::NetBSD, "NetBSD"),
             (Type::NixOS, "NixOS"),
+            (Type::Nobara, "Nobara Linux"),
             (Type::OpenCloudOS, "OpenCloudOS"),
             (Type::OpenBSD, "OpenBSD"),
             (Type::openEuler, "EulerOS"),
