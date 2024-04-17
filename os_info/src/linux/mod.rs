@@ -45,6 +45,7 @@ mod tests {
             | Type::Mariner
             | Type::NixOS
             | Type::Nobara
+            | Type::Uos
             | Type::OpenCloudOS
             | Type::openEuler
             | Type::openSUSE

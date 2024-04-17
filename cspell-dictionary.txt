@@ -34,6 +34,7 @@ musl
 netbsd
 nixos
 nobara
+uos
 openbsd
 opencloudos
 openeuler
