@@ -118,6 +118,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"nexus" => Nexus
                     "nixos" => Some(Type::NixOS),
                     "nobara" => Some(Type::Nobara),
+                    "Uos" => Some(Type::Uos),
                     "opencloudos" => Some(Type::OpenCloudOS),
                     "openEuler" => Some(Type::openEuler),
                     "ol" => Some(Type::OracleLinux),
@@ -465,6 +466,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Nobara);
         assert_eq!(info.version, Version::Semantic(39, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn uos_os_release() {
+        let root = "src/linux/tests/Uos";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Uos);
+        assert_eq!(info.version, Version::Semantic(20, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

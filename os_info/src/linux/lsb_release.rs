@@ -33,6 +33,7 @@ pub fn get() -> Option<Info> {
         Some("Mariner") => Type::Mariner,
         Some("NixOS") => Type::NixOS,
         Some("NobaraLinux") => Type::Nobara,
+        Some("Uos") => Type::Uos,
         Some("OpenCloudOS") => Type::OpenCloudOS,
         Some("openEuler") => Type::openEuler,
         Some("openSUSE") => Type::openSUSE,
@@ -193,6 +194,17 @@ mod tests {
         );
         assert_eq!(parse_results.version, Some("39".to_string()));
         assert_eq!(parse_results.codename, None);
+    }
+
+    #[test]
+    fn Uos() {
+        let parse_results = parse(uos_file());
+        assert_eq!(
+            parse_results.distribution,
+            Some("uos".to_string())
+        );
+        assert_eq!(parse_results.version, Some("20".to_string()));
+        assert_eq!(parse_results.codename, Some("eagle".to_string()));
     }
 
     #[test]
@@ -426,6 +438,14 @@ mod tests {
         Release:	39\n\
         Codename:	n/a\n\
         "
+    }
+
+    fn uos_file() -> &'static str {
+        "Distributor ID: uos\n\
+         Description:	 UnionTech OS 20\n\
+         Release:	     20\n\
+         Codename:	     eagle\n\
+         "
     }
 
     // Amazon Linux 1 uses a separate Distributor ID and Release format from Amazon Linux 2
