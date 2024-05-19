@@ -66,7 +66,7 @@ struct LsbRelease {
 fn retrieve() -> Option<LsbRelease> {
     match Command::new("lsb_release").arg("-a").output() {
         Ok(output) => {
-            trace!("lsb_release command returned {:?}", output);
+            trace!("lsb_release command returned {:?}", output); //日志信息
             Some(parse(&String::from_utf8_lossy(&output.stdout)))
         }
         Err(e) => {
@@ -76,6 +76,7 @@ fn retrieve() -> Option<LsbRelease> {
     }
 }
 
+// 解析
 fn parse(output: &str) -> LsbRelease {
     trace!("Trying to parse {:?}", output);
 
@@ -188,21 +189,15 @@ mod tests {
     #[test]
     fn nobara() {
         let parse_results = parse(nobara_file());
-        assert_eq!(
-            parse_results.distribution,
-            Some("NobaraLinux".to_string())
-        );
+        assert_eq!(parse_results.distribution, Some("NobaraLinux".to_string()));
         assert_eq!(parse_results.version, Some("39".to_string()));
         assert_eq!(parse_results.codename, None);
     }
 
     #[test]
-    fn Uos() {
+    fn uos() {
         let parse_results = parse(uos_file());
-        assert_eq!(
-            parse_results.distribution,
-            Some("uos".to_string())
-        );
+        assert_eq!(parse_results.distribution, Some("uos".to_string()));
         assert_eq!(parse_results.version, Some("20".to_string()));
         assert_eq!(parse_results.codename, Some("eagle".to_string()));
     }
