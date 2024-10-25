@@ -216,6 +216,7 @@ mod tests {
             Type::Android,
             Type::Arch,
             Type::Artix,
+            Type::CachyOS,
             Type::CentOS,
             Type::Debian,
             Type::Emscripten,

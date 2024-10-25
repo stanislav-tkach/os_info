@@ -20,6 +20,7 @@ pub fn get() -> Option<Info> {
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("Arch") => Type::Arch,
         Some("Artix") => Type::Artix,
+        Some("cachyos") => Type::CachyOS,
         Some("CentOS") => Type::CentOS,
         Some("Debian") => Type::Debian,
         Some("EndeavourOS") => Type::EndeavourOS,
@@ -357,6 +358,13 @@ mod tests {
         assert_eq!(parse_results.codename, None);
     }
 
+    #[test]
+    fn cachyos() {
+        let parse_results = parse(&cachyos_file());
+        assert_eq!(parse_results.distribution, Some("cachyos".to_string()));
+        assert_eq!(parse_results.version, Some("rolling".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -605,5 +613,13 @@ mod tests {
           Release:        rolling\n\
           Codename:        n/a\n\
           "
+    }
+
+    fn cachyos_file() -> &'static str {
+        "Distributor ID: cachyos\n\
+         Description:	 CachyOS\n\
+         Release:	     rolling\n\
+         Codename:	     n/a\n\
+         "
     }
 }

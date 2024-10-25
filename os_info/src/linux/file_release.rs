@@ -99,6 +99,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "arch" => Some(Type::Arch),
                     "archarm" => Some(Type::Arch),
                     "artix" => Some(Type::Artix),
+                    "cachyos" => Some(Type::CachyOS),
                     "centos" => Some(Type::CentOS),
                     //"clear-linux-os" => ClearLinuxOS
                     //"clearos" => ClearOS
@@ -654,6 +655,17 @@ mod tests {
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Void);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn cachy_os_release() {
+        let root = "src/linux/tests/CachyOS";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::CachyOS);
         assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
