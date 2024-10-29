@@ -6,6 +6,7 @@ aosc
 archarm
 artix
 bitness
+cachyos
 centos
 clippy
 clearos
