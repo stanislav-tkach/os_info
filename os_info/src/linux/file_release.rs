@@ -125,6 +125,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "ol" => Some(Type::OracleLinux),
                     "opensuse" => Some(Type::openSUSE),
                     "opensuse-leap" => Some(Type::openSUSE),
+                    "opensuse-microos" => Some(Type::openSUSE),
                     "opensuse-tumbleweed" => Some(Type::openSUSE),
                     //"rancheros" => RancherOS
                     //"raspbian" => Raspbian
