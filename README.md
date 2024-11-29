@@ -87,6 +87,7 @@ Right now, the following operating system types can be returned:
 - Android
 - Arch Linux
 - Artix Linux
+- CachyOS
 - CentOS
 - Debian
 - DragonFly BSD
@@ -108,6 +109,7 @@ Right now, the following operating system types can be returned:
 - Mint
 - NetBSD
 - NixOS
+- Nobara Linux
 - OpenBSD
 - OpenCloudOS
 - openEuler (EulerOS)
@@ -134,4 +136,5 @@ If you need support for more OS types, I am looking forward to your Pull Request
 `os_info` is licensed under the MIT license. See [LICENSE] for the details.
 
 [lsb_release]: http://refspecs.linuxbase.org/LSB_2.0.1/LSB-PDA/LSB-PDA/lsbrelease.html
+
 [LICENSE]: https://github.com/stanislav-tkach/os_info/blob/master/LICENSE

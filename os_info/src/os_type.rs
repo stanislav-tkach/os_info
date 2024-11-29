@@ -68,8 +68,6 @@ pub enum Type {
     NixOS,
     /// Nobara (<https://nobaraproject.org/>).
     Nobara,
-    /// Uos (<https://www.chinauos.com/>).
-    Uos,
     /// OpenBSD (<https://en.wikipedia.org/wiki/OpenBSD>).
     OpenBSD,
     /// OpenCloudOS (<https://www.opencloudos.org>).
@@ -100,6 +98,8 @@ pub enum Type {
     Ubuntu,
     /// Ultramarine (<https://ultramarine-linux.org/>).
     Ultramarine,
+    /// Uos (<https://www.chinauos.com/>).
+    Uos,
     /// Void Linux (<https://en.wikipedia.org/wiki/Void_Linux>).
     Void,
     /// Unknown operating system.
@@ -133,7 +133,6 @@ impl Display for Type {
             Type::MidnightBSD => write!(f, "Midnight BSD"),
             Type::Mint => write!(f, "Linux Mint"),
             Type::Nobara => write!(f, "Nobara Linux"),
-            Type::Uos => write!(f, "Uos"),
             Type::openEuler => write!(f, "EulerOS"),
             Type::OracleLinux => write!(f, "Oracle Linux"),
             Type::Pop => write!(f, "Pop!_OS"),
@@ -143,6 +142,7 @@ impl Display for Type {
             Type::RockyLinux => write!(f, "Rocky Linux"),
             Type::SUSE => write!(f, "SUSE Linux Enterprise Server"),
             Type::Ultramarine => write!(f, "Ultramarine Linux"),
+            Type::Uos => write!(f, "UOS"),
             Type::Void => write!(f, "Void Linux"),
             _ => write!(f, "{self:?}"),
         }
@@ -192,7 +192,6 @@ mod tests {
             (Type::NetBSD, "NetBSD"),
             (Type::NixOS, "NixOS"),
             (Type::Nobara, "Nobara Linux"),
-            (Type::Uos, "Uos"),
             (Type::OpenCloudOS, "OpenCloudOS"),
             (Type::OpenBSD, "OpenBSD"),
             (Type::openEuler, "EulerOS"),
@@ -209,6 +208,7 @@ mod tests {
             (Type::Ubuntu, "Ubuntu"),
             (Type::Ultramarine, "Ultramarine Linux"),
             (Type::Unknown, "Unknown"),
+            (Type::Uos, "UOS"),
             (Type::Void, "Void Linux"),
             (Type::Windows, "Windows"),
         ];

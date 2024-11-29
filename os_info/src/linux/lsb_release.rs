@@ -67,7 +67,7 @@ struct LsbRelease {
 fn retrieve() -> Option<LsbRelease> {
     match Command::new("lsb_release").arg("-a").output() {
         Ok(output) => {
-            trace!("lsb_release command returned {:?}", output); //日志信息
+            trace!("lsb_release command returned {:?}", output);
             Some(parse(&String::from_utf8_lossy(&output.stdout)))
         }
         Err(e) => {
@@ -77,7 +77,6 @@ fn retrieve() -> Option<LsbRelease> {
     }
 }
 
-// 解析
 fn parse(output: &str) -> LsbRelease {
     trace!("Trying to parse {:?}", output);
 
@@ -360,7 +359,7 @@ mod tests {
 
     #[test]
     fn cachyos() {
-        let parse_results = parse(&cachyos_file());
+        let parse_results = parse(cachyos_file());
         assert_eq!(parse_results.distribution, Some("cachyos".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
     }
