@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.9.0] (2024-11-30)
+
+- Nobara Linux support has been added. (#379)
+
+- UOS support has been added. (#380)
+
+- Fix `uname` usage on AIX. (#381)
+
+- CachyOS support has been added. (#386)
+
 ## [3.8.2] (2024-03-22)
 
 - Build on FreeSBD has been fixed once again. (#377)
@@ -268,7 +278,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.3] (2018-09-23)
 
-- Fixed linker errors for 32-bit msvc builds. (#88)  
+- Fixed linker errors for 32-bit msvc builds. (#88)
 
 ## [1.0.2] (2018-09-05)
 
@@ -329,57 +339,111 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.0] (2017-10-03)
 
-The first release containing only minor infrastructural changes and based on [os_type](https://github.com/schultyy/os_type).
+The first release containing only minor infrastructural changes and based
+on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.8.2...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.9.0...HEAD
+
+[3.9.0]: https://github.com/stanislav-tkach/os_info/compare/v3.8.2...v3.9.0
+
 [3.8.1]: https://github.com/stanislav-tkach/os_info/compare/v3.8.1...v3.8.2
+
 [3.8.1]: https://github.com/stanislav-tkach/os_info/compare/v3.8.0...v3.8.1
+
 [3.8.0]: https://github.com/stanislav-tkach/os_info/compare/v3.7.0...v3.8.0
+
 [3.7.0]: https://github.com/stanislav-tkach/os_info/compare/v3.6.0...v3.7.0
+
 [3.6.0]: https://github.com/stanislav-tkach/os_info/compare/v3.5.1...v3.6.0
+
 [3.5.1]: https://github.com/stanislav-tkach/os_info/compare/v3.5.0...v3.5.1
+
 [3.5.0]: https://github.com/stanislav-tkach/os_info/compare/v3.4.0...v3.5.0
+
 [3.4.0]: https://github.com/stanislav-tkach/os_info/compare/v3.3.0...v3.4.0
+
 [3.3.0]: https://github.com/stanislav-tkach/os_info/compare/v3.2.0...v3.3.0
+
 [3.2.0]: https://github.com/stanislav-tkach/os_info/compare/v3.1.0...v3.2.0
+
 [3.1.0]: https://github.com/stanislav-tkach/os_info/compare/v3.0.9...v3.1.0
+
 [3.0.9]: https://github.com/stanislav-tkach/os_info/compare/v3.0.8...v3.0.9
+
 [3.0.8]: https://github.com/stanislav-tkach/os_info/compare/v3.0.7...v3.0.8
+
 [3.0.7]: https://github.com/stanislav-tkach/os_info/compare/v3.0.6...v3.0.7
+
 [3.0.6]: https://github.com/stanislav-tkach/os_info/compare/v3.0.5...v3.0.6
+
 [3.0.5]: https://github.com/stanislav-tkach/os_info/compare/v3.0.4...v3.0.5
+
 [3.0.4]: https://github.com/stanislav-tkach/os_info/compare/v3.0.3...v3.0.4
+
 [3.0.3]: https://github.com/stanislav-tkach/os_info/compare/v3.0.2...v3.0.3
+
 [3.0.2]: https://github.com/stanislav-tkach/os_info/compare/v3.0.1...v3.0.2
+
 [3.0.1]: https://github.com/stanislav-tkach/os_info/compare/v3.0...v3.0.1
+
 [3.0.0]: https://github.com/stanislav-tkach/os_info/compare/v2.0.8...v3.0
+
 [2.0.8]: https://github.com/stanislav-tkach/os_info/compare/v2.0.7...v2.0.8
+
 [2.0.7]: https://github.com/stanislav-tkach/os_info/compare/v2.0.6...v2.0.7
+
 [2.0.6]: https://github.com/stanislav-tkach/os_info/compare/2.0.5...v2.0.6
+
 [2.0.5]: https://github.com/stanislav-tkach/os_info/compare/2.0.4...2.0.5
+
 [2.0.4]: https://github.com/stanislav-tkach/os_info/compare/v2.0.3...2.0.4
+
 [2.0.3]: https://github.com/stanislav-tkach/os_info/compare/v2.0.2...v2.0.3
+
 [2.0.2]: https://github.com/stanislav-tkach/os_info/compare/v2.0.1...v2.0.2
+
 [2.0.1]: https://github.com/stanislav-tkach/os_info/compare/v2.0...v2.0.1
+
 [2.0.0]: https://github.com/stanislav-tkach/os_info/compare/v1.3.3...v2.0
+
 [1.3.3]: https://github.com/stanislav-tkach/os_info/compare/v1.3.2...v1.3.3
+
 [1.3.2]: https://github.com/stanislav-tkach/os_info/compare/v1.3.1...v1.3.2
+
 [1.3.1]: https://github.com/stanislav-tkach/os_info/compare/v1.3...v1.3.1
+
 [1.3.0]: https://github.com/stanislav-tkach/os_info/compare/v1.2...v1.3
+
 [1.2.0]: https://github.com/stanislav-tkach/os_info/compare/v1.1.3...v1.2
+
 [1.1.3]: https://github.com/stanislav-tkach/os_info/compare/v1.1.2...v1.1.3
+
 [1.1.2]: https://github.com/stanislav-tkach/os_info/compare/v1.1.1...v1.1.2
+
 [1.1.1]: https://github.com/stanislav-tkach/os_info/compare/v1.1...v1.1.1
+
 [1.1.0]: https://github.com/stanislav-tkach/os_info/compare/v1.0.3...v1.1
+
 [1.0.3]: https://github.com/stanislav-tkach/os_info/compare/v1.0.2...v1.0.3
+
 [1.0.2]: https://github.com/stanislav-tkach/os_info/compare/v1.0.1...v1.0.2
+
 [1.0.1]: https://github.com/stanislav-tkach/os_info/compare/v1.0.1...v1.0.2
+
 [1.0.0]: https://github.com/stanislav-tkach/os_info/compare/v0.7.0...v1.0
+
 [0.7.0]: https://github.com/stanislav-tkach/os_info/compare/v0.6.0...v0.7.0
+
 [0.6.0]: https://github.com/stanislav-tkach/os_info/compare/v0.5.0...v0.6.0
+
 [0.5.0]: https://github.com/stanislav-tkach/os_info/compare/v0.4.0...v0.5.0
+
 [0.4.0]: https://github.com/stanislav-tkach/os_info/compare/v0.3.0...v0.4.0
+
 [0.3.0]: https://github.com/stanislav-tkach/os_info/compare/v0.2.0...v0.3.0
+
 [0.2.0]: https://github.com/stanislav-tkach/os_info/compare/v.0.1.1...v0.2.0
+
 [0.1.1]: https://github.com/stanislav-tkach/os_info/compare/v0.1.0...v.0.1.1
+
 [0.1.0]: https://github.com/stanislav-tkach/os_info/tree/v0.1.0
