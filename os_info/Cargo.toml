@@ -12,6 +12,12 @@ categories = ["os"]
 license = "MIT"
 edition = "2018"
 rust-version = "1.60"
+include = [
+    "Cargo.toml",
+    "LICENSE",
+    "src/**/*.rs",
+    "README.md",
+]
 
 [features]
 default = ["serde"]
