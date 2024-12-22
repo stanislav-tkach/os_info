@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.9.1] (2024-12-22)
+
+- Reduce the published crate size by excluding the test data. (#390)
+
 ## [3.9.0] (2024-11-30)
 
 - Nobara Linux support has been added. (#379)
@@ -342,7 +346,9 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based
 on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.9.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.9.1...HEAD
+
+[3.9.1]: https://github.com/stanislav-tkach/os_info/compare/v3.9.0...v3.9.1
 
 [3.9.0]: https://github.com/stanislav-tkach/os_info/compare/v3.8.2...v3.9.0
 
