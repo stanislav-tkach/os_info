@@ -26,7 +26,7 @@ mod tests {
 
     #[test]
     fn uname_nonempty() {
-        let val = uname().expect("uname failed");
+        let val = uname("-s").expect("uname failed");
         assert!(!val.is_empty());
     }
 }
