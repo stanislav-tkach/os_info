@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.9.2] (2025-01-05)
+
+- Fix `uname` usage on NetBSD. (#392)
+
 ## [3.9.1] (2024-12-22)
 
 - Reduce the published crate size by excluding the test data. (#390)
@@ -346,7 +350,9 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based
 on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.9.1...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.9.2...HEAD
+
+[3.9.2]: https://github.com/stanislav-tkach/os_info/compare/v3.9.1...v3.9.2
 
 [3.9.1]: https://github.com/stanislav-tkach/os_info/compare/v3.9.0...v3.9.1
 
