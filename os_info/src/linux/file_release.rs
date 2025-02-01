@@ -99,6 +99,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "arch" => Some(Type::Arch),
                     "archarm" => Some(Type::Arch),
                     "artix" => Some(Type::Artix),
+                    "bluefin" => Some(Type::Bluefin),
                     "cachyos" => Some(Type::CachyOS),
                     "centos" => Some(Type::CentOS),
                     //"clear-linux-os" => ClearLinuxOS
@@ -300,6 +301,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Artix);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn bluefin_os_release() {
+        let root = "src/linux/tests/Bluefin";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Bluefin);
+        assert_eq!(info.version, Version::Semantic(41, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
