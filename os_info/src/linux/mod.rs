@@ -32,6 +32,7 @@ mod tests {
             | Type::Amazon
             | Type::Arch
             | Type::Artix
+            | Type::Bluefin
             | Type::CachyOS
             | Type::CentOS
             | Type::Debian

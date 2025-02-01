@@ -22,6 +22,8 @@ pub enum Type {
     Arch,
     /// Artix Linux (<https://en.wikipedia.org/wiki/Artix_Linux>).
     Artix,
+    /// Bluefin (<https://projectbluefin.io>).
+    Bluefin,
     /// CachyOS (<https://en.wikipedia.org/wiki/Arch_Linux#Derivatives>).
     CachyOS,
     /// CentOS (<https://en.wikipedia.org/wiki/CentOS>).
@@ -122,6 +124,7 @@ impl Display for Type {
             Type::AlmaLinux => write!(f, "AlmaLinux"),
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::Arch => write!(f, "Arch Linux"),
+            Type::Bluefin => write!(f, "Bluefin"),
             Type::CachyOS => write!(f, "CachyOS Linux"),
             Type::Artix => write!(f, "Artix Linux"),
             Type::DragonFly => write!(f, "DragonFly BSD"),
@@ -169,6 +172,7 @@ mod tests {
             (Type::Android, "Android"),
             (Type::Arch, "Arch Linux"),
             (Type::Artix, "Artix Linux"),
+            (Type::Bluefin, "Bluefin"),
             (Type::CachyOS, "CachyOS Linux"),
             (Type::CentOS, "CentOS"),
             (Type::Debian, "Debian"),

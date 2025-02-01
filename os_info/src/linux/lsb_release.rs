@@ -20,6 +20,7 @@ pub fn get() -> Option<Info> {
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("Arch") => Type::Arch,
         Some("Artix") => Type::Artix,
+        Some("Bluefin") => Type::Bluefin,
         Some("cachyos") => Type::CachyOS,
         Some("CentOS") => Type::CentOS,
         Some("Debian") => Type::Debian,
