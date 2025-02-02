@@ -6,6 +6,7 @@ aosc
 archarm
 artix
 bitness
+cachy
 cachyos
 centos
 clippy
@@ -29,6 +30,7 @@ mabox
 macos
 mageia
 manjaro
+microos
 midnightbsd
 msvc
 musl
