@@ -167,11 +167,11 @@ All notable changes to this project will be documented in this file.
 - Linux Mint support has been added. (#233)
 
 - Operating system type detection has been fixed for the following Linux distributions:
-    - Amazon Linux. (#225, #226)
-    - Red Hat Enterprise Linux. (#228)
-    - Suse. (#229)
-    - Fedora. (#230)
-    - Alpine Linux. (#235)
+  - Amazon Linux. (#225, #226)
+  - Red Hat Enterprise Linux. (#228)
+  - Suse. (#229)
+  - Fedora. (#230)
+  - Alpine Linux. (#235)
 
 - Log level for the message about the absent `lsb_release` has been reduced
   from `warn` to `debug`. (#237)
