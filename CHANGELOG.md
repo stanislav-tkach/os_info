@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.10.0] (2025-02-09)
+
+- Bluefin Linux support has been added. (#394)
+
 ## [3.9.2] (2025-01-05)
 
 - Fix `uname` usage on NetBSD. (#392)
@@ -350,7 +354,9 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based
 on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.9.2...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.10.0...HEAD
+
+[3.10.0]: https://github.com/stanislav-tkach/os_info/compare/v3.9.2...v3.10.0
 
 [3.9.2]: https://github.com/stanislav-tkach/os_info/compare/v3.9.1...v3.9.2
 
