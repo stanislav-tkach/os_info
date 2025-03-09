@@ -8,7 +8,7 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo fmt --all -- --check
 
@@ -17,7 +17,7 @@ jobs:
     name: Clippy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo clippy --all-targets --all-features -- -D warnings
 
@@ -26,7 +26,7 @@ jobs:
     name: Deadlinks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo install cargo-deadlinks
       - run: cargo doc --no-deps -p os_info
@@ -37,14 +37,14 @@ jobs:
     name: MLC
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: becheran/mlc@v0.14.3
 
   # Spellcheck.
   spellcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: streetsidesoftware/cspell-action@v1.0.1
         with:
           files: "**/*.{rs,md}"
@@ -54,7 +54,7 @@ jobs:
     name: Markdown lints
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: nosborn/github-action-markdown-cli@v1.1.1
         with:
           files: .
@@ -64,8 +64,16 @@ jobs:
     name: cargo-deny
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: EmbarkStudios/cargo-deny-action@v1
+
+  # cargo-semver.
+  semver:
+    name: cargo-semver
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: obi1kenobi/cargo-semver-checks-action@v2
 
   # Tests.
   test:
@@ -115,5 +123,3 @@ jobs:
         with:
           command: test
           args: --all
-      - name: Check semver
-        uses: obi1kenobi/cargo-semver-checks-action@v2
