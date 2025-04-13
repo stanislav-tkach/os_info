@@ -100,7 +100,7 @@ pub enum Type {
     Ubuntu,
     /// Ultramarine (<https://ultramarine-linux.org/>).
     Ultramarine,
-    /// Uos (<https://www.chinauos.com/>).
+    /// Uos (<https://uos.uniontech.com/>).
     Uos,
     /// Void Linux (<https://en.wikipedia.org/wiki/Void_Linux>).
     Void,
