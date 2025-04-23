@@ -18,6 +18,8 @@ pub enum Type {
     Amazon,
     /// Android (<https://en.wikipedia.org/wiki/Android_(operating_system)>).
     Android,
+    /// AOSC OS (<https://aosc.io/aosc-os/>).
+    AOSC,
     /// Arch Linux (<https://en.wikipedia.org/wiki/Arch_Linux>).
     Arch,
     /// Artix Linux (<https://en.wikipedia.org/wiki/Artix_Linux>).
@@ -123,6 +125,7 @@ impl Display for Type {
             Type::Alpine => write!(f, "Alpine Linux"),
             Type::AlmaLinux => write!(f, "AlmaLinux"),
             Type::Amazon => write!(f, "Amazon Linux AMI"),
+            Type::AOSC => write!(f, "AOSC OS"),
             Type::Arch => write!(f, "Arch Linux"),
             Type::Bluefin => write!(f, "Bluefin"),
             Type::CachyOS => write!(f, "CachyOS Linux"),
@@ -170,6 +173,7 @@ mod tests {
             (Type::Alpine, "Alpine Linux"),
             (Type::Amazon, "Amazon Linux AMI"),
             (Type::Android, "Android"),
+            (Type::AOSC, "AOSC OS"),
             (Type::Arch, "Arch Linux"),
             (Type::Artix, "Artix Linux"),
             (Type::Bluefin, "Bluefin"),

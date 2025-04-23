@@ -214,6 +214,7 @@ mod tests {
             Type::Alpine,
             Type::Amazon,
             Type::Android,
+            Type::AOSC,
             Type::Arch,
             Type::Artix,
             Type::Bluefin,
@@ -281,6 +282,14 @@ mod tests {
                     ..Default::default()
                 },
                 "Linux 2.3.4 [unknown bitness]",
+            ),
+            (
+                Info {
+                    os_type: Type::AOSC,
+                    version: Version::Semantic(12, 1, 3),
+                    ..Default::default()
+                },
+                "AOSC OS 12.1.3 [unknown bitness]",
             ),
             (
                 Info {

@@ -95,7 +95,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "alpine" => Some(Type::Alpine),
                     "amzn" => Some(Type::Amazon),
                     //"antergos" => Antergos
-                    //"aosc" => AOSC
+                    "aosc" => Some(Type::AOSC),
                     "arch" => Some(Type::Arch),
                     "archarm" => Some(Type::Arch),
                     "artix" => Some(Type::Artix),
@@ -268,6 +268,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Amazon);
         assert_eq!(info.version, Version::Semantic(2, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn aosc_os_release() {
+        let root = "src/linux/tests/AOSCOS";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::AOSC);
+        assert_eq!(info.version, Version::Semantic(12, 1, 3));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
