@@ -18,6 +18,7 @@ pub fn get() -> Option<Info> {
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
         Some("Alpaquita") => Type::Alpaquita,
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
+        Some("AOSC") => Type::AOSC,
         Some("Arch") => Type::Arch,
         Some("Artix") => Type::Artix,
         Some("Bluefin") => Type::Bluefin,
@@ -126,6 +127,14 @@ mod tests {
         assert_eq!(parse_results.distribution, Some("Alpaquita".to_string()));
         assert_eq!(parse_results.version, Some("23".to_string()));
         assert_eq!(parse_results.codename, None);
+    }
+
+    #[test]
+    fn aosc() {
+        let parse_results = parse(aosc_file());
+        assert_eq!(parse_results.distribution, Some("AOSC".to_string()));
+        assert_eq!(parse_results.version, Some("12.3.1".to_string()));
+        assert_eq!(parse_results.codename, Some("localhost".to_string()));
     }
 
     #[test]
@@ -378,6 +387,13 @@ mod tests {
         Description:    BellSoft Alpaquita Linux Stream 23 (musl)\n\
         Release:        23\n\
         Codename:       n/a"
+    }
+
+    fn aosc_file() -> &'static str {
+        "\nDistributor ID: AOSC OS\n\
+        Description:    AOSC OS\n\
+        Release:        12.3.1\n\
+        Codename:       localhost"
     }
 
     fn arch_file() -> &'static str {

@@ -85,6 +85,7 @@ Right now, the following operating system types can be returned:
 - Alpine Linux
 - Amazon Linux AMI
 - Android
+- AOSC OS
 - Arch Linux
 - Artix Linux
 - CachyOS
