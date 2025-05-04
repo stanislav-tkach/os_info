@@ -1,4 +1,4 @@
-// spell-checker:ignore sles
+// spell-checker:ignore sles, AOSCOS
 
 use std::{fmt, fs::File, io::Read, path::Path};
 
@@ -444,7 +444,7 @@ mod tests {
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Manjaro);
-        assert_eq!(info.version, None);
+        assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
