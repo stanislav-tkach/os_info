@@ -1,0 +1,12 @@
+NAME="Manjaro ARM Linux"
+PRETTY_NAME="Manjaro ARM Linux"
+ID=manjaro-arm
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="32;1;24;144;200"
+HOME_URL="https://manjaro.org/"
+DOCUMENTATION_URL="https://wiki.manjaro.org/"
+SUPPORT_URL="https://forum.manjaro.org/c/arm/"
+BUG_REPORT_URL="https://docs.manjaro.org/reporting-bugs/"
+PRIVACY_POLICY_URL="https://manjaro.org/privacy-policy/"
+LOGO=manjarolinux

@@ -32,7 +32,7 @@ pub fn get() -> Option<Info> {
         Some("Kali") => Type::Kali,
         Some("Linuxmint") => Type::Mint,
         Some("MaboxLinux") => Type::Mabox,
-        Some("ManjaroLinux") => Type::Manjaro,
+        Some("ManjaroLinux") | Some("Manjaro-ARM") => Type::Manjaro,
         Some("Mariner") => Type::Mariner,
         Some("NixOS") => Type::NixOS,
         Some("NobaraLinux") => Type::Nobara,
@@ -326,6 +326,14 @@ mod tests {
     }
 
     #[test]
+    fn manjaro_arm() {
+        let parse_results = parse(manjaro_arm_24_04());
+        assert_eq!(parse_results.distribution, Some("Manjaro-ARM".to_string()));
+        assert_eq!(parse_results.version, Some("24.04".to_string()));
+        assert_eq!(parse_results.codename, None);
+    }
+
+    #[test]
     fn mariner() {
         let parse_results = parse(mariner_file());
         assert_eq!(parse_results.distribution, Some("Mariner".to_string()));
@@ -591,6 +599,15 @@ mod tests {
         Distributor ID: ManjaroLinux\n\
         Description:    Manjaro Linux\n\
         Release:        19.0.2\n\
+        Codename:       n/a\n\
+        "
+    }
+
+    fn manjaro_arm_24_04() -> &'static str {
+        "LSB Version:    n/a\n\
+        Distributor ID: Manjaro-ARM\n\
+        Description:    Manjaro ARM Linux\n\
+        Release:        24.04\n\
         Codename:       n/a\n\
         "
     }

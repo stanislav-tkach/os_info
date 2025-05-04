@@ -115,6 +115,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "kali" => Some(Type::Kali),
                     //"mageia" => Mageia
                     //"manjaro" => Manjaro
+                    "manjaro-arm" => Some(Type::Manjaro),
                     "linuxmint" => Some(Type::Mint),
                     "mariner" => Some(Type::Mariner),
                     //"nexus" => Nexus
@@ -433,6 +434,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Kali);
         assert_eq!(info.version, Version::Semantic(2023, 2, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn manjaro_arm_release() {
+        let root = "src/linux/tests/ManjaroArm";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Manjaro);
+        assert_eq!(info.version, None);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
