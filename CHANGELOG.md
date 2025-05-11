@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.11.0] (2025-05-11)
+
+- AOSC OS support has been added. (#401)
+
+- Manjaro-ARM is now detected as Manjaro Linux. (#403)
+
+- Uos link in the documentation comment has been updated. (##400)
+
 ## [3.10.0] (2025-02-09)
 
 - Bluefin Linux support has been added. (#394)
@@ -354,7 +362,9 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based
 on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.10.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.11.0...HEAD
+
+[3.11.0]: https://github.com/stanislav-tkach/os_info/compare/v3.10.0...v3.11.0
 
 [3.10.0]: https://github.com/stanislav-tkach/os_info/compare/v3.9.2...v3.10.0
 
