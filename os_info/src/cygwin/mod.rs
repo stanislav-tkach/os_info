@@ -2,12 +2,12 @@ use std::process::Command;
 
 use log::{error, trace};
 
-use crate::{bitness, uname::uname, Info, Type, Version};
+use crate::{architecture, bitness, uname::uname, Info, Type, Version};
 
 pub fn current_platform() -> Info {
     trace!("cygwin::current_platform is called");
 
-    let version = uname()
+    let version = uname("-r")
         .map(Version::from_string)
         .unwrap_or_else(|| Version::Unknown);
 
@@ -15,6 +15,7 @@ pub fn current_platform() -> Info {
         os_type: Type::Cygwin,
         version,
         bitness: bitness::get(),
+        architecture: architecture::get(),
         ..Default::default()
     };
 
