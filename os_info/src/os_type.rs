@@ -30,6 +30,8 @@ pub enum Type {
     CachyOS,
     /// CentOS (<https://en.wikipedia.org/wiki/CentOS>).
     CentOS,
+    /// Cygwin (<https://en.wikipedia.org/wiki/Cygwin>).
+    Cygwin,
     /// Debian (<https://en.wikipedia.org/wiki/Debian>).
     Debian,
     /// DragonFly BSD (<https://en.wikipedia.org/wiki/DragonFly_BSD>).
@@ -179,6 +181,7 @@ mod tests {
             (Type::Bluefin, "Bluefin"),
             (Type::CachyOS, "CachyOS Linux"),
             (Type::CentOS, "CentOS"),
+            (Type::Cygwin, "Cygwin"),
             (Type::Debian, "Debian"),
             (Type::DragonFly, "DragonFly BSD"),
             (Type::Emscripten, "Emscripten"),
