@@ -37,6 +37,9 @@ windows-sys = { version = "0.52", features = [
     "Win32_UI_WindowsAndMessaging",
 ] }
 
+[target.'cfg(target_os = "macos")'.dependencies]
+plist = "1.5.1"
+
 [dev-dependencies]
 pretty_assertions = "1"
 doc-comment = "0.3"
