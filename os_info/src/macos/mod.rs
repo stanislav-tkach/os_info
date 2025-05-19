@@ -7,11 +7,21 @@ use crate::{architecture, bitness, matcher::Matcher, Info, Type, Version};
 pub fn current_platform() -> Info {
     trace!("macos::current_platform is called");
 
+    let architecture = architecture::get();
+    let bits = architecture
+        .as_deref()
+        .map(|arch| match arch {
+            "arm64" | "x86_64" => bitness::Bitness::X64,
+            "i386" => bitness::Bitness::X32,
+            _ => bitness::get(),
+        })
+        .unwrap_or_else(bitness::get);
+
     let info = Info {
         os_type: Type::Macos,
         version: version(),
-        bitness: bitness::get(),
-        architecture: architecture::get(),
+        bitness: bits,
+        architecture,
         ..Default::default()
     };
     trace!("Returning {:?}", info);
