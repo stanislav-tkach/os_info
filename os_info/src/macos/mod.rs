@@ -26,6 +26,29 @@ fn version() -> Version {
 }
 
 fn product_version() -> Option<String> {
+    let parsed: Result<plist::Value, _> =
+        plist::from_file("/System/Library/CoreServices/SystemVersion.plist");
+    if let Err(ref e) = parsed {
+        warn!("Failed to parse SystemVersion.plist: {:?}", e);
+    }
+
+    let version_from_plist = parsed.as_ref().ok().and_then(|value| {
+        value
+            .as_dictionary()
+            .and_then(|dict| dict.get("ProductVersion"))
+            .and_then(|v| v.as_string())
+            .map(String::from)
+    });
+
+    if parsed.is_ok() && version_from_plist.is_none() {
+        warn!("Failed to get ProductVersion from SystemVersion.plist");
+    }
+
+    if let Some(version) = version_from_plist {
+        trace!("ProductVersion from SystemVersion.plist: {:?}", version);
+        return Some(version);
+    }
+
     match Command::new("sw_vers").output() {
         Ok(val) => {
             let output = String::from_utf8_lossy(&val.stdout);
