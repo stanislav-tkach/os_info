@@ -8,9 +8,11 @@ All notable changes to this project will be documented in this file.
 
 - Cygwin support has been added. (#405)
 
-- macOS version detection has been updated to read the `SystemVersion.plist` file. (#406)
+- macOS version detection has been updated to read the `SystemVersion.plist`
+  file. (#406)
 
-- macOS bitness detection has been updated to avoid using the `getconf` command. (#407)
+- macOS bitness detection has been updated to avoid using the `getconf`
+  command. (#407)
 
 ## [3.11.0] (2025-05-11)
 
