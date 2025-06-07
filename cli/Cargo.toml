@@ -18,7 +18,7 @@ name = "os_info"
 path = "src/main.rs"
 
 [dependencies]
-os_info = { version = "3.11.0", default-features = false, path = "../os_info" }
+os_info = { version = "3.12.0", default-features = false, path = "../os_info" }
 log.workspace = true
 env_logger = "0.11"
 clap = { version = "4", features = ["derive"] }

@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.12.0] (2025-06-08)
+
+- Cygwin support has been added. (#405)
+
+- macOS version detection has been updated to read the `SystemVersion.plist`
+  file. (#406)
+
+- macOS bitness detection has been updated to avoid using the `getconf`
+  command. (#407)
+
 ## [3.11.0] (2025-05-11)
 
 - AOSC OS support has been added. (#401)
@@ -362,7 +372,9 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based
 on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.11.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.12.0...HEAD
+
+[3.12.0]: https://github.com/stanislav-tkach/os_info/compare/v3.11.0...v3.12.0
 
 [3.11.0]: https://github.com/stanislav-tkach/os_info/compare/v3.10.0...v3.11.0
 
