@@ -14,12 +14,14 @@ clearos
 concat
 coreos
 cpus
+cygwin
 devuan
 earmv
 emscripten
 endeavouros
 freebsd
 garuda
+getconf
 hardenedbsd
 hbsd
 illumos
