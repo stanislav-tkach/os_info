@@ -45,12 +45,14 @@ opencloudos
 openeuler
 opensuse
 println
+prtconf
 raspberry
 raspbian
 redhat
 rhel
 rustdoc
 sbin
+schemars
 serde
 structopt
 toml

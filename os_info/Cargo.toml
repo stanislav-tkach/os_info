@@ -24,6 +24,7 @@ default = ["serde"]
 
 [dependencies]
 log.workspace = true
+schemars = { version = "1.0.3", optional = true }
 serde = { version = "1", features = ["derive"], optional = true }
 
 [target.'cfg(windows)'.dependencies]
