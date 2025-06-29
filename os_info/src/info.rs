@@ -19,6 +19,7 @@ use super::{Bitness, Type, Version};
 /// ```
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct Info {
     /// Operating system type. See `Type` for details.
     pub(crate) os_type: Type,

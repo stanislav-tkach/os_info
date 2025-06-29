@@ -74,6 +74,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: obi1kenobi/cargo-semver-checks-action@v2
+        with:
+          feature-group: default-features
 
   # Tests.
   test:
@@ -117,9 +119,9 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --examples --all
+          args: --examples --all --all-features
       - name: Test
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --all
+          args: --all --all-features
