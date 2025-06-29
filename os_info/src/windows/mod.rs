@@ -7,7 +7,7 @@ use crate::Info;
 pub fn current_platform() -> Info {
     trace!("windows::current_platform is called");
     let info = winapi::get();
-    trace!("Returning {:?}", info);
+    trace!("Returning {info:?}");
     info
 }
 
