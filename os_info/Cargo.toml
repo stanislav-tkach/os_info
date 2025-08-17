@@ -34,6 +34,14 @@ objc2 = "0.6"
 objc2-foundation = { version = "0.3", features = ["NSString"] }
 objc2-ui-kit = "0.3"
 
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2-foundation = { version = "0.3", features = [
+    "NSData",
+    "NSError",
+    "NSEnumerator",
+    "NSString",
+] }
+
 [target.'cfg(windows)'.dependencies]
 windows-sys = { version = "0.52", features = [
     "Win32_Foundation",
@@ -45,8 +53,6 @@ windows-sys = { version = "0.52", features = [
     "Win32_UI_WindowsAndMessaging",
 ] }
 
-[target.'cfg(target_os = "macos")'.dependencies]
-plist = "1.5.1"
 
 [dev-dependencies]
 pretty_assertions = "1"

@@ -35,27 +35,64 @@ fn version() -> Version {
     }
 }
 
+#[allow(unsafe_code)]
+fn product_version_from_file() -> Option<String> {
+    use objc2_foundation::NSData;
+    use objc2_foundation::NSDictionary;
+    use objc2_foundation::NSPropertyListFormat;
+    use objc2_foundation::NSPropertyListMutabilityOptions;
+    use objc2_foundation::NSPropertyListSerialization;
+    use objc2_foundation::{ns_string, NSString};
+
+    let buffer = std::fs::read("/System/Library/CoreServices/SystemVersion.plist");
+    if let Err(ref e) = buffer {
+        warn!("Failed to read SystemVersion.plist: {e:?}");
+    }
+    let buffer = buffer.ok()?;
+    let data = NSData::with_bytes(&buffer);
+
+    let mut format = std::mem::MaybeUninit::<NSPropertyListFormat>::uninit();
+    // SAFETY: Necessary to call native API, exit-code is checked
+    let result = unsafe {
+        NSPropertyListSerialization::propertyListWithData_options_format_error(
+            &data,
+            NSPropertyListMutabilityOptions(0),
+            format.as_mut_ptr(),
+        )
+    };
+    if let Err(ref e) = result {
+        warn!("Failed to parse SystemVersion.plist: {e:?}");
+        return None;
+    }
+    // SAFETY: result is not an error
+    let format = unsafe { format.assume_init() };
+    trace!("Parsed SystemVersion.plist with format: {format:?}");
+
+    let obj = result.ok()?;
+    let dict = obj.downcast_ref::<NSDictionary>();
+    if dict.is_none() {
+        warn!("Failed to downcast to NSDictionary");
+        return None;
+    }
+
+    let product_version = dict?.objectForKey(ns_string!("ProductVersion"));
+    if product_version.is_none() {
+        warn!("Failed to get ProductVersion from NSDictionary");
+        return None;
+    }
+    let product_version = product_version?
+        .downcast_ref::<NSString>()
+        .map(NSString::to_string);
+    if product_version.is_none() {
+        warn!("Failed to downcast ProductVersion to NSString");
+        return None;
+    }
+    product_version
+}
+
 fn product_version() -> Option<String> {
-    let parsed: Result<plist::Value, _> =
-        plist::from_file("/System/Library/CoreServices/SystemVersion.plist");
-    if let Err(ref e) = parsed {
-        warn!("Failed to parse SystemVersion.plist: {:?}", e);
-    }
-
-    let version_from_plist = parsed.as_ref().ok().and_then(|value| {
-        value
-            .as_dictionary()
-            .and_then(|dict| dict.get("ProductVersion"))
-            .and_then(|v| v.as_string())
-            .map(String::from)
-    });
-
-    if parsed.is_ok() && version_from_plist.is_none() {
-        warn!("Failed to get ProductVersion from SystemVersion.plist");
-    }
-
-    if let Some(version) = version_from_plist {
-        trace!("ProductVersion from SystemVersion.plist: {:?}", version);
+    if let Some(version) = product_version_from_file() {
+        trace!("ProductVersion from SystemVersion.plist: {version:?}");
         return Some(version);
     }
 
