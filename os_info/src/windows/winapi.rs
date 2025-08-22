@@ -16,7 +16,7 @@ use windows_sys::Win32::{
     Foundation::{ERROR_SUCCESS, FARPROC, NTSTATUS, STATUS_SUCCESS},
     System::{
         LibraryLoader::{GetModuleHandleA, GetProcAddress},
-        Registry::{RegOpenKeyExW, RegQueryValueExW, HKEY_LOCAL_MACHINE, KEY_READ, REG_SZ},
+        Registry::{RegCloseKey, RegOpenKeyExW, RegQueryValueExW, HKEY, HKEY_LOCAL_MACHINE, KEY_READ, REG_SZ},
         SystemInformation::{
             GetNativeSystemInfo, GetSystemInfo, PROCESSOR_ARCHITECTURE_AMD64,
             PROCESSOR_ARCHITECTURE_ARM, PROCESSOR_ARCHITECTURE_IA64, PROCESSOR_ARCHITECTURE_INTEL,
@@ -34,6 +34,14 @@ type OSVERSIONINFOEX = windows_sys::Win32::System::SystemInformation::OSVERSIONI
 
 #[cfg(not(target_arch = "x86"))]
 type OSVERSIONINFOEX = windows_sys::Win32::System::SystemInformation::OSVERSIONINFOEXW;
+
+struct HKeyWrap(HKEY);
+
+impl Drop for HKeyWrap {
+    fn drop(&mut self) {
+        unsafe { RegCloseKey(self.0) };
+    }
+}
 
 pub fn get() -> Info {
     let (version, edition) = version();
@@ -148,10 +156,10 @@ fn version_info() -> Option<OSVERSIONINFOEX> {
 
 fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
     let sub_key = to_wide("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
-    let mut key = Default::default();
-    if unsafe { RegOpenKeyExW(HKEY_LOCAL_MACHINE, sub_key.as_ptr(), 0, KEY_READ, &mut key) }
+    let mut key = HKeyWrap(Default::default());
+    if unsafe { RegOpenKeyExW(HKEY_LOCAL_MACHINE, sub_key.as_ptr(), 0, KEY_READ, &mut key.0) }
         != ERROR_SUCCESS
-        || key == 0
+        || key.0 == 0
     {
         log::error!("RegOpenKeyExW(HKEY_LOCAL_MACHINE, ...) failed");
         return None;
@@ -169,7 +177,7 @@ fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
     let mut data_size = 0;
     if unsafe {
         RegQueryValueExW(
-            key,
+            key.0,
             name.as_ptr(),
             ptr::null_mut(),
             &mut data_type,
@@ -189,7 +197,7 @@ fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
     let mut data = vec![0u16; data_size as usize / 2];
     if unsafe {
         RegQueryValueExW(
-            key,
+            key.0,
             name.as_ptr(),
             ptr::null_mut(),
             ptr::null_mut(),
