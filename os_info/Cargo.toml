@@ -26,6 +26,9 @@ default = ["serde"]
 log.workspace = true
 serde = { version = "1", features = ["derive"], optional = true }
 
+[target.'cfg(target_os = "android")'.dependencies]
+android_system_properties = "0.1"
+
 [target.'cfg(windows)'.dependencies]
 windows-sys = { version = "0.52", features = [
     "Win32_Foundation",
