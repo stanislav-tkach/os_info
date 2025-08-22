@@ -34,6 +34,10 @@ mod imp;
 #[path = "illumos/mod.rs"]
 mod imp;
 
+#[cfg(target_os = "ios")]
+#[path = "ios/mod.rs"]
+mod imp;
+
 #[cfg(target_os = "linux")]
 #[path = "linux/mod.rs"]
 mod imp;
@@ -69,6 +73,7 @@ mod imp;
     target_os = "emscripten",
     target_os = "freebsd",
     target_os = "illumos",
+    target_os = "ios",
     target_os = "linux",
     target_os = "macos",
     target_os = "netbsd",
