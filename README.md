@@ -100,6 +100,7 @@ Right now, the following operating system types can be returned:
 - Gentoo Linux
 - HardenedBSD
 - illumos
+- iOS
 - Kali Linux
 - Linux
 - Mabox
