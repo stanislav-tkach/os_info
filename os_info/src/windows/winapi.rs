@@ -16,7 +16,10 @@ use windows_sys::Win32::{
     Foundation::{ERROR_SUCCESS, FARPROC, NTSTATUS, STATUS_SUCCESS},
     System::{
         LibraryLoader::{GetModuleHandleA, GetProcAddress},
-        Registry::{RegCloseKey, RegOpenKeyExW, RegQueryValueExW, HKEY, HKEY_LOCAL_MACHINE, KEY_READ, REG_SZ},
+        Registry::{
+            RegCloseKey, RegOpenKeyExW, RegQueryValueExW, HKEY, HKEY_LOCAL_MACHINE, KEY_READ,
+            REG_SZ,
+        },
         SystemInformation::{
             GetNativeSystemInfo, GetSystemInfo, PROCESSOR_ARCHITECTURE_AMD64,
             PROCESSOR_ARCHITECTURE_ARM, PROCESSOR_ARCHITECTURE_IA64, PROCESSOR_ARCHITECTURE_INTEL,
@@ -157,8 +160,15 @@ fn version_info() -> Option<OSVERSIONINFOEX> {
 fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
     let sub_key = to_wide("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
     let mut key = HKeyWrap(Default::default());
-    if unsafe { RegOpenKeyExW(HKEY_LOCAL_MACHINE, sub_key.as_ptr(), 0, KEY_READ, &mut key.0) }
-        != ERROR_SUCCESS
+    if unsafe {
+        RegOpenKeyExW(
+            HKEY_LOCAL_MACHINE,
+            sub_key.as_ptr(),
+            0,
+            KEY_READ,
+            &mut key.0,
+        )
+    } != ERROR_SUCCESS
         || key.0 == 0
     {
         log::error!("RegOpenKeyExW(HKEY_LOCAL_MACHINE, ...) failed");
