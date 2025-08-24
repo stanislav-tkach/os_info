@@ -89,6 +89,7 @@ pub enum Type {
     /// Pop!_OS (<https://en.wikipedia.org/wiki/Pop!_OS>)
     Pop,
     /// Raspberry Pi OS (<https://en.wikipedia.org/wiki/Raspberry_Pi_OS>).
+    #[cfg_attr(feature = "serde", serde(alias = "RaspberryPiOS"))]
     Raspbian,
     /// Red Hat Linux (<https://en.wikipedia.org/wiki/Red_Hat_Linux>).
     Redhat,
