@@ -1,6 +1,6 @@
 [package]
 name = "os_info"
-version = "3.12.0"
+version = "3.12.1"
 authors = ["Jan Schulte <hello@unexpected-co.de>", "Stanislav Tkach <stanislav.tkach@gmail.com>"]
 description = "Detect the operating system type and version."
 documentation = "https://docs.rs/os_info"
@@ -35,7 +35,7 @@ objc2-foundation = { version = "0.3", features = ["NSString"] }
 objc2-ui-kit = "0.3"
 
 [target.'cfg(windows)'.dependencies]
-windows-sys = { version = "0.52", features = [
+windows-sys = { version = "0.60", features = [
     "Win32_Foundation",
     "Win32_System_LibraryLoader",
     "Win32_System_Registry",
