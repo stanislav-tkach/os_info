@@ -41,6 +41,7 @@ nixos
 nobara
 nodename
 uos
+objc
 openbsd
 opencloudos
 openeuler
