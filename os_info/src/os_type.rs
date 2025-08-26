@@ -53,6 +53,8 @@ pub enum Type {
     HardenedBSD,
     /// Illumos (https://en.wikipedia.org/wiki/Illumos).
     Illumos,
+    /// iOS (<https://en.wikipedia.org/wiki/iOS>).
+    Ios,
     /// Kali Linux (https://en.wikipedia.org/wiki/Kali_Linux).
     Kali,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
@@ -88,6 +90,7 @@ pub enum Type {
     /// Pop!_OS (<https://en.wikipedia.org/wiki/Pop!_OS>)
     Pop,
     /// Raspberry Pi OS (<https://en.wikipedia.org/wiki/Raspberry_Pi_OS>).
+    #[cfg_attr(feature = "serde", serde(alias = "RaspberryPiOS"))]
     Raspbian,
     /// Red Hat Linux (<https://en.wikipedia.org/wiki/Red_Hat_Linux>).
     Redhat,
@@ -137,6 +140,7 @@ impl Display for Type {
             Type::Garuda => write!(f, "Garuda Linux"),
             Type::Gentoo => write!(f, "Gentoo Linux"),
             Type::Illumos => write!(f, "illumos"),
+            Type::Ios => write!(f, "iOS"),
             Type::Kali => write!(f, "Kali Linux"),
             Type::Macos => write!(f, "Mac OS"),
             Type::MidnightBSD => write!(f, "Midnight BSD"),
@@ -193,6 +197,7 @@ mod tests {
             (Type::Gentoo, "Gentoo Linux"),
             (Type::HardenedBSD, "HardenedBSD"),
             (Type::Illumos, "illumos"),
+            (Type::Ios, "iOS"),
             (Type::Kali, "Kali Linux"),
             (Type::Linux, "Linux"),
             (Type::Mabox, "Mabox"),

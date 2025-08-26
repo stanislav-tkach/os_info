@@ -39,7 +39,9 @@ musl
 netbsd
 nixos
 nobara
+nodename
 uos
+objc
 openbsd
 opencloudos
 openeuler
@@ -57,6 +59,7 @@ serde
 structopt
 toml
 ulyana
+utsname
 virtuozzo
 winapi
 xbian
@@ -67,3 +70,5 @@ ultramarine
 uninit
 voidlinux
 kuma
+syscall
+sysname
