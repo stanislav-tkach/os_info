@@ -109,7 +109,8 @@ fn bitness() -> Bitness {
 
 #[cfg(target_pointer_width = "32")]
 fn bitness() -> Bitness {
-    use windows_sys::Win32::Foundation::{BOOL, FALSE, HANDLE};
+    use windows_sys::core::BOOL;
+    use windows_sys::Win32::Foundation::{FALSE, HANDLE};
     use windows_sys::Win32::System::Threading::GetCurrentProcess;
 
     // IsWow64Process is not available on all supported versions of Windows. Use GetModuleHandle to
@@ -159,7 +160,7 @@ fn version_info() -> Option<OSVERSIONINFOEX> {
 
 fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
     let sub_key = to_wide("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
-    let mut key = HKeyWrap(Default::default());
+    let mut key = HKeyWrap(ptr::null_mut());
     if unsafe {
         RegOpenKeyExW(
             HKEY_LOCAL_MACHINE,
@@ -169,7 +170,7 @@ fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
             &mut key.0,
         )
     } != ERROR_SUCCESS
-        || key.0 == 0
+        || key.0.is_null()
     {
         log::error!("RegOpenKeyExW(HKEY_LOCAL_MACHINE, ...) failed");
         return None;
@@ -306,7 +307,7 @@ fn get_proc_address(module: &[u8], proc: &[u8]) -> Option<FARPROC> {
     );
 
     let handle = unsafe { GetModuleHandleA(module.as_ptr()) };
-    if handle == 0 {
+    if handle.is_null() {
         log::error!(
             "GetModuleHandleA({}) failed",
             String::from_utf8_lossy(module)
