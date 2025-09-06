@@ -106,7 +106,14 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"clearos" => ClearOS
                     //"coreos"
                     //"cumulus-linux" => Cumulus
-                    "debian" => Some(Type::Debian),
+                    "debian" => {
+                        // Check if it's actually Raspberry Pi OS
+                        if std::path::Path::new("/etc/rpi-issue").exists() {
+                            Some(Type::Raspbian)
+                        } else {
+                            Some(Type::Debian)
+                        }
+                    },
                     //"devuan" => Devuan
                     //"elementary" => Elementary
                     "fedora" => Some(Type::Fedora),

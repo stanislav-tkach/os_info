@@ -24,7 +24,14 @@ pub fn get() -> Option<Info> {
         Some("Bluefin") => Type::Bluefin,
         Some("cachyos") => Type::CachyOS,
         Some("CentOS") => Type::CentOS,
-        Some("Debian") => Type::Debian,
+        Some("Debian") => {
+            // Check if it's actually Raspberry Pi OS
+            if std::path::Path::new("/etc/rpi-issue").exists() {
+                Type::Raspbian
+            } else {
+                Type::Debian
+            }
+        },
         Some("EndeavourOS") => Type::EndeavourOS,
         Some("Fedora") | Some("Fedora Linux") => Type::Fedora,
         Some("Garuda") => Type::Garuda,
