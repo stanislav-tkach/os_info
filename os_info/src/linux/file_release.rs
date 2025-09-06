@@ -113,7 +113,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                         } else {
                             Some(Type::Debian)
                         }
-                    },
+                    }
                     //"devuan" => Devuan
                     //"elementary" => Elementary
                     "fedora" => Some(Type::Fedora),
