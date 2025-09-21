@@ -49,6 +49,7 @@ pub fn get() -> Option<Info> {
         Some("Ubuntu") => Type::Ubuntu,
         Some("UltramarineLinux") => Type::Ultramarine,
         Some("VoidLinux") => Type::Void,
+        Some("Zorin") => Type::Zorin,
         _ => Type::Linux,
     };
 

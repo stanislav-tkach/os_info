@@ -144,6 +144,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "ultramarine" => Some(Type::Ultramarine),
                     //"virtuozzo" => Virtuozzo
                     "void" => Some(Type::Void),
+                    "zorin" => Some(Type::Zorin),
                     //"XCP-ng" => xcp-ng
                     //"xenenterprise" => xcp-ng
                     //"xenserver" => xcp-ng
