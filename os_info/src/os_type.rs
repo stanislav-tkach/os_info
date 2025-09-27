@@ -111,6 +111,8 @@ pub enum Type {
     Uos,
     /// Void Linux (<https://en.wikipedia.org/wiki/Void_Linux>).
     Void,
+    /// Zorin OS (<https://en.wikipedia.org/wiki/Zorin_OS>).
+    Zorin,
     /// Unknown operating system.
     Unknown,
     /// Windows (<https://en.wikipedia.org/wiki/Microsoft_Windows>).
@@ -156,6 +158,7 @@ impl Display for Type {
             Type::Ultramarine => write!(f, "Ultramarine Linux"),
             Type::Uos => write!(f, "UOS"),
             Type::Void => write!(f, "Void Linux"),
+            Type::Zorin => write!(f, "Zorin OS"),
             _ => write!(f, "{self:?}"),
         }
     }
@@ -226,6 +229,7 @@ mod tests {
             (Type::Unknown, "Unknown"),
             (Type::Uos, "UOS"),
             (Type::Void, "Void Linux"),
+            (Type::Zorin, "Zorin OS"),
             (Type::Windows, "Windows"),
         ];
 
