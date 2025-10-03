@@ -37,6 +37,7 @@ mod tests {
             | Type::CachyOS
             | Type::CentOS
             | Type::Debian
+            | Type::Elementary
             | Type::EndeavourOS
             | Type::Fedora
             | Type::Garuda

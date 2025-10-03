@@ -92,6 +92,7 @@ Right now, the following operating system types can be returned:
 - CentOS
 - Debian
 - DragonFly BSD
+- Elementary OS
 - Emscripten
 - EndeavourOS
 - Fedora
