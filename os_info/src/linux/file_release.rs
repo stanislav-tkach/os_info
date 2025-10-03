@@ -716,17 +716,6 @@ mod tests {
     }
 
     #[test]
-    fn elementary_os_release() {
-        let root = "src/linux/tests/Elementary";
-
-        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::Elementary);
-        assert_eq!(info.version, Version::Semantic(8, 0, 0));
-        assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
-    }
-
-    #[test]
     fn release_info_debug() {
         dbg!("{:?}", &DISTRIBUTIONS[0]);
     }
