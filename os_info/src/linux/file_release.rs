@@ -115,7 +115,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                         }
                     }
                     //"devuan" => Devuan
-                    //"elementary" => Elementary
+                    "elementary" => Some(Type::Elementary),
                     "fedora" => Some(Type::Fedora),
                     //"gentoo" => Gentoo
                     //"ios_xr" => ios_xr
@@ -711,6 +711,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::CachyOS);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn elementary_os_release() {
+        let root = "src/linux/tests/Elementary";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Elementary);
+        assert_eq!(info.version, Version::Semantic(8, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }
