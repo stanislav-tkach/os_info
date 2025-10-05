@@ -115,7 +115,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                         }
                     }
                     //"devuan" => Devuan
-                    //"elementary" => Elementary
+                    "elementary" => Some(Type::Elementary),
                     "fedora" => Some(Type::Fedora),
                     //"gentoo" => Gentoo
                     //"ios_xr" => ios_xr

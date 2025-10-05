@@ -36,6 +36,8 @@ pub enum Type {
     Debian,
     /// DragonFly BSD (<https://en.wikipedia.org/wiki/DragonFly_BSD>).
     DragonFly,
+    /// Elementary OS (<https://en.wikipedia.org/wiki/Elementary_OS>).
+    Elementary,
     /// Emscripten (<https://en.wikipedia.org/wiki/Emscripten>).
     Emscripten,
     /// EndeavourOS (<https://en.wikipedia.org/wiki/EndeavourOS>).
@@ -138,6 +140,7 @@ impl Display for Type {
             Type::CachyOS => write!(f, "CachyOS Linux"),
             Type::Artix => write!(f, "Artix Linux"),
             Type::DragonFly => write!(f, "DragonFly BSD"),
+            Type::Elementary => write!(f, "Elementary OS"),
             Type::Garuda => write!(f, "Garuda Linux"),
             Type::Gentoo => write!(f, "Gentoo Linux"),
             Type::Illumos => write!(f, "illumos"),
@@ -191,6 +194,7 @@ mod tests {
             (Type::Cygwin, "Cygwin"),
             (Type::Debian, "Debian"),
             (Type::DragonFly, "DragonFly BSD"),
+            (Type::Elementary, "Elementary OS"),
             (Type::Emscripten, "Emscripten"),
             (Type::EndeavourOS, "EndeavourOS"),
             (Type::Fedora, "Fedora"),

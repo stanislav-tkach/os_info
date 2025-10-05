@@ -32,6 +32,7 @@ pub fn get() -> Option<Info> {
                 Type::Debian
             }
         }
+        Some("Elementary") => Type::Elementary,
         Some("EndeavourOS") => Type::EndeavourOS,
         Some("Fedora") | Some("Fedora Linux") => Type::Fedora,
         Some("Garuda") => Type::Garuda,
