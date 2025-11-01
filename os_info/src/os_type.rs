@@ -14,6 +14,8 @@ pub enum Type {
     Alpaquita,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>).
     Alpine,
+    /// ALT Linux (https://en.wikipedia.org/wiki/ALT_Linux).
+    ALTLinux,
     /// Amazon Linux AMI (<https://en.wikipedia.org/wiki/Amazon_Machine_Image#Amazon_Linux_AMI>).
     Amazon,
     /// Android (<https://en.wikipedia.org/wiki/Android_(operating_system)>).
@@ -133,6 +135,7 @@ impl Display for Type {
             Type::Alpaquita => write!(f, "Alpaquita Linux"),
             Type::Alpine => write!(f, "Alpine Linux"),
             Type::AlmaLinux => write!(f, "AlmaLinux"),
+            Type::ALTLinux => write!(f, "ALT Linux"),
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::AOSC => write!(f, "AOSC OS"),
             Type::Arch => write!(f, "Arch Linux"),
@@ -183,6 +186,7 @@ mod tests {
             (Type::AlmaLinux, "AlmaLinux"),
             (Type::Alpaquita, "Alpaquita Linux"),
             (Type::Alpine, "Alpine Linux"),
+            (Type::ALTLinux, "ALT Linux"),
             (Type::Amazon, "Amazon Linux AMI"),
             (Type::Android, "Android"),
             (Type::AOSC, "AOSC OS"),

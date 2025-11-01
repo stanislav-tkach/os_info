@@ -93,6 +93,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "almalinux" => Some(Type::AlmaLinux),
                     "alpaquita" => Some(Type::Alpaquita),
                     "alpine" => Some(Type::Alpine),
+                    "altlinux" => Some(Type::ALTLinux),
                     "amzn" => Some(Type::Amazon),
                     //"antergos" => Antergos
                     "aosc" => Some(Type::AOSC),
@@ -255,6 +256,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
         assert_eq!(info.version, Version::Custom("A.B.C".to_owned()));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn alt_p11_os_release() {
+        let root = "src/linux/tests/ALTLinux_p11";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::ALTLinux);
+        assert_eq!(info.version, Version::Semantic(11,0,0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

@@ -1,6 +1,7 @@
 aarch64
 almalinux
 alpaquita
+altlinux
 antergos
 aosc
 archarm

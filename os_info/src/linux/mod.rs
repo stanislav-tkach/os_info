@@ -29,6 +29,7 @@ mod tests {
             Type::AlmaLinux
             | Type::Alpaquita
             | Type::Alpine
+            | Type::ALTLinux
             | Type::Amazon
             | Type::AOSC
             | Type::Arch

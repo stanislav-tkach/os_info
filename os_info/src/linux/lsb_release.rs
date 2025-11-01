@@ -17,6 +17,7 @@ pub fn get() -> Option<Info> {
 
     let os_type = match release.distribution.as_ref().map(String::as_ref) {
         Some("Alpaquita") => Type::Alpaquita,
+        Some("ALT Linux") => Type::ALTLinux,
         Some("Amazon") | Some("AmazonAMI") => Type::Amazon,
         Some("AOSC") => Type::AOSC,
         Some("Arch") => Type::Arch,
@@ -137,6 +138,14 @@ mod tests {
         assert_eq!(parse_results.distribution, Some("Alpaquita".to_string()));
         assert_eq!(parse_results.version, Some("23".to_string()));
         assert_eq!(parse_results.codename, None);
+    }
+
+    #[test]
+    fn altlinux() {
+        let parse_results = parse(alt_file());
+        assert_eq!(parse_results.distribution, Some("ALT".to_string()));
+        assert_eq!(parse_results.version, Some("n/a".to_string()));
+        assert_eq!(parse_results.codename, Some("Salvia".to_string()));
     }
 
     #[test]
@@ -405,6 +414,13 @@ mod tests {
         Description:    BellSoft Alpaquita Linux Stream 23 (musl)\n\
         Release:        23\n\
         Codename:       n/a"
+    }
+
+    fn alt_file() -> &'static str {
+        "\nDistributor ID: ALT\n\
+        Description:    ALT p11 Starterkit (Salvia)\n\
+        Release:        n/a\n\
+        Codename:       Salvia"
     }
 
     fn aosc_file() -> &'static str {

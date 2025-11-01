@@ -1,0 +1,12 @@
+NAME="ALT Linux"
+VERSION="11"
+ID=altlinux
+VERSION_ID=11
+PRETTY_NAME="ALT Starterkit 11 (Salvia)"
+ANSI_COLOR="1;33"
+CPE_NAME="cpe:/o:alt:starterkit:11"
+BUILD_ID="starter kit 11"
+ALT_BRANCH_ID="p11"
+HOME_URL="https://en.altlinux.org/starterkits"
+BUG_REPORT_URL="https://bugs.altlinux.org/"
+LOGO=altlinux
