@@ -58,7 +58,8 @@ pub fn get() -> Option<Info> {
         Some("UltramarineLinux") => Type::Ultramarine,
         Some("VoidLinux") => Type::Void,
         Some("Zorin") => Type::Zorin,
-        _ => Type::Linux,
+        // Return None here so file_release::get is then used.
+        _ => return None,
     };
 
     Some(Info {
