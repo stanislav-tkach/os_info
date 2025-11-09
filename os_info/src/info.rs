@@ -212,6 +212,7 @@ mod tests {
             Type::Redox,
             Type::Alpaquita,
             Type::Alpine,
+            Type::ALTLinux,
             Type::Amazon,
             Type::Android,
             Type::AOSC,
