@@ -57,7 +57,7 @@ fn product_version_from_file() -> Option<String> {
         NSPropertyListSerialization::propertyListWithData_options_format_error(
             &data,
             NSPropertyListMutabilityOptions(0),
-            &raw mut format,
+            &mut format,
         )
     };
     if let Err(ref e) = result {
