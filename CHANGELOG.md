@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.13.0] (2025-11-13)
+
+- Registry key leak on Windows has been fixed. (#411)
+
+- iOS support has been added. (#414)
+
+- Issue with Android dependencies has been fixed. (#416)
+
+- Native `uname` is used if possible for better performance. (#417)
+
+- Native XML parses is now used on macOS. (#418)
+
+- `RaspberryPiOS` alias for `Raspbian` (for `serde`). (#419)
+
+- The `windows-sys` dependency has been updated to `0.61`. (#420)
+
+- Raspberry Pi OS detection has been improved. (#423)
+
+- Zorin OS support has been added. (#424)
+
+- Elementary OS support has been added. (#425)
+
+- Proper Android support has been added. (#426)
+
+- Issue with file release detection has been fixed. (#427)
+
+- ALT Linux support has been added. (#428)
+
 ## [3.12.0] (2025-06-08)
 
 - Cygwin support has been added. (#405)
@@ -372,7 +400,9 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based
 on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.12.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.13.0...HEAD
+
+[3.13.0]: https://github.com/stanislav-tkach/os_info/compare/v3.12.0...v3.13.0
 
 [3.12.0]: https://github.com/stanislav-tkach/os_info/compare/v3.11.0...v3.12.0
 

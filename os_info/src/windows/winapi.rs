@@ -38,11 +38,13 @@ type OSVERSIONINFOEX = windows_sys::Win32::System::SystemInformation::OSVERSIONI
 #[cfg(not(target_arch = "x86"))]
 type OSVERSIONINFOEX = windows_sys::Win32::System::SystemInformation::OSVERSIONINFOEXW;
 
-struct HKeyWrap(HKEY);
+struct HKeyWrapper(HKEY);
 
-impl Drop for HKeyWrap {
+impl Drop for HKeyWrapper {
     fn drop(&mut self) {
-        unsafe { RegCloseKey(self.0) };
+        if !self.0.is_null() {
+            unsafe { RegCloseKey(self.0) };
+        }
     }
 }
 
@@ -160,7 +162,7 @@ fn version_info() -> Option<OSVERSIONINFOEX> {
 
 fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
     let sub_key = to_wide("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
-    let mut key = HKeyWrap(ptr::null_mut());
+    let mut key = HKeyWrapper(ptr::null_mut());
     if unsafe {
         RegOpenKeyExW(
             HKEY_LOCAL_MACHINE,

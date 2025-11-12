@@ -1,21 +1,10 @@
 use log::trace;
 
+use objc2::{msg_send, rc::Retained, ClassType};
+use objc2_foundation::NSString;
+use objc2_ui_kit::UIDevice;
+
 use crate::{Bitness, Info, Type, Version};
-
-// ---- Internal glue (isolated unsafe) ----
-#[allow(unsafe_code)]
-mod ffi {
-    use objc2::{msg_send, rc::Retained, ClassType};
-    use objc2_foundation::NSString;
-    use objc2_ui_kit::UIDevice;
-
-    pub fn system_version() -> Option<Retained<NSString>> {
-        // UIDevice::class() is provided by objc2’s ClassType
-        let device: Retained<UIDevice> = unsafe { msg_send![UIDevice::class(), currentDevice] };
-        let ver: Retained<NSString> = unsafe { msg_send![&device, systemVersion] };
-        Some(ver)
-    }
-}
 
 pub fn current_platform() -> Info {
     trace!("ios::current_platform is called");
@@ -37,10 +26,17 @@ pub fn current_platform() -> Info {
 }
 
 fn version() -> Version {
-    match ffi::system_version().map(|ns| ns.to_string()) {
+    match system_version().map(|ns| ns.to_string()) {
         Some(v) => Version::from_string(v),
         None => Version::Unknown,
     }
+}
+
+#[allow(unsafe_code)]
+fn system_version() -> Option<Retained<NSString>> {
+    let device: Retained<UIDevice> = unsafe { msg_send![UIDevice::class(), currentDevice] };
+    let ver: Retained<NSString> = unsafe { msg_send![&device, systemVersion] };
+    Some(ver)
 }
 
 #[cfg(test)]
