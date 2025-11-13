@@ -51,21 +51,19 @@ fn product_version_from_file() -> Option<String> {
     let buffer = buffer.ok()?;
     let data = NSData::with_bytes(&buffer);
 
-    let mut format = std::mem::MaybeUninit::<NSPropertyListFormat>::uninit();
-    // SAFETY: Necessary to call native API, exit-code is checked
+    let mut format = NSPropertyListFormat::OpenStepFormat;
+    // SAFETY: Necessary to call native API, exit-code is checked.
     let result = unsafe {
         NSPropertyListSerialization::propertyListWithData_options_format_error(
             &data,
             NSPropertyListMutabilityOptions(0),
-            format.as_mut_ptr(),
+            &mut format,
         )
     };
     if let Err(ref e) = result {
         warn!("Failed to parse SystemVersion.plist: {e:?}");
         return None;
     }
-    // SAFETY: result is not an error
-    let format = unsafe { format.assume_init() };
     trace!("Parsed SystemVersion.plist with format: {format:?}");
 
     let obj = result.ok()?;

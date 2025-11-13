@@ -1,6 +1,7 @@
+use std::process::Command;
+
 use log::error;
 use nix::sys::utsname::uname as nix_uname;
-use std::process::Command;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[allow(dead_code)]
@@ -61,6 +62,12 @@ impl UnameField {
     }
 }
 
+pub fn uname(field: UnameField) -> Option<String> {
+    field
+        .get_from_syscall()
+        .or_else(|| uname_cli(field.cli_arg_name()))
+}
+
 fn uname_cli(arg: &str) -> Option<String> {
     Command::new("uname")
         .arg(arg)
@@ -77,12 +84,6 @@ fn uname_cli(arg: &str) -> Option<String> {
                 None
             }
         })
-}
-
-pub fn uname(field: UnameField) -> Option<String> {
-    field
-        .get_from_syscall()
-        .or_else(|| uname_cli(field.cli_arg_name()))
 }
 
 #[cfg(test)]
