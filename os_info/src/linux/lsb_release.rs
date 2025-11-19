@@ -50,6 +50,7 @@ pub fn get() -> Option<Info> {
         Some("openEuler") => Type::openEuler,
         Some("openSUSE") => Type::openSUSE,
         Some("OracleServer") => Type::OracleLinux,
+        Some("Pika") => Type::PikaOS,
         Some("Pop") => Type::Pop,
         Some("Raspbian") => Type::Raspbian,
         Some("RedHatEnterprise") | Some("RedHatEnterpriseServer") => Type::RedHatEnterprise,
@@ -401,6 +402,13 @@ mod tests {
         assert_eq!(parse_results.version, Some("rolling".to_string()));
     }
 
+    #[test]
+    fn pikaos() {
+        let parse_results = parse(pikaos_file());
+        assert_eq!(parse_results.distribution, Some("Pika".to_string()));
+        assert_eq!(parse_results.version, Some("4".to_string()));
+    }
+
     fn file() -> &'static str {
         "\nDistributor ID:	Debian\n\
          Description:	Debian GNU/Linux 7.8 (wheezy)\n\
@@ -679,6 +687,14 @@ mod tests {
          Description:	 CachyOS\n\
          Release:	     rolling\n\
          Codename:	     n/a\n\
+         "
+    }
+
+    fn pikaos_file() -> &'static str {
+        "Distributor ID: Pika
+         Description:    PikaOS 4
+         Release:        4
+         Codename:       nest
          "
     }
 }

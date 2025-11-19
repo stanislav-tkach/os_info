@@ -237,6 +237,7 @@ mod tests {
             Type::openEuler,
             Type::openSUSE,
             Type::OracleLinux,
+            Type::PikaOS,
             Type::Pop,
             Type::Redhat,
             Type::RedHatEnterprise,

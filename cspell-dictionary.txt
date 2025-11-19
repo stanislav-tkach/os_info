@@ -48,6 +48,7 @@ openbsd
 opencloudos
 openeuler
 opensuse
+pika
 println
 raspberry
 raspbian

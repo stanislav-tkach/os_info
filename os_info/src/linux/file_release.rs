@@ -137,6 +137,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "opensuse-leap" => Some(Type::openSUSE),
                     "opensuse-microos" => Some(Type::openSUSE),
                     "opensuse-tumbleweed" => Some(Type::openSUSE),
+                    "pika" => Some(Type::PikaOS),
                     //"rancheros" => RancherOS
                     //"raspbian" => Raspbian
                     // note XBian also uses "raspbian"
@@ -723,6 +724,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::CachyOS);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn pika_os_release() {
+        let root = "src/linux/tests/PikaOS";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::PikaOS);
+        assert_eq!(info.version, Version::Semantic(4, 0, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

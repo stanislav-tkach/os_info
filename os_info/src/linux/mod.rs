@@ -55,6 +55,7 @@ mod tests {
             | Type::openEuler
             | Type::openSUSE
             | Type::OracleLinux
+            | Type::PikaOS
             | Type::Pop
             | Type::Raspbian
             | Type::Redhat
