@@ -1,0 +1,13 @@
+PRETTY_NAME="PikaOS 4"
+NAME="PikaOS"
+VERSION_ID="4"
+VERSION="4"
+VERSION_CODENAME=nest
+ID=pika
+HOME_URL="https://www.pika-os.com/"
+SUPPORT_URL="https://discord.gg/6HKR2YRvNg"
+BUG_REPORT_URL="https://git.pika-os.com/"
+PRIVACY_POLICY_URL="https://www.pika-os.com/"
+ID_LIKE=debian
+DEBIAN_CODENAME=sid
+LOGO=pika-logo

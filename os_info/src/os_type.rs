@@ -90,6 +90,8 @@ pub enum Type {
     openSUSE,
     /// Oracle Linux (<https://en.wikipedia.org/wiki/Oracle_Linux>).
     OracleLinux,
+    /// PikaOS (<https://wiki.pika-os.com/en/home>)
+    PikaOS,
     /// Pop!_OS (<https://en.wikipedia.org/wiki/Pop!_OS>)
     Pop,
     /// Raspberry Pi OS (<https://en.wikipedia.org/wiki/Raspberry_Pi_OS>).
@@ -155,6 +157,7 @@ impl Display for Type {
             Type::Nobara => write!(f, "Nobara Linux"),
             Type::openEuler => write!(f, "EulerOS"),
             Type::OracleLinux => write!(f, "Oracle Linux"),
+            Type::PikaOS => write!(f, "PikaOS"),
             Type::Pop => write!(f, "Pop!_OS"),
             Type::Raspbian => write!(f, "Raspberry Pi OS"),
             Type::Redhat => write!(f, "Red Hat Linux"),
@@ -224,6 +227,7 @@ mod tests {
             (Type::openEuler, "EulerOS"),
             (Type::openSUSE, "openSUSE"),
             (Type::OracleLinux, "Oracle Linux"),
+            (Type::PikaOS, "PikaOS"),
             (Type::Pop, "Pop!_OS"),
             (Type::Raspbian, "Raspberry Pi OS"),
             (Type::Redhat, "Red Hat Linux"),
