@@ -119,6 +119,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "elementary" => Some(Type::Elementary),
                     "fedora" => Some(Type::Fedora),
                     //"gentoo" => Gentoo
+                    "instantos" => Some(Type::InstantOS),
                     //"ios_xr" => ios_xr
                     "kali" => Some(Type::Kali),
                     //"mageia" => Mageia
@@ -345,6 +346,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Bluefin);
         assert_eq!(info.version, Version::Semantic(41, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn instantos_os_release() {
+        let root = "src/linux/tests/InstantOS";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::InstantOS);
+        assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

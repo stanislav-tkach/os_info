@@ -56,6 +56,8 @@ pub enum Type {
     HardenedBSD,
     /// Illumos (https://en.wikipedia.org/wiki/Illumos).
     Illumos,
+    /// instantOS (<https://instantos.io/>).
+    InstantOS,
     /// iOS (<https://en.wikipedia.org/wiki/iOS>).
     Ios,
     /// Kali Linux (https://en.wikipedia.org/wiki/Kali_Linux).
@@ -149,6 +151,7 @@ impl Display for Type {
             Type::Garuda => write!(f, "Garuda Linux"),
             Type::Gentoo => write!(f, "Gentoo Linux"),
             Type::Illumos => write!(f, "illumos"),
+            Type::InstantOS => write!(f, "instantOS"),
             Type::Ios => write!(f, "iOS"),
             Type::Kali => write!(f, "Kali Linux"),
             Type::Macos => write!(f, "Mac OS"),
@@ -210,6 +213,7 @@ mod tests {
             (Type::Gentoo, "Gentoo Linux"),
             (Type::HardenedBSD, "HardenedBSD"),
             (Type::Illumos, "illumos"),
+            (Type::InstantOS, "instantOS"),
             (Type::Ios, "iOS"),
             (Type::Kali, "Kali Linux"),
             (Type::Linux, "Linux"),
