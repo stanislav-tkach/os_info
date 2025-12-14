@@ -27,6 +27,7 @@ getconf
 hardenedbsd
 hbsd
 illumos
+instantos
 isainfo
 kuma
 libntdll
