@@ -351,7 +351,7 @@ mod tests {
     }
 
     #[test]
-    fn instantos_os_release() {
+    fn instant_os_release() {
         let root = "src/linux/tests/InstantOS";
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
