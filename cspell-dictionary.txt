@@ -49,6 +49,7 @@ opencloudos
 openeuler
 opensuse
 pika
+pikaos
 println
 prtconf
 raspberry
@@ -59,6 +60,7 @@ rustdoc
 sbin
 schemars
 serde
+starterkit
 structopt
 syscall
 sysname

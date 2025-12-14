@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.14.0] (2025-12-14)
+
+- (Conditional) JSON-schema generation support via schemars for all types that
+  implement the serde traits. (#409)
+
+- PikaOS support has been added. (#430)
+
+- instantOS support has been added. (#431)
+
 ## [3.13.0] (2025-11-13)
 
 - Registry key leak on Windows has been fixed. (#411)
@@ -400,7 +409,9 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based
 on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.13.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.14.0...HEAD
+
+[3.14.0]: https://github.com/stanislav-tkach/os_info/compare/v3.13.0...v3.14.0
 
 [3.13.0]: https://github.com/stanislav-tkach/os_info/compare/v3.12.0...v3.13.0
 

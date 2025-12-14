@@ -233,7 +233,7 @@ fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
         .into_owned();
 
     if is_win_11 {
-        Some(format!("Windows 11 {value}"))
+        Some(format!("Windows 11 {}", value))
     } else {
         Some(value)
     }
