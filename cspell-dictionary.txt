@@ -50,12 +50,14 @@ openeuler
 opensuse
 pika
 println
+prtconf
 raspberry
 raspbian
 redhat
 rhel
 rustdoc
 sbin
+schemars
 serde
 structopt
 syscall

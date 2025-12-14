@@ -33,9 +33,11 @@ use windows_sys::Win32::{
 use crate::{Bitness, Info, Type, Version};
 
 #[cfg(target_arch = "x86")]
+#[allow(clippy::upper_case_acronyms)]
 type OSVERSIONINFOEX = windows_sys::Win32::System::SystemInformation::OSVERSIONINFOEXA;
 
 #[cfg(not(target_arch = "x86"))]
+#[allow(clippy::upper_case_acronyms)]
 type OSVERSIONINFOEX = windows_sys::Win32::System::SystemInformation::OSVERSIONINFOEXW;
 
 struct HKeyWrapper(HKEY);
@@ -142,10 +144,7 @@ fn bitness() -> Bitness {
 // Calls the Win32 API function RtlGetVersion to get the OS version information:
 // https://msdn.microsoft.com/en-us/library/mt723418(v=vs.85).aspx
 fn version_info() -> Option<OSVERSIONINFOEX> {
-    let rtl_get_version = match get_proc_address(b"ntdll\0", b"RtlGetVersion\0") {
-        None => return None,
-        Some(val) => val,
-    };
+    let rtl_get_version = get_proc_address(b"ntdll\0", b"RtlGetVersion\0")?;
 
     type RtlGetVersion = unsafe extern "system" fn(&mut OSVERSIONINFOEX) -> NTSTATUS;
     let rtl_get_version: RtlGetVersion = unsafe { mem::transmute(rtl_get_version) };
@@ -225,11 +224,8 @@ fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
 
     // If the data has the REG_SZ, REG_MULTI_SZ or REG_EXPAND_SZ type, the string may not have been
     // stored with the proper terminating null characters.
-    match data.last() {
-        Some(0) => {
-            data.pop();
-        }
-        _ => {}
+    if let Some(0) = data.last() {
+        data.pop();
     }
 
     let value = OsString::from_wide(data.as_slice())
@@ -237,7 +233,7 @@ fn product_name(info: &OSVERSIONINFOEX) -> Option<String> {
         .into_owned();
 
     if is_win_11 {
-        Some(format!("Windows 11 {}", value))
+        Some(format!("Windows 11 {value}"))
     } else {
         Some(value)
     }

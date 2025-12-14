@@ -16,6 +16,7 @@ use std::process::{Command, Output};
 
 /// Operating system architecture in terms of how many bits compose the basic values it can deal with.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub enum Bitness {

@@ -14,7 +14,7 @@ pub fn current_platform() -> Info {
     info.bitness = bitness::get();
     info.architecture = architecture::get();
 
-    trace!("Returning {:?}", info);
+    trace!("Returning {info:?}");
     info
 }
 

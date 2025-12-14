@@ -81,18 +81,18 @@ struct LsbRelease {
 fn retrieve() -> Option<LsbRelease> {
     match Command::new("lsb_release").arg("-a").output() {
         Ok(output) => {
-            trace!("lsb_release command returned {:?}", output);
+            trace!("lsb_release command returned {output:?}");
             Some(parse(&String::from_utf8_lossy(&output.stdout)))
         }
         Err(e) => {
-            debug!("lsb_release command failed with {:?}", e);
+            debug!("lsb_release command failed with {e:?}");
             None
         }
     }
 }
 
 fn parse(output: &str) -> LsbRelease {
-    trace!("Trying to parse {:?}", output);
+    trace!("Trying to parse {output:?}");
 
     let distribution = Matcher::PrefixedWord {
         prefix: "Distributor ID:",
@@ -107,11 +107,7 @@ fn parse(output: &str) -> LsbRelease {
 
     let version = Matcher::PrefixedVersion { prefix: "Release:" }.find(output);
 
-    trace!(
-        "Parsed as '{:?}' distribution and '{:?}' version",
-        distribution,
-        version
-    );
+    trace!("Parsed as '{distribution:?}' distribution and '{version:?}' version");
 
     LsbRelease {
         distribution,
