@@ -1,0 +1,13 @@
+PRETTY_NAME="KDE neon User Edition"
+NAME="KDE neon"
+VERSION_ID="24.04"
+VERSION="User Edition"
+VERSION_CODENAME=noble
+ID=neon
+ID_LIKE="ubuntu debian"
+HOME_URL="https://neon.kde.org/"
+SUPPORT_URL="https://neon.kde.org/"
+BUG_REPORT_URL="https://bugs.kde.org/"
+PRIVACY_POLICY_URL="https://kde.org/privacypolicy/"
+UBUNTU_CODENAME=noble
+LOGO=start-here-kde-neon⏎
