@@ -122,6 +122,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "instantos" => Some(Type::InstantOS),
                     //"ios_xr" => ios_xr
                     "kali" => Some(Type::Kali),
+                    "neon" => Some(Type::KDEneon),
                     //"mageia" => Mageia
                     //"manjaro" => Manjaro
                     "manjaro-arm" => Some(Type::Manjaro),
@@ -467,6 +468,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Kali);
         assert_eq!(info.version, Version::Semantic(2023, 2, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn kde_neon_release() {
+        let root = "src/linux/tests/KDEneon";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::KDEneon);
+        assert_eq!(info.version, Version::Semantic(24, 04, 00));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

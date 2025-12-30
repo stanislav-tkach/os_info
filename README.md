@@ -103,6 +103,7 @@ Right now, the following operating system types can be returned:
 - illumos
 - iOS
 - Kali Linux
+- KDE neon
 - Linux
 - Mabox
 - macOS (Mac OS X or OS X)
