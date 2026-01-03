@@ -100,6 +100,7 @@ Right now, the following operating system types can be returned:
 - Garuda Linux
 - Gentoo Linux
 - HardenedBSD
+- Hurd
 - illumos
 - iOS
 - Kali Linux

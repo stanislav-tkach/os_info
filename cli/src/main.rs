@@ -42,11 +42,11 @@ fn main() {
         }
 
         println!(
-            "OS information:\nType: {}\nVersion: {}\nBitness: {} \narchitecture:{}",
+            "OS information:\nType: {}\nVersion: {}\nBitness: {} \nArchitecture: {}",
             info.os_type(),
             info.version(),
             info.bitness(),
-            info.architecture().unwrap()
+            info.architecture().expect("architecture not found")
         );
     } else {
         if options.type_ {

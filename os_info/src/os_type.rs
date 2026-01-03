@@ -55,6 +55,8 @@ pub enum Type {
     Gentoo,
     /// HardenedBSD (https://hardenedbsd.org/).
     HardenedBSD,
+    /// Hurd (https://hurd.gnu.org/).
+    Hurd,
     /// Illumos (https://en.wikipedia.org/wiki/Illumos).
     Illumos,
     /// instantOS (<https://instantos.io/>).
