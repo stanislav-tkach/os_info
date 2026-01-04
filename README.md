@@ -88,6 +88,7 @@ Right now, the following operating system types can be returned:
 - AOSC OS
 - Arch Linux
 - Artix Linux
+- Bazzite
 - CachyOS
 - CentOS
 - Debian

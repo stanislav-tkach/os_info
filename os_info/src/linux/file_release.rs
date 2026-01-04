@@ -100,6 +100,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "arch" => Some(Type::Arch),
                     "archarm" => Some(Type::Arch),
                     "artix" => Some(Type::Artix),
+                    "bazzite" => Some(Type::Bazzite),
                     "bluefin" => Some(Type::Bluefin),
                     "cachyos" => Some(Type::CachyOS),
                     "centos" => Some(Type::CentOS),
@@ -335,6 +336,17 @@ mod tests {
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Artix);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn bazzite_os_release() {
+        let root = "src/linux/tests/Bazzite";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Bazzite);
         assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
