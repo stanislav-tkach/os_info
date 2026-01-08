@@ -27,6 +27,8 @@ pub enum Type {
     Arch,
     /// Artix Linux (<https://en.wikipedia.org/wiki/Artix_Linux>).
     Artix,
+    /// Bazzite (<https://en.wikipedia.org/wiki/Bazzite_(operating_system)>).
+    Bazzite,
     /// Bluefin (<https://projectbluefin.io>).
     Bluefin,
     /// CachyOS (<https://en.wikipedia.org/wiki/Arch_Linux#Derivatives>).
@@ -148,6 +150,7 @@ impl Display for Type {
             Type::Amazon => write!(f, "Amazon Linux AMI"),
             Type::AOSC => write!(f, "AOSC OS"),
             Type::Arch => write!(f, "Arch Linux"),
+            Type::Bazzite => write!(f, "Bazzite"),
             Type::Bluefin => write!(f, "Bluefin"),
             Type::CachyOS => write!(f, "CachyOS Linux"),
             Type::Artix => write!(f, "Artix Linux"),
@@ -204,6 +207,7 @@ mod tests {
             (Type::AOSC, "AOSC OS"),
             (Type::Arch, "Arch Linux"),
             (Type::Artix, "Artix Linux"),
+            (Type::Bazzite, "Bazzite"),
             (Type::Bluefin, "Bluefin"),
             (Type::CachyOS, "CachyOS Linux"),
             (Type::CentOS, "CentOS"),

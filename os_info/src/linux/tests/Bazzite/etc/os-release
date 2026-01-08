@@ -1,0 +1,6 @@
+NAME="Bazzite"
+ID=bazzite
+ID_LIKE="fedora"
+VERSION_CODENAME="Silverblue"
+PRETTY_NAME="Bazzite"
+VARIANT="Silverblue"
