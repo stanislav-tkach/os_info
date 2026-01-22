@@ -55,7 +55,7 @@ windows-sys = { version = "0.61", features = [
 ] }
 
 [target.'cfg(any(target_os = "aix", target_os = "dragonfly", target_os = "freebsd", target_os = "illumos", target_os = "linux", target_os = "macos", target_os = "netbsd", target_os = "openbsd", target_os = "cygwin", target_os = "hurd"))'.dependencies]
-nix = { version = "0.30", features = ["feature"] }
+nix = { version = "0.31", features = ["feature"] }
 
 [dev-dependencies]
 pretty_assertions = "1"
