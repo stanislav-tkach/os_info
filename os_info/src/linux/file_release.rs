@@ -41,11 +41,13 @@ fn retrieve(distributions: &[ReleaseInfo], root: &str) -> Option<Info> {
         }
 
         let version = (release_info.version)(&file_content);
+        let codename = (release_info.codename)(&file_content);
 
         return Some(Info {
             // Unwrap is OK here because of the `os_type.is_none()` check above.
             os_type: os_type.unwrap(),
             version: version.unwrap_or(Version::Unknown),
+            codename,
             bitness: Bitness::Unknown,
             ..Default::default()
         });
@@ -66,6 +68,9 @@ struct ReleaseInfo<'a> {
 
     /// A closure that determines the os version from the release file contents.
     version: for<'b> fn(&'b str) -> Option<Version>,
+
+    /// A closure that determines the os codename from the release file contents.
+    codename: for<'b> fn(&'b str) -> Option<String>,
 }
 
 impl fmt::Debug for ReleaseInfo<'_> {
@@ -74,6 +79,10 @@ impl fmt::Debug for ReleaseInfo<'_> {
             .field("path", &self.path)
             .field("os_type", &(self.os_type as fn(&'a str) -> Option<Type>))
             .field("version", &(self.version as fn(&'a str) -> Option<Version>))
+            .field(
+                "codename",
+                &(self.codename as fn(&'a str) -> Option<String>),
+            )
             .finish()
     }
 }
@@ -168,6 +177,12 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .find(release)
                 .map(Version::from_string)
         },
+        codename: |release| {
+            Matcher::KeyValue { key: "VERSION_CODENAME" }
+                .find(release)
+                .filter(|c| !c.is_empty())
+                .map(|s| s.to_string())
+        },
     },
     // Older distributions must have their specific release file parsed.
     ReleaseInfo {
@@ -180,6 +195,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
             .find(release)
             .map(Version::from_string)
         },
+        codename: |_| None,
     },
     ReleaseInfo {
         path: "etc/centos-release",
@@ -189,6 +205,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .find(release)
                 .map(Version::from_string)
         },
+        codename: |_| None,
     },
     ReleaseInfo {
         path: "etc/fedora-release",
@@ -198,11 +215,13 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .find(release)
                 .map(Version::from_string)
         },
+        codename: |_| None,
     },
     ReleaseInfo {
         path: "etc/alpine-release",
         os_type: |_| Some(Type::Alpine),
         version: |release| Matcher::AllTrimmed.find(release).map(Version::from_string),
+        codename: |_| None,
     },
     ReleaseInfo {
         path: "etc/redhat-release",
@@ -212,6 +231,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .find(release)
                 .map(Version::from_string)
         },
+        codename: |_| None,
     },
 ];
 
@@ -349,7 +369,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::Bazzite);
         assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("Silverblue".to_string()));
     }
 
     #[test]
@@ -360,7 +380,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::Bluefin);
         assert_eq!(info.version, Version::Semantic(41, 0, 0));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("Archaeopteryx".to_string()));
     }
 
     #[test]
@@ -426,7 +446,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::Debian);
         assert_eq!(info.version, Version::Semantic(11, 0, 0));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("bullseye".to_string()));
     }
 
     #[test]
@@ -481,7 +501,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::Kali);
         assert_eq!(info.version, Version::Semantic(2023, 2, 0));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("kali-rolling".to_string()));
     }
 
     #[test]
@@ -492,7 +512,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::KDEneon);
         assert_eq!(info.version, Version::Semantic(24, 4, 00));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("noble".to_string()));
     }
 
     #[test]
@@ -536,7 +556,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::Mint);
         assert_eq!(info.version, Version::Semantic(20, 0, 0));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("ulyana".to_string()));
     }
 
     #[test]
@@ -550,7 +570,7 @@ mod tests {
             Version::Custom("21.05pre275822.916ee862e87".to_string())
         );
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("okapi".to_string()));
     }
 
     #[test]
@@ -572,7 +592,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::Uos);
         assert_eq!(info.version, Version::Semantic(20, 0, 0));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("eagle".to_string()));
     }
 
     #[test]
@@ -728,7 +748,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::Ubuntu);
         assert_eq!(info.version, Version::Semantic(18, 10, 0));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("cosmic".to_string()));
     }
 
     #[test]
@@ -739,7 +759,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::Ultramarine);
         assert_eq!(info.version, Version::Semantic(39, 0, 0));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("kuma".to_string()));
     }
 
     #[test]
@@ -772,7 +792,7 @@ mod tests {
         assert_eq!(info.os_type(), Type::PikaOS);
         assert_eq!(info.version, Version::Semantic(4, 0, 0));
         assert_eq!(info.edition, None);
-        assert_eq!(info.codename, None);
+        assert_eq!(info.codename, Some("nest".to_string()));
     }
 
     #[test]
