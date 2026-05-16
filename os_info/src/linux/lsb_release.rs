@@ -22,6 +22,7 @@ pub fn get() -> Option<Info> {
         Some("AOSC") => Type::AOSC,
         Some("Arch") => Type::Arch,
         Some("Artix") => Type::Artix,
+        Some("azurelinux") => Type::AzureLinux,
         Some("Bluefin") => Type::Bluefin,
         Some("cachyos") => Type::CachyOS,
         Some("CentOS") => Type::CentOS,
@@ -171,6 +172,14 @@ mod tests {
         assert_eq!(parse_results.distribution, Some("Artix".to_string()));
         assert_eq!(parse_results.version, Some("rolling".to_string()));
         assert_eq!(parse_results.codename, None);
+    }
+
+    #[test]
+    fn azurelinux() {
+        let parse_results = parse(azurelinux_file());
+        assert_eq!(parse_results.distribution, Some("azurelinux".to_string()));
+        assert_eq!(parse_results.version, Some("3.0.20240727".to_string()));
+        assert_eq!(parse_results.codename, Some("AzureLinux".to_string()));
     }
 
     #[test]
@@ -452,6 +461,14 @@ mod tests {
          Description:	Artix Linux\n\
          Release:	rolling\n\
          Codename:	n/a"
+    }
+
+    fn azurelinux_file() -> &'static str {
+        "\nLSB Version:	n/a\n\
+         Distributor ID:	azurelinux\n\
+         Description:	Azure Linux 3.0\n\
+         Release:	3.0.20240727\n\
+         Codename:	AzureLinux"
     }
 
     fn fedora_file() -> &'static str {

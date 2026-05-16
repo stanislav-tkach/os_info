@@ -34,6 +34,7 @@ mod tests {
             | Type::AOSC
             | Type::Arch
             | Type::Artix
+            | Type::AzureLinux
             | Type::Bazzite
             | Type::Bluefin
             | Type::CachyOS
