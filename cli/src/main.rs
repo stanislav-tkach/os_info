@@ -46,7 +46,7 @@ fn main() {
             info.os_type(),
             info.version(),
             info.bitness(),
-            info.architecture().expect("architecture not found")
+            info.architecture().unwrap_or("unknown")
         );
     } else {
         if options.type_ {

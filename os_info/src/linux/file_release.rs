@@ -178,10 +178,12 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .map(Version::from_string)
         },
         codename: |release| {
-            Matcher::KeyValue { key: "VERSION_CODENAME" }
-                .find(release)
-                .filter(|c| !c.is_empty())
-                .map(|s| s.to_string())
+            Matcher::KeyValue {
+                key: "VERSION_CODENAME",
+            }
+            .find(release)
+            .filter(|c| !c.is_empty())
+            .map(|s| s.to_string())
         },
     },
     // Older distributions must have their specific release file parsed.

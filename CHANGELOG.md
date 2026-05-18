@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.15.0] (2026-05-19)
+
+- KDE neon support has been added. (#433)
+
+- Hurd support has been added. (#434)
+
+- Bazzite support has been added. (#435)
+
+- The codename detection from files has been fixed. (#436)
+
 ## [3.14.0] (2025-12-14)
 
 - (Conditional) JSON-schema generation support via schemars for all types that
@@ -409,7 +419,9 @@ All notable changes to this project will be documented in this file.
 The first release containing only minor infrastructural changes and based
 on [os_type](https://github.com/schultyy/os_type).
 
-[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.14.0...HEAD
+[Unreleased]: https://github.com/stanislav-tkach/os_info/compare/v3.15.0...HEAD
+
+[3.15.0]: https://github.com/stanislav-tkach/os_info/compare/v3.14.0...v3.15.0
 
 [3.14.0]: https://github.com/stanislav-tkach/os_info/compare/v3.13.0...v3.14.0
 
