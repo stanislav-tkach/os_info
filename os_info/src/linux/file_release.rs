@@ -511,7 +511,7 @@ mod tests {
         let root = "src/linux/tests/KDEneon";
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::KDEneon);
+        assert_eq!(info.os_type(), Type::KDENeon);
         assert_eq!(info.version, Version::Semantic(24, 4, 00));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, Some("noble".to_string()));

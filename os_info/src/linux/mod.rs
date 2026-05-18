@@ -45,7 +45,7 @@ mod tests {
             | Type::Garuda
             | Type::Gentoo
             | Type::Kali
-            | Type::KDEneon
+            | Type::KDENeon
             | Type::Linux
             | Type::Mabox
             | Type::Manjaro
