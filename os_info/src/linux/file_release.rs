@@ -1,4 +1,4 @@
-// spell-checker:ignore sles, AOSCOS
+// spell-checker:ignore sles, AOSCOS, eneon
 
 use std::{fmt, fs::File, io::Read, path::Path};
 
