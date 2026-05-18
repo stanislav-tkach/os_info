@@ -68,7 +68,7 @@ pub enum Type {
     /// Kali Linux (https://en.wikipedia.org/wiki/Kali_Linux).
     Kali,
     /// KDE neon (https://en.wikipedia.org/wiki/KDE_neon).
-    KDEneon,
+    KDENeon,
     /// Linux based operating system (<https://en.wikipedia.org/wiki/Linux>).
     Linux,
     /// Mabox (<https://maboxlinux.org/>).
@@ -162,7 +162,7 @@ impl Display for Type {
             Type::InstantOS => write!(f, "instantOS"),
             Type::Ios => write!(f, "iOS"),
             Type::Kali => write!(f, "Kali Linux"),
-            Type::KDEneon => write!(f, "KDE neon"),
+            Type::KDENeon => write!(f, "KDE neon"),
             Type::Macos => write!(f, "Mac OS"),
             Type::MidnightBSD => write!(f, "Midnight BSD"),
             Type::Mint => write!(f, "Linux Mint"),
@@ -226,7 +226,7 @@ mod tests {
             (Type::InstantOS, "instantOS"),
             (Type::Ios, "iOS"),
             (Type::Kali, "Kali Linux"),
-            (Type::KDEneon, "KDE neon"),
+            (Type::KDENeon, "KDE neon"),
             (Type::Linux, "Linux"),
             (Type::Mabox, "Mabox"),
             (Type::Macos, "Mac OS"),
