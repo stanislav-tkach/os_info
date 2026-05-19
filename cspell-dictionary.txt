@@ -6,6 +6,7 @@ antergos
 aosc
 archarm
 artix
+bazzite
 bitness
 cachy
 cachyos
@@ -61,6 +62,7 @@ rustdoc
 sbin
 schemars
 serde
+silverblue
 starterkit
 structopt
 syscall

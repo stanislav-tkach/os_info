@@ -1,4 +1,4 @@
-// spell-checker:ignore sles, AOSCOS
+// spell-checker:ignore sles, AOSCOS, eneon
 
 use std::{fmt, fs::File, io::Read, path::Path};
 
@@ -132,7 +132,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "instantos" => Some(Type::InstantOS),
                     //"ios_xr" => ios_xr
                     "kali" => Some(Type::Kali),
-                    "neon" => Some(Type::KDEneon),
+                    "neon" => Some(Type::KDENeon),
                     //"mageia" => Mageia
                     //"manjaro" => Manjaro
                     "manjaro-arm" => Some(Type::Manjaro),
@@ -178,10 +178,12 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                 .map(Version::from_string)
         },
         codename: |release| {
-            Matcher::KeyValue { key: "VERSION_CODENAME" }
-                .find(release)
-                .filter(|c| !c.is_empty())
-                .map(|s| s.to_string())
+            Matcher::KeyValue {
+                key: "VERSION_CODENAME",
+            }
+            .find(release)
+            .filter(|c| !c.is_empty())
+            .map(|s| s.to_string())
         },
     },
     // Older distributions must have their specific release file parsed.
@@ -509,7 +511,7 @@ mod tests {
         let root = "src/linux/tests/KDEneon";
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
-        assert_eq!(info.os_type(), Type::KDEneon);
+        assert_eq!(info.os_type(), Type::KDENeon);
         assert_eq!(info.version, Version::Semantic(24, 4, 00));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, Some("noble".to_string()));
