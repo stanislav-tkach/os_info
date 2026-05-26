@@ -219,6 +219,7 @@ mod tests {
             Type::AOSC,
             Type::Arch,
             Type::Artix,
+            Type::AzureLinux,
             Type::Bluefin,
             Type::CachyOS,
             Type::CentOS,

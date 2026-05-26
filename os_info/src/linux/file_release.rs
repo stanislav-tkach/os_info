@@ -109,6 +109,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "arch" => Some(Type::Arch),
                     "archarm" => Some(Type::Arch),
                     "artix" => Some(Type::Artix),
+                    "azurelinux" => Some(Type::AzureLinux),
                     "bazzite" => Some(Type::Bazzite),
                     "bluefin" => Some(Type::Bluefin),
                     "cachyos" => Some(Type::CachyOS),
@@ -354,6 +355,28 @@ mod tests {
 
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Arch);
+        assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn azurelinux_os_release() {
+        let root = "src/linux/tests/AzureLinux";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::AzureLinux);
+        assert_eq!(info.version, Version::Semantic(3, 0, 0));
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn azurelinux_os_release_unknown() {
+        let root = "src/linux/tests/AzureLinux_Unknown";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::AzureLinux);
         assert_eq!(info.version, Version::Unknown);
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);

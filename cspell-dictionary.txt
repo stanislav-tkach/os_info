@@ -6,6 +6,7 @@ antergos
 aosc
 archarm
 artix
+azurelinux
 bazzite
 bitness
 cachy

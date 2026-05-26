@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Azure Linux support has been added.
+
 ## [3.15.0] (2026-05-19)
 
 - KDE neon support has been added. (#433)
