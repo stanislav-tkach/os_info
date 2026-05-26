@@ -26,9 +26,11 @@ pub fn get() -> Option<Info> {
         Some("cachyos") => Type::CachyOS,
         Some("CentOS") => Type::CentOS,
         Some("Debian") => {
-            // Check if it's actually Raspberry Pi OS
+            // Check if it's actually Raspberry Pi OS or Parrot OS
             if std::path::Path::new("/etc/rpi-issue").exists() {
                 Type::Raspbian
+            } else if std::path::Path::new("/etc/apt/sources.list.d/parrot.list").exists() {
+                Type::Parrot
             } else {
                 Type::Debian
             }

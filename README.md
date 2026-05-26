@@ -121,6 +121,7 @@ Right now, the following operating system types can be returned:
 - openEuler (EulerOS)
 - openSUSE
 - Oracle Linux
+- Parrot OS
 - Pop!_OS
 - Raspberry Pi OS
 - Red Hat Linux

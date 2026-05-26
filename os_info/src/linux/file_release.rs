@@ -118,9 +118,15 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"coreos"
                     //"cumulus-linux" => Cumulus
                     "debian" => {
-                        // Check if it's actually Raspberry Pi OS
+                        // Check if it's actually Raspberry Pi OS or Parrot OS
                         if std::path::Path::new("/etc/rpi-issue").exists() {
                             Some(Type::Raspbian)
+                        } else if (Matcher::KeyValue { key: "NAME" })
+                            .find(release)
+                            .as_deref()
+                            == Some("Parrot Security")
+                        {
+                            Some(Type::Parrot)
                         } else {
                             Some(Type::Debian)
                         }
@@ -149,6 +155,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     "opensuse-leap" => Some(Type::openSUSE),
                     "opensuse-microos" => Some(Type::openSUSE),
                     "opensuse-tumbleweed" => Some(Type::openSUSE),
+                    "parrot" => Some(Type::Parrot),
                     "pika" => Some(Type::PikaOS),
                     //"rancheros" => RancherOS
                     //"raspbian" => Raspbian
@@ -782,6 +789,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::CachyOS);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn parrot_os_release() {
+        let root = "src/linux/tests/Parrot";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Parrot);
+        assert_eq!(info.version, Version::Semantic(7, 2, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

@@ -1,0 +1,10 @@
+PRETTY_NAME="Parrot Security 7.2 (echo)"
+NAME="Parrot Security"
+VERSION_ID="7.2"
+VERSION="7.2 (echo)"
+VERSION_CODENAME=echo
+DEBIAN_VERSION_FULL=7.2
+ID=debian
+HOME_URL="https://www.parrotsec.org/"
+SUPPORT_URL="https://www.parrotsec.org/docs"
+BUG_REPORT_URL="https://gitlab.com/parrotsec/"
