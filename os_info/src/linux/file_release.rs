@@ -77,12 +77,9 @@ impl fmt::Debug for ReleaseInfo<'_> {
     fn fmt<'a>(&'a self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ReleaseInfo")
             .field("path", &self.path)
-            .field("os_type", &(self.os_type as fn(&'a str) -> Option<Type>))
-            .field("version", &(self.version as fn(&'a str) -> Option<Version>))
-            .field(
-                "codename",
-                &(self.codename as fn(&'a str) -> Option<String>),
-            )
+            .field("os_type", &self.os_type)
+            .field("version", &self.version)
+            .field("codename", &self.codename)
             .finish()
     }
 }
