@@ -148,6 +148,7 @@ static DISTRIBUTIONS: [ReleaseInfo; 6] = [
                     //"nexus" => Nexus
                     "nixos" => Some(Type::NixOS),
                     "nobara" => Some(Type::Nobara),
+                    "omarchy" => Some(Type::Arch),
                     "Uos" => Some(Type::Uos),
                     "opencloudos" => Some(Type::OpenCloudOS),
                     "openEuler" => Some(Type::openEuler),
@@ -356,6 +357,17 @@ mod tests {
         let info = retrieve(&DISTRIBUTIONS, root).unwrap();
         assert_eq!(info.os_type(), Type::Arch);
         assert_eq!(info.version, Version::Unknown);
+        assert_eq!(info.edition, None);
+        assert_eq!(info.codename, None);
+    }
+
+    #[test]
+    fn omarchy_os_release() {
+        let root = "src/linux/tests/Omarchy";
+
+        let info = retrieve(&DISTRIBUTIONS, root).unwrap();
+        assert_eq!(info.os_type(), Type::Arch);
+        assert_eq!(info.version, Version::Semantic(4, 5, 0));
         assert_eq!(info.edition, None);
         assert_eq!(info.codename, None);
     }

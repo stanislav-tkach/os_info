@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Azure Linux support has been added.
+- Omarchy (ID=omarchy) is now recognised as Arch Linux.
 
 ## [3.15.0] (2026-05-19)
 

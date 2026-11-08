@@ -1,0 +1,10 @@
+NAME="Omarchy"
+PRETTY_NAME="Omarchy"
+ID=omarchy
+ID_LIKE=arch
+BUILD_ID="4.5.0"
+VERSION_ID="4.5.0"
+ANSI_COLOR="38;2;158;206;106"
+HOME_URL="https://omarchy.org/"
+BUG_REPORT_URL="https://github.com/omacom/omarchy/issues"
+LOGO=omarchy
